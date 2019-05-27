@@ -15,7 +15,7 @@ import SpecialtyView from '../containers/SpecialtyView';
 import ContractorView from '../containers/ContractorView';
 import ProjectsView from '../containers/ProjectsView';
 import HomeView from '../containers/HomeView';
-import ProfileEditView from '../components/ProfileEditView';
+import ProfileView from '../containers/ProfileView';
 import SettingsView from '../components/SettingsView';
 import MenuList from '../components/MenuList';
 import Header from '../components/Header';
@@ -95,7 +95,7 @@ class AppRouterConnect extends React.Component {
 						<SecuredRoute path='/m_temp' component={TemplatesView} />
 						<SecuredRoute path='/m_spec' component={SpecialtyView} />
 						<SecuredRoute path='/m_cont' component={ContractorView} />
-						<SecuredRoute path="/profile" component={ProfileEditView} />
+						<SecuredRoute path="/profile" component={ProfileView} />
 						<SecuredRoute path="/settings" component={SettingsView} />
 						<Route exact path='/callback' component={Callback} />
 						<Redirect to="/" />

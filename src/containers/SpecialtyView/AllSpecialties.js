@@ -242,7 +242,7 @@ class AllSpecialties extends Component {
                     open={this.state.showConfirmDlg}
                     onClose={this.closeConfirmDialog}
                     aria-labelledby="alert-dialog-title">
-                    <DialogTitle id="alert-dialog-title">Are you sure?</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">Confirm</DialogTitle>
                     <DialogContent className={classes.relative}>
                         {this.state.saving && <CircularProgress size={32} thickness={4} className={classes.busy} />}
                         <DialogContentText id="alert-dialog-description">
