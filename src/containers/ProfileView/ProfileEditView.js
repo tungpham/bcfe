@@ -297,6 +297,7 @@ class connectedProfileView extends Component {
 
 	render() {
 		const { classes, userProfile } = this.props;
+		const status = this.state.status.toUpperCase();
 		// console.log(this.props.userProfile);
 		if (this.state.isDataLoaded === false)
 			return (
@@ -399,7 +400,7 @@ class connectedProfileView extends Component {
 							/> */
 						}
 						<Box component='div' className={classes.status}>
-							{this.state.status}
+							{status}
 						</Box>
 
 						<Button className={classes.cancelButton} onClick={

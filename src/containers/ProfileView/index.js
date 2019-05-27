@@ -50,8 +50,8 @@ class ProfileView extends React.Component {
                 <div className={classes.root}>
                     <AppBar position="static" className={classes.toolbarstyle}>
                         <Tabs value={curTabPos} variant="scrollable" scrollButtons="on">
-                            <Tab component={Link} to={PROFILE_OVERVIEW} label="Overview" icon={<AccountCircle />} />
-                            <Tab component={Link} to={PROFILE_CONTRACT} label="Contractor" icon={<BallotIcon />} />
+                            <Tab component={Link} to={PROFILE_OVERVIEW} label="Profile Detail" icon={<AccountCircle />} />
+                            <Tab component={Link} to={PROFILE_CONTRACT} label="Files" icon={<BallotIcon />} />
                         </Tabs>
                     </AppBar>
 
