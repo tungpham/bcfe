@@ -68,7 +68,7 @@ class ConnectedContractorFiles extends React.Component {
 			snackBarContent: res ? 'File Upload Success' : 'File Upload Failed'
 		});
 		if(res)
-			this.props.updateContractor(selectedContractor.id);
+			this.props.updateContractor(selectedContractor.id);	
 	})
 		await this.props.getContractorDetailById(selectedContractor.id);
 

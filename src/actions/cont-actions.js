@@ -240,10 +240,10 @@ export function addFiles(id, files, cb) {
 }
 
 export const getContractorDetailById = id => dispatch => {
-	return Axios.get(process.env.PROJECT_API + "contractors/" + id)
-		.then(response => {
+		return Axios.get(process.env.PROJECT_API + "contractors/" + id)
+			.then(response => {
 			console.log(response.data);
-			dispatch({ type: CONTRACTOR_DETAIL_LOADED, payload: response.data })
+				dispatch({ type: CONTRACTOR_DETAIL_LOADED, payload: response.data })
 		});
 }
 
@@ -292,12 +292,12 @@ export function getSpecialties(page, size) {
 	return function (dispatch) {
 		dispatch({ type: "CLEAR_SPECIALTIES" });
 
-		return Axios.get(process.env.PROJECT_API + "specialties", {
-			params: {
-				"page": page,
-				"size": size
-			}
-		})
+			return Axios.get(process.env.PROJECT_API + "specialties", {
+				params: {
+					"page": page,
+					"size": size
+				}
+			})
 			.then(response => {
 				dispatch({ type: SPECIALTIES_LOADED, payload: response.data })
 			})
@@ -319,7 +319,7 @@ export function addSpecialty(contractorId, specialtyId, cb) {
 
 export function deleteSpecialty(contractorId, specialtyId, cb) {
 	return function (dispatch) {
-		return Axios.delete(process.env.PROJECT_API + "contractors/" + contractorId + "/specialties/" + specialtyId)
+		return Axios.delete(process.env.PROJECT_API +"contractors/" + contractorId + "/specialties/" + specialtyId)
 			.then(response => {
 				cb(true);
 			})

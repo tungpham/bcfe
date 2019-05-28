@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, Card, Button, Snackbar, CircularProgress, Link } from '@material-ui/core';
-import { submitProposal, deleteProposal, setSelectedProposal, getProjectDetailById, awardProject } from '../../../actions/gen-actions';
+import { getProposalData, deleteProposal } from '../../../actions/sub-actions';
 
 const styles = (theme) => ({
 	root: {
@@ -22,6 +22,10 @@ const styles = (theme) => ({
 		left: "calc(50% - 10px)",
 		top: "calc(40vh)",
 	},
+	width_300: {
+		width: 300,
+		marginRight: 10,
+	},
 	submitBtn: {
 		border: "1px solid #4a148c",
 		borderRadius: 0,
@@ -35,11 +39,7 @@ const styles = (theme) => ({
 		'&:disabled': {
 			backgroundColor: "#FFFFFF"
 		}
-	},
-	width_300: {
-		width: 300,
-		marginRight: 10,
-	},
+	}
 });
 
 class ConnectedProposalDetailView extends Component {
@@ -47,44 +47,45 @@ class ConnectedProposalDetailView extends Component {
 		super(props);
 
 		this.state = {
-			isSaving: false,
+			budget: 0,
+			duration: 0,
+			description: "",
 			snackBar: false,
-			snackBarContent: false,
+			snackBarContent: "",
+			isSaving: false,
 		}
 	}
 
-	handleAwardProject = async () => {
+	handleDeleteProposal = async () => {
 		const { proposal } = this.props;
-
 		this.setState({
 			isSaving: true
-		});
+		})
 
-		await this.props.awardProject(proposal.id, (res) => {
+		await this.props.deleteProposal(proposal.id, (res) => {
 			this.setState({
 				isSaving: false,
 				snackBar: true,
-				snackBarContent: res ? 'award project success' : 'award project failed'
+				snackBarContent: res ? 'delete proposal success' : "delete proposal failed"
 			});
 
-			this.props.setSelectedProposal(proposal.id);
-		});
+			if (res) {
+				this.props.history.push("/s_cont/pipeline/submitted");
+			}
+		})
 	}
 
 	handleBack = async () => {
-		const { proposal } = this.props;
-
-		await this.props.selectProject(proposal.project.id);
-		this.props.history.push("/g_cont/project_detail/proposals");
+		this.props.history.push("/s_cont/pipeline/submitted");
 	}
 
 	render() {
 		const { classes, proposal } = this.props;
+		const project = proposal.project;
 
 		if (proposal === null)
 			return <Card className={classes.root} ></Card>
 
-		console.log(proposal.project);
 		return (
 			<div className={classes.root}>
 				<Link onClick={this.handleBack}> Back to all proposals</Link>
@@ -96,7 +97,7 @@ class ConnectedProposalDetailView extends Component {
 						type="text"
 						fullWidth
 						className={classes.width_300}
-						value={proposal.project.title}
+						value={project.title}
 						readOnly={true}
 					/>
 					<TextField
@@ -106,7 +107,7 @@ class ConnectedProposalDetailView extends Component {
 						type="number"
 						fullWidth
 						className={classes.width_300}
-						value={proposal.project.budget}
+						value={project.budget}
 						readOnly={true}
 					/>
 					<TextField
@@ -115,7 +116,7 @@ class ConnectedProposalDetailView extends Component {
 						type="text"
 						fullWidth
 						className={classes.width_300}
-						value={proposal.project.description}
+						value={project.description}
 						readOnly={true}
 					/>
 				</div>
@@ -128,17 +129,16 @@ class ConnectedProposalDetailView extends Component {
 						fullWidth
 						className={classes.width_300}
 						value={proposal.budget}
-						readOnly={true}
+						readOnly
 					/>
 					<TextField
-						autoFocus
 						margin="normal"
 						label="duration"
 						type="number"
 						fullWidth
 						className={classes.width_300}
 						value={proposal.duration}
-						readOnly={true}
+						readOnly
 					/>
 					<TextField
 						margin="normal"
@@ -157,11 +157,11 @@ class ConnectedProposalDetailView extends Component {
 						rows="10"
 						fullWidth
 						value={proposal.description}
-						readOnly={true}
+						readOnly
 					/>
-					<Button disabled={this.state.isSaving || proposal.status === 'AWARDED'} className={classes.submitBtn} onClick={
-						this.handleAwardProject
-					}> Award Project {this.state.isSaving && <CircularProgress
+					<Button disabled={this.state.isSaving} className={classes.submitBtn} onClick={
+						this.handleDeleteProposal
+					}> Delete Proposal {this.state.isSaving && <CircularProgress
 						disableShrink
 						size={24}
 						thickness={4} />} </Button>
@@ -188,19 +188,15 @@ class ConnectedProposalDetailView extends Component {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		submitProposal: (cont_id, pro_id, proposal, cb) => dispatch(submitProposal(cont_id, pro_id, proposal, cb)),
-		setSelectedProposal: (id) => dispatch(setSelectedProposal(id)),
+		getProposalData: (id) => dispatch(getProposalData(id)),
 		deleteProposal: (id, cb) => dispatch(deleteProposal(id, cb)),
-		selectProject: (id) => dispatch(getProjectDetailById(id)),
-		awardProject: (id, cb) => dispatch(awardProject(id, cb))
 	};
 }
 
 const mapStateToProps = state => {
 	return {
-		project: state.gen_data.selectedProject,
 		userProfile: state.global_data.userProfile,
-		proposal: state.gen_data.selectedProposal
+		proposal: state.sub_data.proposal
 	};
 };
 

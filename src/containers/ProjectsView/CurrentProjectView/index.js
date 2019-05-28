@@ -16,6 +16,8 @@ import {
 	Button
 } from '@material-ui/core';
 
+import CustomTableCell from '../../../components/shared/CustomTableCell';
+
 const styles = theme => ({
 	root: {
 		flexGrow: 1,
@@ -38,17 +40,6 @@ const styles = theme => ({
 		top: "calc(40vh)",
 	}
 });
-
-const CustomTableCell = withStyles(theme => ({
-	head: {
-		backgroundColor: theme.palette.primary.light,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-		color: theme.palette.primary.light
-	},
-}))(TableCell);
 
 class connectedCurProView extends React.Component {
 	constructor(props) {
@@ -84,7 +75,6 @@ class connectedCurProView extends React.Component {
 
 		this.props.getAllProjects(currentPage, rowsPerPage);
 	};
-
 
 	handleAddProject = () => {
 	}

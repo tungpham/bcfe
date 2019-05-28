@@ -9,11 +9,10 @@ import {
 	CircularProgress,
 	Table, TableHead, TableCell, TableRow, TableBody,
 	IconButton, TablePagination,
-	Button,
 	Snackbar
 } from '@material-ui/core';
 
-import { setSelectedProposal, getProposals, deleteProposal } from '../../../actions/gen-actions';
+import { getProposals, deleteProposal } from '../../../actions/sub-actions';
 
 const styles = theme => ({
 	root: {
@@ -39,7 +38,7 @@ const styles = theme => ({
 	waitingSpin: {
 		position: "relative",
 		left: "calc(50% - 10px)",
-		top: "calc(40vh)",
+		top: "calc(50% - 10px)",
 	}
 });
 
@@ -54,7 +53,7 @@ const CustomTableCell = withStyles(theme => ({
 	},
 }))(TableCell);
 
-class ConnectedProjectProposals extends React.Component {
+class ConnectedSubmittedProView extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -68,19 +67,19 @@ class ConnectedProjectProposals extends React.Component {
 	}
 
 	componentDidMount() {
-		const { selectedProject } = this.props;
-		this.props.getProposals(selectedProject.id, 0, 0);
+		const { userProfile } = this.props;
+		this.props.getProposals(userProfile.user_metadata.contractor_id, 0, 0, 'SUBMITTED');
 	}
 
 	handleChangePage = (event, page) => {
-		const { selectedProject } = this.props;
+		const { userProfile } = this.props;
 		this.setState({ currentPage: page });
 
-		this.props.getProposals(selectedProject.id, page, this.state.rowsPerPage);
+		this.props.getProposals(userProfile.user_metadata.contractor_id, page, this.state.rowsPerPage, 'SUBMITTED');
 	};
 
 	handleChangeRowsPerPage = event => {
-		const { proposals, selectedProject } = this.props;
+		const { proposals, userProfile } = this.props;
 
 		const rowsPerPage = event.target.value;
 		const currentPage = rowsPerPage >= proposals.totalElements ? 0 : this.state.currentPage;
@@ -90,8 +89,43 @@ class ConnectedProjectProposals extends React.Component {
 			currentPage: currentPage
 		});
 
-		this.props.getProposals(selectedProject.id, currentPage, rowsPerPage);
+		this.props.getProposals(userProfile.user_metadata.contractor_id, currentPage, rowsPerPage, 'SUBMITTED');
 	};
+
+	handleDeleteProposal = async (id) => {
+		this.setState({
+			isSaving: true
+		})
+
+		await this.props.deleteProposal(id, (res) => {
+			this.setState({
+				isSaving: false,
+				snackBar: true,
+				snackBarContent: res ? 'delete proposal success' : "delete proposal failed"
+			});
+
+			if (res) {
+				const { userProfile, proposals } = this.props;
+
+				if (this.state.rowsPerPage * (this.state.currentPage) < proposals.totalElements - 1) {
+					this.props.getProposals(userProfile.user_metadata.contractor_id, this.state.currentPage, this.state.rowsPerPage, 'SUBMITTED');
+				}
+				else {
+					const currentPage = this.state.currentPage - 1;
+
+					this.setState({
+						currentPage: currentPage
+					});
+
+					this.props.getProposals(userProfile.user_metadata.contractor_id, currentPage, this.state.rowsPerPage, 'SUBMITTED');
+				}
+			}
+		})
+	}
+
+	handleSelectProposal = (id) => {
+		this.props.history.push(`/s_cont/proposal_detail/${id}`);
+	}
 
 	render() {
 		const { classes, proposals } = this.props;
@@ -105,24 +139,32 @@ class ConnectedProjectProposals extends React.Component {
 					<Table className={classes.table}>
 						<TableHead>
 							<TableRow>
-								<CustomTableCell align="center">Bidder Name</CustomTableCell>
+								<CustomTableCell align="center">Proposal To</CustomTableCell>
 								<CustomTableCell align="center">Price($)</CustomTableCell>
 								<CustomTableCell align="center">Duration</CustomTableCell>
 								<CustomTableCell align="center">Status</CustomTableCell>
 								<CustomTableCell align="center">Description</CustomTableCell>
+								<CustomTableCell align="center">Actions</CustomTableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
 							{proposals.content.map(row => (
-								<TableRow className={classes.row} key={row.id} hover onClick={async () => {
-									await this.props.setSelectedProposal(row.id);
-									this.props.history.push("/g_cont/propose_detail");
-								}} >
-									<CustomTableCell component="th" scope="row" align="center">{row.subContractor.email}</CustomTableCell>
-									<CustomTableCell align="center">{row.budget}</CustomTableCell>
-									<CustomTableCell align="center">{row.duration}</CustomTableCell>
-									<CustomTableCell align="center">{row.status}</CustomTableCell>
-									<CustomTableCell align="center">{row.description.length > 40 ? row.description.slice(0, 40) + "..." : row.description}</CustomTableCell>
+								<TableRow className={classes.row} key={row.id} hover>
+									<CustomTableCell onClick={() => this.handleSelectProposal(row.id)}
+										component="th" scope="row" align="center">{row.project.title}</CustomTableCell>
+									<CustomTableCell onClick={() => this.handleSelectProposal(row.id)}
+										component="th" scope="row" align="center">{row.budget}</CustomTableCell>
+									<CustomTableCell onClick={() => this.handleSelectProposal(row.id)}
+										component="th" scope="row" align="center">{row.duration}</CustomTableCell>
+									<CustomTableCell onClick={() => this.handleSelectProposal(row.id)}
+										component="th" scope="row" align="center">{row.status}</CustomTableCell>
+									<CustomTableCell onClick={() => this.handleSelectProposal(row.id)} align="center">{row.description.length > 40 ? row.description.slice(0, 40) + "..." : row.description}</CustomTableCell>
+									<CustomTableCell align="center">
+										<IconButton className={classes.button} aria-label="Delete" color="primary"
+											onClick={() => this.handleDeleteProposal(row.id)}>
+											<DeleteIcon />
+										</IconButton>
+									</CustomTableCell>
 								</TableRow>
 							))}
 						</TableBody>
@@ -166,22 +208,22 @@ class ConnectedProjectProposals extends React.Component {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		setSelectedProposal: id => dispatch(setSelectedProposal(id)),
-		getProposals: (id, page, row) => dispatch(getProposals(id, page, row)),
+		getProposals: (id, page, row, filterStr) => dispatch(getProposals(id, page, row, filterStr)),
+		deleteProposal: (id, cb) => dispatch(deleteProposal(id, cb))
 	};
 }
 
 const mapStateToProps = state => {
 	return {
-		proposals: state.gen_data.proposals,
-		selectedProject: state.gen_data.selectedProject,
+		proposals: state.sub_data.proposals,
+		userProfile: state.global_data.userProfile
 	};
 };
 
-const ProjectProposals = connect(mapStateToProps, mapDispatchToProps)(ConnectedProjectProposals);
+const SubmittedProView = connect(mapStateToProps, mapDispatchToProps)(ConnectedSubmittedProView);
 
-ProjectProposals.propTypes = {
+SubmittedProView.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-export default withRouter(withStyles(styles)(ProjectProposals));
+export default withRouter(withStyles(styles)(SubmittedProView));
