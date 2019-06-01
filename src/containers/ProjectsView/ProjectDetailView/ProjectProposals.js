@@ -13,7 +13,7 @@ import {
 	Snackbar
 } from '@material-ui/core';
 
-import { setSelectedProposal, getProposals, deleteProposal } from '../../../actions/gen-actions';
+import { getProposals, deleteProposal, clearSelectedProposal, setProposalId } from '../../../actions/gen-actions';
 
 const styles = theme => ({
 	root: {
@@ -124,9 +124,15 @@ class ConnectedProjectProposals extends React.Component {
 		})
 	}
 
+	handleSubmitProposal = () => {
+		this.props.clearSelectedProposal();
+		this.props.history.push("/a_pros/proposal_detail/submit");
+	}
+
 	handleSelectProposal = async (id) => {
-		await this.props.setSelectedProposal(id);
-		this.props.history.push("/a_pros/proposal_detail/v");
+		this.props.setProposalId(id);
+		console.log('selected id: ', id);
+		this.props.history.push("/a_pros/proposal_detail/view");
 	}
 
 	render() {
@@ -139,7 +145,7 @@ class ConnectedProjectProposals extends React.Component {
 			<div className={classes.root}>
 				<div className={classes.tableWrap}>
 					<Button className={classes.btnSubmitProposal} onClick={() =>
-						this.props.history.push("/a_pros/proposal_detail/c")
+						this.props.history.push("/a_pros/proposal_detail/submit")
 					}>Submit Proposal</Button>
 					<Table className={classes.table}>
 						<TableHead>
@@ -213,9 +219,10 @@ class ConnectedProjectProposals extends React.Component {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		setSelectedProposal: id => dispatch(setSelectedProposal(id)),
+		setProposalId: id => dispatch(setProposalId(id)),
 		getProposals: (id, page, row) => dispatch(getProposals(id, page, row)),
-		deleteProposal: (id, cb) => dispatch(deleteProposal(id, cb))
+		deleteProposal: (id, cb) => dispatch(deleteProposal(id, cb)),
+		clearSelectedProposal: () => dispatch(clearSelectedProposal())
 	};
 }
 

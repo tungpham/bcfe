@@ -52,27 +52,25 @@ export function deleteProposal(pro_id, cb) {
 	}
 }
 
-export function addFilesToProposal(id, files, cb) {
-	return function (dispatch) {
-		const formData = new FormData();
-		files.forEach(async (file) => {
-			await formData.append('file', file);
-		});
+export const addFilesToProposal = (id, files, cb) => dispatch => {
+	const formData = new FormData();
+	files.forEach(async (file) => {
+		await formData.append('file', file);
+	});
 
-		return Axios.post(process.env.PROJECT_API + "proposals/" + id + "/files/upload/multiple",
-			formData,
-			{
-				headers: {
-					'Content-Type': 'multipart/form-data'
-				}
-			})
-			.then((response) => {
-				cb(true);
-			}).catch(err => {
-				cb(false);
-				console.log(err.message);
-			});
-	}
+	return Axios.post(process.env.PROJECT_API + "proposals/" + id + "/files/upload/multiple",
+		formData,
+		{
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		})
+		.then((response) => {
+			cb(true);
+		}).catch(err => {
+			cb(false);
+			console.log(err.message);
+		});
 }
 
 export function deleteProposalFile(id, name, cb) {

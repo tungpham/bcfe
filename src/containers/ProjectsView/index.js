@@ -22,7 +22,7 @@ import DoneAllIcon from '@material-ui/icons/DoneAll';
 // local components
 import CurrentProjectView from './CurrentProjectView/index';
 import ProjectDetailView from './ProjectDetailView/index';
-import ProposalDetailView from './ProposalDetailView';
+import ProposalView from './ProposalView';
 
 const styles = theme => ({
 	root: {
@@ -51,17 +51,15 @@ class ConnectedGenContView extends React.Component {
 
 	render() {
 		const { classes, userProfile, location } = this.props;
-		const tabNo = {
-			'/a_pros': 0,
-			'/a_pros/current_pros': 0,
-			'/a_pros/project_detail': 1,
-			'/a_pros/proposal_detail/v': 2,
-			'/a_pros/proposal_detail/c': 2,
-		};
+		const PROJECT_URLS = ['/a_pros/current_pros', '/a_pros/project_detail',
+			'/a_pros/proposal_detail/:mode'];
+		const ROOT_URL = '/a_pros';
 
-		let curTabPos = tabNo[location.pathname];
-		if(location.pathname.includes("/a_pros/project_detail"))
+		let curTabPos = PROJECT_URLS.indexOf(location.pathname);
+		if (location.pathname.includes(PROJECT_URLS[1]))
 			curTabPos = 1;
+		if (location.pathname.includes('/a_pros/proposal_detail'))
+			curTabPos = 2;
 
 		if (!userProfile.user_metadata.roles.includes("Gen") &&
 			!userProfile.user_metadata.roles.includes("GenSub") &&
@@ -77,17 +75,17 @@ class ConnectedGenContView extends React.Component {
 							variant="scrollable"
 							scrollButtons="on">
 
-							<Tab component={Link} to={`/a_pros/current_pros`} label="Current Projects" icon={<AppsIcon />} />
-							<Tab component={Link} to={`/a_pros/project_detail`} label="Project Detail" icon={<BallotIcon />} />
-							<Tab component={Link} to={`/a_pros/proposal_detail/v`} label="Proposal Detail" icon={<BallotIcon />} />
+							<Tab component={Link} to={PROJECT_URLS[0]} label="Current Projects" icon={<AppsIcon />} />
+							<Tab component={Link} to={PROJECT_URLS[1]} label="Project Detail" icon={<BallotIcon />} />
+							<Tab component={Link} to={'/a_pros/proposal_detail/view'} label="Proposal Detail" icon={<BallotIcon />} />
 						</Tabs>
 					</AppBar>
 
 					<Switch>
-						<SecuredRoute path='/a_pros/current_pros' component={CurrentProjectView} />
-						<SecuredRoute path='/a_pros/project_detail' component={ProjectDetailView} />
-						<SecuredRoute path='/a_pros/proposal_detail/:mode' component={ProposalDetailView} />
-						<Redirect path='/a_pros' to={`/a_pros/current_pros`} />
+						<SecuredRoute path={PROJECT_URLS[0]} component={CurrentProjectView} />
+						<SecuredRoute path={PROJECT_URLS[1]} component={ProjectDetailView} />
+						<SecuredRoute path={PROJECT_URLS[2]} component={ProposalView} />
+						<Redirect path={ROOT_URL} to={PROJECT_URLS[0]} />
 					</Switch>
 				</div>
 			</NoSsr>

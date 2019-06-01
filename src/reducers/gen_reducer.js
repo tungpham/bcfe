@@ -1,23 +1,26 @@
 import {
 	ADD_PROJECT,
 	SET_CUR_TAB_POS,
-	SET_SELECTED_PROPOSAL,
 	ALL_PROJECT_LOADED,
 	PROJECT_DETAIL_LOADED,
 	PROPOSALS_LOADED,
 	PROJECT_FILES_LOADED,
 	MESSAGE_LOADED,
-	TEMPLATES_LOADED
+	TEMPLATES_LOADED,
+	SET_PROPOSALID,
+	SET_PROPOSAL,
+	CLEAR_PROPOSAL
 } from "../constants/gen-action-types";
 
 const initialState = {
 	selectedProject: null,
-	selectedProposal: null,
 	messages: [],
 	projects: null,
 	allprojects: null,
+	templates: null,
 	proposals: null,
-	templates: null
+	proposalId: '',
+	selectedProposal: {}
 };
 
 function gen_reducer(state = initialState, action) {
@@ -26,10 +29,10 @@ function gen_reducer(state = initialState, action) {
 			return Object.assign({}, state, {
 				curTabPos: action.payload
 			});
-		case SET_SELECTED_PROPOSAL:
-			return Object.assign({}, state, {
-				selectedProposal: action.payload
-			});
+		case SET_PROPOSAL:
+			return { ...state, selectedProposal: action.payload };
+		case SET_PROPOSALID:
+			return { ...state, proposalId: action.payload };
 		case PROPOSALS_LOADED:
 			return Object.assign({}, state, {
 				//projects: state.projects.concat(action.payload)
@@ -82,9 +85,10 @@ function gen_reducer(state = initialState, action) {
 					title: ""
 				}
 			});
-		case "CLEAR_SELECTED_PROPOSAL":
+		case CLEAR_PROPOSAL:
 			return Object.assign({}, state, {
-				selectedProposal: null
+				proposalId: '',
+				selectedProposal: {}
 			});
 		case TEMPLATES_LOADED:
 			return Object.assign({}, state, {
