@@ -105,6 +105,7 @@ class ConnectedProposalView extends React.Component {
       const cats = templ.template.categoryList;
       details[index] = {};
       details[index].id = templ.template.id;
+      details[index].name = templ.template.name;
       cats.forEach(cat => {
         details[index][cat.id] = {};
         details[index][cat.id].id = cat.id;
@@ -143,6 +144,7 @@ class ConnectedProposalView extends React.Component {
     project && project.projectTemplates.forEach((templ, index) => {
       details[index] = {};
       details[index].id = templ.template.id;
+      details[index].name = templ.template.name;
       const cats = templ.template.categoryList;
       cats && cats.forEach(cat => {
         details[index][cat.id] = {

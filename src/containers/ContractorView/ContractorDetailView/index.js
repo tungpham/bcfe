@@ -69,7 +69,7 @@ class ConnectedContractorDetailView extends React.Component {
 							<Tab label="Specialties" />
 						</Tabs>
 
-						{curDetailTab === 0 && <ContractorInfo />}						
+						{curDetailTab === 0 && <ContractorInfo />}
 						{curDetailTab === 1 && <ContractorFiles />}
 						{curDetailTab === 2 && <ContractorSpecialties />}
 					</Paper>

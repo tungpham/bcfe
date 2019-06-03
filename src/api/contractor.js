@@ -8,5 +8,4 @@ export default {
         params: { page: page, size: size }
     }).then(res => res.data),
     addProject: (id, project) => Axios.post(CONT_API_PATH + id + '/projects', project).then(res => res.data),
-
 }

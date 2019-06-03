@@ -26,6 +26,9 @@ const styles = theme => ({
 		overflow: "auto",
 		overflowX: "hidden"
 	},
+	button: {
+		padding: '6px'
+	},
 	waitingSpin: {
 		position: "relative",
 		left: "calc(50% - 10px)",
@@ -92,12 +95,13 @@ class ConnectedProposalDetailFiles extends React.Component {
 
 		return (
 			<div className={classes.root}>
-				<Table className={classes.table}>
+				<Table className={classes.table} size='small'>
 					<TableHead>
 						<TableRow>
 							<CustomTableCell align="center">Name</CustomTableCell>
 							<CustomTableCell align="center">
-								<IconButton style={{ color: "#FFFFFF" }} onClick={this.openUpload}>
+								<IconButton className={classes.button} style={{ color: "#FFFFFF" }} aria-label="Add"
+									onClick={this.openUpload}>
 									<NoteAddIcon />
 								</IconButton>
 							</CustomTableCell>

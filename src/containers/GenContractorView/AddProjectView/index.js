@@ -99,25 +99,18 @@ class connectedAddProjectView extends Component {
 			"updatedBy": userProfile.email
 		};
 
-		this.setState({
-			isSaving: true
-		});
-
+		this.setState({ isSaving: true });
 		let projectId = null;
-		await this.props.addProject(userProfile.user_metadata.contractor_id, projectData, (res) => {
-			if (res === false) {
-				this.setState({ isSaving: false });
-				return;
-			}
-			projectId = res;
-		});
-
-		await this.props.addFiles(projectId, files, (res) => { });
-
-		this.setState({
-			isSaving: false
-		});
-		this.props.history.push("/g_cont");
+		try {
+			projectId = await this.props.addProject(userProfile.user_metadata.contractor_id, projectData);
+			console.log(projectId);
+			await this.props.addFiles(projectId, files);
+			this.setState({ isSaving: false });
+			this.props.history.push("/g_cont");
+		} catch (error) {
+			console.log(error);
+			this.setState({ isSaving: false });
+		}
 	}
 
 	render() {
@@ -178,14 +171,7 @@ class connectedAddProjectView extends Component {
 					</div>
 					<Button disabled={this.state.isSaving} className={classes.submitButton} onClick={this.handleAddProject}>
 						Add Project
-							{
-							this.state.isSaving &&
-							<CircularProgress
-								disableShrink
-								size={24}
-								thickness={4}
-							/>
-						}
+						{this.state.isSaving && <CircularProgress size={24} thickness={4} />}
 					</Button>
 				</Card>
 			</Paper >

@@ -1,11 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import {
-  Card, AppBar, CssBaseline, Divider, IconButton,
-  Drawer, Hidden, InboxIcon, List, ListItem,
-  ListItemIcon, ListItemText, Toolbar, Typography, Grid
-} from "@material-ui/core";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+
 import { withStyles } from "@material-ui/core/styles";
 import { ConfirmDialog } from '../../../components/shared/ConfirmDialog';
 import CategoryEditView from './CategoryEdit';
@@ -36,7 +40,11 @@ const styles = theme => ({
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontSize: '20px',
+    fontWeight: '700'
   },
   content: {
     width: `calc(100% - ${menuWidth}px)`,
@@ -59,7 +67,10 @@ const styles = theme => ({
   },
   active: {
     backgroundColor: theme.palette.primary.light,
-    color: 'white'
+    color: 'white',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark
+    }
   },
   formControl: {
     margin: theme.spacing(1),
@@ -99,7 +110,7 @@ class ProposalEditView extends React.Component {
   componentDidMount() {
     const keys = Object.keys(this.props.proposal);
     console.log('proposal_edit_view', keys, this.props.proposal);
-    keys && keys[1] && this.setState({ category: keys[1] });
+    keys && keys[2] && this.setState({ category: keys[2] });
   }
 
 
@@ -114,13 +125,13 @@ class ProposalEditView extends React.Component {
     console.log(current);
 
     return (
-      <div className={classes.root}>
-        <div className={classes.menubar}>
-          <div className={classes.header} style={{ justifyContent: 'center', fontSize: '24px', fontWeight: 'bold' }}>
-            Categories
-          </div>
+      <Box className={classes.root}>
+        <Box className={classes.menubar}>
+          <Typography className={classes.header}>
+            {proposal && proposal.name}
+          </Typography>
           <List>
-            {keys && keys.map((key, index) => (key !== 'id' &&
+            {keys && keys.map((key, index) => (key !== 'id' && key !== 'name' &&
               <>
                 <ListItem button key={index} onClick={() => this.categoryChange(key)} className={(key === this.state.category) ? classes.active : undefined}>
                   <ListItemText primary={proposal[key].name} />
@@ -129,10 +140,10 @@ class ProposalEditView extends React.Component {
               </>
             ))}
           </List>
-        </div>
+        </Box>
 
-        <div className={classes.content}>
-          <div id='category-info' className={classes.header} style={{ paddingLeft: '16px' }}>
+        <Box className={classes.content}>
+          <Box id='category-info' className={classes.header} style={{ paddingLeft: '16px', paddingTop: '16px' }}>
             <Grid container>
               <Grid item xs={12} sm={6}>
                 <Typography variant='subtitle1' align='left' noWrap>
@@ -150,9 +161,9 @@ class ProposalEditView extends React.Component {
                 </Typography>
               </Grid>
             </Grid>
-          </div>
+          </Box>
 
-          <div id='main-content' style={{ padding: '16px' }}>
+          <Box id='main-content' style={{ padding: '16px' }}>
             <CategoryEditView
               edit={edit}
               category={current}
@@ -160,9 +171,9 @@ class ProposalEditView extends React.Component {
               handleUpdate={this.props.handleUpdate}
               handleDelete={this.props.handleDelete}
             />
-          </div>
-        </div>
-      </div >
+          </Box>
+        </Box>
+      </Box >
     );
   }
 }

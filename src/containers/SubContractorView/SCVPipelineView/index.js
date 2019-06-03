@@ -66,8 +66,8 @@ class ConnectedSCVPipelineView extends React.Component {
 
 						<Switch>
 							<SecuredRoute path={`${match.url}/submitted`} component={SubmittedProView} />
-							<SecuredRoute path={`${match.url}/awarded`} render={<div />} />
-							<SecuredRoute path={`${match.url}/invited`} render={<div />} />
+							<SecuredRoute path={`${match.url}/awarded`} render={() => <div />} />
+							<SecuredRoute path={`${match.url}/invited`} render={() => <div />} />
 							<Redirect path={`${match.url}`} to={`${match.url}/submitted`} />
 						</Switch>
 					</Paper>

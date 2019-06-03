@@ -16,6 +16,13 @@ import ProjApi from '../api/project';
 import ContApi from '../api/contractor';
 import TempApi from '../api/template';
 
+export const setSelectedProposal = id => dispatch => {
+	dispatch({ type: "CLEAR_SELECTED_PROPOSAL" });
+	return PropApi.getInfo(id).then(data => {
+		dispatch({ type: SET_PROPOSAL, payload: data });
+	});
+}
+
 export const clearSelectedProposal = () => {
 	return {
 		type: CLEAR_PROPOSAL
@@ -32,13 +39,6 @@ export const getProposalDetails = id => dispatch => {
 		dispatch({ type: SET_PROPOSAL, payload: data });
 		return data;
 	})
-}
-
-export const setSelectedProposal = id => dispatch => {
-	dispatch({ type: "CLEAR_SELECTED_PROPOSAL" });
-	return PropApi.getInfo(id).then(data => {
-		dispatch({ type: SET_PROPOSAL, payload: data });
-	});
 }
 
 export const addOption = (propid, catid, option) => dispatch => {
@@ -91,7 +91,7 @@ export function getProjectMessage(id) {
 	}
 }
 
-export const addProject = (id, data) => dispatch => ContApi.addProject(id, data);
+export const addProject = (id, data) => dispatch => ContApi.addProject(id, data).then(data => data.id);
 export const addFiles = (id, files) => dispatch => ProjApi.addFiles(id, files);
 export const deleteFile = (id, name) => dispatch => ProjApi.deleteFile(id, name);
 

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { withRouter, Link as RouterLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Card, Avatar, Button, CircularProgress, Link, Box } from '@material-ui/core';
+import { Card, Avatar, Button, CircularProgress, Box } from '@material-ui/core';
 
 import auth0Client from '../../auth0/auth';
 
@@ -21,7 +19,9 @@ const styles = theme => ({
 		display: 'flex',
 		justifyContent: "center",
 		alignItems: "center",
-		height: "calc(100vh - 96px)",
+		height: "calc(100vh - 136px)",
+		marginTop: 'auto',
+		marginBottom: 'auto',
 		overflow: "auto",
 		flexDirection: "column"
 	},
@@ -30,22 +30,23 @@ const styles = theme => ({
 		left: "0px",
 		right: "0px",
 		width: "300px",
-		height: "560px",
-		padding: "10px 10px 10px 10px",
+		height: "auto",
+		margin: theme.spacing(1),
+		padding: theme.spacing(1),
 		borderRadius: "0",
 		[theme.breakpoints.up('sm')]: {
 			width: '400px',
 		}
 	},
 	textFieldHalf: {
-		margin: "10px 10px 0px 10px",
+		margin: theme.spacing(1),
 		width: "120px",
 		[theme.breakpoints.up('sm')]: {
 			width: '170px',
 		}
 	},
 	textFieldFull: {
-		margin: "10px 10px 0px 10px",
+		margin: theme.spacing(1),
 		width: "260px",
 
 		[theme.breakpoints.up('sm')]: {
@@ -69,14 +70,17 @@ const styles = theme => ({
 		color: "blue",
 		fontSize: "12px"
 	},
+	btnBox: {
+		margin: theme.spacing(1),
+	},
 	submitButton: {
-		border: "1px solid #4a148c",
-		margin: "30px 10px 10px 10px",
 		width: 120,
 		[theme.breakpoints.up('sm')]: {
 			width: 170,
 		},
+		border: "1px solid #4a148c",
 		color: "white",
+		marginLeft: '20px',
 		backgroundColor: theme.palette.primary.light,
 		'&:hover': {
 			backgroundColor: theme.palette.primary.dark
@@ -87,17 +91,21 @@ const styles = theme => ({
 	},
 	cancelButton: {
 		border: "1px solid #c7a4ff",
-		margin: "30px 10px 10px 10px",
 		width: 120,
 		[theme.breakpoints.up('sm')]: {
 			width: 170,
 		},
 	},
-
+	busy: {
+		position: 'absolute',
+		left: "calc(50% - 20px)",
+		top: "calc(50% - 20px)",
+		zIndex: '2000'
+	},
 	waitingSpin: {
 		position: "relative",
-		left: "calc(50% - 10px)",
-		top: "calc(40vh)",
+		left: "calc(50% - 20px)",
+		top: "calc(40vh - 20px)",
 	},
 
 	successAlert: {
@@ -296,24 +304,22 @@ class connectedProfileView extends Component {
 	}
 
 	render() {
-		const { classes, userProfile } = this.props;
+		const { classes } = this.props;
 		const status = "Status: " + this.state.status.toUpperCase();
-		// console.log(this.props.userProfile);
 		if (this.state.isDataLoaded === false)
-			return (
-				<CircularProgress className={classes.waitingSpin} />
-			);
+			return <CircularProgress className={classes.waitingSpin} />;
 
 		return (
-			<div className={classes.root}>{
-				this.state.isSuccess ?
-					<TSnackbarContent
-						className={classes.successAlert}
-						onClose={this.handleClose}
-						variant="success"
-						message="Your profile has been saved!"
-					/> : <div></div>
-			}
+			<div className={classes.root}>
+				{
+					this.state.isSuccess ?
+						<TSnackbarContent
+							className={classes.successAlert}
+							onClose={this.handleClose}
+							variant="success"
+							message="Your profile has been saved!"
+						/> : <div></div>
+				}
 				<form noValidate autoComplete="off">
 					<Card className={classes.container}>
 
@@ -403,20 +409,15 @@ class connectedProfileView extends Component {
 							{status}
 						</Box>
 
-						<Button className={classes.cancelButton} onClick={
-							() => this.props.history.replace("/")
-						}> Cancel </Button>
-						<Button disabled={this.state.isSaving} className={classes.submitButton} onClick={this.handleConfirm}>
-							Confirm
-							{
-								this.state.isSaving &&
-								<CircularProgress
-									disableShrink
-									size={24}
-									thickness={4}
-								/>
-							}
-						</Button>
+						<Box className={classes.btnBox}>
+							<Button className={classes.cancelButton} onClick={() => this.props.history.replace("/")}> Cancel </Button>
+							<Button disabled={this.state.isSaving} className={classes.submitButton} onClick={this.handleConfirm}>
+								Confirm
+							</Button>
+						</Box>
+						{
+							this.state.isSaving && <CircularProgress className={classes.busy} />
+						}
 					</Card>
 				</form>
 			</div >

@@ -6,7 +6,7 @@ const PROJ_API_PATH = process.env.PROJECT_API + 'projects/';
 export default {
     addFiles: (id, files) => {
         const formData = new FormData();
-        files.forEach(async (file) => {
+        files.forEach((file) => {
             formData.append('file', file);
         });
 

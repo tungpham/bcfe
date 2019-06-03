@@ -14,6 +14,7 @@ const styles = theme => ({
     textAlign: "left",
     color: "#333",
     marginTop: "0",
+    paddingLeft: theme.spacing(1),
     marginBottom: "0"
   },
   subtitle: {
@@ -36,17 +37,18 @@ const styles = theme => ({
     marginTop: "0",
     paddingLeft: theme.spacing(1)
   },
+  brief: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(1)
+  },
   desc: {
-    fontSize: "1em",
-    textAlign: "left",
     color: "#444",
     marginTop: "0",
     paddingLeft: theme.spacing(1)
   },
   budget: {
     display: "inline-block",
-    position: "relative",
-    left: theme.spacing(1),
     fontSize: "1em",
     textAlign: "left",
     fontWeight: "bold",
@@ -54,8 +56,7 @@ const styles = theme => ({
   },
   posttime: {
     display: "inline-block",
-    position: "relative",
-    left: theme.spacing(3),
+    paddingLeft: theme.spacing(3),
     fontSize: "1em",
     textAlign: "left",
     fontWeight: "normal",
@@ -92,7 +93,8 @@ const styles = theme => ({
 });
 
 const ProjectView = ({ classes, project }) => {
-  const posttime = "Posted 10 minutes ago";
+  const posttime = project.updatedAt;
+  const postdate = new Date(posttime);
   return (
     <Card className={classes.root}>
       <Grid container spacing={3} id="project-description">
@@ -110,12 +112,15 @@ const ProjectView = ({ classes, project }) => {
           </Grid>
 
           <Grid item xs={12}>
-            <div styles={{ display: "block" }}>
-              <p className={classes.budget}>{project.budget}</p>
-              <p className={classes.posttime}>{posttime}</p>
+            <div className={classes.brief}>
+              <Typography className={classes.budget}>Budget: {project.budget}</Typography>
+              <Typography className={classes.posttime}>Posted: {postdate.toDateString()}</Typography>
             </div>
-            <Typography className={classes.desc}>
-              {project.description}
+            <Typography className={classes.brief}>
+              Description: <br />
+              <Typography className={classes.desc}>
+                {project.description}
+              </Typography>
             </Typography>
           </Grid>
           <Grid item xs={12}>

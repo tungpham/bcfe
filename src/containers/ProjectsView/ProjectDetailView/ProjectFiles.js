@@ -25,6 +25,9 @@ const styles = theme => ({
 		overflow: "auto",
 		overflowX: "hidden"
 	},
+	button: {
+		padding: '6px'
+	},
 	waitingSpin: {
 		position: "relative",
 		left: "calc(50% - 10px)",

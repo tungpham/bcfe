@@ -98,38 +98,21 @@ class connectedCurProView extends React.Component {
 		this.props.getProjectsByGenId(userProfile.user_metadata.contractor_id, currentPage, rowsPerPage);
 	};
 
-	handleDeleteProject = async (id) => {
-		this.setState({
-			isSaving: true,
-			alertConfirm: false
-		})
+	handleDeleteProject = async () => {
+		this.setState({ isSaving: true, alertConfirm: false });
 
-		await this.props.deleteProject(this.state.proId, (res) => {
-			this.setState({
-				isSaving: false,
-				snackBar: true,
-				snackBarContent: res ? 'delete project success' : "delete project failed"
-			});
+		try {
+			await this.props.deleteProject(this.state.proId);
+			let currentPage = this.state.currentPage;
+			if (this.state.rowsPerPage * (this.state.currentPage) > (projects.totalElements - 1)) currentPage = currentPage - 1;
+			if (currentPage < 0) currentPage = 0;
 
-			if (res) {
-				const { userProfile, projects } = this.props;
-
-				if (this.state.rowsPerPage * (this.state.currentPage) < projects.totalElements - 1) {
-					this.props.getProjectsByGenId(userProfile.user_metadata.contractor_id,
-						this.state.currentPage, this.state.rowsPerPage);
-				}
-				else {
-					const currentPage = this.state.currentPage - 1;
-
-					this.setState({
-						currentPage: currentPage
-					});
-
-					this.props.getProjectsByGenId(userProfile.user_metadata.contractor_id,
-						currentPage, this.state.rowsPerPage);
-				}
-			}
-		})
+			await this.props.getProjectsByGenId(userProfile.user_metadata.contractor_id, this.state.currentPage, this.state.rowsPerPage);
+			console.log('ok');
+			this.setState({ isSaving: false, snackBar: true, snackBarContent: 'Delete project success', currentPage });
+		} catch (error) {
+			this.setState({ isSaving: false, snackBar: true, snackBarContent: 'Delete project failed' });
+		}
 	}
 
 	handleSelectProject = async (id) => {
@@ -170,7 +153,7 @@ class connectedCurProView extends React.Component {
 											<CustomTableCell align="center"
 												onClick={() => this.handleSelectProject(row.id)}>{row.description}</CustomTableCell>
 											<CustomTableCell align="center">
-												<IconButton aria-label="Delete" color="primary"
+												<IconButton aria-label="Delete" color="primary" style={{ padding: '6px' }}
 													onClick={() => {
 														this.setState({
 															alertConfirm: true,

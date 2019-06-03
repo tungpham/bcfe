@@ -8,6 +8,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Box from '@material-ui/core/Box';
+
 import { CircularProgress, IconButton, Snackbar } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
@@ -44,6 +46,9 @@ class ConnectedProposalDetailFiles extends React.Component {
 
 	render() {
 		const { classes, selectedProposal } = this.props;
+		if (!selectedProposal) {
+			return <Box>No Proposal is selected</Box>
+		}
 
 		return (
 			<div className={classes.root}>
@@ -55,6 +60,7 @@ class ConnectedProposalDetailFiles extends React.Component {
 					</TableHead>
 					<TableBody>
 						{
+							selectedProposal.proposalFiles &&
 							selectedProposal.proposalFiles.map((row) => (
 								<TableRow key={row.id} hover>
 									<CustomTableCell align="center">

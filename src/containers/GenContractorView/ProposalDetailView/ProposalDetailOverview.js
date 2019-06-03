@@ -81,8 +81,8 @@ class ConnectedProposalDetailView extends Component {
 	render() {
 		const { classes, proposal } = this.props;
 
-		if (proposal === null)
-			return <Card className={classes.root} ></Card>
+		if (!proposal || !proposal.project)
+			return <Card className={classes.root} >No Proposal is selected</Card>
 
 		console.log(proposal.project);
 		return (

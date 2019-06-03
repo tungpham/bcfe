@@ -55,10 +55,10 @@ class ConnectedGenContView extends React.Component {
 			'/a_pros/proposal_detail/:mode'];
 		const ROOT_URL = '/a_pros';
 
-		let curTabPos = PROJECT_URLS.indexOf(location.pathname);
+		let curTabPos = 0;
 		if (location.pathname.includes(PROJECT_URLS[1]))
 			curTabPos = 1;
-		if (location.pathname.includes('/a_pros/proposal_detail'))
+		else if (location.pathname.includes('/a_pros/proposal_detail'))
 			curTabPos = 2;
 
 		if (!userProfile.user_metadata.roles.includes("Gen") &&

@@ -25,6 +25,9 @@ const styles = theme => ({
 		overflow: "auto",
 		overflowX: "hidden"
 	},
+	button: {
+		padding: '6px'
+	},
 	waitingSpin: {
 		position: "relative",
 		left: "calc(50% - 10px)",
@@ -61,37 +64,39 @@ class ConnectedProjectFiles extends React.Component {
 	handleUploadFiles = async (files) => {
 		const { selectedProject } = this.props;
 		this.setState({ isProcessing: true });
+		let message = 'File Upload Success';
 
-		await this.props.addFiles(selectedProject.id, files, (res) => this.setState({
-			snackBar: true,
-			snackBarContent: res ? 'File Upload Success' : 'File Upload Failed'
-		}));
-		await this.props.getProjectDetailById(selectedProject.id);
+		try {
+			await this.props.addFiles(selectedProject.id, files);
+			await this.props.getProjectDetailById(selectedProject.id);
+		} catch (error) {
+			message = 'File Upload Failed';
+		}
 
 		this.setState({
+			snackBar: true,
+			isProcessing: false,
 			openUploadForm: false,
-			isProcessing: false
+			snackBarContent: message
 		})
 	}
 
 	handleDeleteFile = async (name) => {
 		const { selectedProject } = this.props;
+		let message = 'delete file success';
+		this.setState({ isProcessing: true });
+
+		try {
+			await this.props.deleteFile(selectedProject.id, name);
+			await this.props.getProjectDetailById(selectedProject.id);
+		} catch (error) {
+			message = 'delete file failed';
+		}
 
 		this.setState({
-			isProcessing: true
-		});
-
-		await this.props.deleteFile(selectedProject.id, name, (res) => {
-			this.setState({
-				snackBar: true,
-				snackBarContent: res ? 'delete file success' : 'delete file failed'
-			});
-		});
-
-		await this.props.getProjectDetailById(selectedProject.id);
-
-		this.setState({
-			isProcessing: false
+			isProcessing: false,
+			snackBar: true,
+			snackBarContent: message
 		});
 	}
 
@@ -105,12 +110,12 @@ class ConnectedProjectFiles extends React.Component {
 
 		return (
 			<div className={classes.root} >
-				<Table className={classes.table}>
+				<Table className={classes.table} size='small'>
 					<TableHead>
 						<TableRow>
 							<CustomTableCell align="center">Name</CustomTableCell>
 							<CustomTableCell align="center">
-								<IconButton style={{ color: "#FFFFFF" }} onClick={() => this.setState({ openUploadForm: true })}>
+								<IconButton className={classes.button} aria-label="Add" style={{ color: "#FFFFFF" }} onClick={() => this.setState({ openUploadForm: true })}>
 									<NoteAddIcon />
 								</IconButton>
 							</CustomTableCell>
