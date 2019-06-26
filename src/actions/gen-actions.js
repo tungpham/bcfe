@@ -34,18 +34,11 @@ export function awardProject(id) {
   };
 }
 
-export function getProjectsByGenId(id, page, rowSize) {
+export function getProjectsByGenId(contractorId, page, size) {
   return function (dispatch) {
     restAPI
-        .get('contractors/' + id + '/projects', {
-          params: {
-            page: page,
-            size: rowSize,
-          },
-        })
-        .then(response => {
-          dispatch(projectLoaded(response.data));
-        });
+        .get('contractors/' + contractorId + '/projects', { page, size })
+        .then(response => dispatch(projectLoaded(response.data)));
   };
 }
 
