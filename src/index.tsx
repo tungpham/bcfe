@@ -9,6 +9,7 @@ import WebFont           from 'webfontloader';
 import App                from './App';
 import store              from './store';
 import * as serviceWorker from './serviceWorker';
+import "assets/scss/material-dashboard-pro-react.scss?v=1.5.0";
 
 WebFont.load({
   google: {

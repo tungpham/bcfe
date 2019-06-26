@@ -80,44 +80,6 @@
 .ReactTable .rt-thead .rt-th:last-child {
   text-align: right;
 }
-.ReactTable .rt-thead .rt-th.-cursor-pointer > div:first-of-type {
-  &:after {
-    opacity: 0.4;
-    content: '\F0DC';
-    font-weight: bold;
-    position: relative;
-    display: inline-block;
-    bottom: 0px;
-    right: -7px;
-    font-family: Font Awesome\5 Free;
-  }
-}
-.ReactTable .rt-thead .rt-th.-cursor-pointer.-sort-desc > div:first-of-type {
-  &:after {
-    content: '\F0DD';
-    top: -3px;
-    font-weight: bold;
-    position: relative;
-    display: inline-block;
-    bottom: 0px;
-    right: -7px;
-    font-family: Font Awesome\5 Free;
-    opacity: 0.8;
-  }
-}
-.ReactTable .rt-thead .rt-th.-cursor-pointer.-sort-asc > div:first-of-type {
-  &:after {
-    content: '\F0DE';
-    top: 3px;
-    font-weight: bold;
-    position: relative;
-    display: inline-block;
-    bottom: 0px;
-    right: -7px;
-    font-family: Font Awesome\5 Free;
-    opacity: 0.8;
-  }
-}
 .ReactTable .rt-thead .rt-th,
 .ReactTable .rt-thead .rt-td {
   font-size: 1.063rem;

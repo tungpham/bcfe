@@ -1,17 +1,14 @@
-import React            from 'react';
-import { connect }      from 'react-redux';
-import { compose }      from 'redux';
-import { withStyles }   from '@material-ui/core/styles';
-import Paper            from '@material-ui/core/Paper';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Table            from '@material-ui/core/Table';
-import TableHead        from '@material-ui/core/TableHead';
-import TableRow         from '@material-ui/core/TableRow';
-import TableBody        from '@material-ui/core/TableBody';
-import IconButton       from '@material-ui/core/IconButton';
-import TablePagination  from '@material-ui/core/TablePagination';
-import Typography       from '@material-ui/core/Typography';
+import React                      from 'react';
+import { connect }                from 'react-redux';
+import { compose }                from 'redux';
+import {createStyles, withStyles} from '@material-ui/core/styles';
+import Paper                      from '@material-ui/core/Paper';
+import CircularProgress           from '@material-ui/core/CircularProgress';
+import ReactTable                 from "react-table";
+import Button from 'components/CustomButtons/Button.jsx';
+import SweetAlert from "react-bootstrap-sweetalert";
 import DeleteIcon       from '@material-ui/icons/Delete';
+import InfoIcon       from '@material-ui/icons/Info';
 import removeMd         from 'remove-markdown';
 import CustomTableCell  from '../../../components/shared/CustomTableCell';
 import CustomSnackbar   from '../../../components/shared/CustomSnackbar';
@@ -20,7 +17,22 @@ import ConfirmDialog    from '../../../components/shared/ConfirmDialog';
 import { getProjectsByGenId }                     from '../../../actions/gen-actions';
 import { deleteProject, setCurrentProject } from '../../../actions/global-actions';
 
-import style from './CurrentProject.style.ts';
+import sweetAlertStyle from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.jsx";
+
+const style = (theme) => createStyles({
+  root: {
+    marginTop: theme.spacing(1),
+    padding: theme.spacing(1)
+  },
+  actionButton: {
+    margin: "0 0 0 5px",
+    padding: "5px",
+    "& svg,& .fab,& .fas,& .far,& .fal,& .material-icons": {
+      marginRight: "0px"
+    }
+  },
+  ...sweetAlertStyle,
+});
 
 class CurrentProject extends React.Component {
   constructor(props) {
@@ -83,40 +95,31 @@ class CurrentProject extends React.Component {
   };
 
   handleDeleteProject = async id => {
-    const { userProfile, projects } = this.props;
-    let msg = 'delete project success';
-
-    this.setState({ isBusy: true, showConfirm: false });
+    this.setState({ showConfirm: false });
     try {
-      await this.props.deleteProject(this.state.proId);
-
-      let curPage = this.state.currentPage;
-      if (
-        this.state.rowsPerPage * this.state.currentPage >=
-        projects.totalElements - 1
-      )
-      curPage--;
-      this.props.getProjectsByGenId(
-        userProfile.user_metadata.contractor_id,
-        curPage,
-        this.state.rowsPerPage
-      );
+      await this.props.deleteProject(this.state.prodId);
       this.setState({
-        isBusy: false,
         showMessage: true,
-        message: msg,
-        currentPage: curPage,
+        message: 'Delete project success',
       });
     } catch (error) {
-      console.log(error);
-      msg = 'delete project failed';
       this.setState({
-        isBusy: false,
         showMessage: true,
-        message: msg,
+        message: 'Delete project failed',
       });
     }
   };
+
+  hideAlert = () =>
+      this.setState({
+        showConfirm: false,
+      });
+
+  confirmDeleteProject = (id) =>
+      this.setState({
+        showConfirm: true,
+        prodId: id
+      })
 
   handleSelectProject = id => {
     this.props.setCurrentProject(id);
@@ -130,9 +133,78 @@ class CurrentProject extends React.Component {
       return <CircularProgress className={classes.waitingSpin} />;
     }
 
+    const dataTable = projects.content.map(item => ({
+      ...item,
+      actions: (
+        <div className="actions-right">
+          <Button
+            size="sm"
+            justIcon
+            round
+            onClick={() => this.handleSelectProject(item.id)}
+            color="info"
+            className="edit"
+          >
+            <InfoIcon />
+          </Button>
+          <Button
+            size="sm"
+            justIcon
+            round
+            onClick={() => this.confirmDeleteProject(item.id)}
+            color="danger"
+            className="remove"
+          >
+            <DeleteIcon />
+          </Button>
+        </div>
+      )
+    }));
+
     return (
       <Paper className={classes.root}>
-        <div className={classes.tableWrap}>
+        <ReactTable
+          data={dataTable}
+          columns={[
+            {
+              Header: "Project Name",
+              accessor: "title"
+            },
+            {
+              Header: "Budget",
+              accessor: "budget"
+            },
+            {
+              Header: "Description",
+              accessor: "description"
+            },
+            {
+              Header: "Actions",
+              accessor: "actions"
+            }
+          ]}
+          defaultPageSize={10}
+          className="-striped -highlight"
+        />
+        {this.state.showConfirm && (
+          <SweetAlert
+            warning
+            style={{ display: "block" }}
+            title="Are you sure?"
+            onConfirm={this.handleDeleteProject}
+            onCancel={this.hideAlert}
+            confirmBtnCssClass={
+              this.props.classes.button + " " + this.props.classes.success
+            }
+            cancelBtnCssClass={
+              this.props.classes.button + " " + this.props.classes.danger
+            }
+            confirmBtnText="Yes, delete it!"
+            cancelBtnText="Cancel"
+            showCancel
+          />
+        )}
+        {/*<div className={classes.tableWrap}>
           <Table className={classes.table} size="small">
             <TableHead>
               <TableRow>
@@ -200,13 +272,8 @@ class CurrentProject extends React.Component {
           message={this.state.message}
           handleClose={() => this.setState({ showMessage: false })}
         />
-        <ConfirmDialog
-          open={this.state.showConfirm}
-          onYes={this.handleDeleteProject}
-          onCancel={() => this.setState({ showConfirm: false })}
-          message="Do you want to delete this project?"
-        />
-        {this.state.isBusy && <CircularProgress className="busy" />}
+
+        */}
       </Paper>
     );
   }
