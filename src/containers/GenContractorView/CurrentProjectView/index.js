@@ -22,7 +22,7 @@ const style = theme =>
   createStyles({
     root: {
       marginTop: theme.spacing(1),
-      padding: theme.spacing(1),
+      padding: theme.spacing(0, 2),
     },
     actionButton: {
       margin: '0 0 0 5px',

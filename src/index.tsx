@@ -13,7 +13,7 @@ import "assets/scss/material-dashboard-pro-react.scss?v=1.5.0";
 
 WebFont.load({
   google: {
-    families: ['Niramit:300,400,500,600,700', 'sans-serif'],
+    families: ['Roboto:300,400,500,600,700', 'sans-serif'],
   },
 });
 

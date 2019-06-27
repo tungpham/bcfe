@@ -20,7 +20,7 @@ const theme = createMuiTheme({
   typography: {
     // Use any custom font instead of the default Roboto font.
     useNextVariants: true,
-    fontFamily: ['Niramit', 'Arial'].join(','),
+    fontFamily: ['Roboto', 'Arial'].join(','),
   },
   overrides: {
     MuiCircularProgress: {
