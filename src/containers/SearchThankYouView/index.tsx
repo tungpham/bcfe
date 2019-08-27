@@ -66,6 +66,36 @@ class SearchContractorView extends React.Component<ISearchContractorViewProps, I
 			<Box className={classes.root}>
                 <h1>Thank You for your submission!</h1>
                 <h3>Here are your results:</h3>
+				<table>
+					<tr>
+						<th align={"left"}>company</th>
+						<th align={"left"}>service</th>
+						<th align={"left"}>e-mail</th>
+						<th align={"left"}>phone</th>
+                        <th align={"left"}>review</th>
+					</tr>
+					<tr>
+						<td>ABC</td>
+						<td>plumbing</td>
+						<td>abc@company.com</td>
+						<td>100-200-3000</td>
+                        <td>****</td>
+					</tr>
+                    <tr>
+                        <td>Plumbers R Us</td>
+                        <td>plumbing</td>
+                        <td>plumbers@company.com</td>
+                        <td>100-201-3001</td>
+                        <td>***</td>
+                    </tr>
+                    <tr>
+                        <td>Stone</td>
+                        <td>plumbing</td>
+                        <td>stone@company.com</td>
+                        <td>100-202-3002</td>
+                        <td>***</td>
+                    </tr>
+				</table>
 			</Box>
 		);
 	}

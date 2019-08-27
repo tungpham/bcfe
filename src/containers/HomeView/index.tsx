@@ -1,5 +1,6 @@
 import React          from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import kitchen from '../../assets/images/kitchen.jpg';
 
 const style = (theme) =>  ({
   root: {
@@ -9,7 +10,10 @@ const style = (theme) =>  ({
 
 function HomeView({ classes }) {
   return (
+      <>
     <div className={classes.root}>Welcome Home</div>
+      <img src={kitchen}/>
+      </>
   )
 }
 

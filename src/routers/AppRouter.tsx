@@ -1,5 +1,5 @@
 import React                                   from 'react';
-import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import { Redirect, Route, Switch, withRouter, BrowserRouter as Router } from 'react-router-dom';
 import { withStyles }                          from '@material-ui/styles';
 import GenContractorView     from '../containers/GenContractorView';
 import SubContractorView     from '../containers/SubContractorView';
@@ -11,6 +11,7 @@ import ProjectsView          from '../containers/ProjectsView';
 import HomeView              from '../containers/HomeView';
 import ProfileView           from '../containers/ProfileView';
 import SearchContractorView  from '../containers/SearchContractorView';
+import SearchView            from '../containers/SearchView';
 import SearchCityView        from '../containers/SearchCityView';
 import SearchServiceView     from '../containers/SearchServiceView';
 import SearchThankYouView     from '../containers/SearchThankYouView';
@@ -81,7 +82,15 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
     }
 
     return (
-      <div className={classes.root}>
+        <Router>
+        <Switch>
+            <Route exact path="/" component={HomeView}/>
+            <Route path="/search" component={SearchView}/>
+
+        </Switch>
+        </Router>
+    );
+      {/*<div className={classes.root}>
         <Header/>
         <main className={classes.content}>
           <div className={classes.appBarSpacer}/>
@@ -89,10 +98,7 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
             <Grid container>
               <Switch>
                 <Route exact path="/" component={HomeView}/>
-                <SecuredRoute
-                  path="/gen-contractor"
-                  component={GenContractorView}
-                />
+                <SecuredRoute path="/gen-contractor" component={GenContractorView}/>
                 <SecuredRoute path="/s_cont" component={SubContractorView}/>
                 <SecuredRoute path="/b_list" component={BidderListingView}/>
                 <SecuredRoute path="/projects" component={ProjectsView}/>
@@ -101,6 +107,7 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
                 <SecuredRoute path="/m_cont" component={ContractorView}/>
                 <SecuredRoute path="/profile" component={ProfileView}/>
                 <SecuredRoute path="/settings" component={SettingsView}/>
+                <Route exact path="/search" component={SearchView}/>
                 <Route exact path="/search-city" component={SearchCityView}/>
                 <Route exact path="/search-service" component={SearchServiceView}/>
                 <Route exact path="/search-complete" component={SearchThankYouView}/>
@@ -112,7 +119,8 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
           </Container>
         </main>
       </div>
-    );
+
+    );*/}
   }
 }
 

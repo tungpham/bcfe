@@ -1,18 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { Redirect, Route, Switch, withRouter, BrowserRouter as Router } from 'react-router-dom';
 import {RouteComponentProps} from 'react-router';
 import Box from '@material-ui/core/Box';
 import { withStyles, StyledComponentProps } from '@material-ui/core/styles';
 
 import { ISnackbarProps } from 'components/shared/CustomSnackbar';
-import SearchCityBar from 'components/SearchBar/SearchCityBar';
+import SearchBar from 'components/SearchBar/SearchBar';
 
 import { getContractors, getSpecialties, selectContractor } from 'store/actions/cont-actions';
 import { searchContractors } from 'store/actions/cont-actions';
 import { UserProfile, Specialties } from 'types/global';
 import { Contractors } from 'types/contractor';
 import style from './SearchContractorView.style';
+import Header from "../../components/Header";
+import Container from "@material-ui/core/Container/Container";
+import Grid          from '@material-ui/core/Grid';
+import SearchCityView        from '../../containers/SearchCityView';
+import HeaderSm from "../../components/HeaderSm";
+import SearchCityBar from "../../components/SearchBar/SearchCityBar";
 
 interface ISearchContractorViewProps extends RouteComponentProps, StyledComponentProps {
 	getContractors: (page: number, size: number) => Promise<void>;
@@ -60,7 +67,7 @@ class SearchContractorView extends React.Component<ISearchContractorViewProps, I
 	}
 
     handleSearch = (name, city, specs) => {
-        this.props.history.push('/search-service')
+        this.props.history.push('/search-complete')
     };
 
 	render() {
@@ -72,14 +79,18 @@ class SearchContractorView extends React.Component<ISearchContractorViewProps, I
 			}))
 			: [];
 
-		console.log('search city')
+		console.log('search')
 		return (
+		    <div className={classes.root}>
+		    <HeaderSm/>
+
 			<Box className={classes.root}>
-                <SearchCityBar
-                    search={this.handleSearch}
-                    suggestions={suggestions || []}
-                />
+				<SearchCityBar
+					search={this.handleSearch}
+					suggestions={suggestions || []}
+				/>
 			</Box>
+            </div>
 		);
 	}
 }
