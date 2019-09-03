@@ -9,6 +9,7 @@ import SpecialtyView         from '../containers/SpecialtyView';
 import ContractorView        from '../containers/ContractorView';
 import ProjectsView          from '../containers/ProjectsView';
 import HomeView              from '../containers/HomeView';
+import PlumbingView          from '../containers/PlumbingView'
 import ProfileView           from '../containers/ProfileView';
 import SearchContractorView  from '../containers/SearchContractorView';
 import SearchView            from '../containers/SearchView';
@@ -86,6 +87,7 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
         <Switch>
             <Route exact path="/" component={HomeView}/>
             <Route path="/search" component={SearchView}/>
+            <Route path="/plumbing" component={PlumbingView}/>
 
         </Switch>
         </Router>

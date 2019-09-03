@@ -1,0 +1,46 @@
+.navHome {
+    height: 23px;
+}
+
+.navLeft {
+    text-align: left;
+    margin-top: 0px;
+    margin-left: 5px;
+    left: 5px;
+    width: 800px;
+}
+
+.navRight {
+    text-align: right;
+    top: 0px;
+    right: 5px;
+    width: 1000px;
+    position: absolute;
+}
+
+.navTable {
+    text-align: center;
+    align-self: center;
+    width: 800px;
+    /*border: 1px solid green;*/
+    left: 50%;
+    right: 50%;
+    margin-left: 25%;
+    margin-right: 50%;
+}
+
+.divCenter {
+    text-align: center;
+    left: 50%;
+    right: 50%;
+    margin-left: 50%;
+    margin-right: 50%;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+}
+
+a:hover, a:active {
+    color: black;
+}
