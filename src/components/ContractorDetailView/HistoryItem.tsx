@@ -10,7 +10,6 @@ import removeMd from 'remove-markdown';
 
 import { HistoryInfo } from 'types/global';
 
-
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
         position: 'relative'

@@ -15,19 +15,21 @@ import SearchCityView from '../containers/SearchCityView';
 import SearchServiceView from '../containers/SearchServiceView';
 import SearchThankYouView from '../containers/SearchThankYouView';
 import SettingsView from '../components/SettingsView';
-import Header from '../components/Header';
+import AfterLoginHeader from '../components/Header';
 import Callback from '../services/auth0/callback';
 import auth0Client from '../services/auth0/auth';
 import { connect } from 'react-redux';
 import { compose, Dispatch } from 'redux';
 import { CircularProgress } from '@material-ui/core/es';
-
+import Header from '../components/Header-Footer/navbar.js';
+import Footer from '../components/Header-Footer/footer.js';
 import SecuredRoute from './SecuredRoute';
 import { MaterialThemeHOC, UserProfile } from 'types/global';
 import { setUserProfile } from 'store/actions/global-actions';
-
 import rootStyles from './AppRouter.style';
 import Container from '@material-ui/core/Container';
+import ContractorList from 'components/BeforeLogin/ContractorList';
+import ContractorDetails from 'components/BeforeLogin/ContractorDetails';
 
 interface AppRouterProps extends MaterialThemeHOC {
 	location: Location;
@@ -43,7 +45,6 @@ interface AppRouterState {
 class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			checkingSession: true,
 		};
@@ -55,7 +56,6 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
 			this.setState({ checkingSession: false });
 			return;
 		}
-
 		try {
 			await auth0Client.silentAuth();
 			const data = await auth0Client.getUserInfo();
@@ -77,35 +77,41 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
 		}
 
 		return (
-			<div className={classes.root}>
-				<Header />
-				<main className={classes.content}>
-					<div className={classes.appBarSpacer} />
-					<Container className={classes.container} maxWidth={false}>
-						<Switch>
-							<Route exact path="/" component={HomeView} />
-							<SecuredRoute
-								path="/gen-contractor"
-								component={GenContractorView}
-							/>
-							<SecuredRoute path="/s_cont" component={SubContractorView} />
-							<SecuredRoute path="/b_list" component={BidderListingView} />
-							<SecuredRoute path="/projects" component={ProjectsView} />
-							<SecuredRoute path="/m_temp" component={TemplatesView} />
-							<SecuredRoute path="/m_spec" component={SpecialtyView} />
-							<SecuredRoute path="/m_cont" component={ContractorView} />
-							<SecuredRoute path="/profile" component={ProfileView} />
-							<SecuredRoute path="/settings" component={SettingsView} />
-							<Route exact path="/search-city" component={SearchCityView} />
-							<Route exact path="/search-service" component={SearchServiceView} />
-							<Route exact path="/search-complete" component={SearchThankYouView} />
-							<Route exact path="/search-contractor" component={SearchContractorView} />
-							<Route exact path="/callback" component={Callback} />
-							<Redirect to="/" />
-						</Switch>
-					</Container>
-				</main>
-			</div>
+			<>
+				<div className={auth0Client.isAuthenticated() === true ? classes.root : 'beforeLogin'}>
+					{auth0Client.isAuthenticated() === false ? <Header /> : <AfterLoginHeader />}
+					<main className={classes.content}>
+						<div className={classes.appBarSpacer} />
+						<Container className={classes.container} maxWidth={false}>
+							<Switch>
+								<Route exact path="/" component={HomeView} />
+								<Route path="/contractorList" component={ContractorList} />
+								<Route path="/contractordetails/:Id" component={ContractorDetails} />
+								<SecuredRoute
+									path="/gen-contractor"
+									component={GenContractorView}
+								/>
+								<SecuredRoute path="/s_cont" component={SubContractorView} />
+								<SecuredRoute path="/b_list" component={BidderListingView} />
+								<SecuredRoute path="/projects" component={ProjectsView} />
+								<SecuredRoute path="/m_temp" component={TemplatesView} />
+								<SecuredRoute path="/m_spec" component={SpecialtyView} />
+								<SecuredRoute path="/m_cont" component={ContractorView} />
+								<SecuredRoute path="/profile" component={ProfileView} />
+								<SecuredRoute path="/settings" component={SettingsView} />
+								<Route exact path="/search-city" component={SearchCityView} />
+								<Route exact path="/search-service" component={SearchServiceView} />
+								<Route exact path="/search-complete" component={SearchThankYouView} />
+								<Route exact path="/search-contractor" component={SearchContractorView} />
+								<Route exact path="/callback" component={Callback} />
+								<Redirect to="/" />
+							</Switch>
+						</Container>
+					</main>
+					{/* Footer */}
+				</div>
+				<Footer />
+			</>
 		);
 	}
 }

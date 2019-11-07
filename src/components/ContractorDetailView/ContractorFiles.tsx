@@ -98,7 +98,6 @@ class ContractorFiles extends React.Component<IContractorFilesProps, IContractor
                 variant: 'success'
             });
         } catch (error) {
-            console.log('ContractorFiles.handleUploadFiles: ', error);
             this.setState({
                 openUploadForm: false,
                 isBusy: false,
@@ -127,7 +126,6 @@ class ContractorFiles extends React.Component<IContractorFilesProps, IContractor
                 variant: 'success'
             });
         } catch (error) {
-            console.log('ContractorFiles.handleDeleteFile: ', error);
             this.setState({
                 isBusy: false,
                 showMessage: true,

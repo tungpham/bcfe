@@ -177,7 +177,6 @@ class ContractorSpecialties extends React.Component<IContractorSpecialtiesProps,
                 message: 'Specialty Add success'
             });
         } catch (error) {
-            console.log('ContractorSpecialties.handleAddSpec: ', error);
             this.setState({
                 isBusy: false,
                 specialty: '',
@@ -214,7 +213,6 @@ class ContractorSpecialties extends React.Component<IContractorSpecialtiesProps,
                 isBusy: false
             });
         } catch (error) {
-            console.log('ContractorSpecialties.handleDelete: ', error);
             this.setState({
                 showMessage: true,
                 message: 'Delete Specialty failed',

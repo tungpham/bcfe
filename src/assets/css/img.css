@@ -1,0 +1,6 @@
+.MuiAvatar-root.myAvatar {
+  height: 150px !important;
+}
+.MuiAvatar-root.displayNone {
+  height: 150px !important;
+}

@@ -1,0 +1,114 @@
+import React, { useEffect, useState } from 'react';
+import Container from '@material-ui/core/Container';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import Rating from 'material-ui-rating'
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import '../../assets/css/img.css'
+import '../../assets/css/conflictRemove.css';
+import HttpUrlConstant from '../../apis/global.js';
+import Axios from 'axios';
+import { Link } from 'react-router-dom';
+
+function ContractorList(props) {
+    var apiPath = '/contractors/search';
+    const [contractorData, setContractorData] = useState([]);
+    const [date, setDate] = useState(new Date().getFullYear());
+
+    useEffect(() => {
+        var isSubscribed = true;
+        getContractorDetails();
+        return () => isSubscribed = false;
+    }, []);
+
+    async function getContractorDetails() {
+        const payload = {
+            "city": props.location.state.cityName,
+            "specialty": props.location.state.specialty
+        };
+        if (payload) {
+            await Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
+                payload, { headers: HttpUrlConstant.headers }).then(response => {
+                    setContractorData(response.data);
+                })
+        }
+    }
+
+    return (<div style={{marginTop:'-30px'}}>
+        <Container className="contractor-list">
+            <List className="list">
+                {contractorData.map(cntDetail => {
+                    return (
+                        <div key={cntDetail.contractor.id}>
+                            <Link className="underlineNone" to={`/contractordetails/${cntDetail.contractor.id}`}>
+                                <ListItem className="list-item">
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={12} lg={2}>
+                                            {cntDetail.contractor['contractorFiles'].map(item => {
+                                                return (
+                                                    <div key={item.name}>
+                                                        {<Avatar className="myAvatar" alt="image" src={`${HttpUrlConstant.BASE_URL}/contractors/${cntDetail.contractor.id}/files/${item.name}`} />}
+                                                    </div>
+                                                )
+                                            })}
+                                            {cntDetail.contractor['contractorFiles'].length === 0 ? <Avatar className="myAvatar" alt="image" className="displayNone" src={`${HttpUrlConstant.Image_URL}/api/?name=${cntDetail.contractor.address.company}`} /> : ''}
+                                        </Grid>
+                                        <Grid item xs={12} lg={10}>
+                                            <Grid className="row">
+                                                <Grid item xs={12} lg={9}>
+                                                    <ListItemText
+                                                        primary={cntDetail.contractor.address.company} />
+                                                    <div className="d-flex">
+                                                        <span className="rate">{cntDetail.reviewSummary.rating}</span>
+                                                        <div className="stars">
+                                                            <Rating name="size-medium" className="rating r-star"
+                                                                value={cntDetail.reviewSummary.rating}
+                                                                max={5} readOnly
+                                                            />
+                                                        </div>
+                                                        <span className="views">{cntDetail.reviewSummary.totalReviews}&nbsp;reviews</span>
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={12} lg={3} >
+                                                    <h3 className="no-margin"><i className="fa fa-comment-o" aria-hidden="true"></i></h3>
+                                                    <span style={{ fontSize: '13px', color: 'rgba(0, 0, 0, 0.54)' }}>contact for price</span>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid item xs={12} lg={12} className="mtmb">
+                                                <span className="watch-icon"> <AccessTimeIcon style={{ color: '#817c7c' }} /> </span>
+                                                <span className="years">
+                                                    {date - cntDetail.contractor.address.founded}
+                                                    &nbsp;years in business</span>
+                                            </Grid>
+                                            <Grid container className="row fullwidth">
+                                                <Grid item xs={12} lg={9}>
+                                                    <div className="details">
+                                                        "{cntDetail.reviewSummary.areview}"
+                                                    </div>
+
+                                                </Grid>
+                                                <Grid  item xs={12} lg={3} >
+                                                    <Button variant="contained" color="primary" >
+                                                        View Profile
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </ListItem>
+                            </Link>
+                            <Divider />
+                        </div>)
+                })}
+            </List>
+        </Container>
+    </div>
+    )
+}
+
+export default ContractorList;

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { ThemeProvider } from '@material-ui/styles';
-// import AppTheme  from './containers/AppTheme';
 import theme     from './config/theme';
 import AppRouter from './routers/AppRouter';
 

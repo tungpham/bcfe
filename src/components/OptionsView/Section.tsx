@@ -294,7 +294,6 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
             setValue({ value: '', errMsg: undefined });
             showMessage(true, 'Saved');
         } catch (error) {
-            console.log('ProjectOptionView.handleSelect: ', error);
             setBusy(false);
             showMessage(false, 'Save option failed');
         }
@@ -341,7 +340,6 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
             }));
             edit = filtered[0].id;
         } else if (filtered.length > 1) {
-            console.log('OptionView: some error');
         }
     }
 

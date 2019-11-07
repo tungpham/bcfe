@@ -165,7 +165,6 @@ class ContractorInfoView extends React.Component<IContractorInfoViewProps, ICont
                 isBusy: false
             });
         } catch (error) {
-            console.log('Approve: ', error);
             this.setState({
                 showMessage: true,
                 message: 'Approve failed',
@@ -200,7 +199,6 @@ class ContractorInfoView extends React.Component<IContractorInfoViewProps, ICont
                 isBusy: false
             });
         } catch (error) {
-            console.log('Reject: ', error);
             this.setState({
                 showMessage: true,
                 message: 'Reject failed',

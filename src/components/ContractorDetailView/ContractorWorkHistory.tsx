@@ -110,7 +110,6 @@ class ContractorWorkHistory extends React.Component<IContractorWorkHistoryProps,
     }
 
     handleAddFiles = files => {
-        // console.log(this.state.files, e.target.files);
         this.setState({ files: [...this.state.files, ...files] });
     };
 
