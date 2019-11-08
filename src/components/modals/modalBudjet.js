@@ -1,27 +1,16 @@
 import React,{useState} from 'react';
-import { Grid, Typography, InputAdornment } from '@material-ui/core';
-import Modal from '@material-ui/core/Modal';
-import CloseIcon from '@material-ui/icons/Close';
-
+import { Grid, Typography, InputAdornment, FormControlLabel } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-
-import ListItemText from '@material-ui/core/ListItemText';
-
-import Button from '@material-ui/core/Button';
-
-import Divider from '@material-ui/core/Divider';
-
 import { green } from '@material-ui/core/colors';
 import Radio from '@material-ui/core/Radio';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import FormControl from '@material-ui/core/FormControl';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
 function ModalBudjet(props) {
-    const [validationMessage, setValidationMessage] = useState('')
     const [selectedValue, setSelectedValue] = React.useState('');
     const [value, setvalue] = useState('');
     const GreenRadio = withStyles({
@@ -44,18 +33,16 @@ function ModalBudjet(props) {
         props.budjetCallbackvalue(newvalue);
     }
     return (
-        <Grid className="service-modal-col" item xs={8}  >
+        <Grid className="service-modal-col" item xs={10}>
             <Typography className="city-head-text font-weight text-left" variant="h5">
-                what is your budget for this Project?
+                What is your budget for this Project?
             </Typography>
             <Typography color="textSecondary" variant="body1">
                 Enter Yout Budget will help us contect you with the right pro
           </Typography>
             <FormControl className="width100">
                 <TextField
-                    // fullwidth
                     id="filled-full-width"
-                    id="outlined-bare"
                     margin="normal"
                     value={value}
                     onChange={handleChangevalue}
@@ -73,60 +60,56 @@ function ModalBudjet(props) {
             <Typography color="textSecondary" variant="body1">
                 Or Select from the following option.
             </Typography>
-            <List className="service-modal-list list-overflow" >
-                <ListItem className="list-border" role={undefined} dense button  >
-                    <GreenRadio
-                        checked={selectedValue === 'a'}
-                        onChange={handleChange}
-                        value="a"
-                        name="radio-button-demo"
-                        inputProps={{ 'aria-label': 'a' }}
-                    />
-                    <ListItemText primary={`I'm Not sure`} />
-                </ListItem>
-                <ListItem className="list-border" role={undefined} dense button  >
-                    <GreenRadio
-                        checked={selectedValue === 'b'}
-                        onChange={handleChange}
-                        value="b"
-                        name="radio-button-demo"
-                        inputProps={{ 'aria-label': 'b' }}
-                    />
-                    <ListItemText primary={`Less then $12,000`} />
-                </ListItem>
-                <ListItem className="list-border" role={undefined} dense button  >
-                    <GreenRadio
-                        checked={selectedValue === 'c'}
-                        onChange={handleChange}
-                        value="c"
-                        name="radio-button-demo"
-                        inputProps={{ 'aria-label': 'C' }}
-                    />
-                    <ListItemText primary={`$12000-$50000`} />
-                </ListItem>
-
-                <ListItem className="list-border" role={undefined} dense button  >
-                    <GreenRadio
-                        checked={selectedValue === 'd'}
-                        onChange={handleChange}
-                        value="d"
-                        name="radio-button-demo"
-                        inputProps={{ 'aria-label': '' }}
-                    />
-                    <ListItemText primary={`$50000-$100000`} />
-                </ListItem>
-                <ListItem className="list-border" role={undefined} dense button  >
-                    <GreenRadio
-                        checked={selectedValue === 'e'}
-                        onChange={handleChange}
-                        value="e"
-                        name="radio-button-demo"
-                        inputProps={{ 'aria-label': 'e' }}
-                    />
-                    <ListItemText primary={`More then $10000`} />
-                </ListItem>
-                <p className='red'>{props.errorMessage}</p>
-            </List>
+            <List className="service-modal-list list-overflow" onChange={handleChange} >
+           <RadioGroup aria-label="gender" name="gender1" >
+                       <ListItem className="list-border" role={undefined} dense button  >
+                           <FormControlLabel checked={selectedValue === 'I m Not sure'}
+                               value="I m Not sure"
+                               control={<GreenRadio />}
+                               label="I m Not sure"
+                               name="radio-button-demo"
+                               inputProps={{ 'aria-label': 'I m Not sure' }}
+                           />
+                       </ListItem>
+                       <ListItem className="list-border" role={undefined} dense button  >
+                       <FormControlLabel checked={selectedValue === 'Less then $12,000'}
+                               value="Less then $12,000"
+                               control={<GreenRadio />}
+                               label="Less then $12,000"
+                               name="radio-button-demo"
+                               inputProps={{ 'aria-label': 'Less then $12,000' }}
+                           />
+                       </ListItem>
+                       <ListItem className="list-border" role={undefined} dense button  >
+                       <FormControlLabel checked={selectedValue === '$12000-$50000'}
+                               value="$12000-$50000"
+                               control={<GreenRadio />}
+                               label="$12000-$50000"
+                               name="radio-button-demo"
+                               inputProps={{ 'aria-label': '$12000-$50000' }}
+                           />
+                       </ListItem>
+                       <ListItem className="list-border" role={undefined} dense button  >
+                       <FormControlLabel checked={selectedValue === '$50000-$100000'}
+                               value="$50000-$100000"
+                               control={<GreenRadio />}
+                               label="$50000-$100000"
+                               name="radio-button-demo"
+                               inputProps={{ 'aria-label': '$50000-$100000' }}
+                           />
+                       </ListItem>
+                       <ListItem className="list-border" role={undefined} dense button  >
+                       <FormControlLabel checked={selectedValue === 'More then $10000'}
+                               value="More then $10000"
+                               control={<GreenRadio />}
+                               label="More then $10000"
+                               name="radio-button-demo"
+                               inputProps={{ 'aria-label': 'More then $10000' }}
+                           />
+                       </ListItem>
+                   </RadioGroup>
+               <p className='red'>{props.errorMessage}</p>
+           </List>
             
         </Grid>
     );

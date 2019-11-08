@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Modal from '@material-ui/core/Modal';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -29,24 +29,6 @@ function Gallery() {
             slidesToSlide: 1, // optional, default to 1.
         },
     };
-    const SliderResponsive = {
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 1,
-            slidesToSlide: 1, // optional, default to 1.
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 2,
-            slidesToSlide: 2, // optional, default to 1.
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1,
-            slidesToSlide: 1, // optional, default to 1.
-        },
-    };
-
     const [imagelist] = useState([
         {
             image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnlGRt-9QgRLiKd7w3ItmtHYpOxbYG8O4ZN6oe5yeK-borr4rT',

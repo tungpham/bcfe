@@ -108,7 +108,6 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
 							</Switch>
 						</Container>
 					</main>
-					{/* Footer */}
 				</div>
 				<Footer />
 			</>

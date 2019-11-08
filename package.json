@@ -21,6 +21,7 @@
     "classnames": "^2.2.6",
     "clsx": "^1.0.4",
     "date-fns": "^2.0.0-beta.2",
+    "eslint-plugin-react": "^7.16.0",
     "material-ui-dropzone": "^2.4.0",
     "material-ui-rating": "^4.2.0",
     "material-ui-treeview": "^3.4.0",

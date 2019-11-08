@@ -17,18 +17,15 @@ export default class AutoComplete extends React.Component {
         this.getitem = this.getitem.bind(this);
     }
 
-    getitem = () => {
-        var li = document.getElementById('test');
-        li.onclick = function (event) {
-            var target = event.target.innerHTML;
-            var inputText = document.getElementById('input');
-            inputText.value = target;
-            localStorage.setItem('specialitie', target);
-            var sug = document.getElementById('sug');
-            if (inputText.value) {
-                sug.style.display = "none";
-            }
-        };
+    getitem(e) {
+        let value = e.target.textContent;
+        var inputText = document.getElementById('input');
+        inputText.value = value;
+        var sug = document.getElementById('sug');
+        localStorage.setItem('specialitie', value);
+        if (inputText.value) {
+            sug.style.display = "none";
+        }
     }
 
     onTextChanges = (e) => {
@@ -55,8 +52,8 @@ export default class AutoComplete extends React.Component {
         }
         else {
             return (
-                <ul className="myList" id='test' onClick={this.getitem}>
-                    {suggestion.map((item) => <li key={item} className="sug-li">{item}</li>)}
+                <ul className="myList" id='test'>
+                    {suggestion.map((item) => <li onClick={this.getitem} className="sug-li" style={{ cursor: 'pointer' }} value={item}>{item}</li>)}
                 </ul>
             )
         }
@@ -74,6 +71,7 @@ export default class AutoComplete extends React.Component {
                         className="search"
                         placeholder="Search reviews"
                         onChange={this.onTextChanges}
+                        autoComplete="off"
                     />
                 </div>
                 <div className="suggestions" id='sug'>

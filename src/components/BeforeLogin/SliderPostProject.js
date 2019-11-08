@@ -1,13 +1,13 @@
+/*eslint-disable*/
 import React from 'react';
 import Modal from '@material-ui/core/Modal';
 import 'react-multi-carousel/lib/styles.css';
-import { Container, Grid, makeStyles } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-import { useTheme } from '@material-ui/styles';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -26,25 +26,7 @@ const tutorialSteps = [
     }
 ];
 
-const useStyles = makeStyles(theme => ({
-    root: {
-    },
-    header: {
-        display: 'flex',
-        paddingLeft: theme.spacing(4),
-        backgroundColor: theme.palette.background.default,
-    },
-    img: {
-        overflow: 'hidden',
-        marginTop: '15px',
-        width: '100%',
-    },
-}));
-
-
 export default function SimpleModal() {
-    const classes = useStyles();
-    const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = tutorialSteps.length;
 
@@ -58,23 +40,6 @@ export default function SimpleModal() {
 
     const handleStepChange = step => {
         setActiveStep(step);
-    };
-    const responsive = {
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 1,
-            slidesToSlide: 1, // optional, default to 1.
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 1,
-            slidesToSlide: 2, // optional, default to 1.
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1,
-            slidesToSlide: 1, // optional, default to 1.
-        },
     };
     const [open, setOpen] = React.useState(false);
 

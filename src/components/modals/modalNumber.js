@@ -10,9 +10,9 @@ function ModalNumber() {
   
     return (
         
-                                <Grid className="service-modal-col" item xs={8}  >
+                                <Grid className="service-modal-col" item xs={10}  >
                                     <Typography variant="h5">
-                                        what's the best phone number for you? 
+                                        What's the best phone number for you? 
                                  </Typography>
                                     <Typography variant="body1">
                                     Up to 5 matched pros may contact you to discuss your project using the information you provided

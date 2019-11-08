@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Container, Grid, Typography } from '@material-ui/core';
+import React from 'react';
+import { Grid, Typography } from '@material-ui/core';
 import '../../assets/css/conflictRemove.css';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -8,10 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 
 function ModalService(props) {
-
-    const [validationMessage, setValidationMessage] = useState('')
     const [checked, setChecked] = React.useState([false]);
-
     const handleToggle = value => () => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
@@ -26,7 +23,7 @@ function ModalService(props) {
         props.serviceCallback(newChecked);
     };
     return (
-        <Grid className="service-modal-col city-head-text font-weight" item xs={8}>
+        <Grid className="service-modal-col city-head-text font-weight" item xs={10}>
             <Typography className="heading-service" variant="h5">
                 Which Service(s) are you Looking for?
             </Typography>
@@ -40,8 +37,7 @@ function ModalService(props) {
                             edge="start"
                             tabIndex={-1}
                             disableRipple
-                            inputProps={{ 'aria-labelledby': 1 }}
-                        />
+                            inputProps={{ 'aria-labelledby': 1 }} />
                     </ListItemIcon>
                     <ListItemText id="1" primary="Design Service" />
                 </ListItem>

@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import React from 'react';
+import { Grid, Typography, FormControlLabel } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import { green } from '@material-ui/core/colors';
 import Radio from '@material-ui/core/Radio';
 import { withStyles } from '@material-ui/core/styles';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
 function ModalProperty(props) {
-    const [validationMessage, setValidationMessage] = useState('');
     const [selectedValue, setSelectedValue] = React.useState('');
     const GreenRadio = withStyles({
         root: {
@@ -27,61 +26,58 @@ function ModalProperty(props) {
 
     return (
         <Grid container spacing={2}>
-            <Grid className="service-modal-col" item xs={8}>
+            <Grid className="service-modal-col" item xs={10}>
                 <Typography className="city-head-text font-weight text-left" variant="h5">
-                    what type of property is this?
+                    What type of property is this?
                 </Typography>
-                <List className="service-modal-list">
-                    <ListItem className="list-border" role={undefined} dense button  >
-                        <GreenRadio
-                            checked={selectedValue === 'a'}
-                            onChange={handleChange}
-                            value="a"
-                            name="radio-button-demo"
-                            inputProps={{ 'aria-label': 'a' }}
-                        />
-                        <ListItemText primary={`House`} />
-                    </ListItem>
-                    <ListItem className="list-border" role={undefined} dense button  >
-                        <GreenRadio
-                            checked={selectedValue === 'b'}
-                            onChange={handleChange}
-                            value="b"
-                            name="radio-button-demo"
-                            inputProps={{ 'aria-label': 'b' }}
-                        />
-                        <ListItemText primary={`Apartment`} />
-                    </ListItem>
-                    <ListItem className="list-border" role={undefined} dense button  >
-                        <GreenRadio
-                            checked={selectedValue === 'c'}
-                            onChange={handleChange}
-                            value="c"
-                            name="radio-button-demo"
-                            inputProps={{ 'aria-label': 'C' }}
-                        />
-                        <ListItemText primary={`Condominium`} />
-                    </ListItem>
-                    <ListItem className="list-border" role={undefined} dense button  >
-                        <GreenRadio
-                            checked={selectedValue === 'd'}
-                            onChange={handleChange}
-                            value="d"
-                            name="radio-button-demo"
-                            inputProps={{ 'aria-label': '' }}
-                        />
-                        <ListItemText primary={`Townhouse`} />
-                    </ListItem>
-                    <ListItem className="list-border" role={undefined} dense button  >
-                        <GreenRadio
-                            checked={selectedValue === 'e'}
-                            onChange={handleChange}
-                            value="e"
-                            name="radio-button-demo"
-                            inputProps={{ 'aria-label': 'e' }}
-                        />
-                        <ListItemText primary={`Other`} />
-                    </ListItem>
+                <List className="service-modal-list" onChange={handleChange}>
+                    <RadioGroup aria-label="gender" name="gender1" >
+                        <ListItem className="list-border" role={undefined} dense button  >
+                            <FormControlLabel checked={selectedValue === 'House'}
+                                value="House"
+                                control={<GreenRadio />}
+                                label="House"
+                                name="radio-button-demo"
+                                inputProps={{ 'aria-label': 'House' }}
+                            />
+                        </ListItem>
+                        <ListItem className="list-border" role={undefined} dense button  >
+                            <FormControlLabel checked={selectedValue === 'Apartment'}
+                                value="Apartment"
+                                control={<GreenRadio />}
+                                label="Apartment"
+                                name="radio-button-demo"
+                                inputProps={{ 'aria-label': 'Apartment' }}
+                            />
+                        </ListItem>
+                        <ListItem className="list-border" role={undefined} dense button  >
+                            <FormControlLabel checked={selectedValue === 'Condominium'}
+                                value="Condominium"
+                                control={<GreenRadio />}
+                                label="Condominium"
+                                name="radio-button-demo"
+                                inputProps={{ 'aria-label': 'Condominium' }}
+                            />
+                        </ListItem>
+                        <ListItem className="list-border" role={undefined} dense button  >
+                            <FormControlLabel checked={selectedValue === 'Townhouse'}
+                                value="Townhouse"
+                                control={<GreenRadio />}
+                                label="Townhouse"
+                                name="radio-button-demo"
+                                inputProps={{ 'aria-label': 'Townhouse' }}
+                            />
+                        </ListItem>
+                        <ListItem className="list-border" role={undefined} dense button  >
+                            <FormControlLabel checked={selectedValue === 'Other'}
+                                value="Other"
+                                control={<GreenRadio />}
+                                label="Other"
+                                name="radio-button-demo"
+                                inputProps={{ 'aria-label': 'Other' }}
+                            />
+                        </ListItem>
+                    </RadioGroup>
                 </List>
                 <p className='red'>{props.errorMessage}</p>
             </Grid>

@@ -10,7 +10,7 @@ function ModalName() {
 
     return (
 
-        <Grid className="service-modal-col" item xs={8}  >
+        <Grid className="service-modal-col" item xs={10}  >
             <Typography variant="h5">
                 We found matching pros!
                                  </Typography>

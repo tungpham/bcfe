@@ -16,8 +16,8 @@ body {
   background: white !important;
   padding-top: 4%;
 }
-.AppRouterConnect-content-4{
-  margin-top:30px;
+.AppRouterConnect-content-4 {
+  margin-top: 30px;
 }
 .MuiPaper-root.MuiPaper-elevation1.msg-box-align.MuiPaper-rounded {
   box-shadow: none !important;
@@ -70,10 +70,15 @@ a.underlineNone {
 ul.myList {
   padding-left: 18px;
 }
+span.MuiIconButton-label {
+  width: 24px;
+  height: 24px;
+  border-radius: 50% !important;
+}
 .MuiToolbar-root.MuiToolbar-regular.MuiToolbar-gutters {
   justify-content: space-between;
-  padding-left: 50px;
-  padding-right: 127px;
+  padding-left: 25px;
+  padding-right: 40px;
 }
 input.MuiInputBase-input.makeStyles-inputInput-124 {
   box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
@@ -117,6 +122,13 @@ li.react-multi-carousel-item.react-multi-carousel-item--active.carousel-item-pad
   margin-bottom: 2px;
   /* width: 184px !important; */
 }
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit {
+  font-size: 20px !important;
+  margin-top: 1px;
+}
+ul.MuiList-root.MuiList-padding {
+  padding-left: 8px;
+}
 .MuiGrid-root.text-center.bg-image.MuiGrid-item.MuiGrid-grid-xs-12 {
   background-image: url("../images/homepagetop.png");
   background-repeat: no-repeat;
@@ -156,7 +168,7 @@ button.MuiButtonBase-root.MuiButtonGroup-grouped.MuiButtonGroup-groupedContained
   margin-right: auto !important;
 }
 
-svg.MuiSvgIcon-root.footer-icon{
+svg.MuiSvgIcon-root.footer-icon {
   font-size: 24px !important;
 }
 .footer-icon {
@@ -172,6 +184,9 @@ svg.MuiSvgIcon-root.footer-icon{
 }
 p.MuiTypography-root.footerText.MuiTypography-body1 {
   display: flex !important;
+}
+.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-2{
+  height: 450px !important;
 }
 .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-2.MuiGrid-wrap-xs-nowrap.MuiGrid-grid-xs-8 {
   margin: 0px !important;
@@ -215,7 +230,11 @@ li.sug-li {
   padding-top: 6px !important;
   padding-bottom: 6px !important;
 }
-
+p.MuiTypography-root.makeStyles-label-373.MuiTypography-body1,
+p.MuiTypography-root.makeStyles-content-374.MuiTypography-body1,
+p.MuiTypography-root.makeStyles-companyName-337.MuiTypography-body1 {
+  text-align: left;
+}
 li {
   padding-bottom: 6px;
   padding-top: 6px;
@@ -226,145 +245,20 @@ select {
 }
 /* Mansi  - contractor list css*/
 
-.MuiAvatar-root {
-  width: 100% !important;
-  height: 150px;
-  border-radius: 8px !important;
-  float: left;
-  justify-content: center;
-  margin-right: 0px !important;
-  margin-left: 0px !important;
-}
-.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-2 {
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-}
-
-.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-6 {
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-}
-
-.MuiGrid-root.row {
-  display: flex !important;
-}
-.MuiListItemText-multiline {
-  margin-bottom: 0px !important;
-  margin-top: 0px !important;
-}
-li.MuiListItem-root.list-item.MuiListItem-gutters {
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
-}
-
-span.views {
-  vertical-align: top !important;
-  font-size: 14px !important;
-}
-.MuiGrid-root.mt-mb.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-12 {
-  margin-top: 16px !important;
-  margin-bottom: 16px !important;
-}
-
-.MuiRating-root {
-  color: #ffb400;
-  cursor: pointer;
-  display: inline-flex;
-  position: relative;
-  font-size: 20px !important;
-  font-weight: 600 !important;
-}
-
-span.rate {
-  color: #ffb534;
-  font-weight: 600 !important;
-  vertical-align: top !important;
-  font-size: 14px !important;
-}
-p.MuiTypography-root.MuiTypography-body1 {
-  padding: 0px !important;
-}
-
-span.MuiTypography-root.MuiListItemText-primary.MuiTypography-body1 {
-  font-size: 17px !important;
-  font-weight: 500;
-  color: black !important;
-}
-
-h3.no-margin {
-  color: black;
-  margin-top: 0px !important;
-  margin-bottom: 0px !important;
-}
-.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-3 {
-  text-align: right;
-}
-
-.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-12 {
-  padding-top: 14px !important;
-  padding-bottom: 14px !important;
-}
-
-span.watch-icon {
-  vertical-align: middle !important;
-  font-size: 10px !important;
-}
-.MuiIconButton-root {
-  padding: 0px 5px !important;
-  margin-top: -5px !important;
-}
- 
-span.years {
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.54) !important;
-}
-
-.blackBackground {
-  background-color: black !important;
-}
-.MuiListItem-gutters {
-  padding-left: 16px;
-  padding-right: 16px;
-  font-size: 15px;
-  color: rgba(0, 0, 0, 0.54);
-}
-.details {
-  color: rgba(0, 0, 0, 0.54) !important;
-  font-size: 13px !important;
-  font-weight: 500;
-  text-align: left;
-}
-strong {
-  color: black;
-}
-
-.MuiButton-containedPrimary {
-  color: #fff;
-  background-color: #049fd9 !important;
-  text-transform: capitalize !important;
-}
-.d-flex{
-  display: flex;
-}
-
-@media only screen and (max-width: 600px) {
-  .MuiContainer-root {
-    width: 100% !important;
-  }
-  .MuiGrid-root.row {
-    display: block !important;
-  }
-  .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-3 {
-    text-align: left !important;
-    padding-top: 10px !important;
-  }
-}
 /* ============================= home page ================================= */
 
 div#search {
   height: 50px !important;
   display: flex !important;
+}
+main.AppRouterConnect-content-4 {
+  min-height: 260px;
+}
+.MuiSvgIcon-root {
+  font-size: 1.5rem !important;
+}
+.city {
+  width: 130px;
 }
 
 select.city {
@@ -419,13 +313,14 @@ ul.sug {
 div#none {
   display: none;
 }
+
 .home-mid-bg {
   background-color: #eeeeee26;
 }
-.MuiPaper-root.MuiPaper-elevation0.MuiMobileStepper-root.MuiMobileStepper-positionStatic{
+.MuiPaper-root.MuiPaper-elevation0.MuiMobileStepper-root.MuiMobileStepper-positionStatic {
   background: black !important;
 }
-header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.CustomTabs-toolbarstyle-1575.MuiAppBar-colorPrimary{
+header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.CustomTabs-toolbarstyle-1575.MuiAppBar-colorPrimary {
   margin-top: 40px;
 }
 

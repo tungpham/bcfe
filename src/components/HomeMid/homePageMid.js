@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../assets/css/modal.css';
 import { makeStyles, useTheme } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -13,7 +13,6 @@ import '../../assets/css/HomePage.css';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import CloseIcon from '@material-ui/icons/Close';
-import Divider from '@material-ui/core/Divider';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
@@ -38,7 +37,6 @@ const useStyles = makeStyles({
     },
 });
 
-// { props } added in HomePageMid
 function HomePageMid() {
     const theme = useTheme();
     const [getvalue, setgetvalue] = useState('');
@@ -53,6 +51,7 @@ function HomePageMid() {
     const [radioButton, setRadioButton] = useState("");
     const [aCall, setAreaCall] = useState("");
     const [material, setMaterial] = useState("");
+    const [getChar, setgetChar] = useState('');
 
     const callback = (value) => {
         setgetvalue(value);
@@ -68,6 +67,11 @@ function HomePageMid() {
         setAreaCall(value);
         setgetarearedio();
     }
+
+    const charCount = (value) => {
+        setgetChar(value);
+    }
+
     const budjetCallvalue = (value) => {
         setgetbudjetvalue(value);
     }
@@ -83,40 +87,46 @@ function HomePageMid() {
     }
 
     useEffect(() => {
-        if ((!radioButton == '' && activeStep === 2) || (!aCall == '' && activeStep === 3) || (!material == '' && activeStep === 5)) {
+        if ((radioButton !== '' && activeStep === 2) ||
+            (aCall !== '' && activeStep === 3) ||
+            (material !== '' && activeStep === 5)) {
             handleNext();
         }
-
     });
 
     const handleNext = () => {
-        if ((activeStep === 0 && getvalue === '' || getvalue === null)
+        if (((activeStep === 0 && getvalue === '') || getvalue === null)
             || (activeStep === 1 && getcheck === false)
             || (activeStep === 2 && getredio === '')
             || (activeStep === 3 && getarearedio === '')
             || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
-            || (activeStep === 6 && getdisc === '' || getdisc === null)) {
+            || (activeStep === 6 && getChar < 40)) {
             setvalidation('Please fill the field');
         }
         else {
             setvalidation('');
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
-
-        if (activeStep === 7 && getdisc === '' || getdisc === null) {
+        if ((activeStep === 7 && getdisc === '') || getdisc === null) {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
             handleClose();
         }
 
     };
     const handleBack = () => {
-        setActiveStep(prevActiveStep => prevActiveStep - 1);
+        if ((!radioButton === '' && activeStep === 2) || (!aCall === '' && activeStep === 3) || (!material === '' && activeStep === 5)) {
+            setActiveStep(activeStep => activeStep - 1);
+        }
+        else {
+            console.log("back", activeStep)
+            setActiveStep(prevActiveStep => prevActiveStep - 1);
+        }
     };
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
             items: 6,
-            slidesToSlide: 1, // optional, default to 1.
+            slidesToSlide: 1,
         },
         tablet: {
             breakpoint: { max: 1024, min: 464 },
@@ -163,7 +173,7 @@ function HomePageMid() {
         >
             <div>
                 <Card className={classes.card}>
-                    <a className="popUpModal" onClick={handleOpen}>
+                    <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
@@ -177,13 +187,12 @@ function HomePageMid() {
                                  </Typography> */}
                             </CardContent>
                         </CardActionArea>
- 
-                    </a>
+                    </div>
                 </Card>
             </div>
             <div>
                 <Card className={classes.card}>
-                    <a className="popUpModal" onClick={handleOpen}>
+                    <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
@@ -195,12 +204,12 @@ function HomePageMid() {
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
-                    </a>
+                    </div>
                 </Card>
             </div>
             <div>
                 <Card className={classes.card}>
-                    <a className="popUpModal" onClick={handleOpen}>
+                    <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
@@ -212,12 +221,12 @@ function HomePageMid() {
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
-                    </a>
+                    </div>
                 </Card>
             </div>
             <div>
                 <Card className={classes.card}>
-                    <a className="popUpModal" onClick={handleOpen}>
+                    <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
@@ -229,12 +238,12 @@ function HomePageMid() {
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
-                    </a>
+                    </div>
                 </Card>
             </div>
             <div>
                 <Card className={classes.card}>
-                    <a className="popUpModal" onClick={handleOpen}>
+                    <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
@@ -244,16 +253,16 @@ function HomePageMid() {
                                 <Typography gutterBottom variant="h5" component="h2">
                                     New Home Construction
                                 </Typography>
-                            
+
                             </CardContent>
                         </CardActionArea>
-                        
-                    </a>
+
+                    </div>
                 </Card>
             </div>
             <div>
                 <Card className={classes.card}>
-                    <a className="popUpModal" onClick={handleOpen}>
+                    <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
@@ -263,11 +272,11 @@ function HomePageMid() {
                                 <Typography gutterBottom variant="h5" component="h2">
                                     Interior Design
                                 </Typography>
-                               
+
                             </CardContent>
                         </CardActionArea>
-                       
-                    </a>
+
+                    </div>
                 </Card>
             </div>
 
@@ -291,7 +300,7 @@ function HomePageMid() {
             itemClass="carousel-item-padding-40-px" >
             <div>
                 <Card className={classes.card}>
-                    <a className="popUpModal" onClick={handleOpen}>
+                    <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
@@ -303,12 +312,12 @@ function HomePageMid() {
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
-                    </a>
+                    </div>
                 </Card>
             </div>
             <div>
                 <Card className={classes.card}>
-                    <a className="popUpModal" onClick={handleOpen}>
+                    <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
@@ -318,16 +327,16 @@ function HomePageMid() {
                                 <Typography gutterBottom variant="h5" component="h2">
                                     Kitchen Ideas
                                 </Typography>
-                               
+
                             </CardContent>
                         </CardActionArea>
-                       
-                    </a>
+
+                    </div>
                 </Card>
             </div>
             <div>
                 <Card className={classes.card}>
-                    <a className="popUpModal" onClick={handleOpen}>
+                    <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
@@ -337,16 +346,16 @@ function HomePageMid() {
                                 <Typography gutterBottom variant="h5" component="h2">
                                     Dinning Room Ideas
                                 </Typography>
-                               
+
                             </CardContent>
                         </CardActionArea>
-                      
-                    </a>
+
+                    </div>
                 </Card>
             </div>
             <div>
                 <Card className={classes.card}>
-                    <a className="popUpModal" onClick={handleOpen}>
+                    <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
@@ -356,16 +365,16 @@ function HomePageMid() {
                                 <Typography gutterBottom variant="h5" component="h2">
                                     Living Room Ideas
                                 </Typography>
-                               
+
                             </CardContent>
                         </CardActionArea>
-                         
-                    </a>
+
+                    </div>
                 </Card>
             </div>
             <div>
                 <Card className={classes.card}>
-                    <a className="popUpModal" onClick={handleOpen}>
+                    <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
@@ -375,16 +384,16 @@ function HomePageMid() {
                                 <Typography gutterBottom variant="h5" component="h2">
                                     Bedroom Ideas
                                 </Typography>
-                               
+
                             </CardContent>
                         </CardActionArea>
-                     
-                    </a>
+
+                    </div>
                 </Card>
             </div>
             <div>
                 <Card className={classes.card}>
-                    <a className="popUpModal" onClick={handleOpen}>
+                    <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
@@ -394,16 +403,16 @@ function HomePageMid() {
                                 <Typography gutterBottom variant="h5" component="h2">
                                     Exterior Ideas
                                 </Typography>
-                               
+
                             </CardContent>
                         </CardActionArea>
-                      
-                    </a>
+
+                    </div>
                 </Card>
             </div>
         </Carousel>
         <Grid container spacing={0}>
-            <Grid item xs={8}>
+            <Grid item xs={10}>
                 <Typography variant="h6">
                 </Typography>
                 <Modal
@@ -413,7 +422,7 @@ function HomePageMid() {
                     onClose={handleClose}>
                     <div className="service-modal" >
                         <CloseIcon onClick={handleClose} className="modal-close" />
-                        <Grid className="modal-page-col" item xs={8}>
+                        <Grid className="modal-page-col" item xs={10}>
                             <Typography variant="subtitle2" color="textSecondary">
                                 {activeStep === 0 ? 1
                                     : activeStep === 1 ? 2
@@ -436,16 +445,17 @@ function HomePageMid() {
                                                 budjetCallback={budjetCall}
                                                 errorMessage={validation} />
                                                 : activeStep === 5 ? < ModalMaterial MaterialCallback={MaterialCall} errorMessage={validation} />
-                                                    : activeStep === 6 ? <ModalDisc discCallback={discCall} errorMessage={validation} /> : handleClose()}
+                                                    : activeStep === 6 ? <ModalDisc
+                                                        charCountback={charCount}
+                                                        discCallback={discCall} errorMessage={validation} /> : handleClose()}
                         </Grid>
                         <MobileStepper
                             variant="progress"
                             steps={7}
                             position="static"
                             activeStep={activeStep}
-                            className={classes.root}
-                        />
-                        {/* <Divider style={{backgroundColor:'white'}} variant="middle" className="modal-divider" /> */}
+                            className={classes.root} />
+
                         <Grid container spacing={0}>
                             <Grid item xs={12} style={{ textAlign: 'center', margin: '20px 0px' }}>
                                 <Button variant="contained" className="service-modal-prev"

@@ -343,8 +343,7 @@ class ConnectedProposalDetailMessages extends React.Component<ProposalDetailMess
 									key={'loader'}
 									className={classes.waitingSpin}
 									size={24}
-									thickness={4}
-								/>
+									thickness={4} />
 							)}
 							{renderMessages}
 							<div ref={this.messageEndRef}></div>

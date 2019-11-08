@@ -1,11 +1,10 @@
-
+/*eslint-disable*/
 import React, { useState, useEffect, useRef } from 'react';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import '../../assets/css/con.css';
 import { List, ListItem, Grid, ListItemAvatar, Avatar, Divider, Button, Paper } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
-import { makeStyles, useTheme } from '@material-ui/core';
-
+import { useTheme } from '@material-ui/core';
 import PersonOutlineSharpIcon from '@material-ui/icons/PersonOutlineSharp';
 import VerifiedUserOutlinedIcon from '@material-ui/icons/VerifiedUserOutlined';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
@@ -14,7 +13,6 @@ import axios from 'axios';
 import InputBase from '@material-ui/core/InputBase';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import Carousel from 'react-multi-carousel';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
@@ -36,20 +34,22 @@ import ModalCity from '../modals/modalCity';
 import ModalProperty from '../modals/modalProperty';
 import ModalMaterial from '../modals/modalMaterial';
 import { useStyles } from '@material-ui/pickers/views/Month/MonthView';
+import HttpUrlConstant from 'apis/global';
+import { withRouter } from 'react-router-dom';
+
 console.clear();
 
 function ContractorDetails(props) {
     const theme = useTheme();
-
-    const [apiPath, dummy] = useState('contractors/');
-    const [Id, setId] = useState(props.match.params.Id);
+    const [apiPath] = useState('contractors/');
+    const [Id] = useState(props.match.params.Id);
     const [Detailsdata, setDetailsdata] = useState([]);
     const [PersonReviewList, setPersonReviewList] = useState([]);
     const [Rate, setRate] = useState('');
     const [FaqList, setFaqList] = useState([]);
     const [year] = useState(new Date().getFullYear());
     const [currentPage, setcurrentPage] = useState(1);
-    const [ReviewPerPage, setReviewPerPage] = useState(2);
+    const [ReviewPerPage] = useState(2);
     const [active, setactive] = useState(false);
     const [getvalue, setgetvalue] = useState('');
     const [getcheck, setgetcheck] = useState(false);
@@ -64,10 +64,10 @@ function ContractorDetails(props) {
     const [aCall, setAreaCall] = useState("");
     const [material, setMaterial] = useState("");
     const [activeStep, setActiveStep] = React.useState(0);
+    const [Avtarurl, setAvtarurl] = useState('');
+
     const classes = useStyles();
-    
-    
-   
+
     const handleOpen = () => {
         setOpen(true);
     };
@@ -99,9 +99,17 @@ function ContractorDetails(props) {
     const discCall = (value) => {
         setgetdisc(value);
     }
+    function fetchimage() {
+        axios.get(`${HttpUrlConstant.BASE_URL}/contractors/${Id}/avatar`).then((data) => {
+            if (data.status === 200) {
+                setAvtarurl(`${HttpUrlConstant.BASE_URL}/contractors/${Id}/avatar`);
+            }
+        })
+    }
 
     useEffect(() => {
-        if ((!radioButton == '' && activeStep === 2) || (!aCall == '' && activeStep === 3) || (!material == '' && activeStep === 5)) {
+        fetchimage()
+        if ((!radioButton === '' && activeStep === 2) || (!aCall === '' && activeStep === 3) || (!material === '' && activeStep === 5)) {
             handleNext();
         }
     });
@@ -111,19 +119,19 @@ function ContractorDetails(props) {
     };
 
     const handleNext = () => {
-        if ((activeStep === 0 && getvalue === '' || getvalue === null)
+        if (((activeStep === 0 && getvalue === '') || getvalue === null)
             || (activeStep === 1 && getcheck === false)
             || (activeStep === 2 && getredio === '')
             || (activeStep === 3 && getarearedio === '')
             || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
-            || (activeStep === 6 && getdisc === '' || getdisc === null)) {
+            || ((activeStep === 6 && getdisc === '') || getdisc === null)) {
             setvalidation('Please fill the field');
         }
         else {
             setvalidation('');
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
-        if (activeStep === 7 && getdisc === '' || getdisc === null) {
+        if ((activeStep === 7 && getdisc === '') || getdisc === null) {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
             handleClose();
         }
@@ -180,18 +188,17 @@ function ContractorDetails(props) {
     }
 
     useEffect(() => {
-        if ((!radioButton == '' && activeStep === 2) || (!aCall == '' && activeStep === 3) || (!material == '' && activeStep === 5)) {
+        if ((radioButton !== '' && activeStep === 2) ||
+            (aCall !== '' && activeStep === 3) ||
+            (material !== '' && activeStep === 5)) {
             handleNext();
         }
-        else{
-            handleBack();
-        }
-
         fetchdetails();
         fetchPersonReviews();
         fetchRating();
         fetchFAQ();
-    }, [Id])
+        // eslint-disable-next-line
+    }, [])
 
     // Logic for displaying page numbers
 
@@ -216,13 +223,12 @@ function ContractorDetails(props) {
     const currentReview = PersonReviewList.slice(indexOfFirstReview, indexOfLastReview);
     const [open, setOpen] = React.useState(false);
 
-    
     return (
         <div style={{ width: '1290px', marginTop: '-30px' }} className="full-width">
             {Detailsdata.map((detailsdata) => {
                 return <div key={detailsdata.address.id}
                     className="contractor-details">
-                    <div className="see pros">
+                    <div className="see pros" onClick={props.history.goBack} style={{ cursor: 'pointer' }}>
                         <ArrowBackIosIcon className="arrow-left" /><span>See pros</span>
                     </div>
                     <div className="list-menu">
@@ -235,11 +241,16 @@ function ContractorDetails(props) {
                         </List>
                     </div>
                     <Divider />
-
+                    {active}
                     <Grid container spacing={3} style={{ marginTop: '10px', marginBottom: '10px', marginLeft: '0px' }}>
                         <Grid item xs={12} md={2} lg={2} className="details-info" >
-                            <ListItemAvatar className="details-photo" key={1}>
-                                <Avatar id="users" alt="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxXy0gdLFKllkJfStYoN-Yp5WhSPqaLrNT55HfJB76vM2NFA_1&s"></Avatar>
+                            <ListItemAvatar className="details-photo">
+                                {Avtarurl ? <div key={detailsdata.id}>
+                                    {<img alt="image" className="displayNone" src={process.env.REACT_APP_PROJECT_API + "contractors/" + Id + "/avatar"} />}
+                                </div> :
+                                    <div key={detailsdata.id}>
+                                        {<img alt="image" className="displayNone" src={`${HttpUrlConstant.Image_URL}/api/?name=${detailsdata.address.company}`} />}
+                                    </div>}
                             </ListItemAvatar>
                         </Grid>
                         <Grid item xs={12} lg={4} className="details-name">
@@ -555,4 +566,4 @@ function ContractorDetails(props) {
     )
 }
 
-export default ContractorDetails;
+export default withRouter(ContractorDetails)

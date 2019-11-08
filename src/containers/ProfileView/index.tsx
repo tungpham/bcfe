@@ -1,21 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Switch, RouteComponentProps } from 'react-router-dom';
-
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, Theme, withStyles, StyledComponentProps } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
-// import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-// import BallotIcon from '@material-ui/icons/Ballot';
-// import CustomTabs from "components/shared/CustomTabs";
 import SecuredRoute from 'routers/SecuredRoute';
-
 import { setUserProfile } from 'store/actions/global-actions';
 import * as ContActions from 'store/actions/cont-actions';
 import { UserProfile, Specialties } from 'types/global';
 import { Projects } from 'types/project';
-
 import ProfileView from './ProfileView';
 import ProfileReview from './ProfileReview';
 

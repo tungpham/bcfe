@@ -7,7 +7,6 @@ import FormControl from '@material-ui/core/FormControl';
 
 function ModalCity(props) {
     const [value, setvalue] = useState('');
-    // const [validationMessage, setValidationMessage] = useState('')
     const handelchange = (e) => {
         const newvalue = e.target.value;
         setvalue(newvalue);
@@ -15,7 +14,7 @@ function ModalCity(props) {
     }
     return (
 
-        <Grid className="service-modal-col text-center" item xs={8} >
+        <Grid className="service-modal-col text-center" item xs={10} >
             <Typography className="city-head-text" variant="h5">
                 Answer a few question to get matched professionals near you
                  </Typography>
@@ -29,6 +28,7 @@ function ModalCity(props) {
                     onChange={handelchange}
                     margin="normal"
                     variant="outlined"
+                    autoComplete="off"
                     inputProps={{ 'aria-label': 'bare' }}
                     required
                 />
