@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../../assets/css/modal.css';
 import { makeStyles, useTheme } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -38,6 +38,7 @@ const useStyles = makeStyles({
 });
 
 function HomePageMid() {
+   
     const theme = useTheme();
     const [getvalue, setgetvalue] = useState('');
     const [getcheck, setgetcheck] = useState(false);
@@ -48,52 +49,51 @@ function HomePageMid() {
     const [getmaterial, setgetmaterial] = useState('');
     const [getdisc, setgetdisc] = useState('');
     const [validation, setvalidation] = useState("");
-    const [radioButton, setRadioButton] = useState("");
-    const [aCall, setAreaCall] = useState("");
-    const [material, setMaterial] = useState("");
     const [getChar, setgetChar] = useState('');
-
+    const [storeData, setstoreData] = useState('');
+    
     const callback = (value) => {
         setgetvalue(value);
     }
     const serviceCall = (checked) => {
-        setgetcheck(checked)
+          setgetcheck(checked);
     }
     const propertyCall = (value) => {
-        setRadioButton(value);
-        setgetredio();
+        console.log(value,"value");
+        
+        setgetredio(value);
+        if(value !== ''){
+            setActiveStep(prevActiveStep => prevActiveStep + 1);
+        }
     }
     const areaCall = (value) => {
-        setAreaCall(value);
-        setgetarearedio();
+        setgetarearedio(value);
+        if(value !== ''){
+            setActiveStep(prevActiveStep => prevActiveStep + 1);
+        }
     }
-
     const charCount = (value) => {
         setgetChar(value);
     }
-
     const budjetCallvalue = (value) => {
-        setgetbudjetvalue(value);
+          setgetbudjetvalue(value);
     }
-    const budjetCall = () => {
-        setgetbudjet();
+    const budjetCall = (value) => {
+        setgetbudjet(value);
+        if(value !== ''){
+            setActiveStep(prevActiveStep => prevActiveStep + 1);
+        }
     }
     const MaterialCall = (value) => {
-        setMaterial(value)
-        setgetmaterial();
+        setgetmaterial(value);
+
+        if(value !== ''){
+            setActiveStep(prevActiveStep => prevActiveStep + 1);
+        }
     }
     const discCall = (value) => {
         setgetdisc(value);
-    }
-
-    useEffect(() => {
-        if ((radioButton !== '' && activeStep === 2) ||
-            (aCall !== '' && activeStep === 3) ||
-            (material !== '' && activeStep === 5)) {
-            handleNext();
-        }
-    });
-
+    } 
     const handleNext = () => {
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
             || (activeStep === 1 && getcheck === false)
@@ -111,17 +111,13 @@ function HomePageMid() {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
             handleClose();
         }
+        
 
     };
     const handleBack = () => {
-        if ((!radioButton === '' && activeStep === 2) || (!aCall === '' && activeStep === 3) || (!material === '' && activeStep === 5)) {
-            setActiveStep(activeStep => activeStep - 1);
-        }
-        else {
-            console.log("back", activeStep)
-            setActiveStep(prevActiveStep => prevActiveStep - 1);
-        }
+        setActiveStep(prevActiveStep => prevActiveStep - 1);
     };
+    
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
@@ -438,13 +434,14 @@ function HomePageMid() {
 
                             {activeStep === 0 ? <ModalCity parentCallback={callback} errorMessage={validation} />
                                 : activeStep === 1 ? <ModalService serviceCallback={serviceCall} errorMessage={validation} />
-                                    : activeStep === 2 ? <ModalProperty propertyCallback={propertyCall} errorMessage={validation} />
-                                        : activeStep === 3 ? <ModalArea areaCallback={areaCall} errorMessage={validation} />
+                                    : activeStep === 2 ? <ModalProperty   
+                                     propertyCallback={propertyCall} errorMessage={validation} />
+                                        : activeStep === 3 ? <ModalArea   areaCallback={areaCall} errorMessage={validation} />
                                             : activeStep === 4 ? <ModalBudjet
                                                 budjetCallbackvalue={budjetCallvalue}
                                                 budjetCallback={budjetCall}
                                                 errorMessage={validation} />
-                                                : activeStep === 5 ? < ModalMaterial MaterialCallback={MaterialCall} errorMessage={validation} />
+                                                : activeStep === 5 ? < ModalMaterial   MaterialCallback={MaterialCall} errorMessage={validation} />
                                                     : activeStep === 6 ? <ModalDisc
                                                         charCountback={charCount}
                                                         discCallback={discCall} errorMessage={validation} /> : handleClose()}
@@ -454,8 +451,9 @@ function HomePageMid() {
                             steps={7}
                             position="static"
                             activeStep={activeStep}
-                            className={classes.root} />
-
+                            className={classes.root}
+                             
+                            />
                         <Grid container spacing={0}>
                             <Grid item xs={12} style={{ textAlign: 'center', margin: '20px 0px' }}>
                                 <Button variant="contained" className="service-modal-prev"
@@ -465,10 +463,11 @@ function HomePageMid() {
                                     Prev
                                    </Button>
                                 <Button variant="contained" className="service-modal-next"
-                                    onClick={handleNext} disabled={activeStep === 7}
+                                    onClick={handleNext}
                                 >
+                                    {activeStep === 6 ? 'Submit' : 'Next'}
                                     {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                                    Next
+                                    
                                </Button>
                             </Grid>
                         </Grid>

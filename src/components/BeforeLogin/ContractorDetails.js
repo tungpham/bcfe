@@ -65,7 +65,8 @@ function ContractorDetails(props) {
     const [material, setMaterial] = useState("");
     const [activeStep, setActiveStep] = React.useState(0);
     const [Avtarurl, setAvtarurl] = useState('');
-
+    const [getChar, setgetChar] = useState('');
+    
     const classes = useStyles();
 
     const handleOpen = () => {
@@ -81,24 +82,40 @@ function ContractorDetails(props) {
     const propertyCall = (value) => {
         setRadioButton(value);
         setgetredio();
+        if(value !== ''){
+            setActiveStep(prevActiveStep => prevActiveStep + 1);
+        }
     }
     const areaCall = (value) => {
         setAreaCall(value);
         setgetarearedio();
+        if(value !== ''){
+            setActiveStep(prevActiveStep => prevActiveStep + 1);
+        }
     }
     const budjetCallvalue = (value) => {
         setgetbudjetvalue(value);
     }
-    const budjetCall = () => {
-        setgetbudjet();
+    const budjetCall = (value) => {
+        setgetbudjet(value);
+        if(value !== ''){
+            setActiveStep(prevActiveStep => prevActiveStep + 1);
+        }
     }
     const MaterialCall = (value) => {
         setMaterial(value)
         setgetmaterial();
+        if(value !== ''){
+            setActiveStep(prevActiveStep => prevActiveStep + 1);
+        }
     }
     const discCall = (value) => {
         setgetdisc(value);
     }
+    const charCount = (value) => {
+        setgetChar(value);
+    }
+
     function fetchimage() {
         axios.get(`${HttpUrlConstant.BASE_URL}/contractors/${Id}/avatar`).then((data) => {
             if (data.status === 200) {
@@ -124,7 +141,7 @@ function ContractorDetails(props) {
             || (activeStep === 2 && getredio === '')
             || (activeStep === 3 && getarearedio === '')
             || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
-            || ((activeStep === 6 && getdisc === '') || getdisc === null)) {
+            || (activeStep === 6 && getChar < 40)) {
             setvalidation('Please fill the field');
         }
         else {
@@ -512,7 +529,7 @@ function ContractorDetails(props) {
                     onClose={handleClose}>
                     <div className="service-modal" >
                         <CloseIcon onClick={handleClose} className="modal-close" />
-                        <Grid className="modal-page-col" item xs={8}>
+                        <Grid className="modal-page-col" item xs={10}>
                             <Typography variant="subtitle2" color="textSecondary">
                                 {activeStep === 0 ? 1
                                     : activeStep === 1 ? 2
@@ -534,7 +551,7 @@ function ContractorDetails(props) {
                                                 budjetCallback={budjetCall}
                                                 errorMessage={validation} />
                                                 : activeStep === 5 ? < ModalMaterial MaterialCallback={MaterialCall} errorMessage={validation} />
-                                                    : activeStep === 6 ? <ModalDisc discCallback={discCall} errorMessage={validation} /> : handleClose()}
+                                                    : activeStep === 6 ? <ModalDisc charCountback={charCount} discCallback={discCall} errorMessage={validation} /> : handleClose()}
                         </Grid>
                         <MobileStepper
                             variant="progress"
@@ -554,8 +571,9 @@ function ContractorDetails(props) {
                                 <Button variant="contained" className="service-modal-next"
                                     onClick={handleNext} disabled={activeStep === 7}
                                 >
+                                     {activeStep === 6 ? 'Submit' : 'Next'}
                                     {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                                    Next
+                                    
                                </Button>
                             </Grid>
                         </Grid>

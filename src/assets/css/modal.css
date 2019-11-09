@@ -109,32 +109,31 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.service-modal-prev 
   margin: 0px 0px;
 }
 h5.MuiTypography-root.city-head-text.MuiTypography-h5 {
-  font-size: 24px !important;
+  font-size: 20px !important;
+  text-align: left !important;
+}
+p.MuiTypography-root.city-sub-text.MuiTypography-body1 {
+  text-align: left;
+  font-weight: normal !important;
 }
 
 h5.MuiTypography-root.heading-service.MuiTypography-h5 {
-  font-size: 22px !important;
+  font-size: 20px !important;
   color: #3d3d3d;
   text-align: left !important;
 }
-
+ 
 p.MuiTypography-root.service-sub-text.MuiTypography-body1 {
   font-size: 15px;
   padding-top: 14px !important;
 }
-
-h5.MuiTypography-root.city-head-text.font-weight.text-left.MuiTypography-h5 {
-  text-align: left !important;
-  color: #3d3d3d;
-  font-size: 24px !important;
-}
-
+ 
 h5.MuiTypography-root.city-head-text.font-weight.text-left.MuiTypography-h5 {
   margin-top: 10px;
   margin-bottom: 10px !important;
   text-align: left !important;
   color: #3d3d3d;
-  font-size: 24px !important;
+  font-size: 20px !important;
 }
 
 p.MuiTypography-root.MuiTypography-body1.MuiTypography-colorTextSecondary {

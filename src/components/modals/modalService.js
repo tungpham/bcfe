@@ -3,12 +3,14 @@ import { Grid, Typography } from '@material-ui/core';
 import '../../assets/css/conflictRemove.css';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 function ModalService(props) {
     const [checked, setChecked] = React.useState([false]);
+
+
     const handleToggle = value => () => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
@@ -18,6 +20,7 @@ function ModalService(props) {
         } else {
             newChecked.splice(currentIndex, 1);
         }
+
 
         setChecked(newChecked);
         props.serviceCallback(newChecked);
@@ -29,30 +32,36 @@ function ModalService(props) {
             </Typography>
             <Typography className="service-sub-text" variant="body1">
                 Select all that Apply
-            </Typography> <List className="service-modal-list">
-                <ListItem className="list-border" role={undefined} dense button onClick={handleToggle()}>
-                    <ListItemIcon className="service-modal-icon-color">
-                        <Checkbox
-                            className="service-checkbox-color"
-                            edge="start"
-                            tabIndex={-1}
-                            disableRipple
-                            inputProps={{ 'aria-labelledby': 1 }} />
-                    </ListItemIcon>
-                    <ListItemText id="1" primary="Design Service" />
-                </ListItem>
-                <ListItem className="list-border" role={undefined} dense button onClick={handleToggle()}>
-                    <ListItemIcon className="service-modal-icon-color">
-                        <Checkbox
-                            className="service-checkbox-color"
-                            edge="start"
-                            tabIndex={-1}
-                            disableRipple
-                            inputProps={{ 'aria-labelledby': 1 }}
+            </Typography>
+            <List className="service-modal-list">
+                <FormGroup aria-label="position" onClick={handleToggle()} row>
+                    
+                    <ListItem className="list-border" dense button  >
+                        <FormControlLabel
+                            value="Design Service"
+                            control={<Checkbox style={{
+                                color: "green",
+                            }} />}
+                            label="Design Service"
+                           
+                            
                         />
-                    </ListItemIcon>
-                    <ListItemText id="2" primary="Construction Service" />
-                </ListItem>
+                    </ListItem>
+                    <ListItem className="list-border" dense button  >
+                        <FormControlLabel
+                             
+                            value="Construction Service"
+                            control={<Checkbox style={{
+                                color: "green",
+                            }} />}
+                            label="Construction Service"
+                            
+
+
+                        />
+                    </ListItem>
+
+                </FormGroup>
             </List>
             <p className='red font'>{props.errorMessage}</p>
         </Grid>

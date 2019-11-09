@@ -38,7 +38,7 @@ function ModalProperty(props) {
                                 control={<GreenRadio />}
                                 label="House"
                                 name="radio-button-demo"
-                                inputProps={{ 'aria-label': 'House' }}
+                                
                             />
                         </ListItem>
                         <ListItem className="list-border" role={undefined} dense button  >
@@ -47,7 +47,7 @@ function ModalProperty(props) {
                                 control={<GreenRadio />}
                                 label="Apartment"
                                 name="radio-button-demo"
-                                inputProps={{ 'aria-label': 'Apartment' }}
+                                
                             />
                         </ListItem>
                         <ListItem className="list-border" role={undefined} dense button  >
@@ -56,7 +56,7 @@ function ModalProperty(props) {
                                 control={<GreenRadio />}
                                 label="Condominium"
                                 name="radio-button-demo"
-                                inputProps={{ 'aria-label': 'Condominium' }}
+                                 
                             />
                         </ListItem>
                         <ListItem className="list-border" role={undefined} dense button  >
@@ -65,7 +65,7 @@ function ModalProperty(props) {
                                 control={<GreenRadio />}
                                 label="Townhouse"
                                 name="radio-button-demo"
-                                inputProps={{ 'aria-label': 'Townhouse' }}
+                                 
                             />
                         </ListItem>
                         <ListItem className="list-border" role={undefined} dense button  >
@@ -74,7 +74,7 @@ function ModalProperty(props) {
                                 control={<GreenRadio />}
                                 label="Other"
                                 name="radio-button-demo"
-                                inputProps={{ 'aria-label': 'Other' }}
+                                
                             />
                         </ListItem>
                     </RadioGroup>

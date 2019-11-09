@@ -53,7 +53,7 @@ export default class AutoComplete extends React.Component {
         else {
             return (
                 <ul className="myList" id='test'>
-                    {suggestion.map((item) => <li onClick={this.getitem} className="sug-li" style={{ cursor: 'pointer' }} value={item}>{item}</li>)}
+                    {suggestion.map((item) => <li key={item} onClick={this.getitem} className="sug-li" style={{ cursor: 'pointer' }} value={item}>{item}</li>)}
                 </ul>
             )
         }

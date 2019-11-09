@@ -55,7 +55,7 @@ function ModalBudjet(props) {
                         ),
                     }}
                 />
-                 <p className='red'>{props.errorMessage}</p>
+                 {/* <p className='red'>{props.errorMessage}</p> */}
             </FormControl>
             <Typography color="textSecondary" variant="body1">
                 Or Select from the following option.
@@ -68,7 +68,7 @@ function ModalBudjet(props) {
                                control={<GreenRadio />}
                                label="I m Not sure"
                                name="radio-button-demo"
-                               inputProps={{ 'aria-label': 'I m Not sure' }}
+                                
                            />
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
@@ -77,7 +77,7 @@ function ModalBudjet(props) {
                                control={<GreenRadio />}
                                label="Less then $12,000"
                                name="radio-button-demo"
-                               inputProps={{ 'aria-label': 'Less then $12,000' }}
+                              
                            />
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
@@ -86,7 +86,7 @@ function ModalBudjet(props) {
                                control={<GreenRadio />}
                                label="$12000-$50000"
                                name="radio-button-demo"
-                               inputProps={{ 'aria-label': '$12000-$50000' }}
+                               
                            />
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
@@ -95,7 +95,7 @@ function ModalBudjet(props) {
                                control={<GreenRadio />}
                                label="$50000-$100000"
                                name="radio-button-demo"
-                               inputProps={{ 'aria-label': '$50000-$100000' }}
+                                
                            />
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
@@ -104,7 +104,7 @@ function ModalBudjet(props) {
                                control={<GreenRadio />}
                                label="More then $10000"
                                name="radio-button-demo"
-                               inputProps={{ 'aria-label': 'More then $10000' }}
+                                
                            />
                        </ListItem>
                    </RadioGroup>

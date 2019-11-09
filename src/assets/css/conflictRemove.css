@@ -129,6 +129,9 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit {
 ul.MuiList-root.MuiList-padding {
   padding-left: 8px;
 }
+ul.MuiList-root.service-modal-list.MuiList-padding{
+  padding: 0px !important;
+}
 .MuiGrid-root.text-center.bg-image.MuiGrid-item.MuiGrid-grid-xs-12 {
   background-image: url("../images/homepagetop.png");
   background-repeat: no-repeat;
@@ -322,6 +325,12 @@ div#none {
 }
 header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.CustomTabs-toolbarstyle-1575.MuiAppBar-colorPrimary {
   margin-top: 40px;
+}
+label.MuiFormControlLabel-root{
+  margin-left: 5px !important;
+}
+.Mui-focused fieldset{
+ border: 2px solid green !important;
 }
 
 @media only screen and (max-width: 600px) {

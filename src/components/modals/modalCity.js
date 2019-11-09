@@ -14,14 +14,14 @@ function ModalCity(props) {
     }
     return (
 
-        <Grid className="service-modal-col text-center" item xs={10} >
+        <Grid className="service-modal-col" item xs={10} >
             <Typography className="city-head-text" variant="h5">
                 Answer a few question to get matched professionals near you
                  </Typography>
             <Typography className="city-sub-text" variant="body1">
                 Please confirm your project zipcode
                 </Typography>
-            <FormControl>
+            <FormControl  className="width100">
                 <TextField
                     id="outlined-bare"
                     value={value}
@@ -31,6 +31,8 @@ function ModalCity(props) {
                     autoComplete="off"
                     inputProps={{ 'aria-label': 'bare' }}
                     required
+                   
+                  
                 />
                 <p className='red'>{props.errorMessage}</p>
                 <div></div>

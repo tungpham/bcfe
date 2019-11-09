@@ -38,7 +38,7 @@ function ModalService(props) {
                             control={<GreenRadio />}
                             label="Less then 500"
                             name="radio-button-demo"
-                            inputProps={{ 'aria-label': 'Less then 500' }}/>
+                             />
                     </ListItem>
                     <ListItem className="list-border" role={undefined} dense button  >
                         <FormControlLabel checked={selectedValue === '500-1000'}
@@ -46,7 +46,7 @@ function ModalService(props) {
                             control={<GreenRadio />}
                             label="500-1000"
                             name="radio-button-demo"
-                            inputProps={{ 'aria-label': '500-1000' }}
+                             
                         />
                     </ListItem>
                     <ListItem className="list-border" role={undefined} dense button  >
@@ -55,7 +55,7 @@ function ModalService(props) {
                             control={<GreenRadio />}
                             label="1000-2000"
                             name="radio-button-demo"
-                            inputProps={{ 'aria-label': '1000-2000' }}
+                             
                         />
                     </ListItem>
                     <ListItem className="list-border" role={undefined} dense button  >
@@ -64,7 +64,7 @@ function ModalService(props) {
                             control={<GreenRadio />}
                             label="2000-3000"
                             name="radio-button-demo"
-                            inputProps={{ 'aria-label': '2000-3000' }}
+                             
                         />
                     </ListItem>
                     <ListItem className="list-border" role={undefined} dense button  >
@@ -73,7 +73,7 @@ function ModalService(props) {
                             control={<GreenRadio />}
                             label="More then 3000"
                             name="radio-button-demo"
-                            inputProps={{ 'aria-label': 'More then 3000' }}
+                             
                         />
                     </ListItem>
                 </RadioGroup>

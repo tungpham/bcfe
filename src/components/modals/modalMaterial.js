@@ -36,7 +36,7 @@ function ModalMaterial(props) {
                                 control={<GreenRadio />}
                                 label="Yes"
                                 name="radio-button-demo"
-                                inputProps={{ 'aria-label': 'Yes' }}
+                                 
                             />
                         </ListItem>
                         <ListItem className="list-border" role={undefined} dense button  >
@@ -45,7 +45,7 @@ function ModalMaterial(props) {
                                 control={<GreenRadio />}
                                 label="No"
                                 name="radio-button-demo"
-                                inputProps={{ 'aria-label': 'No' }}
+                                 
                             />
                         </ListItem>
                     </RadioGroup>
