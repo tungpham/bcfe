@@ -66,7 +66,7 @@ function ContractorDetails(props) {
     const [activeStep, setActiveStep] = React.useState(0);
     const [Avtarurl, setAvtarurl] = useState('');
     const [getChar, setgetChar] = useState('');
-    
+
     const classes = useStyles();
 
     const handleOpen = () => {
@@ -82,14 +82,14 @@ function ContractorDetails(props) {
     const propertyCall = (value) => {
         setRadioButton(value);
         setgetredio();
-        if(value !== ''){
+        if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
     const areaCall = (value) => {
         setAreaCall(value);
         setgetarearedio();
-        if(value !== ''){
+        if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
@@ -98,14 +98,14 @@ function ContractorDetails(props) {
     }
     const budjetCall = (value) => {
         setgetbudjet(value);
-        if(value !== ''){
+        if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
     const MaterialCall = (value) => {
         setMaterial(value)
         setgetmaterial();
-        if(value !== ''){
+        if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
@@ -292,20 +292,31 @@ function ContractorDetails(props) {
                             <Grid item lg={6} className="overview">
                                 <h3 className="Introduction-title"> Overview</h3>
                                 <List>
-                                    <ListItem className="icons-overview" key={1}>
+                                    <ListItem className="icons-overview">
                                         <span className="icons">
                                             <i className="fa fa-trophy" aria-hidden="true"></i>
                                         </span>
-                                        <span className="icon-text">Hired 22 times</span>
+                                        <span className="icon-text">Hired {detailsdata.numberOfHires} times</span>
                                     </ListItem>
-                                    <ListItem className="icons-overview" key={2}>
-                                        <span className="icons"><PersonOutlineSharpIcon id="matrial-icon" /></span>
-                                        <span className="icon-text">Background Checked</span>
-                                    </ListItem>
-                                    <ListItem className="icons-overview" key={3}>
-                                        <span className="icons"><VerifiedUserOutlinedIcon id="matrial-icon" /></span>
-                                        <span className="icon-text">License Verified</span>
-                                    </ListItem>
+                                    {
+                                        detailsdata.address.backgroundChecked ?
+                                            <div>
+                                                <ListItem className="icons-overview">
+                                                    <span className="icons"><PersonOutlineSharpIcon id="matrial-icon" /></span>
+                                                    <span className="icon-text">Background Checked</span>
+                                                </ListItem>
+                                            </div> : ''
+                                    }
+                                    {
+                                        detailsdata.licenseVerified ?
+                                            <div>
+                                                <ListItem className="icons-overview">
+                                                    <span className="icons"><VerifiedUserOutlinedIcon id="matrial-icon" /></span>
+                                                    <span className="icon-text">License Verified</span>
+                                                </ListItem>
+                                            </div> : ''
+                                    }
+
                                     <ListItem className="icons-overview" key={4}>
                                         <span className="icons"><PeopleOutlineIcon id="matrial-icon" /> </span>
                                         <span className="icon-text">{detailsdata.address.employees} employees</span>
@@ -319,16 +330,19 @@ function ContractorDetails(props) {
                             <Grid item lg={6} className="hours">
                                 <h3 className="Introduction-title"> Business hours</h3>
                                 <List>
-                                    <ListItem className="businesshours" key={1}>
+                                    <ListItem className="businesshours">
                                         <span className="time-zone">(Pacific Time Zone)</span>
-                                        <p className="time">Daily    8:00 a.m. to 7:00 p.m</p>
+                                        <p className="time">Daily {detailsdata.businessHourFrom} to {detailsdata.businessHourTo} </p>
                                     </ListItem>
-
-                                    <ListItem className="payment-method" key={2}>
+                                    <ListItem className="payment-method">
                                         <h3 className="Introduction-title">Payment Methods</h3>
-                                        <p className="type">Credit Card , Cash , Square</p>
+                                        <p className="type">{detailsdata.paymentMethods.map((payment, index) => {
+                                            return (<>
+                                                {(index ? ', ' : '') + payment}
+                                            </>)
+                                        })}
+                                        </p>
                                     </ListItem>
-
 
                                     <ListItem className="social-media" key={3}>
                                         <h3 className="Introduction-title">Social media</h3>
@@ -356,13 +370,13 @@ function ContractorDetails(props) {
                         <span style={{ color: '#878c90', fontSize: '15px' }}>15 photos</span>
 
                         <div className="gallery-slider">
-                            <Gallery />
+                            <Gallery  Idprops={Id}/>
                         </div>
                     </div>
                     <Divider />
                     <div className="Reviews" ref={Reviewref}>
                         <h3 className="reviews">Reviews</h3>
-                        <span className="main-review">Customers rated this pro highly for <strong>punctuality</strong>, <strong>value</strong>, and <strong>work quality</strong>.</span>
+                        <span className="main-review">{detailsdata.reviewSummary.areview}</span>
                         <Grid container className="review-stars">
                             <Grid item lg={2} xs={12} className="left-review">
                                 <h3 className="rate">{detailsdata.reviewSummary.rating}</h3>
@@ -571,10 +585,10 @@ function ContractorDetails(props) {
                                 <Button variant="contained" className="service-modal-next"
                                     onClick={handleNext} disabled={activeStep === 7}
                                 >
-                                     {activeStep === 6 ? 'Submit' : 'Next'}
+                                    {activeStep === 6 ? 'Submit' : 'Next'}
                                     {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                                    
-                               </Button>
+
+                                </Button>
                             </Grid>
                         </Grid>
                     </div>

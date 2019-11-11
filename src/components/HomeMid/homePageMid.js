@@ -50,17 +50,16 @@ function HomePageMid() {
     const [getdisc, setgetdisc] = useState('');
     const [validation, setvalidation] = useState("");
     const [getChar, setgetChar] = useState('');
-    const [storeData, setstoreData] = useState('');
-    
+     
     const callback = (value) => {
         setgetvalue(value);
     }
-    const serviceCall = (checked) => {
-          setgetcheck(checked);
+    const data=[getvalue,getredio,getarearedio,getbudjet,getmaterial,getcheck];
+
+    const serviceCall = (value) => {
+          setgetcheck(value); 
     }
     const propertyCall = (value) => {
-        console.log(value,"value");
-        
         setgetredio(value);
         if(value !== ''){
             setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -86,7 +85,6 @@ function HomePageMid() {
     }
     const MaterialCall = (value) => {
         setgetmaterial(value);
-
         if(value !== ''){
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
@@ -110,12 +108,12 @@ function HomePageMid() {
         if ((activeStep === 7 && getdisc === '') || getdisc === null) {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
             handleClose();
-        }
-        
+            
+        } 
 
     };
     const handleBack = () => {
-        setActiveStep(prevActiveStep => prevActiveStep - 1);
+        setActiveStep(prevActiveStep => prevActiveStep - 1); 
     };
     
     const responsive = {
@@ -147,7 +145,10 @@ function HomePageMid() {
     const handleClose = () => {
         setActiveStep(0);
         setOpen(false);
+        alert('Form Data is Successfully Submited...!');
     };
+    
+
 
     return (<div className="container home-mid-bg">
         <h2 className="font-color">Contact  Local Professional</h2>
@@ -433,15 +434,18 @@ function HomePageMid() {
                         <Grid container spacing={2}>
 
                             {activeStep === 0 ? <ModalCity parentCallback={callback} errorMessage={validation} />
-                                : activeStep === 1 ? <ModalService serviceCallback={serviceCall} errorMessage={validation} />
+                                : activeStep === 1 ? <ModalService data={data} serviceCallback={serviceCall} errorMessage={validation} />
                                     : activeStep === 2 ? <ModalProperty   
+                                     data={data}
                                      propertyCallback={propertyCall} errorMessage={validation} />
-                                        : activeStep === 3 ? <ModalArea   areaCallback={areaCall} errorMessage={validation} />
+                                        : activeStep === 3 ? <ModalArea  data={data}  areaCallback={areaCall} errorMessage={validation} />
                                             : activeStep === 4 ? <ModalBudjet
+                                                data={data}
                                                 budjetCallbackvalue={budjetCallvalue}
                                                 budjetCallback={budjetCall}
                                                 errorMessage={validation} />
-                                                : activeStep === 5 ? < ModalMaterial   MaterialCallback={MaterialCall} errorMessage={validation} />
+                                                : activeStep === 5 ? < ModalMaterial 
+                                                data={data}  MaterialCallback={MaterialCall} errorMessage={validation} />
                                                     : activeStep === 6 ? <ModalDisc
                                                         charCountback={charCount}
                                                         discCallback={discCall} errorMessage={validation} /> : handleClose()}

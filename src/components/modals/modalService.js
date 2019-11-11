@@ -8,20 +8,22 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 function ModalService(props) {
-    const [checked, setChecked] = React.useState([false]);
+    const [checked, setChecked] = React.useState([]); 
+    const newData=props.data[5]; 
+    const a = newData[0];
+    const b = newData[1];
 
-
-    const handleToggle = value => () => {
-        const currentIndex = checked.indexOf(value);
+    const handleToggle = value => (event) => {
+        const currentIndex = checked.indexOf(event.target.value);
         const newChecked = [...checked];
-
+       
         if (currentIndex === -1) {
-            newChecked.push(value);
+            newChecked.push(event.target.value);
+            
         } else {
             newChecked.splice(currentIndex, 1);
-        }
-
-
+            
+        } 
         setChecked(newChecked);
         props.serviceCallback(newChecked);
     };
@@ -35,29 +37,25 @@ function ModalService(props) {
             </Typography>
             <List className="service-modal-list">
                 <FormGroup aria-label="position" onClick={handleToggle()} row>
-                    
                     <ListItem className="list-border" dense button  >
                         <FormControlLabel
+                            checked={a === 'Design Service' || b === 'Design Service'}
                             value="Design Service"
                             control={<Checkbox style={{
-                                color: "green",
+                            color: "green",
                             }} />}
-                            label="Design Service"
-                           
-                            
+                            label="Design Service" 
                         />
                     </ListItem>
                     <ListItem className="list-border" dense button  >
                         <FormControlLabel
-                             
+                            checked={a === 'Construction Service' || b === 'Construction Service'}
                             value="Construction Service"
-                            control={<Checkbox style={{
-                                color: "green",
-                            }} />}
-                            label="Construction Service"
                             
-
-
+                            control={<Checkbox style={{
+                            color: "green",
+                            }} />}
+                            label="Construction Service" 
                         />
                     </ListItem>
 

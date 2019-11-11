@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 import RadioGroup from '@material-ui/core/RadioGroup';
 
 function ModalMaterial(props) {
-    const [selectedValue, setSelectedValue] = React.useState(' ');
     const GreenRadio = withStyles({
         root: {
             color: green[400],
@@ -20,7 +19,6 @@ function ModalMaterial(props) {
     })(props => <Radio color="default" {...props} />);
 
     const handleChange = event => {
-        setSelectedValue(event.target.value);
         props.MaterialCallback(event.target.value);
     };
     return (
@@ -31,7 +29,7 @@ function ModalMaterial(props) {
                 <List className="service-modal-list">
                     <RadioGroup aria-label="gender" name="gender1" onChange={handleChange}>
                         <ListItem className="list-border" role={undefined} dense button  >
-                            <FormControlLabel checked={selectedValue === 'Yes'}
+                            <FormControlLabel checked={props.data[4] === 'Yes'}
                                 value="Yes"
                                 control={<GreenRadio />}
                                 label="Yes"
@@ -40,7 +38,7 @@ function ModalMaterial(props) {
                             />
                         </ListItem>
                         <ListItem className="list-border" role={undefined} dense button  >
-                            <FormControlLabel checked={selectedValue === 'No'}
+                            <FormControlLabel checked={props.data[4] === 'No'}
                                 value="No"
                                 control={<GreenRadio />}
                                 label="No"

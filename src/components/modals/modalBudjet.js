@@ -11,7 +11,6 @@ import FormControl from '@material-ui/core/FormControl';
 import RadioGroup from '@material-ui/core/RadioGroup';
 
 function ModalBudjet(props) {
-    const [selectedValue, setSelectedValue] = React.useState('');
     const [value, setvalue] = useState('');
     const GreenRadio = withStyles({
         root: {
@@ -24,7 +23,6 @@ function ModalBudjet(props) {
     })(props => <Radio color="default" {...props} />);
     
     const handleChange = event => {
-        setSelectedValue(event.target.value);
         props.budjetCallback(event.target.value);
     };
     const handleChangevalue=(e)=>{
@@ -63,7 +61,7 @@ function ModalBudjet(props) {
             <List className="service-modal-list list-overflow" onChange={handleChange} >
            <RadioGroup aria-label="gender" name="gender1" >
                        <ListItem className="list-border" role={undefined} dense button  >
-                           <FormControlLabel checked={selectedValue === 'I m Not sure'}
+                           <FormControlLabel checked={props.data[3] === 'I m Not sure'}
                                value="I m Not sure"
                                control={<GreenRadio />}
                                label="I m Not sure"
@@ -72,7 +70,7 @@ function ModalBudjet(props) {
                            />
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
-                       <FormControlLabel checked={selectedValue === 'Less then $12,000'}
+                       <FormControlLabel checked={props.data[3] === 'Less then $12,000'}
                                value="Less then $12,000"
                                control={<GreenRadio />}
                                label="Less then $12,000"
@@ -81,7 +79,7 @@ function ModalBudjet(props) {
                            />
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
-                       <FormControlLabel checked={selectedValue === '$12000-$50000'}
+                       <FormControlLabel checked={props.data[3] === '$12000-$50000'}
                                value="$12000-$50000"
                                control={<GreenRadio />}
                                label="$12000-$50000"
@@ -90,7 +88,7 @@ function ModalBudjet(props) {
                            />
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
-                       <FormControlLabel checked={selectedValue === '$50000-$100000'}
+                       <FormControlLabel checked={props.data[3] === '$50000-$100000'}
                                value="$50000-$100000"
                                control={<GreenRadio />}
                                label="$50000-$100000"
@@ -99,7 +97,7 @@ function ModalBudjet(props) {
                            />
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
-                       <FormControlLabel checked={selectedValue === 'More then $10000'}
+                       <FormControlLabel checked={props.data[3] === 'More then $10000'}
                                value="More then $10000"
                                control={<GreenRadio />}
                                label="More then $10000"

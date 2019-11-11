@@ -50,7 +50,8 @@ function ContractorList(props) {
                                             {cntDetail.contractor['contractorFiles'].map(item => {
                                                 return (
                                                     <div key={item.name}>
-                                                        {<img className="myAvatar" alt="image" src={`${HttpUrlConstant.BASE_URL}/contractors/${cntDetail.contractor.id}/files/${item.name}`} />}
+                                                       {item.type === 'AVATAR' ? 
+                                                          <img className="myAvatar" alt="image" src={`${HttpUrlConstant.BASE_URL}/contractors/${cntDetail.contractor.id}/files/${item.name}`} /> :  ' '}
                                                     </div>
                                                 )
                                             })}

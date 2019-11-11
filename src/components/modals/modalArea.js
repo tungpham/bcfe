@@ -8,7 +8,6 @@ import Radio from '@material-ui/core/Radio';
 import { withStyles } from '@material-ui/core/styles';
 
 function ModalService(props) {
-    const [selectedValue, setSelectedValue] = React.useState('');
 
     const GreenRadio = withStyles({
         root: {
@@ -21,7 +20,6 @@ function ModalService(props) {
     })(props => <Radio color="default" {...props} />);
 
     const handleChange = event => {
-        setSelectedValue(event.target.value);
         props.areaCallback(event.target.value);
 
     };
@@ -33,7 +31,7 @@ function ModalService(props) {
             <List className="service-modal-list" onChange={handleChange}>
                 <RadioGroup aria-label="gender" name="gender1" >
                     <ListItem className="list-border" role={undefined} dense button  >
-                        <FormControlLabel checked={selectedValue === 'Less then 500'}
+                        <FormControlLabel checked={props.data[2] === 'Less then 500'}
                             value="Less then 500"
                             control={<GreenRadio />}
                             label="Less then 500"
@@ -41,7 +39,7 @@ function ModalService(props) {
                              />
                     </ListItem>
                     <ListItem className="list-border" role={undefined} dense button  >
-                        <FormControlLabel checked={selectedValue === '500-1000'}
+                        <FormControlLabel checked={props.data[2] === '500-1000'}
                             value="500-1000"
                             control={<GreenRadio />}
                             label="500-1000"
@@ -50,7 +48,7 @@ function ModalService(props) {
                         />
                     </ListItem>
                     <ListItem className="list-border" role={undefined} dense button  >
-                        <FormControlLabel checked={selectedValue === '1000-2000'}
+                        <FormControlLabel checked={props.data[2] === '1000-2000'}
                             value="1000-2000"
                             control={<GreenRadio />}
                             label="1000-2000"
@@ -59,7 +57,7 @@ function ModalService(props) {
                         />
                     </ListItem>
                     <ListItem className="list-border" role={undefined} dense button  >
-                        <FormControlLabel checked={selectedValue === '2000-3000'}
+                        <FormControlLabel checked={props.data[2] === '2000-3000'}
                             value="2000-3000"
                             control={<GreenRadio />}
                             label="2000-3000"
@@ -68,7 +66,7 @@ function ModalService(props) {
                         />
                     </ListItem>
                     <ListItem className="list-border" role={undefined} dense button  >
-                        <FormControlLabel checked={selectedValue === 'More then 3000'}
+                        <FormControlLabel checked={props.data[2] === 'More then 3000'}
                             value="More then 3000"
                             control={<GreenRadio />}
                             label="More then 3000"
