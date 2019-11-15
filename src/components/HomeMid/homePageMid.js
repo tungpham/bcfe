@@ -145,7 +145,6 @@ function HomePageMid() {
     const handleClose = () => {
         setActiveStep(0);
         setOpen(false);
-        alert('Form Data is Successfully Submited...!');
     };
     
 

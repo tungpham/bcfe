@@ -10,8 +10,8 @@ export default class AutoComplete extends React.Component {
         super(props);
         this.items = [""];
         this.state = {
+            searchArray: [],
             suggestion: [],
-            term: '',
             setError: ''
         };
         this.getitem = this.getitem.bind(this);
@@ -28,21 +28,25 @@ export default class AutoComplete extends React.Component {
         }
     }
 
-    onTextChanges = (e) => {
-        var suggestionss = [];
-        this.setState({ term: e.target.value });
+    componentDidMount() {
         axios.get(process.env.REACT_APP_PROJECT_API + '/specialties/').then((content) => {
-            content.data.content.forEach(element => {
-                suggestionss.push(element.name)
-                this.setState({ items: suggestionss });
-                let suggestion = [];
-                if (this.state.term.length > 0) {
-                    const regex = new RegExp(`^${this.state.term}`, 'i');
-                    suggestion = suggestionss.sort().filter(v => regex.test(v));
-                }
-                this.setState(() => ({ suggestion }));
-            });
+            this.setState({ searchArray: content.data.content })
         })
+    }
+
+    onTextChanges = (e) => {
+        const text = e.target.value
+        var suggestionss = [];
+        this.state.searchArray.forEach(element => {
+            suggestionss.push(element.name)
+            this.setState({ items: suggestionss });
+            let suggestion = [];
+            if (text.length > 0) {
+                const regex = new RegExp(`^${text}`, 'i');
+                suggestion = suggestionss.sort().filter(v => regex.test(v));
+            }
+            this.setState(() => ({ suggestion }));
+        });
     }
 
     renderSuggestions() {
@@ -71,8 +75,7 @@ export default class AutoComplete extends React.Component {
                         className="search"
                         placeholder="Search reviews"
                         onChange={this.onTextChanges}
-                        autoComplete="off"
-                    />
+                        autoComplete="off" />
                 </div>
                 <div className="suggestions" id='sug'>
                     {this.renderSuggestions()}

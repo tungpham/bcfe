@@ -11,9 +11,7 @@
   padding-left: 0px;
   padding-right: 0px;
 }
-.MuiGrid-spacing-xs-3 > .MuiGrid-item {
-  padding-left: 4px !important;
-}
+ 
 span.MuiButton-label {
   text-transform: capitalize;
   font-weight: 400;

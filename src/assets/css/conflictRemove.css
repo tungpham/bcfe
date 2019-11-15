@@ -320,8 +320,8 @@ div#none {
 .home-mid-bg {
   background-color: #eeeeee26;
 }
-.MuiPaper-root.MuiPaper-elevation0.MuiMobileStepper-root.MuiMobileStepper-positionStatic {
-  background: black !important;
+.MuiPaper-root.MuiPaper-elevation0.MuiMobileStepper-root.MuiMobileStepper-positionStatic.stepper-divider {
+  background-color: black;
 }
 header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.CustomTabs-toolbarstyle-1575.MuiAppBar-colorPrimary {
   margin-top: 40px;
@@ -342,3 +342,5 @@ label.MuiFormControlLabel-root{
     font-size: 16px;
   }
 }
+
+/*  */

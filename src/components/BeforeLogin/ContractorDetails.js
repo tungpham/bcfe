@@ -12,14 +12,13 @@ import WatchLaterOutlinedIcon from '@material-ui/icons/WatchLaterOutlined';
 import axios from 'axios';
 import InputBase from '@material-ui/core/InputBase';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import BorderLinearProgress from '@material-ui/core/LinearProgress';
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
-import SliderPostProject from '../BeforeLogin/SliderPostProject';//Slider of post project with modal
+import SliderPastProject from '../BeforeLogin/SliderPastProject';//Slider of post project with modal
 import Gallery from '../BeforeLogin/Gallery.js';//Gallery Slider
 import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
 import Modal from '@material-ui/core/Modal';
@@ -66,7 +65,7 @@ function ContractorDetails(props) {
     const [activeStep, setActiveStep] = React.useState(0);
     const [Avtarurl, setAvtarurl] = useState('');
     const [getChar, setgetChar] = useState('');
-
+    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck];
     const classes = useStyles();
 
     const handleOpen = () => {
@@ -76,22 +75,25 @@ function ContractorDetails(props) {
     const callback = (value) => {
         setgetvalue(value);
     }
-    const serviceCall = (checked) => {
-        setgetcheck(checked)
+
+
+    const serviceCall = (value) => {
+        setgetcheck(value);
     }
     const propertyCall = (value) => {
-        setRadioButton(value);
-        setgetredio();
+        setgetredio(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
     const areaCall = (value) => {
-        setAreaCall(value);
-        setgetarearedio();
+        setgetarearedio(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
+    }
+    const charCount = (value) => {
+        setgetChar(value);
     }
     const budjetCallvalue = (value) => {
         setgetbudjetvalue(value);
@@ -103,8 +105,7 @@ function ContractorDetails(props) {
         }
     }
     const MaterialCall = (value) => {
-        setMaterial(value)
-        setgetmaterial();
+        setgetmaterial(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
@@ -112,9 +113,8 @@ function ContractorDetails(props) {
     const discCall = (value) => {
         setgetdisc(value);
     }
-    const charCount = (value) => {
-        setgetChar(value);
-    }
+
+
 
     function fetchimage() {
         axios.get(`${HttpUrlConstant.BASE_URL}/contractors/${Id}/avatar`).then((data) => {
@@ -336,12 +336,12 @@ function ContractorDetails(props) {
                                     </ListItem>
                                     <ListItem className="payment-method">
                                         <h3 className="Introduction-title">Payment Methods</h3>
-                                        <p className="type">{detailsdata.paymentMethods.map((payment, index) => {
-                                            return (<>
+                                        <div className="type">{detailsdata.paymentMethods.map((payment, index) => {
+                                            return (<div key={index}>
                                                 {(index ? ', ' : '') + payment}
-                                            </>)
+                                            </div>)
                                         })}
-                                        </p>
+                                        </div>
                                     </ListItem>
 
                                     <ListItem className="social-media" key={3}>
@@ -357,8 +357,7 @@ function ContractorDetails(props) {
                     <div className="past-project">
                         <h3 className="past-project">Past Project</h3>
                         <div className="modal-slider">
-                            <SliderPostProject />
-                            {/* Slider with modal  */}
+                            <SliderPastProject Idprops={Id} />
                         </div>
                         <div className="show-more">
                             <span>Show more</span>
@@ -370,7 +369,7 @@ function ContractorDetails(props) {
                         <span style={{ color: '#878c90', fontSize: '15px' }}>15 photos</span>
 
                         <div className="gallery-slider">
-                            <Gallery  Idprops={Id}/>
+                            <Gallery Idprops={Id} />
                         </div>
                     </div>
                     <Divider />
@@ -544,7 +543,7 @@ function ContractorDetails(props) {
                     <div className="service-modal" >
                         <CloseIcon onClick={handleClose} className="modal-close" />
                         <Grid className="modal-page-col" item xs={10}>
-                            <Typography variant="subtitle2" color="textSecondary">
+                            <span variant="subtitle2" color="textSecondary">
                                 {activeStep === 0 ? 1
                                     : activeStep === 1 ? 2
                                         : activeStep === 2 ? 3
@@ -553,19 +552,23 @@ function ContractorDetails(props) {
                                                     : activeStep === 5 ? 6
                                                         : activeStep === 6 ? 7
                                                             : ''} of 7
-                               </Typography>
+                               </span>
                         </Grid>
                         <Grid container spacing={2}>
                             {activeStep === 0 ? <ModalCity parentCallback={callback} errorMessage={validation} />
-                                : activeStep === 1 ? <ModalService serviceCallback={serviceCall} errorMessage={validation} />
-                                    : activeStep === 2 ? <ModalProperty propertyCallback={propertyCall} errorMessage={validation} />
-                                        : activeStep === 3 ? <ModalArea areaCallback={areaCall} errorMessage={validation} />
+                                : activeStep === 1 ? <ModalService data={data} serviceCallback={serviceCall} errorMessage={validation} />
+                                    : activeStep === 2 ? <ModalProperty data={data} propertyCallback={propertyCall} errorMessage={validation} />
+                                        : activeStep === 3 ? <ModalArea data={data} areaCallback={areaCall} errorMessage={validation} />
                                             : activeStep === 4 ? <ModalBudjet
-                                                budjetCallbackvalue={budjetCallvalue}
+                                                data={data} budjetCallbackvalue={budjetCallvalue}
                                                 budjetCallback={budjetCall}
                                                 errorMessage={validation} />
-                                                : activeStep === 5 ? < ModalMaterial MaterialCallback={MaterialCall} errorMessage={validation} />
-                                                    : activeStep === 6 ? <ModalDisc charCountback={charCount} discCallback={discCall} errorMessage={validation} /> : handleClose()}
+                                                : activeStep === 5 ? < ModalMaterial data={data}
+                                                    MaterialCallback={MaterialCall}
+                                                    errorMessage={validation} />
+                                                    : activeStep === 6 ? <ModalDisc
+                                                        charCountback={charCount} discCallback={discCall}
+                                                        errorMessage={validation} /> : handleClose()}
                         </Grid>
                         <MobileStepper
                             variant="progress"

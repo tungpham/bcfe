@@ -40,18 +40,18 @@ function ContractorList(props) {
     return (<div style={{ marginTop: '-30px' }}>
         <Container className="contractor-list">
             <List className="list">
-                {contractorData.map(cntDetail => {
+                {contractorData.map((cntDetail, index) => {
                     return (
-                        <div key={cntDetail.contractor.id}>
+                        <div key={index}>
                             <Link className="underlineNone" to={`/contractordetails/${cntDetail.contractor.id}`}>
                                 <ListItem className="list-item">
                                     <Grid container spacing={3}>
                                         <Grid item xs={12} lg={2}>
-                                            {cntDetail.contractor['contractorFiles'].map(item => {
+                                            {cntDetail.contractor['contractorFiles'].map((item, index) => {
                                                 return (
-                                                    <div key={item.name}>
-                                                       {item.type === 'AVATAR' ? 
-                                                          <img className="myAvatar" alt="image" src={`${HttpUrlConstant.BASE_URL}/contractors/${cntDetail.contractor.id}/files/${item.name}`} /> :  ' '}
+                                                    <div key={index}>
+                                                        {item.type === 'AVATAR' ?
+                                                            <img className="myAvatar" alt="image" src={`${HttpUrlConstant.BASE_URL}/contractors/${cntDetail.contractor.id}/files/${item.name}`} /> : ' '}
                                                     </div>
                                                 )
                                             })}
