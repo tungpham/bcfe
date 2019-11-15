@@ -270,7 +270,7 @@ select.city {
   border: 1px solid #d9dadb;
   border-radius: 1px;
   padding-top: 12px;
-  padding-bottom: 16px;
+  padding-bottom: 15px;
   padding-left: 6px;
   padding-right: 40px;
   color: #3e3f42;
@@ -299,10 +299,11 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.getstarted {
   background-color: #449b1b;
   padding-left: 16px !important;
   padding-right: 16px !important;
-  padding-top: 12px !important;
+  padding-top: 12.5px !important;
   padding-bottom: 12px !important;
-  border-radius: 4px !important;
+  border-top-left-radius: 0px;
   color: white;
+  border-bottom-left-radius: 0px;
 }
 
 .suggestion {
