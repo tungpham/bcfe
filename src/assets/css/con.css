@@ -33,7 +33,6 @@ img.none {
   padding: 8px;
   font-size: 11px !important;
   color: white !important;
-  /* background: white; */
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
@@ -45,7 +44,6 @@ img.none {
 .makeStyles-img-291 {
   height: 400px !important;
   display: block;
-  /* margin-top: 15px; */
   width: 600px !important;
   max-width: 607px !important;
 }
@@ -101,7 +99,6 @@ img.imageclass {
   padding-top: 30px;
 }
 .MuiPaper-root.MuiPaper-elevation0.MuiMobileStepper-root.MuiMobileStepper-positionStatic {
-  /* background: white; */
   color: white;
   margin-top: -2px !important;
   padding: 0px 10px !important;
@@ -126,7 +123,6 @@ span.title-caption {
   margin-top: 320px;
 }
 
-/* ///==============/// */
 /* Contractor details page */
 html {
   scroll-behavior: smooth;
@@ -347,13 +343,8 @@ hr.MuiDivider-root.myVerticalLine {
   margin-right: 10px;
 }
 .slider {
-  /* justify-content: space-around; */
   display: flex;
 }
-/* .gallery-img {
-    height: 200px !important;
-} */
-
 .modal-details {
   background-color: white;
   width: 100%;
@@ -411,16 +402,6 @@ svg.MuiSvgIcon-root.close {
   padding: 30px 0px;
   object-fit: cover !important;
 }
-
-/* .moda-pastproject {
-  background-color: black;
-  width: 64%;
-  height: auto;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 25px;
-  margin-bottom: 25px;
-} */
 .show-more {
   margin-bottom: 20px;
   margin-top: 20px;
@@ -700,8 +681,6 @@ li {
 
 .slider-post-txt {
   display: flex;
-
-  /* justify-content: space-between; */
   text-align: left !important;
 }
 .text-bold {
@@ -735,7 +714,6 @@ h4.company-name {
   padding: 10px !important;
 }
 
-/* Shubhangi css */
 .rating.Rating-root {
   margin-top: -4px !important;
 }
@@ -858,32 +836,13 @@ svg.MuiSvgIcon-root.searchicon {
     margin-top: -50.7%;
     height: 420px !important;
   }
-   
-  /* img.imageclass
-  {
-    margin-left: 45px !important;
-  } */
-  /* button.MuiButtonBase-root.MuiButton-root.myBackButton.MuiButton-text.MuiButton-sizeSmall, button.MuiButtonBase-root.MuiButton-root.myNextButton.MuiButton-text.MuiButton-sizeSmall
-  {
-    margin-top: -;
-  }
-   */
+}
+.type {
+  display: flex;
 }
 @media (min-width: 1623px) {
- 
-  /* .MuiGrid-root.details.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-3 {
-    margin-top: -47.7%;
-  } */
   .MuiGrid-root.details.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-3 {
     height: 435px;
     margin-left: 70%;
   }
-  /* img.imageclass
-  {
-    margin-left: 50px !important;
-  } */
-  /* button.MuiButtonBase-root.MuiButton-root.myBackButton.MuiButton-text.MuiButton-sizeSmall, button.MuiButtonBase-root.MuiButton-root.myNextButton.MuiButton-text.MuiButton-sizeSmall
-  {
-    margin-top: -55%;
-  } */
 }
