@@ -274,7 +274,7 @@ select.city {
   padding-left: 6px;
   padding-right: 40px;
   color: #3e3f42;
-  box-shadow: 0 8px 6px -6px #e1e0e1;
+  /* box-shadow: 0 8px 6px -6px #e1e0e1; */
 }
 .city-btn {
   display: flex;
@@ -287,7 +287,7 @@ select.city {
 .search-bar {
   border: 1px solid #d9dadb;
   border-radius: 1px;
-  box-shadow: 0 8px 6px -6px #e1e0e1;
+  /* box-shadow: 0 8px 6px -6px #e1e0e1; */
 }
 .MuiInputBase-root.search {
   padding-right: 140px;
@@ -304,7 +304,7 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.getstarted {
  border-top-left-radius: 0px;
  color: white;
  border-bottom-left-radius: 0px;
- box-shadow: 0 8px 6px -6px #e1e0e1;
+ /* box-shadow: 0 8px 6px -6px #e1e0e1; */
 }
 
 .suggestion {
