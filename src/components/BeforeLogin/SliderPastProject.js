@@ -70,6 +70,8 @@ function SliderPastProject(props) {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     };
 
+    // console.log("jdnsn",detailsData);
+
     return (<div>
         <Carousel
             swipeable={false}
@@ -80,7 +82,7 @@ function SliderPastProject(props) {
             infinite={true}
             keyBoardControl={true}
             customTransition="all .5"
-            transitionDuration={500}
+            transitionDuration={1000}
             containerClass="carousel-container"
             removeArrowOnDeviceType={["tablet", "mobile"]}
             dotListClass="custom-dot-list-style"
@@ -90,11 +92,11 @@ function SliderPastProject(props) {
                     <div key={index1} style={{ display: 'flex' }}>
                         <div className="pastproject">
                             <div className="pastprojectimg">{item.projectFiles.map((image, index) => {
-                                return <img key={index} className={index === 0 ? "pastprojectimg" : 'none'} src={`${HttpUrlConstant.BASE_URL}/contractors/${Id}/files/${image.name}`} onClick={handleOpen} ></img>
+                                return <img key={index} id={index1}  className={index === 0 ? "pastprojectimg" : 'none'} src={`${HttpUrlConstant.BASE_URL}/projects/${item.id}/files/${image.name}`} onClick={handleOpen} ></img>
                             })}
                             </div>
                             <div className="pastprojectdetails">
-                                <h3 id={index1} onClick={handleOpen} >{item.title}</h3>
+                                <h3  >{item.title}</h3>
                             </div>
                         </div>
                         <div>  <Divider orientation="vertical" /></div>
@@ -118,7 +120,7 @@ function SliderPastProject(props) {
                             detailsData[modalId].projectFiles.map((step, index) => (
                                 <div className="post-height" key={index}>
                                     {Math.abs(activeStep - index) <= 2 ? (
-                                        <img className="post-slider-img" src={`${HttpUrlConstant.BASE_URL}/contractors/${Id}/files/${step.name}`} alt={step.label} />
+                                        <img className="post-slider-img" src={`${HttpUrlConstant.BASE_URL}/projects/${detailsData[modalId].id}/files/${step.name}`} alt={step.label} />
                                     ) : null}
                                 </div>
                             )) : ''}

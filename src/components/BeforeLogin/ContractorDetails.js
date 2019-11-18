@@ -240,6 +240,7 @@ function ContractorDetails(props) {
     const currentReview = PersonReviewList.slice(indexOfFirstReview, indexOfLastReview);
     const [open, setOpen] = React.useState(false);
 
+    // console.log("de", Detailsdata);
     return (
         <div style={{ width: '1290px', marginTop: '-30px' }} className="full-width">
             {Detailsdata.map((detailsdata) => {
@@ -346,7 +347,19 @@ function ContractorDetails(props) {
 
                                     <ListItem className="social-media" key={3}>
                                         <h3 className="Introduction-title">Social media</h3>
-                                        <p className="instagram">Instagram</p>
+                                        <p className="instagram">
+                                            {
+                                                detailsdata.contractorFiles.map((type) => {
+                                                    return (<>
+                                                        {type.type === "TWITTER" ? "Twitter" : ''}
+                                                        {type.type === "INSTAGRAM" ? "Instagram" : ''}
+                                                        {type.type === "FACEBOOK" ? "Facebook" : ''}
+                                                        {type.type === "LINKEDIN" ? "LinkedIn" : ''}
+                                                    </>)
+
+                                                })
+                                            }
+                                        </p>
                                     </ListItem>
 
                                 </List>

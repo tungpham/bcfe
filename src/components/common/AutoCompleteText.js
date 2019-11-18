@@ -12,9 +12,11 @@ export default class AutoComplete extends React.Component {
         this.state = {
             searchArray: [],
             suggestion: [],
-            setError: ''
+            setError: '',
+            term : '',
         };
         this.getitem = this.getitem.bind(this);
+       
     }
 
     getitem(e) {
@@ -35,7 +37,9 @@ export default class AutoComplete extends React.Component {
     }
 
     onTextChanges = (e) => {
-        const text = e.target.value
+        const text = e.target.value;
+        this.setState({term : text});
+        localStorage.setItem('specialitie', this.state.term);
         var suggestionss = [];
         this.state.searchArray.forEach(element => {
             suggestionss.push(element.name)
@@ -63,7 +67,9 @@ export default class AutoComplete extends React.Component {
         }
     }
 
+    
     render() {
+        console.log(this.state.term);
         return (
             <div className="suggestion-search">
                 <div className={this.state.suggestion === [] ? alert("hi") : 'search-bar'}>
@@ -72,6 +78,7 @@ export default class AutoComplete extends React.Component {
                     </IconButton>
                     <InputBase
                         id="input"
+                        value={this.state.term}
                         className="search"
                         placeholder="Search reviews"
                         onChange={this.onTextChanges}
