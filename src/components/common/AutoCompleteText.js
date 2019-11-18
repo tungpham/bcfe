@@ -16,11 +16,11 @@ export default class AutoComplete extends React.Component {
             term : '',
         };
         this.getitem = this.getitem.bind(this);
-       
     }
 
     getitem(e) {
         let value = e.target.textContent;
+        console.log(value);
         var inputText = document.getElementById('input');
         inputText.value = value;
         var sug = document.getElementById('sug');
@@ -39,7 +39,7 @@ export default class AutoComplete extends React.Component {
     onTextChanges = (e) => {
         const text = e.target.value;
         this.setState({term : text});
-        localStorage.setItem('specialitie', this.state.term);
+        localStorage.setItem('specialitie', text.charAt(0).toUpperCase()+text.slice(1));
         var suggestionss = [];
         this.state.searchArray.forEach(element => {
             suggestionss.push(element.name)
@@ -66,10 +66,8 @@ export default class AutoComplete extends React.Component {
             )
         }
     }
-
     
     render() {
-        console.log(this.state.term);
         return (
             <div className="suggestion-search">
                 <div className={this.state.suggestion === [] ? alert("hi") : 'search-bar'}>
@@ -78,7 +76,7 @@ export default class AutoComplete extends React.Component {
                     </IconButton>
                     <InputBase
                         id="input"
-                        value={this.state.term}
+                        // value={this.state.term}
                         className="search"
                         placeholder="Search reviews"
                         onChange={this.onTextChanges}
