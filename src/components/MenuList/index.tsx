@@ -16,9 +16,10 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { UserProfile } from 'types/global';
-
+import DateRangeIcon from '@material-ui/icons/DateRange';
 import auth0Client from 'services/auth0/auth';
 import styles from './MenuList.style';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 interface ConnectedMenuListProps {
   classes: any;
@@ -81,7 +82,7 @@ class MenuList extends React.Component<ConnectedMenuListProps> {
               })}
             >
               <ListItemIcon>
-                <MessageIcon
+                <DateRangeIcon
                   color="secondary"
                   className={clx({
                     [classes.activeIcon]: pathname.includes('/gen-contractor'),
@@ -107,7 +108,7 @@ class MenuList extends React.Component<ConnectedMenuListProps> {
               })}
             >
               <ListItemIcon>
-                <ServiceIcon
+                <AttachMoneyIcon
                   color="secondary"
                   className={clx({
                     [classes.activeIcon]: pathname.includes('/s_cont'),

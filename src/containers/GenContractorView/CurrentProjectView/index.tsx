@@ -155,7 +155,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         }
 
         return (
-            <Box className={classes.root}>
+            <Box  >
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -173,8 +173,9 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                                     component="th"
                                     scope="row"
                                     onClick={() => this.handleSelectProject(row.id)}
+                                    className="title"
                                 >
-                                    <Ellipsis maxLines={2}>{row.title}</Ellipsis>
+                                    <Ellipsis  maxLines={2}>{row.title}</Ellipsis>
                                     {/* <Typography className="nowrap">{row.title}</Typography> */}
                                 </CustomTableCell>
                                 <CustomTableCell

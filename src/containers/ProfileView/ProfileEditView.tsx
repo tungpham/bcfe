@@ -76,7 +76,7 @@ const styles = (theme: Theme) => createStyles({
 			backgroundColor: theme.palette.primary.dark,
 		},
 		'&:disabled': {
-			backgroundColor: '#FFFFFF',
+			backgroundColor: '#4a148c',
 		},
 	},
 	cancelButton: {

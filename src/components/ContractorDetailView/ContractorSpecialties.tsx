@@ -63,7 +63,7 @@ const styles = createStyles(theme => ({
         margin: theme.spacing(1),
     },
     titleBtn: {
-        color: '#FFFFFF',
+        color: '#4a148c',
         padding: '6px',
     },
     button: {

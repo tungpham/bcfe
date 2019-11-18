@@ -125,7 +125,7 @@ class ProfileFileView extends React.Component<ProfileFileViewProps, ProfileFileV
 									<IconButton
 										className={classes.button}
 										aria-label="Add"
-										style={{ color: '#FFFFFF' }}
+										style={{ color: '#4a148c' }}
 										onClick={() => this.setState({ openUploadForm: true })}
 									>
 										<NoteAddIcon />

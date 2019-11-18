@@ -90,7 +90,7 @@ const OptionTableView = ({
                         {edit && (
                             <CustomTableCell align="left">
                                 <IconButton
-                                    style={{ color: '#FFFFFF' }}
+                                    style={{ color: '#4a148c' }}
                                     onClick={handleAdd}
                                     size="small"
                                 >

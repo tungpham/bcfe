@@ -44,7 +44,7 @@ const SpecTableView: React.SFC<ISpecTableViewProps> = props => {
 						Specialty Description
           			</CustomTableCell>
 					<CustomTableCell align="center">
-						<IconButton style={{ color: '#FFFFFF' }} onClick={handleAdd}>
+						<IconButton style={{ color: '#4a148c' }} onClick={handleAdd}>
 							<NoteAddIcon />
 						</IconButton>
 					</CustomTableCell>

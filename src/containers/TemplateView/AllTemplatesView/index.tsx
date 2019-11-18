@@ -210,7 +210,7 @@ class AllTemplateView extends Component<ConnAllTemplateViewProps, ConnAllTemplat
 							<CustomTableCell align="center">Description</CustomTableCell>
 							<CustomTableCell align="center">
 								<IconButton
-									style={{ color: '#FFFFFF' }}
+									style={{ color: '#4a148c' }}
 									onClick={() => this.setState({
 										showDialog: true,
 										name: '',

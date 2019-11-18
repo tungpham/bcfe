@@ -29,8 +29,7 @@ const CustomTabs = ({ classes, tabs, init = 0 }) => {
 				scrollButtons="on"
 				// onChange={(evt, newValue) => setValue(newValue)}
 				indicatorColor="primary"
-				textColor="primary"
-			>
+				textColor="primary">
 				{tabs.map((tab, index) => (
 					<Tab
 						key={index}

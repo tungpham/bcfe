@@ -77,7 +77,7 @@ const styles = createStyles(theme => ({
         border: '1px solid #4a148c',
         borderRadius: 0,
         backgroundColor: theme.palette.primary.light,
-        color: '#FFFFFF',
+        color: '#4a148c',
         marginLeft: 5,
         marginRight: 5,
         float: 'right',
@@ -85,7 +85,7 @@ const styles = createStyles(theme => ({
             backgroundColor: theme.palette.primary.dark,
         },
         '&:disabled': {
-            backgroundColor: '#FFFFFF',
+            backgroundColor: '#4a148c',
         },
     },
 }));

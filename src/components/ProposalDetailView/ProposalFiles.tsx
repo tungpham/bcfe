@@ -142,7 +142,7 @@ class ConnectedProposalFiles extends React.Component<IProposalFilesProps, IPropo
 								<CustomTableCell align="center">
 									<IconButton
 										className={classes.button}
-										style={{ color: '#FFFFFF' }}
+										style={{ color: '#4a148c' }}
 										aria-label="Add"
 										onClick={this.openUpload}
 									>

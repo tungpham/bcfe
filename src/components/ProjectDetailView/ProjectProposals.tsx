@@ -57,13 +57,13 @@ const styles = createStyles(theme => ({
     submitBtn: {
         borderRadius: 0,
         backgroundColor: theme.palette.primary.light,
-        color: '#FFFFFF',
+        color: '#4a148c',
         margin: theme.spacing(1),
         '&:hover': {
             backgroundColor: theme.palette.primary.dark,
         },
         '&:disabled': {
-            backgroundColor: '#FFFFFF',
+            backgroundColor: '#4a148c',
         },
     },
 }));
@@ -226,7 +226,7 @@ class ProjectProposals extends React.Component<IProjectProposalsProps, IProjectP
                                         <IconButton
                                             className={classes.button}
                                             onClick={this.handleCompare}
-                                            style={{ color: '#FFFFFF' }}
+                                            style={{ color: '#4a148c' }}
                                             size="small"
                                         >
                                             <CompareIcon />

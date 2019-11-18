@@ -22,7 +22,9 @@ export default createStyles((theme: Theme) =>
       color: theme.palette.common.black,
     },
     activeIcon: {
-      color: theme.palette.primary.main,
+      color: '#46c036',
+      backgroundColor:"none",
+      fontWeight:'700'
     },
     nonactiveIcon: {
       color: theme.palette.primary.dark

@@ -10,6 +10,9 @@ import SecuredRoute from 'routers/SecuredRoute';
 import InvitedProView from './InvitedProView';
 import SubmittedProView from './SubmittedProView';
 import WonProView from './WonProView';
+import AppsIcon from '@material-ui/icons/Apps';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 const styles = createStyles((theme: Theme) => ({
     root: {
@@ -39,15 +42,18 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps> {
                         tabs={[
                             {
                                 href: tabPaths[0],
-                                label: 'Submitted',
+                                label: 'New',
+                                icon: AppsIcon,
                             },
                             {
                                 href: tabPaths[1],
-                                label: 'Invited',
+                                label: 'Ongoing',
+                                icon: CalendarTodayIcon,
                             },
                             {
                                 href: tabPaths[2],
-                                label: 'Awarded',
+                                label: 'Completed',
+                                icon: AssignmentTurnedInIcon,
                             }
                         ]}
                     />

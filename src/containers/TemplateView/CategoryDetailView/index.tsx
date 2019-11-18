@@ -368,7 +368,7 @@ class CategoryDetailView extends Component<ConnCategoryDetailViewProps, ConnCate
 									<CustomTableCell align="center">Value</CustomTableCell>
 									<CustomTableCell align="center">
 										<IconButton
-											style={{ color: '#FFFFFF' }}
+											style={{ color: '#4a148c' }}
 											onClick={() =>
 												this.setState({
 													oname: '',

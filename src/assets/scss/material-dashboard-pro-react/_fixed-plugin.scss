@@ -31,7 +31,7 @@
       }
       &:after {
         border-left: none;
-        border-right: 16px solid #ffffff;
+        border-right: 16px solid #4a148c;
         left: -16px;
         right: auto;
       }
@@ -84,7 +84,7 @@
 }
 
 .fixed-plugin .fa-cog {
-  color: #ffffff;
+  color: #4a148c;
   padding: 10px;
   border-radius: 0 0 6px 6px;
   width: auto;
@@ -106,7 +106,7 @@
 }
 
 .fixed-plugin .fa-circle-thin {
-  color: #ffffff;
+  color: #4a148c;
 }
 
 .fixed-plugin .active .fa-circle-thin {
@@ -133,7 +133,7 @@
 }
 
 .fixed-plugin .badge {
-  border: 3px solid #ffffff;
+  border: 3px solid #4a148c;
   border-radius: 50%;
   cursor: pointer;
   display: inline-block;
@@ -284,7 +284,7 @@
 .fixed-plugin .dropdown-menu > .active > a.img-holder,
 .fixed-plugin .dropdown-menu > .active > a.img-holder {
   border-color: #00bbff;
-  background-color: #ffffff;
+  background-color: #4a148c;
 }
 
 .fixed-plugin .dropdown-menu > li > a img {
@@ -350,7 +350,7 @@
 
 .fixed-plugin .dropdown-menu:after {
   border-bottom: 16px solid rgba(0, 0, 0, 0);
-  border-left: 16px solid #ffffff;
+  border-left: 16px solid #4a148c;
   border-top: 16px solid rgba(0, 0, 0, 0);
   right: -16px;
 }
