@@ -52,7 +52,7 @@ class MenuList extends React.Component<ConnectedMenuListProps> {
     const roles = userProfile.user_metadata.roles;
 
     return (
-      <List>
+      <List className="menulist">
         <ListItem
           button
           component={Link}

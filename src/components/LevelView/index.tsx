@@ -33,7 +33,7 @@ import { Validator } from 'types/global';
 const useStyles = makeStyles(theme => ({
     root: {
         position: 'relative',
-        minHeight: 'calc(100vh - 64px - 56px - 48px - 16px)',
+        minHeight: 'calc(100vh - 50px - 56px - 48px - 16px)',
     },
     waitingSpin: {
         position: 'absolute',

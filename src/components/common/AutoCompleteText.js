@@ -76,7 +76,6 @@ export default class AutoComplete extends React.Component {
                     </IconButton>
                     <InputBase
                         id="input"
-                        // value={this.state.term}
                         className="search"
                         placeholder="Search reviews"
                         onChange={this.onTextChanges}

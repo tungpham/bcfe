@@ -91,3 +91,61 @@ code {
 // li {
 //   list-style-type: none;
 // }
+
+
+
+
+//Nav bar 19-Nov //
+
+ul.MuiList-root.menulist.MuiList-padding {
+  background: #E9EDF5 !important;
+}
+a.MuiButtonBase-root.MuiListItem-root.MuiListItem-gutters.MuiListItem-button:hover {
+  background: none !important;
+}
+.MuiToolbar-root.MuiToolbar-regular.myheader.MuiToolbar-gutters
+  {
+    min-height: 45px !important;
+    color:#5e5e5e;
+  }
+  .mylogo {
+    display: flex;
+    padding: 0 8px;
+    min-height: 45px !important;
+    align-items: center;
+    justify-content: flex-end;
+}
+svg.MuiSvgIcon-root.rightarrow.MuiSvgIcon-colorPrimary {
+  color: black;
+}
+
+svg.MuiSvgIcon-root.notification {
+  font-size: 1.5rem !important;
+  color: #bebebe;
+}
+
+h6.MuiTypography-root.righttitle.MuiTypography-h6.MuiTypography-noWrap {
+  font-size: 16px;
+  padding-top: 5px;
+}
+
+svg.MuiSvgIcon-root.userprofile {
+  font-size: 1.5rem !important;
+  color: #bebebe;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+svg.MuiSvgIcon-root.profiledropdown {
+  font-size: 20px !important;
+  color: #bebebe;
+}
+
+// header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.beforeloginheader.MuiAppBar-colorPrimary {
+//   background: white ;
+// }
+
+
+

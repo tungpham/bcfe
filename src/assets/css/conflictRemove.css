@@ -48,9 +48,8 @@ button.MuiButtonBase-root.MuiIconButton-root {
 /* End */
 
 header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary {
-  background-color: white;
+  /* background-color: white; */
   color: black;
-  box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0), 0px 1px 10px 0px rgba(0, 0, 0, 0);
 }
 button.MuiButtonBase-root.MuiIconButton-root.Rating-iconButton-319.Rating-readOnly-322 {
   padding: 3px !important;
@@ -129,9 +128,9 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit {
   font-size: 20px !important;
   margin-top: 1px;
 }
-ul.MuiList-root.MuiList-padding {
+/* ul.MuiList-root.MuiList-padding {
   padding-left: 8px;
-}
+} */
 ul.MuiList-root.service-modal-list.MuiList-padding{
   padding: 0px !important;
 }
@@ -261,7 +260,7 @@ main.AppRouterConnect-content-4 {
   min-height: 260px;
 }
 .MuiSvgIcon-root {
-  font-size: 1.5rem !important;
+  font-size: 1.9rem !important;
 }
 .city {
   width: 130px;

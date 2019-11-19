@@ -27,7 +27,7 @@ import { ContractorInfo } from 'types/contractor';
 const styles = createStyles(theme => ({
     root: {
         position: 'relative',
-        minHeight: 'calc(100vh - 64px - 56px - 48px - 16px)'
+        minHeight: 'calc(100vh - 56px - 48px - 16px)'
     },
     titleBtn: {
         color: '#fff',

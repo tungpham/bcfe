@@ -32,7 +32,7 @@ import { MenuProps } from '@material-ui/core/Menu';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import CustomAvatar from 'components/CustomAvatar';
-
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ContApi from 'services/contractor';
 
 const StyledMenu = withStyles({
@@ -140,11 +140,11 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 		const isMenuOpen = Boolean(anchorEl);
 
 		const rightApp = auth0Client.isAuthenticated() ? (
-			<div>
+			<div className="rightmenu">
 				<div className={classes.sectionDesktop}>
 					<IconButton color="inherit">
 						<Badge badgeContent={17} color="secondary">
-							<NotificationsIcon />
+							<NotificationsIcon className="notification" />
 						</Badge>
 					</IconButton>
 					<StyledMenu
@@ -173,8 +173,9 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 							<ListItemText primary="Logout" />
 						</MenuItem>
 					</StyledMenu>
-					<Typography className={classes.title} variant="h6" noWrap>
-						{this.props.profile.name}
+					<AccountCircle className="userprofile" />
+					<Typography className="righttitle" variant="h6" noWrap>
+						Account
 					</Typography>
 					<IconButton
 						aria-owns={isMenuOpen ? 'material-appbar' : undefined}
@@ -183,12 +184,14 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 						onClick={this.handleProfileMenuOpen}
 						color="inherit"
 					>
-						<CustomAvatar
+
+						<ExpandMoreIcon className="profiledropdown" />
+						{/* <CustomAvatar
 							src={ContApi.getAvatar(this.props.profile.user_metadata.contractor_id)}
 							size={24}
 						>
 							<AccountCircle />
-						</CustomAvatar>
+						</CustomAvatar> */}
 					</IconButton>
 				</div>
 				<div className={classes.sectionMobile}>
@@ -212,20 +215,20 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 				<AppBar
 					position="absolute"
 					className={clsx(classes.appBar, open && classes.appBarShift)}
-				>
-					<Toolbar className={classes.toolbar}>
-						<IconButton
+					style={{ boxShadow: 'none', backgroundColor: 'white' }}>
+					<Toolbar className="myheader">
+						{/* <IconButton
 							edge="start"
 							color="inherit"
 							aria-label="Open drawer"
-							onClick={this.handleDrawerOpen}
+							// onMouseEnter={this.handleDrawerOpen}
 							className={clsx(
 								classes.menuButton,
 								this.state.open && classes.menuButtonHidden,
 							)}
 						>
 							<MenuIcon />
-						</IconButton>
+						</IconButton> */}
 						<Typography
 							component="h1"
 							variant="h6"
@@ -246,7 +249,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 					}}
 					open={open}
 				>
-					<div className={classes.toolbarIcon}>
+					<div className="mylogo" >
 						<Typography
 							component="h1"
 							variant="h6"
@@ -256,12 +259,15 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 						>
 							LOGO
             			</Typography>
-						<IconButton onClick={this.handleDrawerClose}>
-							<ChevronLeftIcon color="primary" />
+						<IconButton   >
+							<ChevronLeftIcon color="primary" className="rightarrow" />
 						</IconButton>
 					</div>
 					<Divider />
-					<MenuList />
+					<div className="drawer" onMouseOver={this.handleDrawerOpen}
+						onMouseLeave={this.handleDrawerClose}>
+						<MenuList />
+					</div>
 				</Drawer>
 			</>
 		);
