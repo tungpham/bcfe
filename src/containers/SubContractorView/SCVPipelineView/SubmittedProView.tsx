@@ -16,6 +16,7 @@ import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
 
 import removeMd from 'remove-markdown';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import CustomTableCell from 'components/shared/CustomTableCell';
@@ -187,12 +188,13 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 				<Table className={classes.table}>
 					<TableHead>
 						<TableRow>
-							<CustomTableCell align="center">Proposal To</CustomTableCell>
-							<CustomTableCell align="center">Price($)</CustomTableCell>
-							<CustomTableCell align="center">Duration</CustomTableCell>
-							<CustomTableCell align="center">Status</CustomTableCell>
-							<CustomTableCell align="center">Description</CustomTableCell>
-							<CustomTableCell align="center">Actions</CustomTableCell>
+							<CustomTableCell> Project Title </CustomTableCell>
+							<CustomTableCell align="center">Bids</CustomTableCell>
+							<CustomTableCell align="center">Location</CustomTableCell>
+							<CustomTableCell align="center">Price</CustomTableCell>
+							<CustomTableCell align="center">Upload Date <ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+							<CustomTableCell align="center">Bids Due<ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+							<CustomTableCell align="center">Project Details</CustomTableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -234,17 +236,13 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 									onClick={() => this.handleSelectProposal(row.id)}
 									align="center"
 								>
-									<Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
+									
 								</CustomTableCell>
 								<CustomTableCell align="center">
-									<IconButton
-										className={classes.button}
-										aria-label="Delete"
-										color="primary"
-										onClick={() => this.handleDeleteProposal(row.id)}
-									>
-										<DeleteIcon />
-									</IconButton>
+								<Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
+								</CustomTableCell>
+								<CustomTableCell align="center">
+								hello
 								</CustomTableCell>
 							</TableRow>
 						))}

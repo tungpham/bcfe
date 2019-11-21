@@ -52,7 +52,7 @@ const ProjectsView: React.FunctionComponent<IProjectsViewProps> = (props) => {
 			<CustomTabs
 				tabs={[{
 					href: `/projects/current`,
-					label: "Current Projects",
+					label: "New",
 					icon: AppsIcon,
 				}]}
 			/>

@@ -13,6 +13,8 @@ import WonProView from './WonProView';
 import AppsIcon from '@material-ui/icons/Apps';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import { TextField, InputAdornment } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 
 const styles = createStyles((theme: Theme) => ({
     root: {
@@ -36,43 +38,56 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps> {
         if (tab < 0) tab = 0
         return (
             <Box className={classes.root}>
-                <Paper square>
+                {/* <Paper square> */}
+                <div className="sub-header-tab" style={{justifyContent:'space-between', display: 'flex', padding: '0px 30px', margin: '20px 0px' }}>
+
                     <CustomTabs
+
                         init={tab}
                         tabs={[
                             {
                                 href: tabPaths[0],
-                                label: 'New',
-                                icon: AppsIcon,
+                                label: 'Submited', 
+ 
                             },
                             {
                                 href: tabPaths[1],
-                                label: 'Ongoing',
-                                icon: CalendarTodayIcon,
+                                label: 'Awarded', 
                             },
                             {
                                 href: tabPaths[2],
-                                label: 'Completed',
-                                icon: AssignmentTurnedInIcon,
+                                label: 'Completed', 
                             }
+
                         ]}
+                     
                     />
-                    <Switch>
-                        <SecuredRoute
-                            path={tabPaths[0]}
-                            component={SubmittedProView}
-                        />
-                        <SecuredRoute
-                            path={tabPaths[1]}
-                            component={InvitedProView}
-                        />
-                        <SecuredRoute
-                            path={tabPaths[2]}
-                            component={WonProView}
-                        />
-                        <Redirect path={`${match.url}`} to={tabPaths[0]} />
-                    </Switch>
-                </Paper>
+                    <TextField
+                        id="outlined-start-adornment"
+                        placeholder="Search"
+                        className="sub-textbox"
+                        InputProps={{
+                            startAdornment: <InputAdornment position="start"><SearchIcon className="searchicon" /></InputAdornment>,
+                        }}
+                        variant="outlined"
+                    />
+                </div>
+                <Switch>
+                    <SecuredRoute
+                        path={tabPaths[0]}
+                        component={SubmittedProView}
+                    />
+                    <SecuredRoute
+                        path={tabPaths[1]}
+                        component={InvitedProView}
+                    />
+                    <SecuredRoute
+                        path={tabPaths[2]}
+                        component={WonProView}
+                    />
+                    <Redirect path={`${match.url}`} to={tabPaths[0]} />
+                </Switch>
+                {/* </Paper> */}
             </Box>
         );
     }

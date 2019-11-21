@@ -10,6 +10,9 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import SettingsIcon from '@material-ui/icons/Settings';
 import TableChartIcon from '@material-ui/icons/TableChart';
 import TuneIcon from '@material-ui/icons/Tune';
+import PeopleIcon from '@material-ui/icons/People';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import SubdirectoryArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
 
 import SecuredRoute from 'routers/SecuredRoute';
 import ProjectDetailView from 'components/ProjectDetailView';
@@ -63,13 +66,13 @@ const SubContractorView: React.SFC<ISubContractorViewProps> = (props) => {
     const tabs = [
         {
             href: `${match.url}/pipeline`,
-            label: 'Pipeline',
-            icon: TableChartIcon,
+            label: 'Projects',
+            icon: SubdirectoryArrowRightIcon,
         },
         {
             href: `${match.url}/calendar`,
             label: 'Calendar',
-            icon: CalendarTodayIcon,
+            icon: DateRangeIcon,
         },
         {
             href: `${match.url}/analytics`,
@@ -79,7 +82,7 @@ const SubContractorView: React.SFC<ISubContractorViewProps> = (props) => {
         {
             href: `${match.url}/reports`,
             label: 'Reports',
-            icon: AssignmentIcon,
+            icon: PeopleIcon,
         },
         {
             href: `${match.url}/settings`,

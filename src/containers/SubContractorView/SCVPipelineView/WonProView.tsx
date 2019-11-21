@@ -14,6 +14,9 @@ import TableRow from '@material-ui/core/TableRow'
 import DeleteIcon from '@material-ui/icons/Delete';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+
 
 import removeMd from 'remove-markdown';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
@@ -172,18 +175,19 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 				<Table>
 					<TableHead>
 						<TableRow>
-							<CustomTableCell align="center">Proposal To</CustomTableCell>
-							<CustomTableCell align="center">Price($)</CustomTableCell>
-							<CustomTableCell align="center">Duration</CustomTableCell>
-							<CustomTableCell align="center">Status</CustomTableCell>
-							<CustomTableCell align="center">Description</CustomTableCell>
-							<CustomTableCell align="center">Actions</CustomTableCell>
+							<CustomTableCell> Project Title </CustomTableCell>
+							<CustomTableCell align="center">owner</CustomTableCell>
+							<CustomTableCell align="center">Location</CustomTableCell>
+							<CustomTableCell align="center">Price</CustomTableCell>
+							<CustomTableCell align="center">Start Date <ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+							<CustomTableCell align="center">End Date<ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+							<CustomTableCell align="center">Project Details</CustomTableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{proposals.content.map(row => (
-							<TableRow className={classes.row} key={row.id} hover>
-								<CustomTableCell
+						{/* {proposals.content.map(row => ( */}
+							<TableRow className={classes.row} hover>
+								{/* <CustomTableCell
 									onClick={() => this.handleSelectProposal(row.id)}
 									component="th"
 									scope="row"
@@ -219,20 +223,21 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 									onClick={() => this.handleSelectProposal(row.id)}
 									align="center"
 								>
-									<Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
+
 								</CustomTableCell>
 								<CustomTableCell align="center">
-									<IconButton
-										className={classes.button}
-										aria-label="Delete"
-										color="primary"
-										onClick={() => this.handleDeleteProposal(row.id)}
-									>
-										<DeleteIcon />
-									</IconButton>
-								</CustomTableCell>
+									<Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
+								</CustomTableCell> */}
+							<CustomTableCell align="center">
+                                    <IconButton
+                                        aria-label="Delete"
+                                        color="primary"
+                                    >
+                                        <CheckCircleIcon className="bluedoneicon"/>
+                                    </IconButton>
+                                </CustomTableCell>
 							</TableRow>
-						))}
+						{/* ))} */}
 					</TableBody>
 				</Table>
 				<TablePagination

@@ -28,6 +28,7 @@ function ModalService(props) {
         props.serviceCallback(newChecked);
     };
     return (
+        <React.Fragment>
         <Grid className="service-modal-col city-head-text font-weight" item xs={10}>
             <Typography className="heading-service" variant="h5">
                 Which Service(s) are you Looking for?
@@ -63,6 +64,7 @@ function ModalService(props) {
             </List>
             <p className='red font'>{props.errorMessage}</p>
         </Grid>
+        </React.Fragment>
     );
 }
 export default ModalService;

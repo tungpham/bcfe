@@ -19,9 +19,9 @@ import Box from '@material-ui/core/Box';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import removeMd from 'remove-markdown';
-
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Button from "components/CustomButtons/Button.jsx";
 import CustomTableCell from "components/shared/CustomTableCell";
 import { deleteProject } from 'store/actions/gen-actions';
@@ -30,6 +30,8 @@ import { Projects } from 'types/project';
 import { UserProfile } from 'types/global';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import Ellipsis from 'components/Typography/Ellipsis';
+import ErrorIcon from '@material-ui/icons/Error';
+import WarningIcon from '@material-ui/icons/Warning';
 
 const styles = createStyles((theme: Theme) => ({
 	root: {
@@ -187,10 +189,12 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 					<TableHead>
 						<TableRow>
 							<CustomTableCell> Project Title </CustomTableCell>
-							<CustomTableCell align="center">Budget</CustomTableCell>
-							<CustomTableCell align="center">Due Date</CustomTableCell>
-							<CustomTableCell align="center">Description</CustomTableCell>
-							<CustomTableCell align="center">Action</CustomTableCell>
+							<CustomTableCell align="center">Owner</CustomTableCell>
+							<CustomTableCell align="center">Location</CustomTableCell>
+							<CustomTableCell align="center">Price</CustomTableCell>
+							<CustomTableCell align="center">Start Date <ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+							<CustomTableCell align="center">End Date<ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+							<CustomTableCell align="center">Project Details</CustomTableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -229,6 +233,16 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 									>
 										<DeleteIcon />
 									</IconButton>
+								</CustomTableCell>
+								<CustomTableCell
+									component="th"
+									scope="row"
+									className="title"
+								>
+									<Ellipsis maxLines={2}><CheckCircleIcon className="greendoneicon" />
+										<ErrorIcon className="redwarning" />
+										<WarningIcon className="yellowworning" />
+									</Ellipsis>
 								</CustomTableCell>
 							</TableRow>
 						))}

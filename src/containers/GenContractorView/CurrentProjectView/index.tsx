@@ -25,7 +25,7 @@ import { setCurrentProject } from 'store/actions/global-actions';
 import { archiveProject } from 'store/actions/gen-actions';
 import { UserProfile } from 'types/global';
 import { Projects } from 'types/project';
-
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import style from './CurrentProject.style';
 
 
@@ -160,14 +160,19 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                     <TableHead>
                         <TableRow>
                             <CustomTableCell> Project Title </CustomTableCell>
+                            <CustomTableCell align="center">Bids</CustomTableCell>
+                            <CustomTableCell align="center">Location</CustomTableCell>
                             <CustomTableCell align="center">Budget</CustomTableCell>
-                            <CustomTableCell align="center">Due Date</CustomTableCell>
-                            <CustomTableCell align="center">Discription</CustomTableCell>
-                            <CustomTableCell align="center">Action</CustomTableCell>
+                            <CustomTableCell align="center">Upload Date <ArrowDownwardIcon style={{fontSize:'15px'}}  className="Arrowdown"/></CustomTableCell>
+                            <CustomTableCell align="center">Bids Due<ArrowDownwardIcon style={{fontSize:'15px'}} className="Arrowdown" /></CustomTableCell>
+                            <CustomTableCell align="center">Project Details</CustomTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {projects.content.map(row => (
+                             
+                           
+                            
                             <TableRow className={classes.row} key={row.id} hover>
                                 <CustomTableCell
                                     component="th"
@@ -176,7 +181,20 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                                     className="title"
                                 >
                                     <Ellipsis  maxLines={2}>{row.title}</Ellipsis>
+                                     
                                     {/* <Typography className="nowrap">{row.title}</Typography> */}
+                                </CustomTableCell>
+                                <CustomTableCell
+                                    align="center"
+                                    onClick={() => this.handleSelectProject(row.id)}
+                                >
+                                     
+                                </CustomTableCell>
+                                <CustomTableCell
+                                    align="center"
+                                    onClick={() => this.handleSelectProject(row.id)}
+                                >
+                                    
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
@@ -194,20 +212,16 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                                     align="center"
                                     onClick={() => this.handleSelectProject(row.id)}
                                 >
+                                    {row.due && row.due.slice(0, 10)}
+                                </CustomTableCell>
+                                <CustomTableCell
+                                    align="center"
+                                    onClick={() => this.handleSelectProject(row.id)}
+                                >
                                     <Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
                                     {/* {removeMd(row.description)} */}
                                 </CustomTableCell>
-                                <CustomTableCell align="center">
-                                    <IconButton
-                                        aria-label="Delete"
-                                        color="primary"
-                                        onClick={() =>
-                                            this.setState({ showConfirm: true, proId: row.id })
-                                        }
-                                    >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </CustomTableCell>
+                                 
                             </TableRow>
                         ))}
                     </TableBody>

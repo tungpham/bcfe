@@ -24,6 +24,8 @@ import { setCurrentProject } from 'store/actions/global-actions';
 import { deleteProject } from 'store/actions/gen-actions';
 import { UserProfile } from 'types/global';
 import { Projects } from 'types/project';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 
 const style = (theme: Theme) => createStyles({
@@ -189,11 +191,13 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <CustomTableCell> Project Title </CustomTableCell>
+                        <CustomTableCell> Project Title </CustomTableCell>
+                            <CustomTableCell align="center">Contractor</CustomTableCell>
+                            <CustomTableCell align="center">Location</CustomTableCell>
                             <CustomTableCell align="center">Budget</CustomTableCell>
-                            <CustomTableCell align="center">Due Date</CustomTableCell>
-                            <CustomTableCell align="center">Discription</CustomTableCell>
-                            <CustomTableCell align="center">Action</CustomTableCell>
+                            <CustomTableCell align="center" >  Start Date  <ArrowDownwardIcon className="Arrowdown" /> </CustomTableCell>
+                            <CustomTableCell align="center" > End Date  <ArrowDownwardIcon className="Arrowdown" /> </CustomTableCell>
+                            <CustomTableCell align="center">Project Details</CustomTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -205,6 +209,18 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                     onClick={() => this.handleSelectProject(row.id)}
                                 >
                                     <Ellipsis maxLines={2}>{row.title}</Ellipsis>
+                                </CustomTableCell>
+                                <CustomTableCell
+                                    align="center"
+                                    onClick={() => this.handleSelectProject(row.id)}
+                                >
+                                     
+                                </CustomTableCell>
+                                <CustomTableCell
+                                    align="center"
+                                    onClick={() => this.handleSelectProject(row.id)}
+                                >
+                                     
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
@@ -232,7 +248,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                             this.setState({ showConfirm: true, proId: row.id })
                                         }
                                     >
-                                        <DeleteIcon />
+                                        <CheckCircleIcon className="bluedoneicon"/>
                                     </IconButton>
                                 </CustomTableCell>
                             </TableRow>

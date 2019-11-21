@@ -7,7 +7,7 @@ import { green } from '@material-ui/core/colors';
 import Radio from '@material-ui/core/Radio';
 import { withStyles } from '@material-ui/core/styles';
 
-function ModalService(props) {
+function ModalArea(props) {
 
     const GreenRadio = withStyles({
         root: {
@@ -80,4 +80,4 @@ function ModalService(props) {
         </Grid>
     );
 }
-export default ModalService;
+export default ModalArea;

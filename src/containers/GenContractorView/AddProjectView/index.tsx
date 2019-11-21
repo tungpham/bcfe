@@ -7,13 +7,20 @@ import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableBody from '@material-ui/core/TableBody';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import CustomTableCell from 'components/shared/CustomTableCell';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import Ellipsis from 'components/Typography/Ellipsis';
+import ErrorIcon from '@material-ui/icons/Error';
+import WarningIcon from '@material-ui/icons/Warning';
 
 import SecuredRoute from 'routers/SecuredRoute';
 import AddProjectOverview, { ProjectBriefInfo } from './Overview';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
-import CustomTabs from "components/shared/CustomTabs";
-import ProjectLevels from 'components/ProjectDetailView/ProjectLevels';
-import ProjectSelect from 'components/ProjectDetailView/ProjectSelect';
 import {
     addFilesToProject,
     addProject,
@@ -384,60 +391,79 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         if (tab < 0) tab = 0;
 
         return (
-            <Box className={classes.root}>
-                <CustomTabs init={tab} tabs={tabs} />
-                <Box className={classes.contents}>
-                    <Switch>
-                        <SecuredRoute
-                            path={tabs[0].href}
-                            render={props => (
-                                <AddProjectOverview {...props}
-                                    title={title}
-                                    price={price}
-                                    description={description}
-                                    dueDate={dueDate}
-                                    files={files}
-                                    isBusy={isBusy}
-                                    handleFileChange={this.handleFileChange}
-                                    handleRemove={this.handleRemove}
-                                    handleDateChange={this.handleDateChange}
-                                    handleDescChange={this.handleDescChange}
-                                    handleTitleChange={this.handleTitleChange}
-                                    handlePriceChange={this.handlePriceChange}
-                                    handleAdd={this.handleAddProject}
-                                    project={project}
-                                />
-                            )}
-                        />
-                        <SecuredRoute
-                            path={tabs[1].href}
-                            render={props => (
-                                <ProjectLevels {...props}
-                                    levels={levels}
-                                    addLevel={this.addLevel}
-                                    deleteLevel={this.deleteLvl}
-                                    updateLevel={this.updateLevel}
-                                    addCategory={this.addCategory}
-                                    updateCategory={this.updateCategory}
-                                    deleteCategory={this.deleteCategory}
-                                />
-                            )}
-                        />
-                        <SecuredRoute
-                            path={tabs[2].href}
-                            component={ProjectSelect}
-                        />
-                        <Redirect path={`${match.url}`} to={tabs[0].href} />
-                    </Switch>
+            <div>
+                <Box  >
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <CustomTableCell> Project Title </CustomTableCell>
+                                <CustomTableCell align="center">Contractor</CustomTableCell>
+                                <CustomTableCell align="center">Location</CustomTableCell>
+                                <CustomTableCell align="center">Budget</CustomTableCell>
+                                <CustomTableCell align="center">Start Date <ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+                                <CustomTableCell align="center">End Date<ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+                                <CustomTableCell align="center">Project Details</CustomTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow className={classes.row} hover>
+                                <CustomTableCell
+                                    component="th"
+                                    scope="row"
+                                    className="title"
+                                >
+                                    <Ellipsis maxLines={2}>hello</Ellipsis>
+                                </CustomTableCell>
+                                <CustomTableCell
+                                    component="th"
+                                    scope="row"
+                                    className="title"
+                                >
+                                    <Ellipsis maxLines={2}>hello</Ellipsis>
+                                </CustomTableCell>
+                                <CustomTableCell
+                                    component="th"
+                                    scope="row"
+                                    className="title"
+                                >
+                                    <Ellipsis maxLines={2}>hello</Ellipsis>
+                                </CustomTableCell>
+                                <CustomTableCell
+                                    component="th"
+                                    scope="row"
+                                    className="title"
+                                >
+                                    <Ellipsis maxLines={2}>hello</Ellipsis>
+                                </CustomTableCell>
+                                <CustomTableCell
+                                    component="th"
+                                    scope="row"
+                                    className="title"
+                                >
+                                    <Ellipsis maxLines={2}>hello</Ellipsis>
+                                </CustomTableCell>
+                                <CustomTableCell
+                                    component="th"
+                                    scope="row"
+                                    className="title"
+                                >
+                                    <Ellipsis maxLines={2}>hello</Ellipsis>
+                                </CustomTableCell>
+                                <CustomTableCell
+                                    component="th"
+                                    scope="row"
+                                    className="title"
+                                >
+                                    <Ellipsis maxLines={2}><CheckCircleIcon className="greendoneicon"/>
+                                    <ErrorIcon className="redwarning"/>
+                                    <WarningIcon className="yellowworning"/>
+                                    </Ellipsis>
+                                </CustomTableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
                 </Box>
-                {this.state.isBusy && <CircularProgress className={classes.busy} />}
-                <CustomSnackbar
-                    open={this.state.showMessage}
-                    variant={this.state.variant}
-                    message={this.state.message}
-                    handleClose={this.state.handleClose}
-                />
-            </Box>
+            </div>
         );
     }
 }
