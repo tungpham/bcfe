@@ -24,7 +24,7 @@
 .text-center {
   text-align: center;
 }
-button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.service-modal-next {
+button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.service-modal-next ,button.MuiButtonBase-root.MuiButton-root.service-modal-prev.MuiButton-contained{
   background-color: #459a0b;
   color: white;
   font-weight: 900;

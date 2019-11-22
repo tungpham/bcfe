@@ -239,7 +239,12 @@ svg.MuiSvgIcon-root.profiledropdown {
 .sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.Mui-selected{
   color:gray !important;
   border-bottom: 4px solid #eee !important;
-  z-index:1;
+  z-index:9999;
+}
+.sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary{
+  color:gray !important;
+  border-bottom: 4px solid #eee !important;
+  z-index:9999;
 }
 
 
@@ -273,10 +278,7 @@ svg.MuiSvgIcon-root.CustomTabs-rootIcon-196.active {
 .PrivateTabIndicator-colorPrimary-1044 {
   background-color: #68e191 !important;
 }
-button.MuiButtonBase-root.MuiButton-root.MuiButton-contained {
-  background-color: #4a148c;
-  color: white;
-}
+ 
 .MuiTableHead-root {
   background-color: white !important;
 }
@@ -366,3 +368,15 @@ span.PrivateTabIndicator-root-606.PrivateTabIndicator-colorPrimary-607.MuiTabs-i
 .MuiAppBar-colorPrimary{
   background-color: white !important;
 }
+
+.MuiTab-textColorPrimary.Mui-selected, .PrivateTabIndicator-colorPrimary-496{
+   color: #68e191 !important;
+    border-bottom: 4px solid #68e191 !important;
+    z-index: 9999;
+}
+.MuiTab-textColorPrimary, .PrivateTabIndicator-colorPrimary-496{
+  
+   border-bottom: 4px solid white !important;
+   z-index: 9999;
+}
+ 
