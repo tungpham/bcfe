@@ -17,10 +17,8 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Ellipsis from 'components/Typography/Ellipsis';
 import ErrorIcon from '@material-ui/icons/Error';
 import WarningIcon from '@material-ui/icons/Warning';
-
-import SecuredRoute from 'routers/SecuredRoute';
-import AddProjectOverview, { ProjectBriefInfo } from './Overview';
-import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
+import { ProjectBriefInfo } from './Overview';
+import { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import {
     addFilesToProject,
     addProject,
@@ -37,9 +35,7 @@ import { loadRoots } from 'store/actions/tem-actions';
 
 import { UserProfile } from 'types/global';
 import { ProjectLevel, ProjectPostInfo, ProjectLevelCategory } from 'types/project';
-
-// mocking data/api
-// import { initLevels } from './mock';
+import Axios from 'axios';
 
 const styles = theme => createStyles({
     root: {
@@ -102,9 +98,9 @@ interface IAddProjectViewState extends ISnackbarProps, ProjectBriefInfo {
 }
 
 class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectViewState> {
+    contractorBulk = [];
     constructor(props: IAddProjectViewProps) {
         super(props);
-
         this.state = {
             title: '',
             price: 0,
@@ -116,13 +112,16 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
             message: '',
             variant: 'error',
             handleClose: this.closeMessage,
-            project: undefined,
+            project: undefined
         }
     }
 
     async componentDidMount() {
         await this.props.clearLevels();
         await this.props.loadRoots();
+        Axios.get("https://bcbe-service.herokuapp.com/contractors/b579a3de-8e01-4668-b80c-7c1a40068f69/projects?status=ONGOING").then((data: any) => {
+            console.log(data.data.content);
+        })
     }
 
 
@@ -379,6 +378,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
     }
 
     public render() {
+        console.log(this.props);
         const { classes, match, location, levels } = this.props;
         const { title, price, description, dueDate, files, isBusy, project } = this.state;
         const tabs = [
@@ -389,10 +389,9 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
         let tab = tabs.map(tab => tab.href).indexOf(location.pathname);
         if (tab < 0) tab = 0;
-
         return (
             <div>
-                <Box  >
+                <Box>
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -410,53 +409,46 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                 <CustomTableCell
                                     component="th"
                                     scope="row"
-                                    className="title"
-                                >
+                                    className="title">
                                     <Ellipsis maxLines={2}>hello</Ellipsis>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     component="th"
                                     scope="row"
-                                    className="title"
-                                >
+                                    className="title">
                                     <Ellipsis maxLines={2}>hello</Ellipsis>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     component="th"
                                     scope="row"
-                                    className="title"
-                                >
+                                    className="title">
                                     <Ellipsis maxLines={2}>hello</Ellipsis>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     component="th"
                                     scope="row"
-                                    className="title"
-                                >
+                                    className="title">
                                     <Ellipsis maxLines={2}>hello</Ellipsis>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     component="th"
                                     scope="row"
-                                    className="title"
-                                >
+                                    className="title">
                                     <Ellipsis maxLines={2}>hello</Ellipsis>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     component="th"
                                     scope="row"
-                                    className="title"
-                                >
+                                    className="title">
                                     <Ellipsis maxLines={2}>hello</Ellipsis>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     component="th"
                                     scope="row"
-                                    className="title"
-                                >
-                                    <Ellipsis maxLines={2}><CheckCircleIcon className="greendoneicon"/>
-                                    <ErrorIcon className="redwarning"/>
-                                    <WarningIcon className="yellowworning"/>
+                                    className="title">
+                                    <Ellipsis maxLines={2}><CheckCircleIcon className="greendoneicon" />
+                                        <ErrorIcon className="redwarning" />
+                                        <WarningIcon className="yellowworning" />
                                     </Ellipsis>
                                 </CustomTableCell>
                             </TableRow>
