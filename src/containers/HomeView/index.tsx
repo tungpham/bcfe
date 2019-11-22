@@ -9,7 +9,7 @@ import AutoCompleteText from '../../components/common/AutoCompleteText.js';
 import '../../assets/css/conflictRemove.css';
 import HomePageMid from 'components/HomeMid/homePageMid.js';
 
-function HomeView() {
+function HomeView(props) {
   const [error, setError] = useState('');
   const [city, setCitiesData] = useState([]);
   const [cityName, setCityName] = useState('');
@@ -35,6 +35,8 @@ function HomeView() {
       setError("");
     }
   }
+
+  console.log(props);
 
   return (
     <div>

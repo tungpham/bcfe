@@ -12,6 +12,7 @@ class connectedCallback extends Component {
 		const data = await auth0Client.getUserInfo();
 		this.props.setUserProfileAction(data);
 		this.props.history.replace('/');
+		localStorage.setItem('User_Id',data.user_id);
 	}
 
 	render() {
