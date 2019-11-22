@@ -35,6 +35,9 @@ import ModalMaterial from '../modals/modalMaterial';
 import { useStyles } from '@material-ui/pickers/views/Month/MonthView';
 import HttpUrlConstant from 'apis/global';
 import { withRouter } from 'react-router-dom';
+import auth0Client from 'services/auth0/auth';
+import Axios from 'axios';
+import history from '../../history';
 
 console.clear();
 
@@ -131,6 +134,22 @@ function ContractorDetails(props) {
         }
     });
     const handleClose = () => {
+        var apiPath = `/contractors/${Id}/projects`;
+        if (!localStorage.getItem('User_Id') && activeStep === 7) {
+            auth0Client.signIn();
+        }
+        else {
+            const payload = {
+                "title": "hello",
+                "description": "description"
+            };
+            if (payload) {
+                Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
+                    payload, { headers: HttpUrlConstant.headers }).then(response => {
+                        console.log("r", Response.data);
+                    })
+            }
+        }
         setActiveStep(0);
         setOpen(false);
     };

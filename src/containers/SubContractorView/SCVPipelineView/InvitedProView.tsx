@@ -32,6 +32,7 @@ import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar
 import Ellipsis from 'components/Typography/Ellipsis';
 import ErrorIcon from '@material-ui/icons/Error';
 import WarningIcon from '@material-ui/icons/Warning';
+import Axios from 'axios';
 
 const styles = createStyles((theme: Theme) => ({
 	root: {
@@ -85,6 +86,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 	}
 
 	componentDidMount() {
+		
 		const { userProfile } = this.props;
 		this.props.getInvitedProjects(
 			userProfile.user_metadata.contractor_id,
@@ -159,6 +161,8 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 			});
 		}
 	};
+
+
 
 	deleteProject = (id: string) => {
 		this.setState({
