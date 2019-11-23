@@ -1,9 +1,8 @@
 import React from 'react';
+import { RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { RouteComponentProps } from 'react-router-dom'
-
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -13,74 +12,107 @@ import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import IconButton from '@material-ui/core/IconButton';
 import TablePagination from '@material-ui/core/TablePagination';
-import DeleteIcon from '@material-ui/icons/Delete';
 import removeMd from 'remove-markdown';
 import CustomTableCell from 'components/shared/CustomTableCell';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import ConfirmDialog from 'components/shared/ConfirmDialog';
 import Ellipsis from 'components/Typography/Ellipsis';
-
-import { getProjectsByGenId } from 'store/actions/gen-actions';
+import { getArchivedProjectsByGenId } from 'store/actions/gen-actions';
 import { setCurrentProject } from 'store/actions/global-actions';
-import { archiveProject } from 'store/actions/gen-actions';
+import { deleteProject } from 'store/actions/gen-actions';
 import { UserProfile } from 'types/global';
 import { Projects } from 'types/project';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import style from './CurrentProject.style';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Axios from 'axios';
 
+const style = (theme: Theme) => createStyles({
+    root: {
+        position: 'relative',
+    },
+    row: {
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.background.default,
+        },
+    },
+    waitingSpin: {
+        position: 'relative',
+        left: 'calc(50% - 10px)',
+        top: 'calc(40vh)',
+    },
+    desc: {
+        color: '#444',
+        marginTop: '0',
+        '& > p': {
+            margin: theme.spacing(0, 0),
+        },
+    },
+    busy: {
+        position: 'absolute',
+        left: 'calc(50% - 20px)',
+        top: 'calc(50% - 20px)',
+    },
+});
 
-interface CurrentProjectProps extends RouteComponentProps {
-    classes: ClassNameMap<string>;
+interface ArchivedProjectProps extends RouteComponentProps {
     userProfile: UserProfile | null;
+    getArchivedProjectsByGenId: Function;
     projects: Projects | null;
-    getProjectsByGenId: (id: string, page: number, size: number) => void;
-    deleteProject: (id: string) => void;
-    setCurrentProject: (id: string) => void;
+    deleteProject: (id: string) => Promise<void>;
+    setCurrentProject: (id: string) => Promise<void>;
+    classes: ClassNameMap<string>;
 }
 
-interface CurrentProjectState extends ISnackbarProps {
+interface ArchivedProjectState extends ISnackbarProps {
     rowsPerPage: number;
     currentPage: number;
+    compltedArray: [],
     isBusy: boolean;
     showConfirm: boolean;
     proId: string;
 }
 
-class CurrentProject extends React.Component<CurrentProjectProps, CurrentProjectState> {
-    constructor(props) {
+class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProjectState> {
+    constructor(props: Readonly<ArchivedProjectProps>) {
         super(props);
-
         this.state = {
+            compltedArray: [],
             rowsPerPage: 20,
             currentPage: 0,
-            isBusy: false,
+            isBusy: true,
             showMessage: false,
             message: '',
             variant: 'success',
+            handleClose: this.closeMessage,
             showConfirm: false,
             proId: '',
-            handleClose: () => this.setState({ showMessage: false })
         };
+    }
+
+    closeMessage = () => {
+        this.setState({ showMessage: false });
     }
 
     async componentDidMount() {
         const { userProfile } = this.props;
         this.setState({ isBusy: true });
-        try {
-            await this.props.getProjectsByGenId(userProfile.user_metadata.contractor_id, 0, 20);
-        } catch (error) {
-            console.log(error);
-        }
+        Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=0&size=20&status=ARCHIVED`).then(data => {
+            this.setState({ compltedArray: data.data.content })
+            // console.log(data.data.content);
+        })
+        // try {
+        //     await this.props.getArchivedProjectsByGenId(userProfile.user_metadata.contractor_id, 0, 20);
+        // } catch (error) {
+        //     console.log(error);
+        // }
         this.setState({ isBusy: false });
-        // Axios.get this.props.userProfile.user_metadata.contractor_id
     }
 
     handleChangePage = async (event, page) => {
         const { userProfile } = this.props;
         this.setState({ currentPage: page, isBusy: true });
         try {
-            await this.props.getProjectsByGenId(
+            await this.props.getArchivedProjectsByGenId(
                 userProfile.user_metadata.contractor_id,
                 page,
                 this.state.rowsPerPage
@@ -98,9 +130,9 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         const currentPage =
             rowsPerPage >= projects.totalElements ? 0 : this.state.currentPage;
 
-        this.setState({ rowsPerPage, currentPage });
+        this.setState({ rowsPerPage, currentPage, isBusy: true });
         try {
-            await this.props.getProjectsByGenId(
+            await this.props.getArchivedProjectsByGenId(
                 userProfile.user_metadata.contractor_id,
                 currentPage,
                 rowsPerPage
@@ -121,7 +153,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
             let curPage = this.state.currentPage;
             if (this.state.rowsPerPage * this.state.currentPage > (projects.totalElements - 1))
                 curPage--;
-            await this.props.getProjectsByGenId(
+            await this.props.getArchivedProjectsByGenId(
                 userProfile.user_metadata.contractor_id,
                 curPage,
                 this.state.rowsPerPage
@@ -129,8 +161,8 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
             this.setState({
                 isBusy: false,
                 showMessage: true,
-                message: 'delete project success',
                 variant: 'success',
+                message: 'delete project success',
                 currentPage: curPage,
             });
         } catch (error) {
@@ -144,8 +176,8 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         }
     };
 
-    handleSelectProject = async (id: string) => {
-        await this.props.setCurrentProject(id);
+    handleSelectProject = id => {
+        this.props.setCurrentProject(id);
         this.props.history.push('/gen-contractor/project_detail/' + id);
     };
 
@@ -155,37 +187,32 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         if (!projects) {
             return <CircularProgress className={classes.waitingSpin} />;
         }
-
-
         return (
-            <Box  >
+            <Box className={classes.root}>
                 <Table>
                     <TableHead>
+                        {this.state.compltedArray.map(data => {
+                            return (<div>hello</div>)
+                        })}
                         <TableRow>
                             <CustomTableCell> Project Title </CustomTableCell>
-                            <CustomTableCell align="center">Bids</CustomTableCell>
+                            <CustomTableCell align="center">Contractor</CustomTableCell>
                             <CustomTableCell align="center">Location</CustomTableCell>
                             <CustomTableCell align="center">Budget</CustomTableCell>
-                            <CustomTableCell align="center">Upload Date <ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
-                            <CustomTableCell align="center">Bids Due<ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+                            <CustomTableCell align="center">Start Date<ArrowDownwardIcon className="Arrowdown" /> </CustomTableCell>
+                            <CustomTableCell align="center">End Date<ArrowDownwardIcon className="Arrowdown" /> </CustomTableCell>
                             <CustomTableCell align="center">Project Details</CustomTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {projects.content.map(row => (
-
-
-
                             <TableRow className={classes.row} key={row.id} hover>
                                 <CustomTableCell
                                     component="th"
                                     scope="row"
                                     onClick={() => this.handleSelectProject(row.id)}
-                                    className="title"
                                 >
                                     <Ellipsis maxLines={2}>{row.title}</Ellipsis>
-
-                                    {/* <Typography className="nowrap">{row.title}</Typography> */}
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
@@ -215,16 +242,19 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                                     align="center"
                                     onClick={() => this.handleSelectProject(row.id)}
                                 >
-                                    {row.due && row.due.slice(0, 10)}
-                                </CustomTableCell>
-                                <CustomTableCell
-                                    align="center"
-                                    onClick={() => this.handleSelectProject(row.id)}
-                                >
                                     <Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
-                                    {/* {removeMd(row.description)} */}
                                 </CustomTableCell>
-
+                                <CustomTableCell align="center">
+                                    <IconButton
+                                        aria-label="Delete"
+                                        color="primary"
+                                        onClick={() =>
+                                            this.setState({ showConfirm: true, proId: row.id })
+                                        }
+                                    >
+                                        <CheckCircleIcon className="bluedoneicon" />
+                                    </IconButton>
+                                </CustomTableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -245,7 +275,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                     open={this.state.showMessage}
                     variant={this.state.variant}
                     message={this.state.message}
-                    handleClose={this.state.handleClose}
+                    handleClose={() => this.setState({ showMessage: false })}
                 />
                 <ConfirmDialog
                     open={this.state.showConfirm}
@@ -260,8 +290,8 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
 }
 
 const mapDispatchToProps = {
-    getProjectsByGenId,
-    deleteProject: archiveProject,
+    getArchivedProjectsByGenId,
+    deleteProject,
     setCurrentProject,
 };
 
@@ -271,6 +301,9 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    ),
     withStyles(style)
-)(CurrentProject);
+)(ArchivedProject);

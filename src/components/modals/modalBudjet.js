@@ -71,7 +71,7 @@ function ModalBudjet(props) {
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
                        <FormControlLabel checked={props.data[3] === 'Less then $12,000'}
-                               value="Less then $12,000"
+                               value="Less then 12,000"
                                control={<GreenRadio />}
                                label="Less then $12,000"
                                name="radio-button-demo"
@@ -80,7 +80,7 @@ function ModalBudjet(props) {
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
                        <FormControlLabel checked={props.data[3] === '$12000-$50000'}
-                               value="$12000-$50000"
+                               value="12000-50000"
                                control={<GreenRadio />}
                                label="$12000-$50000"
                                name="radio-button-demo"
@@ -89,7 +89,7 @@ function ModalBudjet(props) {
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
                        <FormControlLabel checked={props.data[3] === '$50000-$100000'}
-                               value="$50000-$100000"
+                               value="50000-100000"
                                control={<GreenRadio />}
                                label="$50000-$100000"
                                name="radio-button-demo"
@@ -98,7 +98,7 @@ function ModalBudjet(props) {
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
                        <FormControlLabel checked={props.data[3] === 'More then $10000'}
-                               value="More then $10000"
+                               value="More then 10000"
                                control={<GreenRadio />}
                                label="More then $10000"
                                name="radio-button-demo"

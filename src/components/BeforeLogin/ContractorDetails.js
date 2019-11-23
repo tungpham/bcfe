@@ -37,7 +37,6 @@ import HttpUrlConstant from 'apis/global';
 import { withRouter } from 'react-router-dom';
 import auth0Client from 'services/auth0/auth';
 import Axios from 'axios';
-import history from '../../history';
 
 console.clear();
 
@@ -259,7 +258,7 @@ function ContractorDetails(props) {
     const currentReview = PersonReviewList.slice(indexOfFirstReview, indexOfLastReview);
     const [open, setOpen] = React.useState(false);
 
-    // console.log("de", Detailsdata);
+    console.log("de",data);
     return (
         <div style={{ width: '1290px', marginTop: '-30px' }} className="full-width">
             {Detailsdata.map((detailsdata) => {
