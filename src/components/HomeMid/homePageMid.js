@@ -179,7 +179,7 @@ function HomePageMid(props) {
             itemClass="carousel-item-padding-40-px"
         >
             <div>
-                <Card className={classes.card} onClick={gettitle}> 
+                <Card className={classes.card}   > 
                     <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia

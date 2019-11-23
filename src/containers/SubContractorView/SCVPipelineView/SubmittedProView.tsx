@@ -24,6 +24,8 @@ import Ellipsis from 'components/Typography/Ellipsis';
 import { UserProfile } from 'types/global';
 import { deleteProposal, getProposals } from 'store/actions/sub-actions';
 import { Proposals } from 'types/proposal';
+import Axios from 'axios';
+
 
 const styles = createStyles((theme: Theme) => ({
 	root: {
@@ -85,7 +87,13 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		};
 	}
 
-	componentDidMount() {
+	componentDidMount() { 
+		// Axios.get(`https://bcbe-service.herokuapp.com/projects/de8b988a-e8f1-4a1f-a88d-e7892214006f/proposals?status=SUBMITTED`).then(res => {
+		// 	console.log(res.data.content,"res"); 
+		// 	this.setState({Array : res.data.content})
+		// })
+
+
 		const { userProfile } = this.props;
 		this.props.getProposals(userProfile.user_metadata.contractor_id,
 			0, 0, 'SUBMITTED');
@@ -174,6 +182,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 
 	render() {
 		const { classes, proposals } = this.props;
+		console.log("p",proposals);
 
 		if (!proposals) {
 			return (
@@ -214,35 +223,36 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 									scope="row"
 									align="center"
 								>
+									 {row.project.budget}
+								</CustomTableCell>
+								 
+								<CustomTableCell
+									onClick={() => this.handleSelectProposal(row.id)}
+									component="th"
+									scope="row"
+									align="center"
+								>
+							 	 {/* {row.project.endDate} */}
+								</CustomTableCell>
+								<CustomTableCell
+									onClick={() => this.handleSelectProposal(row.id)}
+									component="th"
+									scope="row"
+									align="center"
+								>
 									{row.budget}
 								</CustomTableCell>
 								<CustomTableCell
 									onClick={() => this.handleSelectProposal(row.id)}
-									component="th"
-									scope="row"
 									align="center"
 								>
-									{row.duration}
-								</CustomTableCell>
-								<CustomTableCell
-									onClick={() => this.handleSelectProposal(row.id)}
-									component="th"
-									scope="row"
-									align="center"
-								>
-									{row.status}
-								</CustomTableCell>
-								<CustomTableCell
-									onClick={() => this.handleSelectProposal(row.id)}
-									align="center"
-								>
-									
+									 
 								</CustomTableCell>
 								<CustomTableCell align="center">
 								<Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
 								</CustomTableCell>
 								<CustomTableCell align="center">
-								hello
+								{row.project.description}
 								</CustomTableCell>
 							</TableRow>
 						))}
