@@ -37,6 +37,9 @@ import ModalDisc from '../../components/modals/modalDesc';
 import ModalCity from '../../components/modals/modalCity';
 import ModalProperty from '../../components/modals/modalProperty';
 import ModalMaterial from '../../components/modals/modalMaterial';
+import auth0Client from 'services/auth0/auth';
+import Axios from 'axios';
+import HttpUrlConstant from 'apis/global';
 
 interface IGenContractorViewProps extends RouteComponentProps {
     userProfile: UserProfile;
@@ -57,7 +60,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
         },
     });
 
-
+    const [Id, setId] = useState(props.userProfile.user_metadata.contractor_id);
     const [getvalue, setgetvalue] = useState('');
     const [getcheck, setgetcheck] = useState(false);
     const [getredio, setgetredio] = useState('');
@@ -68,6 +71,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     const [getdisc, setgetdisc] = useState('');
     const [validation, setvalidation] = useState("");
     const [getChar, setgetChar] = useState(0);
+    const [Newdata, setNewdata]=useState([]);
 
 
     const theme = useTheme();
@@ -147,6 +151,21 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     };
 
     const handleClose = () => {
+        var apiPath = `/contractors/${Id}/projects`;
+        if (activeStep === 7) {
+            const payload = {
+                "title": "project",
+                "description": getdisc,
+                "budget":Number(getbudjet) ,
+                "endDate": new Date(),
+            };
+            if (payload) {
+                Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
+                    payload, { headers: HttpUrlConstant.headers }).then(response => {
+                        Newdata.push(response.data);
+                    })
+            }
+        }
         setActiveStep(0);
         setOpen(false);
     };
@@ -163,7 +182,8 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     let tab = 0;
     if (location.pathname.includes('add_project')) tab = 1;
     if (location.pathname.includes('archived')) tab = 2;
-    // console.log(location.pathname);
+
+// console.log("n",Newdata);
     return (
         <Box style={{ flexGrow: 1, backgroundColor: 'white', color: '#68e191' }}>
             <CustomTabs

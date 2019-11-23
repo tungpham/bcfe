@@ -12,13 +12,11 @@ import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import IconButton from '@material-ui/core/IconButton';
 import TablePagination from '@material-ui/core/TablePagination';
-import DeleteIcon from '@material-ui/icons/Delete';
 import removeMd from 'remove-markdown';
 import CustomTableCell from 'components/shared/CustomTableCell';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import ConfirmDialog from 'components/shared/ConfirmDialog';
 import Ellipsis from 'components/Typography/Ellipsis';
-
 import { getArchivedProjectsByGenId } from 'store/actions/gen-actions';
 import { setCurrentProject } from 'store/actions/global-actions';
 import { deleteProject } from 'store/actions/gen-actions';
@@ -26,7 +24,7 @@ import { UserProfile } from 'types/global';
 import { Projects } from 'types/project';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-
+import Axios from 'axios';
 
 const style = (theme: Theme) => createStyles({
     root: {
@@ -68,6 +66,7 @@ interface ArchivedProjectProps extends RouteComponentProps {
 interface ArchivedProjectState extends ISnackbarProps {
     rowsPerPage: number;
     currentPage: number;
+    compltedArray: [];
     isBusy: boolean;
     showConfirm: boolean;
     proId: string;
@@ -76,8 +75,8 @@ interface ArchivedProjectState extends ISnackbarProps {
 class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProjectState> {
     constructor(props: Readonly<ArchivedProjectProps>) {
         super(props);
-
         this.state = {
+            compltedArray: [],
             rowsPerPage: 20,
             currentPage: 0,
             isBusy: true,
@@ -96,13 +95,15 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
     async componentDidMount() {
         const { userProfile } = this.props;
-
         this.setState({ isBusy: true });
-        try {
-            await this.props.getArchivedProjectsByGenId(userProfile.user_metadata.contractor_id, 0, 20);
-        } catch (error) {
-            console.log(error);
-        }
+        Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`).then(data => {
+            this.setState({ compltedArray: data.data.content })
+        })
+        // try {
+        //     await this.props.getArchivedProjectsByGenId(userProfile.user_metadata.contractor_id, 0, 20);
+        // } catch (error) {
+        //     console.log(error);
+        // }
         this.setState({ isBusy: false });
     }
 
@@ -181,7 +182,6 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
     render() {
         const { classes, projects } = this.props;
-
         if (!projects) {
             return <CircularProgress className={classes.waitingSpin} />;
         }
@@ -191,65 +191,75 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                 <Table>
                     <TableHead>
                         <TableRow>
-                        <CustomTableCell> Project Title </CustomTableCell>
+                            <CustomTableCell> Project Title </CustomTableCell>
                             <CustomTableCell align="center">Contractor</CustomTableCell>
                             <CustomTableCell align="center">Location</CustomTableCell>
                             <CustomTableCell align="center">Budget</CustomTableCell>
-                            <CustomTableCell align="center" >  Start Date  <ArrowDownwardIcon className="Arrowdown" /> </CustomTableCell>
-                            <CustomTableCell align="center" > End Date  <ArrowDownwardIcon className="Arrowdown" /> </CustomTableCell>
+                            <CustomTableCell align="center">Start Date<ArrowDownwardIcon className="Arrowdown" /> </CustomTableCell>
+                            <CustomTableCell align="center">End Date<ArrowDownwardIcon className="Arrowdown" /> </CustomTableCell>
                             <CustomTableCell align="center">Project Details</CustomTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {projects.content.map(row => (
-                            <TableRow className={classes.row} key={row.id} hover>
+                        {this.state.compltedArray.map((data: any) => (
+                            <TableRow className="" key={data.project.id} hover>
                                 <CustomTableCell
                                     component="th"
                                     scope="row"
-                                    onClick={() => this.handleSelectProject(row.id)}
-                                >
-                                    <Ellipsis maxLines={2}>{row.title}</Ellipsis>
+                                    onClick={() => this.handleSelectProject(data.project.id)}>
+                                    <Ellipsis maxLines={2}>{data.project.title}</Ellipsis>
                                 </CustomTableCell>
+
                                 <CustomTableCell
                                     align="center"
-                                    onClick={() => this.handleSelectProject(row.id)}
+                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                     
+                                    {data.contractor.address.name}
                                 </CustomTableCell>
+
                                 <CustomTableCell
                                     align="center"
-                                    onClick={() => this.handleSelectProject(row.id)}
+                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                     
+                                    {data.contractor.address.city}
                                 </CustomTableCell>
+
                                 <CustomTableCell
                                     align="center"
-                                    onClick={() => this.handleSelectProject(row.id)}
+                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                    {row.budget}
+                                    ${data.project.budget}
                                 </CustomTableCell>
+
                                 <CustomTableCell
                                     align="center"
-                                    onClick={() => this.handleSelectProject(row.id)}
+                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                    {row.due && row.due.slice(0, 10)}
+                                    {data.project.startDate}
+                                    {/* {data.due && data.due.slice(0, 10)} */}
                                 </CustomTableCell>
+
                                 <CustomTableCell
                                     align="center"
-                                    onClick={() => this.handleSelectProject(row.id)}
+                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                    <Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
+                                    {data.project.endDate}
                                 </CustomTableCell>
-                                <CustomTableCell align="center">
-                                    <IconButton
-                                        aria-label="Delete"
-                                        color="primary"
-                                        onClick={() =>
-                                            this.setState({ showConfirm: true, proId: row.id })
-                                        }
-                                    >
-                                        <CheckCircleIcon className="bluedoneicon"/>
-                                    </IconButton>
+
+                                <CustomTableCell
+                                    align="center"
+                                    onClick={() => this.handleSelectProject(data.project.id)}
+                                ><Ellipsis maxLines={2}>
+                                        <IconButton
+                                            aria-label="Delete"
+                                            color="primary"
+                                            onClick={() =>
+                                                this.setState({ showConfirm: true, proId: data.project.id })
+                                            }>
+                                            <CheckCircleIcon className="bluedoneicon" />
+                                        </IconButton>
+                                        {removeMd(data.project.description)}
+                                    </Ellipsis>
                                 </CustomTableCell>
                             </TableRow>
                         ))}
