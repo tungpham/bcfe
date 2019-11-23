@@ -30,6 +30,7 @@ import rootStyles from './AppRouter.style';
 import Container from '@material-ui/core/Container';
 import ContractorList from 'components/BeforeLogin/ContractorList';
 import ContractorDetails from 'components/BeforeLogin/ContractorDetails';
+import history from '../history';
 
 interface AppRouterProps extends MaterialThemeHOC {
 	location: Location;
@@ -86,7 +87,7 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
 							<Switch>
 								<Route exact path="/" component={HomeView} />
 								<Route path="/contractorList" component={ContractorList} />
-								<Route path="/contractordetails/:Id" component={ContractorDetails} />
+								<Route path="/contractordetails/:Id" component={ContractorDetails}  history={history}/>
 								<SecuredRoute
 									path="/gen-contractor"
 									component={GenContractorView}

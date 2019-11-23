@@ -24,6 +24,10 @@ function HomeView(props) {
   }
 
   useEffect(() => {
+    // if(localStorage.getItem('User_Id'))
+    // {
+    //   alert('yes');
+    // }
     localStorage.clear();
     fetchCities();
   }, []);
