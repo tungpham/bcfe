@@ -332,7 +332,7 @@ function HomePageMid(props) {
                                 title="Kitchen Ideas" />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
-
+                                    Kitchen Ideas
                                 </Typography>
 
                             </CardContent>
