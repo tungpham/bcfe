@@ -70,13 +70,16 @@ interface ISubmittedProViewState extends ISnackbarProps {
 	rowsPerPage: number;
 	currentPage: number;
 	isBusy: boolean;
+	submitData: []; 
 }
 
 class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmittedProViewState> {
+	
 	constructor(props) {
 		super(props);
 
-		this.state = {
+		this.state = {	
+			submitData:[], 
 			rowsPerPage: 20,
 			currentPage: 0,
 			isBusy: false,
@@ -84,21 +87,24 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 			message: '',
 			variant: 'success',
 			handleClose: () => this.setState({ showMessage: false })
+			
 		};
+		 
 	}
-
 	componentDidMount() { 
-		// Axios.get(`https://bcbe-service.herokuapp.com/projects/de8b988a-e8f1-4a1f-a88d-e7892214006f/proposals?status=SUBMITTED`).then(res => {
-		// 	console.log(res.data.content,"res"); 
-		// 	this.setState({Array : res.data.content})
-		// })
+		Axios.get(`https://bcbe-service.herokuapp.com/projects/de8b988a-e8f1-4a1f-a88d-e7892214006f/proposals?status=SUBMITTED`).then(res => {
+			 
+		 	this.setState({submitData:res.data.content}) 
+			 
+		});
 
 
 		const { userProfile } = this.props;
 		this.props.getProposals(userProfile.user_metadata.contractor_id,
 			0, 0, 'SUBMITTED');
 	}
-
+	
+	
 	handleChangePage = (event, page) => {
 		const { userProfile } = this.props;
 		this.setState({ currentPage: page });
@@ -182,8 +188,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 
 	render() {
 		const { classes, proposals } = this.props;
-		console.log("p",proposals);
-
+		 
 		if (!proposals) {
 			return (
 				<Box className={classes.root}>
@@ -191,7 +196,6 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 				</Box>
 			);
 		}
-
 		return (
 			<Box className={classes.root}>
 				<Table className={classes.table}>
@@ -207,7 +211,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{proposals.content.map(row => (
+						{this.state.submitData.map((row:any)  => ( 
 							<TableRow className={classes.row} key={row.id} hover>
 								<CustomTableCell
 									onClick={() => this.handleSelectProposal(row.id)}
@@ -232,7 +236,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 									scope="row"
 									align="center"
 								>
-							 	 {/* {row.project.endDate} */}
+							 	 {row.project.city}
 								</CustomTableCell>
 								<CustomTableCell
 									onClick={() => this.handleSelectProposal(row.id)}
@@ -246,10 +250,10 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 									onClick={() => this.handleSelectProposal(row.id)}
 									align="center"
 								>
-									 
+									{row.project.due} 
 								</CustomTableCell>
 								<CustomTableCell align="center">
-								<Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
+								<Ellipsis maxLines={2}>{removeMd(row.project.endDate)}</Ellipsis>
 								</CustomTableCell>
 								<CustomTableCell align="center">
 								{row.project.description}

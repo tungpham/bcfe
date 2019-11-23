@@ -66,6 +66,7 @@ interface InvitedProViewState extends ISnackbarProps {
 	isBusy: boolean;
 	alertConfirm: boolean;
 	proId: string;
+	inviteData:[];
 }
 
 class InvitedProView extends React.Component<InvitedProViewProps, InvitedProViewState> {
@@ -74,6 +75,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 
 		this.state = {
 			rowsPerPage: 20,
+			inviteData:[], 
 			currentPage: 0,
 			isBusy: false,
 			showMessage: false,
@@ -85,7 +87,10 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		};
 	}
 
-	componentDidMount() {
+	componentDidMount() { 
+			Axios.get(`https://bcbe-service.herokuapp.com/projects/de8b988a-e8f1-4a1f-a88d-e7892214006f/proposals?status=INACTIVE`).then(res => {
+		 	this.setState({inviteData:res.data.content});
+		});
 		
 		const { userProfile } = this.props;
 		this.props.getInvitedProjects(
@@ -187,6 +192,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 				</Box>
 			);
 		}
+		console.log(this.state.inviteData," this.state.inviteData");
 		return (
 			<Box className={classes.root}>
 				<Table>
@@ -202,7 +208,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{projects.content.map(row => (
+						{this.state.inviteData.map((row:any)  => (
 							<TableRow className={classes.row} key={row.id} hover>
 								<CustomTableCell
 									component="th"

@@ -25,6 +25,7 @@ import Ellipsis from 'components/Typography/Ellipsis';
 import { deleteProposal, getProposals } from 'store/actions/sub-actions';
 import { UserProfile } from 'types/global';
 import { Proposals } from 'types/proposal';
+import Axios from 'axios';
 
 const styles = createStyles(theme => ({
 	root: {
@@ -62,6 +63,7 @@ interface IWonProjectViewState extends ISnackbarProps {
 	rowsPerPage: number;
 	currentPage: number;
 	isBusy: boolean;
+	awardData:[];
 }
 
 class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectViewState> {
@@ -69,6 +71,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		super(props);
 
 		this.state = {
+			 awardData:[], 
 			rowsPerPage: 20,
 			currentPage: 0,
 			isBusy: false,
@@ -80,6 +83,11 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 	}
 
 	componentDidMount() {
+		Axios.get(`https://bcbe-service.herokuapp.com/projects/de8b988a-e8f1-4a1f-a88d-e7892214006f/proposals?status=AWARDED`).then(res => {
+		 	this.setState({awardData:res.data.content}) 
+			 
+		});
+
 		const { userProfile } = this.props;
 		this.props.getProposals(
 			userProfile.user_metadata.contractor_id,
@@ -185,9 +193,10 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{/* {proposals.content.map(row => ( */}
+						{this.state.awardData.map((row:any)=>(
+							
 							<TableRow className={classes.row} hover>
-								{/* <CustomTableCell
+								<CustomTableCell
 									onClick={() => this.handleSelectProposal(row.id)}
 									component="th"
 									scope="row"
@@ -227,7 +236,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 								</CustomTableCell>
 								<CustomTableCell align="center">
 									<Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
-								</CustomTableCell> */}
+								</CustomTableCell>
 							<CustomTableCell align="center">
                                     <IconButton
                                         aria-label="Delete"
@@ -237,7 +246,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
                                     </IconButton>
                                 </CustomTableCell>
 							</TableRow>
-						{/* ))} */}
+						 ))}  
 					</TableBody>
 				</Table>
 				<TablePagination
