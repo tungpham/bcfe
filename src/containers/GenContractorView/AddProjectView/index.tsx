@@ -214,6 +214,15 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         const currentPage =
             rowsPerPage >= this.state.compltedArray.length ? 0 : this.state.currentPage;
 
+            this.setState({ rowsPerPage, currentPage, isBusy: true });
+            try {
+                Axios.get(`https://bcbe-service.herokuapp.com/contractors/${this.props.userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${rowsPerPage}&status=ONGOING`).then(data => {
+                    this.setState({ compltedArray: data.data.content })
+                })
+            } catch (error) {
+                console.log('CurrentProjectView.handleChangeRowsPerPage', error);
+            }
+
         this.setState({ rowsPerPage, currentPage, isBusy: true });
         this.setState({ isBusy: false });
     };

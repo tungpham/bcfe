@@ -99,11 +99,6 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`).then(data => {
             this.setState({ compltedArray: data.data.content })
         })
-        // try {
-        //     await this.props.getArchivedProjectsByGenId(userProfile.user_metadata.contractor_id, 0, 20);
-        // } catch (error) {
-        //     console.log(error);
-        // }
         this.setState({ isBusy: false });
     }
 
@@ -184,7 +179,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
             return <CircularProgress className={classes.waitingSpin} />;
         }
 
-        console.log("projects",projects);
+        console.log("projects", projects);
         return (
             <Box className={classes.root}>
                 <Table>
@@ -235,14 +230,16 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                     onClick={() => this.handleSelectProject(data.project.id)}
                                 >
                                     {data.project.startDate}
-                                    {/* {data.due && data.due.slice(0, 10)} */}
                                 </CustomTableCell>
 
                                 <CustomTableCell
                                     align="center"
-                                    onClick={() => this.handleSelectProject(data.project.id)}
-                                >
+                                    onClick={() => this.handleSelectProject(data.project.id)}>
                                     {data.project.endDate}
+                                    <div className="notDisplayFlex">
+                                        {/* {data.project.endDate.getTime() - data.project.startDate.getTime()} */}
+                                         
+                                    </div>
                                 </CustomTableCell>
 
                                 <CustomTableCell

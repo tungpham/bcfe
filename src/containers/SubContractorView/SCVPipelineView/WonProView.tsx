@@ -63,7 +63,7 @@ interface IWonProjectViewState extends ISnackbarProps {
 	rowsPerPage: number;
 	currentPage: number;
 	isBusy: boolean;
-	awardData:[];
+	awardData: [];
 }
 
 class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectViewState> {
@@ -71,7 +71,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		super(props);
 
 		this.state = {
-			 awardData:[], 
+			awardData: [],
 			rowsPerPage: 20,
 			currentPage: 0,
 			isBusy: false,
@@ -83,12 +83,10 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 	}
 
 	componentDidMount() {
-		Axios.get(`https://bcbe-service.herokuapp.com/projects/de8b988a-e8f1-4a1f-a88d-e7892214006f/proposals?status=AWARDED`).then(res => {
-		 	this.setState({awardData:res.data.content}) 
-			 
-		});
-
 		const { userProfile } = this.props;
+		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
+			this.setState({ awardData: res.data.content })
+		});
 		this.props.getProposals(
 			userProfile.user_metadata.contractor_id,
 			0, 0, 'AWARDED'
@@ -193,8 +191,8 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{this.state.awardData.map((row:any)=>(
-							
+						{this.state.awardData.map((row: any) => (
+
 							<TableRow className={classes.row} hover>
 								<CustomTableCell
 									onClick={() => this.handleSelectProposal(row.id)}
@@ -237,16 +235,16 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 								<CustomTableCell align="center">
 									<Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
 								</CustomTableCell>
-							<CustomTableCell align="center">
-                                    <IconButton
-                                        aria-label="Delete"
-                                        color="primary"
-                                    >
-                                        <CheckCircleIcon className="bluedoneicon"/>
-                                    </IconButton>
-                                </CustomTableCell>
+								<CustomTableCell align="center">
+									<IconButton
+										aria-label="Delete"
+										color="primary"
+									>
+										<CheckCircleIcon className="bluedoneicon" />
+									</IconButton>
+								</CustomTableCell>
 							</TableRow>
-						 ))}  
+						))}
 					</TableBody>
 				</Table>
 				<TablePagination

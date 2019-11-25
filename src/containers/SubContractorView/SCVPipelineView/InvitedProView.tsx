@@ -88,11 +88,10 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 	}
 
 	componentDidMount() { 
-			Axios.get(`https://bcbe-service.herokuapp.com/projects/de8b988a-e8f1-4a1f-a88d-e7892214006f/proposals?status=INACTIVE`).then(res => {
-		 	this.setState({inviteData:res.data.content});
-		});
-		
 		const { userProfile } = this.props;
+		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
+		this.setState({ inviteData: res.data.content })
+		}); 
 		this.props.getInvitedProjects(
 			userProfile.user_metadata.contractor_id,
 			0, 0
@@ -177,7 +176,6 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 	}
 
 	handleSelectProject = async id => {
-		// this.props.setCurrentProject(id);
 		this.props.history.push('/projects/project_detail/' + id);
 	};
 
@@ -192,7 +190,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 				</Box>
 			);
 		}
-		console.log(this.state.inviteData," this.state.inviteData");
+	 
 		return (
 			<Box className={classes.root}>
 				<Table>
