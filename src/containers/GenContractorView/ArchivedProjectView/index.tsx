@@ -184,6 +184,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
             return <CircularProgress className={classes.waitingSpin} />;
         }
 
+        console.log("projects",projects);
         return (
             <Box className={classes.root}>
                 <Table>
@@ -250,10 +251,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                 ><Ellipsis maxLines={2}>
                                         <IconButton
                                             aria-label="Delete"
-                                            color="primary"
-                                            onClick={() =>
-                                                this.setState({ showConfirm: true, proId: data.project.id })
-                                            }>
+                                            color="primary">
                                             <CheckCircleIcon className="bluedoneicon" />
                                         </IconButton>
                                         {removeMd(data.project.description)}
