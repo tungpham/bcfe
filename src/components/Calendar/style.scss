@@ -7,11 +7,11 @@ http://moodydev.io
 
 /* FONT IMPORTS */
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300, 400, 700');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300, 400, 700");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 .icon {
-  font-family: 'Material Icons', serif;
+  font-family: "Material Icons", serif;
   font-style: normal;
   display: inline-block;
   vertical-align: middle;
@@ -25,7 +25,7 @@ http://moodydev.io
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: 'liga';
+  font-feature-settings: "liga";
 }
 
 /* VARIABLES */
@@ -211,3 +211,14 @@ http://moodydev.io
 //   width: 329px !important;
 //   height: 34px !important;
 // }
+
+.notDisplayFlex {
+  background: lightgray;
+  border-radius: 50px;
+  padding: 0px 1px;
+}
+p.font-size-12 {
+  font-size: 10px;
+  padding: 5px;
+}
+

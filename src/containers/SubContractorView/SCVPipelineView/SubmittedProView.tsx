@@ -94,7 +94,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 	componentDidMount() {
 		const { userProfile } = this.props;
 		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=SUBMITTED`).then(res => {
-		this.setState({ submitData: res.data.content })
+			this.setState({ submitData: res.data.content })
 		});
 		this.props.getProposals(userProfile.user_metadata.contractor_id,
 			0, 0, 'SUBMITTED');
@@ -109,19 +109,20 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		const { proposals, userProfile } = this.props;
 		const rowsPerPage = event.target.value;
 		const currentPage =
-			rowsPerPage >= proposals.totalElements ? 0 : this.state.currentPage;
+			rowsPerPage >= this.state.submitData.length ? 0 : this.state.currentPage;
 
 		this.setState({
 			rowsPerPage: rowsPerPage,
 			currentPage: currentPage,
 		});
 
-		this.props.getProposals(
-			userProfile.user_metadata.contractor_id,
-			currentPage,
-			rowsPerPage,
-			'SUBMITTED'
-		);
+		try {
+			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${rowsPerPage}&status=SUBMITTED`).then(res => {
+				this.setState({ submitData: res.data.content })
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	handleDeleteProposal = async id => {
@@ -258,10 +259,10 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 				<TablePagination
 					style={{ overflow: 'auto' }}
 					rowsPerPageOptions={[5, 10, 20]}
-					count={proposals.totalElements}
+					count={this.state.submitData.length}
 					rowsPerPage={this.state.rowsPerPage}
-					component="div"
 					page={this.state.currentPage}
+					component="div"
 					backIconButtonProps={{ 'aria-label': 'Previous Page' }}
 					nextIconButtonProps={{ 'aria-label': 'Next Page' }}
 					onChangePage={this.handleChangePage}

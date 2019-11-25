@@ -129,6 +129,9 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-contained {
 }
 th.MuiTableCell-root.MuiTableCell-head {
   color: #000 !important;
+  font-size: 17px;
+  font-weight: 800;
+  padding-bottom: 12px;
 }
 .tbl-head-icon {
   display: flex;
@@ -162,26 +165,25 @@ svg.MuiSvgIcon-root.yellowworning {
   color: #f8d81b;
   font-size: 20px !important;
 }
-   
+
 //Nav bar 19-Nov //
 
 ul.MuiList-root.menulist.MuiList-padding {
-  background: #E9EDF5 !important;
+  background: #e9edf5 !important;
 }
 a.MuiButtonBase-root.MuiListItem-root.MuiListItem-gutters.MuiListItem-button:hover {
   background: none !important;
 }
-.MuiToolbar-root.MuiToolbar-regular.myheader.MuiToolbar-gutters
-  {
-    min-height: 45px !important;
-    color:#5e5e5e;
-  }
-  .mylogo {
-    display: flex;
-    padding: 0 8px;
-    min-height: 45px !important;
-    align-items: center;
-    justify-content: flex-end;
+.MuiToolbar-root.MuiToolbar-regular.myheader.MuiToolbar-gutters {
+  min-height: 45px !important;
+  color: #5e5e5e;
+}
+.mylogo {
+  display: flex;
+  padding: 0 8px;
+  min-height: 45px !important;
+  align-items: center;
+  justify-content: flex-end;
 }
 svg.MuiSvgIcon-root.rightarrow.MuiSvgIcon-colorPrimary {
   color: black;
@@ -214,39 +216,37 @@ svg.MuiSvgIcon-root.profiledropdown {
 // header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.beforeloginheader.MuiAppBar-colorPrimary {
 //   background: white ;
 // }
-.MuiPaper-root.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft
-
-{
-  background-color:#E9EDF5 !important;
+.MuiPaper-root.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft {
+  background-color: #e9edf5 !important;
 }
-.mylogo{
+.mylogo {
   background-color: white !important;
 }
-.sub-header-tab header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary {
+.sub-header-tab
+  header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary {
   border: 1px solid gray !important;
   background-color: #eee !important;
   border-radius: 4px;
   width: 35% !important;
 }
-.sub-header-tab.PrivateTabScrollButton-root{
+.sub-header-tab.PrivateTabScrollButton-root {
   width: 0px !important;
 }
-.sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary{
+.sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary {
   border-right: 1px solid gray !important;
   min-height: 38px !important;
   min-width: 33.5% !important;
 }
-.sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.Mui-selected{
-  color:gray !important;
+.sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.Mui-selected {
+  color: gray !important;
   border-bottom: 4px solid #eee !important;
-  z-index:1;
+  z-index: 1;
 }
-.sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary{
-  color:gray !important;
+.sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary {
+  color: gray !important;
   border-bottom: 4px solid #eee !important;
-  z-index:1;
+  z-index: 1;
 }
-
 
 .MuiTab-wrapper {
   display: contents !important;
@@ -278,7 +278,7 @@ svg.MuiSvgIcon-root.CustomTabs-rootIcon-196.active {
 .PrivateTabIndicator-colorPrimary-1044 {
   background-color: #68e191 !important;
 }
- 
+
 .MuiTableHead-root {
   background-color: white !important;
 }
@@ -320,29 +320,28 @@ svg.MuiSvgIcon-root.yellowworning {
 header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.CustomTabs-toolbarstyle-315.MuiAppBar-colorPrimary {
   width: auto !important;
 }
-.sub-header-tab header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary {
-      border: 1px solid gray !important;
-      background-color: #eee !important;
-      border-radius: 4px;
-      width: 33% !important;
-    }
-   
-    .sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary{
-      border-right: 1px solid gray !important;
-      min-height: 38px !important;
-      min-width: 33.5% !important;
-    }
-    .sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.Mui-selected{
-      color:gray !important;
-      border-bottom: 4px solid #eee !important;
-      z-index: 1;
-  }
-  .MuiPaper-elevation4{
-    box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0), 0px 1px 10px 0px rgba(0, 0, 0, 0) !important;
+.sub-header-tab
+  header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary {
+  border: 1px solid gray !important;
+  background-color: #eee !important;
+  border-radius: 4px;
+  width: 33% !important;
 }
- 
-  
-   
+
+.sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary {
+  border-right: 1px solid gray !important;
+  min-height: 38px !important;
+  min-width: 33.5% !important;
+}
+.sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.Mui-selected {
+  color: gray !important;
+  border-bottom: 4px solid #eee !important;
+  z-index: 1;
+}
+.MuiPaper-elevation4 {
+  box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0), 0px 1px 10px 0px rgba(0, 0, 0, 0) !important;
+}
+
 // 20 Nov //
 
 svg.MuiSvgIcon-root.searchicon {
@@ -350,33 +349,48 @@ svg.MuiSvgIcon-root.searchicon {
   margin-top: 0px !important;
 }
 input#outlined-start-adornment:-moz-placeholder {
-  color:red;
+  color: red;
 }
-span.PrivateTabIndicator-root-606.PrivateTabIndicator-colorPrimary-607.MuiTabs-indicator{
+span.PrivateTabIndicator-root-606.PrivateTabIndicator-colorPrimary-607.MuiTabs-indicator {
   left: none;
   width: 0px !important;
   background-color: none !important;
 }
 
-.sub-header-tab svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeSmall{
+.sub-header-tab svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeSmall {
   display: none !important;
 }
 
-.sub-header-tab header.PrivateTabScrollButton-root-326.MuiTabs-scrollButtons,.PrivateTabScrollButton-root-326{
+.sub-header-tab header.PrivateTabScrollButton-root-326.MuiTabs-scrollButtons,
+.PrivateTabScrollButton-root-326 {
   width: 0px !important;
 }
-.MuiAppBar-colorPrimary{
+.MuiAppBar-colorPrimary {
   background-color: white !important;
 }
 
-.MuiTab-textColorPrimary.Mui-selected, .PrivateTabIndicator-colorPrimary-496{
-   color: #68e191 !important;
-    border-bottom: 4px solid #68e191 !important;
-    z-index: 1;
+.MuiTab-textColorPrimary.Mui-selected,
+.PrivateTabIndicator-colorPrimary-496 {
+  color: #68e191 !important;
+  border-bottom: 4px solid #68e191 !important;
+  z-index: 1;
 }
-.MuiTab-textColorPrimary, .PrivateTabIndicator-colorPrimary-496{
-  
-   border-bottom: 4px solid white !important;
-   z-index: 1;
+.MuiTab-textColorPrimary,
+.PrivateTabIndicator-colorPrimary-496 {
+  border-bottom: 4px solid white !important;
+  z-index: 1;
 }
- 
+
+th.MuiTableCell-root.title.MuiTableCell-body {
+  padding: 16px 15px !important;
+}
+tr:nth-child(even) {
+  background: #ffffff;
+}
+tr:nth-child(odd) {
+  background: #fafafa;
+}
+
+tr.MuiTableRow-root.MuiTableRow-head {
+  background: white !important;
+}
