@@ -43,6 +43,7 @@ interface CurrentProjectState extends ISnackbarProps {
     rowsPerPage: number;
     currentPage: number;
     isBusy: boolean;
+    compltedArray: [];
     showConfirm: boolean;
     proId: string;
 }
@@ -52,6 +53,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         super(props);
 
         this.state = {
+            compltedArray: [],
             rowsPerPage: 20,
             currentPage: 0,
             isBusy: false,
@@ -67,13 +69,16 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     async componentDidMount() {
         const { userProfile } = this.props;
         this.setState({ isBusy: true });
+
         try {
+            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}`).then(data => {
+                this.setState({ compltedArray: data.data.content })
+            })
             await this.props.getProjectsByGenId(userProfile.user_metadata.contractor_id, 0, 20);
         } catch (error) {
             console.log(error);
         }
         this.setState({ isBusy: false });
-        // Axios.get this.props.userProfile.user_metadata.contractor_id
     }
 
     handleChangePage = async (event, page) => {
@@ -96,15 +101,13 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
 
         const rowsPerPage = event.target.value;
         const currentPage =
-            rowsPerPage >= projects.totalElements ? 0 : this.state.currentPage;
+            rowsPerPage >= this.state.compltedArray.length ? 0 : this.state.currentPage;
 
         this.setState({ rowsPerPage, currentPage });
         try {
-            await this.props.getProjectsByGenId(
-                userProfile.user_metadata.contractor_id,
-                currentPage,
-                rowsPerPage
-            );
+            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${rowsPerPage}`).then(data => {
+                this.setState({ compltedArray: data.data.content })
+            })
         } catch (error) {
             console.log('CurrentProjectView.handleChangeRowsPerPage', error);
         }
@@ -156,9 +159,8 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
             return <CircularProgress className={classes.waitingSpin} />;
         }
 
-
         return (
-            <Box  >
+            <Box>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -172,56 +174,57 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {projects.content.map(row => (
+                        {/* {this.state.compltedArray.map((data:any) =>{
+                            return(<div>data</div>)
+                        })} */}
+                        {this.state.compltedArray.map((data: any) => (
+                            <TableRow className="" key={data.project.id} hover>
 
-
-
-                            <TableRow className={classes.row} key={row.id} hover>
                                 <CustomTableCell
                                     component="th"
                                     scope="row"
-                                    onClick={() => this.handleSelectProject(row.id)}
+                                    onClick={() => this.handleSelectProject(data.project.id)}
                                     className="title"
                                 >
-                                    <Ellipsis maxLines={2}>{row.title}</Ellipsis>
+                                    <Ellipsis maxLines={2}>{data.project.title}</Ellipsis>
 
                                     {/* <Typography className="nowrap">{row.title}</Typography> */}
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
-                                    onClick={() => this.handleSelectProject(row.id)}
+                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-
+                                    {data.numberOfBids}
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
-                                    onClick={() => this.handleSelectProject(row.id)}
+                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-
+                                    {data.project.city}
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
-                                    onClick={() => this.handleSelectProject(row.id)}
+                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                    {row.budget}
+                                    {data.project.budget}
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
-                                    onClick={() => this.handleSelectProject(row.id)}
+                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                    {row.due && row.due.slice(0, 10)}
+                                    {data.project.due && data.project.due.slice(0, 10)}
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
-                                    onClick={() => this.handleSelectProject(row.id)}
+                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                    {row.due && row.due.slice(0, 10)}
+                                    {data.project.due && data.project.due.slice(0, 10)}
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
-                                    onClick={() => this.handleSelectProject(row.id)}
+                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                    <Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
+                                    <Ellipsis maxLines={2}>{removeMd(data.project.description)}</Ellipsis>
                                     {/* {removeMd(row.description)} */}
                                 </CustomTableCell>
 

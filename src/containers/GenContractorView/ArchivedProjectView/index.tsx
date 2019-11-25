@@ -127,15 +127,13 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
         const rowsPerPage = event.target.value;
         const currentPage =
-            rowsPerPage >= projects.totalElements ? 0 : this.state.currentPage;
+            rowsPerPage >= this.state.compltedArray.length ? 0 : this.state.currentPage;
 
         this.setState({ rowsPerPage, currentPage, isBusy: true });
         try {
-            await this.props.getArchivedProjectsByGenId(
-                userProfile.user_metadata.contractor_id,
-                currentPage,
-                rowsPerPage
-            );
+            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${rowsPerPage}&status=ARCHIVED`).then(data => {
+                this.setState({ compltedArray: data.data.content })
+            })
         } catch (error) {
             console.log('CurrentProjectView.handleChangeRowsPerPage', error);
         }
@@ -269,7 +267,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                     style={{ overflow: 'auto' }}
                     rowsPerPageOptions={[5, 10, 20]}
                     component="div"
-                    count={projects.totalElements}
+                    count={this.state.compltedArray.length}
                     rowsPerPage={this.state.rowsPerPage}
                     page={this.state.currentPage}
                     backIconButtonProps={{ 'aria-label': 'Previous Page' }}
