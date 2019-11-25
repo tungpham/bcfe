@@ -37,18 +37,15 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps> {
         let tab = tabPaths.indexOf(location.pathname);
         if (tab < 0) tab = 0
         return (
-            <Box className={classes.root}>
+            <Box className="">
                 {/* <Paper square> */}
                 <div className="sub-header-tab" style={{justifyContent:'space-between', display: 'flex', padding: '0px 30px', margin: '20px 0px' }}>
-
                     <CustomTabs
-
                         init={tab}
                         tabs={[
                             {
                                 href: tabPaths[0],
                                 label: 'Submited', 
- 
                             },
                             {
                                 href: tabPaths[1],
@@ -58,9 +55,7 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps> {
                                 href: tabPaths[2],
                                 label: 'Completed', 
                             }
-
                         ]}
-                     
                     />
                     <TextField
                         id="outlined-start-adornment"
@@ -87,7 +82,6 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps> {
                     />
                     <Redirect path={`${match.url}`} to={tabPaths[0]} />
                 </Switch>
-                {/* </Paper> */}
             </Box>
         );
     }

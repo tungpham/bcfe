@@ -229,9 +229,6 @@ svg.MuiSvgIcon-root.profiledropdown {
   border-radius: 4px;
   width: 35% !important;
 }
-.sub-header-tab.PrivateTabScrollButton-root {
-  width: 0px !important;
-}
 .sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary {
   border-right: 1px solid gray !important;
   min-height: 38px !important;
@@ -239,8 +236,9 @@ svg.MuiSvgIcon-root.profiledropdown {
 }
 .sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.Mui-selected {
   color: gray !important;
-  border-bottom: 4px solid #eee !important;
+  border-bottom: 4px solid #ccddfe !important;
   z-index: 1;
+  background: #ccddfe;
 }
 .sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary {
   color: gray !important;
@@ -330,11 +328,7 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic
   min-height: 38px !important;
   min-width: 33.5% !important;
 }
-.sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.Mui-selected {
-  color: gray !important;
-  border-bottom: 4px solid #eee !important;
-  z-index: 1;
-}
+
 .MuiPaper-elevation4 {
   box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0), 0px 1px 10px 0px rgba(0, 0, 0, 0) !important;
 }
@@ -358,10 +352,6 @@ span.PrivateTabIndicator-root-606.PrivateTabIndicator-colorPrimary-607.MuiTabs-i
   display: none !important;
 }
 
-.sub-header-tab header.PrivateTabScrollButton-root-326.MuiTabs-scrollButtons,
-.PrivateTabScrollButton-root-326 {
-  width: 0px !important;
-}
 .MuiAppBar-colorPrimary {
   background-color: white !important;
 }
@@ -391,7 +381,12 @@ tr:nth-child(odd) {
 tr.MuiTableRow-root.MuiTableRow-head {
   background: white !important;
 }
-th.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignCenter,.MuiTableCell-alignCenter {
+th.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignCenter,
+.MuiTableCell-alignCenter {
   text-align: left !important;
 }
 
+.PrivateTabScrollButton.MuiTabs-scrollButtons,
+.MuiButtonBase-root.PrivateTabScrollButton.MuiTabs-scrollButtons{
+  width: 0px !important;
+}
