@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, Switch, Redirect } from 'react-router-dom';
 import { compose } from "redux";
-
+import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
 import Table from '@material-ui/core/Table';
@@ -18,7 +17,9 @@ import Ellipsis from 'components/Typography/Ellipsis';
 import ErrorIcon from '@material-ui/icons/Error';
 import WarningIcon from '@material-ui/icons/Warning';
 import { ProjectBriefInfo } from './Overview';
-import { ISnackbarProps } from 'components/shared/CustomSnackbar';
+import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
+import TablePagination from '@material-ui/core/TablePagination';
+import removeMd from 'remove-markdown';
 import {
     addFilesToProject,
     addProject,
@@ -95,6 +96,10 @@ interface IAddProjectViewProps extends RouteComponentProps {
 interface IAddProjectViewState extends ISnackbarProps, ProjectBriefInfo {
     isBusy: boolean;
     project: any;
+    compltedArray: [];
+    rowsPerPage: any;
+    currentPage: any;
+   
 }
 
 class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectViewState> {
@@ -102,6 +107,9 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
     constructor(props: IAddProjectViewProps) {
         super(props);
         this.state = {
+            compltedArray: [],
+            rowsPerPage: 20,
+            currentPage: 0,
             title: '',
             price: 0,
             description: '',
@@ -119,8 +127,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
     async componentDidMount() {
         await this.props.clearLevels();
         await this.props.loadRoots();
-        Axios.get("https://bcbe-service.herokuapp.com/contractors/b579a3de-8e01-4668-b80c-7c1a40068f69/projects?status=ONGOING").then((data: any) => {
-            console.log(data.data.content);
+        Axios.get(`https://bcbe-service.herokuapp.com/contractors/${this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`).then(data => {
+            this.setState({ compltedArray: data.data.content })
         })
     }
 
@@ -128,6 +136,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
     closeMessage = () => {
         this.setState({ showMessage: false });
     }
+
+
 
     handleAddProject = async () => {
         const { userProfile, history } = this.props;
@@ -192,6 +202,20 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         }
 
         this.setState({ files: [...files] });
+    };
+    handleChangePage = async (event, page) => {
+        const { userProfile } = this.props;
+        this.setState({ currentPage: page, isBusy: true });
+    };
+
+    handleChangeRowsPerPage = async event => {
+
+        const rowsPerPage = event.target.value;
+        const currentPage =
+            rowsPerPage >= this.state.compltedArray.length ? 0 : this.state.currentPage;
+
+        this.setState({ rowsPerPage, currentPage, isBusy: true });
+        this.setState({ isBusy: false });
     };
 
     handleDateChange = (date) => {
@@ -377,10 +401,15 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         }
     }
 
+
+    // handleSelectProject = id => {
+    //     this.props.setCurrentProject(id);
+    //     this.props.history.push('/gen-contractor/project_detail/' + id);
+    // };
+
     public render() {
         console.log(this.props);
         const { classes, match, location, levels } = this.props;
-        const { title, price, description, dueDate, files, isBusy, project } = this.state;
         const tabs = [
             { href: `${match.url}/submitted`, label: 'Overview' },
             { href: `${match.url}/add-levels`, label: 'Levels' },
@@ -389,6 +418,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
         let tab = tabs.map(tab => tab.href).indexOf(location.pathname);
         if (tab < 0) tab = 0;
+
+        // console.log("ongoing", this.state.compltedArray);
         return (
             <div>
                 <Box>
@@ -405,57 +436,91 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            <TableRow className={classes.row} hover>
-                                <CustomTableCell
-                                    component="th"
-                                    scope="row"
-                                    className="title">
-                                    <Ellipsis maxLines={2}>hello</Ellipsis>
-                                </CustomTableCell>
-                                <CustomTableCell
-                                    component="th"
-                                    scope="row"
-                                    className="title">
-                                    <Ellipsis maxLines={2}>hello</Ellipsis>
-                                </CustomTableCell>
-                                <CustomTableCell
-                                    component="th"
-                                    scope="row"
-                                    className="title">
-                                    <Ellipsis maxLines={2}>hello</Ellipsis>
-                                </CustomTableCell>
-                                <CustomTableCell
-                                    component="th"
-                                    scope="row"
-                                    className="title">
-                                    <Ellipsis maxLines={2}>hello</Ellipsis>
-                                </CustomTableCell>
-                                <CustomTableCell
-                                    component="th"
-                                    scope="row"
-                                    className="title">
-                                    <Ellipsis maxLines={2}>hello</Ellipsis>
-                                </CustomTableCell>
-                                <CustomTableCell
-                                    component="th"
-                                    scope="row"
-                                    className="title">
-                                    <Ellipsis maxLines={2}>hello</Ellipsis>
-                                </CustomTableCell>
-                                <CustomTableCell
-                                    component="th"
-                                    scope="row"
-                                    className="title">
-                                    <Ellipsis maxLines={2}><CheckCircleIcon className="greendoneicon" />
-                                        <ErrorIcon className="redwarning" />
-                                        <WarningIcon className="yellowworning" />
-                                    </Ellipsis>
-                                </CustomTableCell>
-                            </TableRow>
+                            {this.state.compltedArray.map((data: any) => (
+                                <TableRow className="" key={data.project.id} hover>
+                                    <CustomTableCell
+                                        component="th"
+                                        scope="row"
+                                    >
+                                        <Ellipsis maxLines={2}>{data.project.title}</Ellipsis>
+                                    </CustomTableCell>
+
+                                    <CustomTableCell
+                                        align="center"
+
+                                    >
+                                        {data.contractor.address.name}
+                                    </CustomTableCell>
+
+                                    <CustomTableCell
+                                        align="center"
+
+                                    >
+                                        {data.contractor.address.city}
+                                    </CustomTableCell>
+
+                                    <CustomTableCell
+                                        align="center"
+
+                                    >
+                                        ${data.project.budget}
+                                    </CustomTableCell>
+
+                                    <CustomTableCell
+                                        align="center"
+
+                                    >
+                                        {data.project.startDate}
+                                        {/* {data.due && data.due.slice(0, 10)} */}
+                                    </CustomTableCell>
+
+                                    <CustomTableCell
+                                        align="center"
+
+                                    >
+                                        {data.project.endDate}
+                                    </CustomTableCell>
+
+                                    <CustomTableCell
+                                        align="center"
+
+                                    ><Ellipsis maxLines={2}>
+                                            <IconButton
+                                                aria-label="Delete"
+                                                color="primary"
+                                            >
+                                                <Ellipsis maxLines={2}><CheckCircleIcon className="greendoneicon" />
+                                                    <ErrorIcon className="redwarning" />
+                                                    <WarningIcon className="yellowworning" />
+                                                </Ellipsis>
+                                            </IconButton>
+                                            {removeMd(data.project.description)}
+                                        </Ellipsis>
+                                    </CustomTableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
+                    <TablePagination
+                        style={{ overflow: 'auto' }}
+                        rowsPerPageOptions={[5, 10, 20]}
+                        component="div"
+                        count={this.state.compltedArray.length}
+                        rowsPerPage={this.state.rowsPerPage}
+                        page={this.state.currentPage}
+                        backIconButtonProps={{ 'aria-label': 'Previous Page' }}
+                        nextIconButtonProps={{ 'aria-label': 'Next Page' }}
+                        onChangePage={this.handleChangePage}
+                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                    />
+                    <CustomSnackbar
+                        open={this.state.showMessage}
+                        variant={this.state.variant}
+                        message={this.state.message}
+                        handleClose={() => this.setState({ showMessage: false })}
+                    />
                 </Box>
-            </div>
+            </div >
         );
     }
 }

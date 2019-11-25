@@ -127,7 +127,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
         const rowsPerPage = event.target.value;
         const currentPage =
-            rowsPerPage >= projects.totalElements ? 0 : this.state.currentPage;
+            rowsPerPage >= this.state.compltedArray.length ? 0 : this.state.currentPage;
 
         this.setState({ rowsPerPage, currentPage, isBusy: true });
         try {
@@ -186,6 +186,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
             return <CircularProgress className={classes.waitingSpin} />;
         }
 
+        console.log("projects",projects);
         return (
             <Box className={classes.root}>
                 <Table>
@@ -252,10 +253,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                 ><Ellipsis maxLines={2}>
                                         <IconButton
                                             aria-label="Delete"
-                                            color="primary"
-                                            onClick={() =>
-                                                this.setState({ showConfirm: true, proId: data.project.id })
-                                            }>
+                                            color="primary">
                                             <CheckCircleIcon className="bluedoneicon" />
                                         </IconButton>
                                         {removeMd(data.project.description)}
@@ -269,7 +267,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                     style={{ overflow: 'auto' }}
                     rowsPerPageOptions={[5, 10, 20]}
                     component="div"
-                    count={projects.totalElements}
+                    count={this.state.compltedArray.length}
                     rowsPerPage={this.state.rowsPerPage}
                     page={this.state.currentPage}
                     backIconButtonProps={{ 'aria-label': 'Previous Page' }}
