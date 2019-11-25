@@ -143,7 +143,7 @@ svg.MuiSvgIcon-root.Arrowdown {
   font-size: 13px !important;
 }
 th.MuiTableCell-root.title.MuiTableCell-body {
-  text-align: center;
+  text-align: left;
 }
 
 svg.MuiSvgIcon-root.bluedoneicon {
@@ -294,9 +294,6 @@ svg.MuiSvgIcon-root.Arrowdown {
   margin-left: 5px;
   font-size: 13px !important;
 }
-th.MuiTableCell-root.title.MuiTableCell-body {
-  text-align: center;
-}
 
 svg.MuiSvgIcon-root.bluedoneicon {
   color: #397fcb;
@@ -394,3 +391,7 @@ tr:nth-child(odd) {
 tr.MuiTableRow-root.MuiTableRow-head {
   background: white !important;
 }
+th.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignCenter,.MuiTableCell-alignCenter {
+  text-align: left !important;
+}
+
