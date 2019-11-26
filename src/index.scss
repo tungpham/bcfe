@@ -67,28 +67,7 @@ code {
 .CodeMirror {
   height: calc(100% - 81px);
 }
-
-/*.nowrap {
-   fontSize: '14px';
-   lineHeight: '1.5';
-   maxHeight: '42px';
-   overflow: 'hidden';
-   textOverflow: 'ellipsis';
-   lineClamp: '2';
-   boxOrient: 'vertical';
-   display: 'box';
-}
-
-.busy  {
- position: 'absolute';
- left: 'calc(50% - 20px)';
- top: 'calc(50% - 20px)';
-}*/
-
-// li {
-//   list-style-type: none;
-// }
-
+ 
 // Nov 18 2019 and 20 Nov
 .MuiTab-wrapper {
   display: contents !important;
@@ -429,4 +408,23 @@ svg.MuiSvgIcon-root.Addicon {
  
 button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorPrimary{
   padding: 0px;
+.withRouter\(Connect\(Header\)\)-drawerPaper-32{
+  position:fixed !important;
+}
+.withRouter\(Connect\(Header\)\)-drawerPaperClose-33 {
+  //  width: 0; 
+  //  overflow-x: hidden ; 
+  //  position: relative !important;
+  //  transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;  
+}
+header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolute.MuiAppBar-colorPrimary{
+  position:  fixed !important;
+}
+.MuiDrawer-paperAnchorDockedLeft {
+  border-right: 0px solid !important;
+}
+.MuiContainer-root  { 
+  padding-left: 3.5% !important;
+ 
+}
 }

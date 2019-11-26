@@ -26,7 +26,7 @@ function ModalArea(props) {
     return (
         <Grid className="service-modal-col" item xs={10}>
             <Typography className="city-head-text font-weight text-left" variant="h5">
-                What is the estimated square footege of the area that needs flooring?
+                What is the estimated square footage of the area that needs flooring?
              </Typography>
             <List className="service-modal-list" onChange={handleChange}>
                 <RadioGroup aria-label="gender" name="gender1" >

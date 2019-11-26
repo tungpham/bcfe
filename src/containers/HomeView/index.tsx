@@ -42,7 +42,7 @@ function HomeView(props) {
     <div>
       <Container>
         <Grid className="text-center" item xs={6}>
-          <h1 className="home-title" style={{ textAlign: 'center', fontFamily: 'sans-serif', fontWeight: 'normal' }}>Find local proffesionals for pretty much anything</h1>
+          <h1 className="home-title" style={{ textAlign: 'center', fontFamily: 'sans-serif', fontWeight: 'normal' }}>Find local professionals for pretty much anything</h1>
           <p className="red">{error}</p>
           <div id="search">
             <AutoCompleteText />

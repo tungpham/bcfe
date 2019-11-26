@@ -494,7 +494,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                         align="center"
 
                                     ><Ellipsis maxLines={2}>
-                                            <IconButton
+                                            {/* <IconButton
                                                 aria-label="Delete"
                                                 color="primary"
                                             >
@@ -502,7 +502,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                                     <ErrorIcon className="redwarning" />
                                                     <WarningIcon className="yellowworning" />
                                                 </Ellipsis>
-                                            </IconButton>
+                                            </IconButton> */}
                                             {removeMd(data.project.description)}
                                         </Ellipsis>
                                     </CustomTableCell>

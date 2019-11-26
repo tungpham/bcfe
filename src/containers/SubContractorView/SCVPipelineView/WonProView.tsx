@@ -84,7 +84,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 
 	componentDidMount() {
 		const { userProfile } = this.props;
-		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
+		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
 			this.setState({ awardData: res.data.content })
 		});
 		this.props.getProposals(
