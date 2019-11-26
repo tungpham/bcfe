@@ -390,15 +390,10 @@ th.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignCenter,
 .MuiButtonBase-root.PrivateTabScrollButton.MuiTabs-scrollButtons{
   width: 0px !important;
 }
-.withRouter\(Connect\(Header\)\)-drawerPaper-32{
+.withRouter\(Connect\(Header\)\)-drawerPaper{
   position:fixed !important;
 }
-.withRouter\(Connect\(Header\)\)-drawerPaperClose-33 {
-  //  width: 0; 
-  //  overflow-x: hidden ; 
-  //  position: relative !important;
-  //  transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;  
-}
+
 header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolute.MuiAppBar-colorPrimary{
   position:  fixed !important;
 }
@@ -407,5 +402,7 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolu
 }
 .MuiContainer-root  { 
   padding-left: 3.5% !important;
- 
+}
+.drawer{
+  margin-top: 47px;
 }

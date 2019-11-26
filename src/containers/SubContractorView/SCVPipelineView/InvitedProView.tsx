@@ -66,7 +66,7 @@ interface InvitedProViewState extends ISnackbarProps {
 	isBusy: boolean;
 	alertConfirm: boolean;
 	proId: string;
-	inviteData:[];
+	inviteData: [];
 }
 
 class InvitedProView extends React.Component<InvitedProViewProps, InvitedProViewState> {
@@ -75,7 +75,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 
 		this.state = {
 			rowsPerPage: 20,
-			inviteData:[], 
+			inviteData: [],
 			currentPage: 0,
 			isBusy: false,
 			showMessage: false,
@@ -87,11 +87,11 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		};
 	}
 
-	componentDidMount() { 
+	componentDidMount() {
 		const { userProfile } = this.props;
 		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
-		this.setState({ inviteData: res.data.content })
-		}); 
+			this.setState({ inviteData: res.data.content })
+		});
 		this.props.getInvitedProjects(
 			userProfile.user_metadata.contractor_id,
 			0, 0
@@ -114,18 +114,15 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 
 		const rowsPerPage = event.target.value;
 		const currentPage =
-			rowsPerPage >= projects.totalElements ? 0 : this.state.currentPage;
+			rowsPerPage >= this.state.inviteData.length ? 0 : this.state.currentPage;
 
 		this.setState({
 			rowsPerPage: rowsPerPage,
 			currentPage: currentPage,
 		});
-
-		this.props.getInvitedProjects(
-			userProfile.user_metadata.contractor_id,
-			currentPage,
-			rowsPerPage
-		);
+		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${rowsPerPage}&status=AWARDED`).then(res => {
+			this.setState({ inviteData: res.data.content })
+		});
 	};
 
 	handleDeleteProject = async id => {
@@ -190,7 +187,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 				</Box>
 			);
 		}
-	 
+
 		return (
 			<Box className={classes.root}>
 				<Table>
@@ -206,48 +203,51 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{this.state.inviteData.map((row:any)  => (
+						{this.state.inviteData.map((row: any) => (
 							<TableRow className={classes.row} key={row.id} hover>
 								<CustomTableCell
 									component="th"
 									scope="row"
 									onClick={() => this.handleSelectProject(row.id)}
 								>
-									<Ellipsis maxLines={2}>{row.title}</Ellipsis>
+									<Ellipsis maxLines={2}>{row.project.title}</Ellipsis>
 								</CustomTableCell>
 								<CustomTableCell
 									align="center"
 									onClick={() => this.handleSelectProject(row.id)}
 								>
-									{row.budget}
+
 								</CustomTableCell>
 								<CustomTableCell
 									align="center"
 									onClick={() => this.handleSelectProject(row.id)}
 								>
-									{row.due && row.due.slice(0, 10)}
+									{row.project.city}
 								</CustomTableCell>
 								<CustomTableCell
 									align="center"
 									onClick={() => this.handleSelectProject(row.id)}
 								>
-									<Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
+									<Ellipsis maxLines={2}>{row.budget}
+									</Ellipsis>
 								</CustomTableCell>
 								<CustomTableCell align="center">
-									<IconButton
-										aria-label="Delete"
-										color="primary"
-										onClick={() => this.deleteProject(row.id)}
-									>
-										<DeleteIcon />
-									</IconButton>
+									{row.project.startDate && row.project.startDate.slice(0, 10)}
 								</CustomTableCell>
 								<CustomTableCell
 									component="th"
 									scope="row"
-									className="title"
 								>
 									<Ellipsis maxLines={2}>
+										{row.project.endDate && row.project.endDate.slice(0, 10)}
+									</Ellipsis>
+								</CustomTableCell>
+								<CustomTableCell
+									component="th"
+									scope="row"
+								>
+									<Ellipsis maxLines={2}>
+										{row.project.description}
 									</Ellipsis>
 								</CustomTableCell>
 							</TableRow>
@@ -258,7 +258,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 					style={{ overflow: 'auto' }}
 					rowsPerPageOptions={[5, 10, 20]}
 					component="div"
-					count={projects.totalElements}
+					count={this.state.inviteData.length}
 					rowsPerPage={this.state.rowsPerPage}
 					page={this.state.currentPage}
 					backIconButtonProps={{ 'aria-label': 'Previous Page' }}
