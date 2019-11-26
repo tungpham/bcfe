@@ -154,7 +154,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
         var apiPath = `/contractors/${Id}/projects`;
         if (activeStep === 7) {
             const payload = {
-                "title": "project",
+                "title": "A project",
                 "description": getdisc,
                 "budget":Number(getbudjet) ,
                 "endDate": new Date(),
@@ -185,18 +185,21 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
 
 // console.log("n",Newdata);
     return (
-        <Box style={{ flexGrow: 1, backgroundColor: 'white', color: '#68e191' }}>
+        <Box style={{ flexGrow: 1, backgroundColor: 'white', color: '#68e191'  }}>
             <CustomTabs
                 tabs={[{
+                    className:'icon-size',
                     label: 'New',
                     href: `${match.url}/current_pros`,
                     icon: ViewComfyIcon
                 }, {
+                    className:'icon-size',
                     label: 'Ongoing',
                     href: `${match.url}/add_project`,
                     icon: DateRangeIcon
                 },
                 {
+                    className:'icon-size',
                     label: 'Completed',
                     href: `${match.url}/archived`,
                     icon: AssignmentReturnOutlinedIcon
@@ -204,16 +207,17 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                 ]}
                 init={tab}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0px 30px', margin: '20px 0px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0px 30px', margin: '10px 0px' }}>
                 <TextField
                     id="outlined-start-adornment"
                     placeholder="Search"
+                    className="gensearch"
                     InputProps={{
-                        startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
+                        startAdornment: <InputAdornment position="start"><SearchIcon className="searchicon"/></InputAdornment>,
                     }}
                     variant="outlined"
                 />
-                <Button onClick={handleOpen} color="default" variant="contained"  ><AddIcon />Add Project</Button>
+                <Button onClick={handleOpen} color="default" variant="contained"  ><AddIcon className="Addicon"/>Add Project</Button>
             </div>
             <Box style={{ height: 'calc(100vh - 64px - 56px)', paddingTop: '8px', overflow: 'auto' }}>
                 <Switch >

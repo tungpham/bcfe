@@ -39,7 +39,7 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps> {
         return (
             <Box className="">
                 {/* <Paper square> */}
-                <div className="sub-header-tab" style={{justifyContent:'space-between', display: 'flex', padding: '0px 30px', margin: '20px 0px' }}>
+                <div className="sub-header-tab" style={{justifyContent:'space-between', display: 'flex', padding: '0px 30px', margin: '10px 0px' }}>
                     <CustomTabs
                         init={tab}
                         tabs={[
@@ -60,7 +60,7 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps> {
                     <TextField
                         id="outlined-start-adornment"
                         placeholder="Search"
-                        className="sub-textbox"
+                        className="gensearch"
                         InputProps={{
                             startAdornment: <InputAdornment position="start"><SearchIcon className="searchicon" /></InputAdornment>,
                         }}

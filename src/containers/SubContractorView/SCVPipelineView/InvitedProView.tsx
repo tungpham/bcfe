@@ -205,7 +205,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 							<CustomTableCell align="center">Project Details</CustomTableCell>
 						</TableRow>
 					</TableHead>
-					<TableBody>
+					<TableBody className="table-padding">
 						{this.state.inviteData.map((row:any)  => (
 							<TableRow className={classes.row} key={row.id} hover>
 								<CustomTableCell
@@ -213,7 +213,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 									scope="row"
 									onClick={() => this.handleSelectProject(row.id)}
 								>
-									<Ellipsis maxLines={2}>{row.title}</Ellipsis>
+									 {row.title} 
 								</CustomTableCell>
 								<CustomTableCell
 									align="center"
@@ -231,7 +231,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 									align="center"
 									onClick={() => this.handleSelectProject(row.id)}
 								>
-									<Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
+									 {removeMd(row.description)} 
 								</CustomTableCell>
 								<CustomTableCell align="center">
 									<IconButton
@@ -247,10 +247,10 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 									scope="row"
 									className="title"
 								>
-									<Ellipsis maxLines={2}><CheckCircleIcon className="greendoneicon" />
+								 <CheckCircleIcon className="greendoneicon" />
 										<ErrorIcon className="redwarning" />
 										<WarningIcon className="yellowworning" />
-									</Ellipsis>
+							 
 								</CustomTableCell>
 							</TableRow>
 						))}

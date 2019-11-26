@@ -168,8 +168,8 @@ li.MuiListItem-root.details-list.MuiListItem-gutters {
 }
 .MuiGrid-root.details-name.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-4 {
   position: relative !important;
-  padding-left: 15px !important;
-  padding-right: 15px !important;
+  padding-left: 25px !important;
+  padding-right: 25px !important;
 }
 
 h3.name {
@@ -753,10 +753,10 @@ p.MuiTypography-root.ratingSection.MuiTypography-body1 {
 button.MuiButtonBase-root.MuiIconButton-root.Rating-iconButton.Rating-readOnly {
   padding: 4px !important;
 }
-.MuiGrid-root.mtmb.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-12 {
+/* .MuiGrid-root.mtmb.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-12 {
   margin-top: 15px;
   margin-bottom: 15px;
-}
+} */
 
 /* //Jaydip message prop// */
 
@@ -856,6 +856,9 @@ svg.MuiSvgIcon-root.searchicon {
     height: 435px;
     margin-left: 70%;
   }
+}
+.PrivateTabIndicator-colorPrimary-1305{
+  background-color: white !important;
 }
 /* button.MuiButtonBase-root.MuiButton-root.service-modal-prev.MuiButton-contained
 {

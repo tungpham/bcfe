@@ -99,30 +99,32 @@ code {
 .MuiTab-textColorPrimary.Mui-selected,
 .PrivateTabIndicator-colorPrimary-496 {
   color: #68e191 !important;
-  border-bottom: 4px solid #68e191 !important;
+  border-bottom: 5px solid #68e191 !important;
 }
 svg.MuiSvgIcon-root.CustomTabs-rootIcon-196.active {
   color: #68e191 !important;
 }
+a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.MuiTab-labelIcon span svg{
+  font-size: 20px !important;
+}
 .PrivateTabIndicator-colorPrimary-221,
 .PrivateTabIndicator-colorPrimary-2665 {
   background-color: #68e191 !important;
-  border-bottom: 4px solid #68e191;
+  border-bottom: 5px solid #68e191;
 }
-// span.PrivateTabIndicator-root-220.PrivateTabIndicator-colorPrimary-221.MuiTabs-indicator {
-//   width: 80px !important;
-// }
-// .MuiTab-textColorPrimary.Mui-selected{
-//   background-color: #68e191 !important;
-// }
+ 
 .PrivateTabIndicator,
 .PrivateTabIndicator-colorPrimary-342,
 .PrivateTabIndicator-colorPrimary-1044 {
   background-color: #68e191 !important;
 }
 button.MuiButtonBase-root.MuiButton-root.MuiButton-contained {
-  background-color: #4a148c;
+  background-color: #1752A8;
   color: white;
+  padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 .MuiTableHead-root {
   background-color: white !important;
@@ -132,6 +134,9 @@ th.MuiTableCell-root.MuiTableCell-head {
   font-size: 17px;
   font-weight: 800;
   padding-bottom: 12px;
+}
+h.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignCenter {
+  padding: 10px 16px !important;
 }
 .tbl-head-icon {
   display: flex;
@@ -255,10 +260,13 @@ svg.MuiSvgIcon-root.profiledropdown {
 .MuiTab-textColorPrimary.Mui-selected,
 .PrivateTabIndicator-colorPrimary-496 {
   color: #68e191 !important;
-  border-bottom: 4px solid #68e191 !important;
+  border-bottom: 5px solid #68e191 !important;
 }
 svg.MuiSvgIcon-root.CustomTabs-rootIcon-196.active {
   color: #68e191 !important;
+}
+svg.MuiSvgIcon-root.CustomTabs-rootIco {
+   font-size: 20px!important;
 }
 .PrivateTabIndicator-colorPrimary-221,
 .PrivateTabIndicator-colorPrimary-2665 {
@@ -359,7 +367,7 @@ span.PrivateTabIndicator-root-606.PrivateTabIndicator-colorPrimary-607.MuiTabs-i
 .MuiTab-textColorPrimary.Mui-selected,
 .PrivateTabIndicator-colorPrimary-496 {
   color: #68e191 !important;
-  border-bottom: 4px solid #68e191 !important;
+  border-bottom:5px solid #68e191 !important;
   z-index: 1;
 }
 .MuiTab-textColorPrimary,
@@ -368,9 +376,9 @@ span.PrivateTabIndicator-root-606.PrivateTabIndicator-colorPrimary-607.MuiTabs-i
   z-index: 1;
 }
 
-th.MuiTableCell-root.title.MuiTableCell-body {
-  padding: 16px 15px !important;
-}
+// th.MuiTableCell-root.title.MuiTableCell-body {
+//   padding: 16px 15px !important;
+// }
 tr:nth-child(even) {
   background: #ffffff;
 }
@@ -389,4 +397,36 @@ th.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignCenter,
 .PrivateTabScrollButton.MuiTabs-scrollButtons,
 .MuiButtonBase-root.PrivateTabScrollButton.MuiTabs-scrollButtons{
   width: 0px !important;
+}
+
+//26 - Nov //
+a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.MuiTab-labelIcon {
+  min-width: 20px;
+}
+
+.MuiFormControl-root.MuiTextField-root.gensearch {
+  width: 300px;
+}
+
+svg.MuiSvgIcon-root.Addicon {
+  font-size: 20px !important;
+}
+.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-10{
+  padding-left: 24px !important;
+}
+.MuiTableCell-root {
+  display: table-cell;
+  padding: 10px 16px  !important;
+  font-size: 0.875rem;
+  text-align: left;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  line-height: 1.43;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  letter-spacing: 0.01071em;
+  vertical-align: inherit;
+}
+ 
+button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorPrimary{
+  padding: 0px;
 }
