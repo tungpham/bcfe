@@ -249,7 +249,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 					}}
 					open={open}
 				>
-					<div className="mylogo" >
+					{/* <div className="mylogo" >
 						<Typography
 							component="h1"
 							variant="h6"
@@ -263,7 +263,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 							<ChevronLeftIcon color="primary" className="rightarrow" />
 						</IconButton>
 					</div>
-					<Divider />
+					<Divider /> */}
 					<div className="drawer" onMouseOver={this.handleDrawerOpen}
 						onMouseLeave={this.handleDrawerClose}>
 						<MenuList />

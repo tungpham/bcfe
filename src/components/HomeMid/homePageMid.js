@@ -178,6 +178,7 @@ function HomePageMid(props) {
       settitle(e.target.title);
     }
     
+    console.log(title);
     return (<div className="container home-mid-bg">
         <h2 className="font-color">Contact  Local Professional</h2>
         <Carousel
@@ -197,7 +198,7 @@ function HomePageMid(props) {
             itemClass="carousel-item-padding-40-px"
         >
             <div>
-                <Card className={classes.card}   > 
+                <Card className={classes.card}  onClick={gettitle} > 
                     <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia

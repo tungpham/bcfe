@@ -110,19 +110,16 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 
 		const rowsPerPage = event.target.value;
 		const currentPage =
-			rowsPerPage >= proposals.totalElements ? 0 : this.state.currentPage;
+			rowsPerPage >= this.state.awardData.length ? 0 : this.state.currentPage;
 
 		this.setState({
 			rowsPerPage: rowsPerPage,
 			currentPage: currentPage,
 		});
 
-		this.props.getProposals(
-			userProfile.user_metadata.contractor_id,
-			currentPage,
-			rowsPerPage,
-			'AWARDED'
-		);
+		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${rowsPerPage}&status=INACTIVE`).then(res => {
+			this.setState({ awardData: res.data.content })
+		});
 	};
 
 	handleDeleteProposal = async id => {
@@ -193,55 +190,51 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 					<TableBody>
 						{this.state.awardData.map((row: any) => (
 
-							<TableRow className={classes.row} hover>
+							<TableRow className={classes.row} key={row.id} hover>
 								<CustomTableCell
-									onClick={() => this.handleSelectProposal(row.id)}
 									component="th"
 									scope="row"
-									align="center"
+
 								>
 									<Ellipsis maxLines={2}>{row.project.title}</Ellipsis>
 								</CustomTableCell>
 								<CustomTableCell
-									onClick={() => this.handleSelectProposal(row.id)}
-									component="th"
-									scope="row"
 									align="center"
-								>
-									{row.budget}
-								</CustomTableCell>
-								<CustomTableCell
-									onClick={() => this.handleSelectProposal(row.id)}
-									component="th"
-									scope="row"
-									align="center"
-								>
-									{row.duration}
-								</CustomTableCell>
-								<CustomTableCell
-									onClick={() => this.handleSelectProposal(row.id)}
-									component="th"
-									scope="row"
-									align="center"
-								>
-									{row.status}
-								</CustomTableCell>
-								<CustomTableCell
-									onClick={() => this.handleSelectProposal(row.id)}
-									align="center"
+
 								>
 
 								</CustomTableCell>
-								<CustomTableCell align="center">
-									<Ellipsis maxLines={2}>{removeMd(row.description)}</Ellipsis>
+								<CustomTableCell
+									align="center"
+
+								>
+									{row.project.city}
+								</CustomTableCell>
+								<CustomTableCell
+									align="center"
+
+								>
+									<Ellipsis maxLines={2}>{row.budget}
+									</Ellipsis>
 								</CustomTableCell>
 								<CustomTableCell align="center">
-									<IconButton
-										aria-label="Delete"
-										color="primary"
-									>
-										<CheckCircleIcon className="bluedoneicon" />
-									</IconButton>
+									{row.project.startDate && row.project.startDate.slice(0, 10)}
+								</CustomTableCell>
+								<CustomTableCell
+									component="th"
+									scope="row"
+								>
+									<Ellipsis maxLines={2}>
+										{row.project.endDate && row.project.endDate.slice(0, 10)}
+									</Ellipsis>
+								</CustomTableCell>
+								<CustomTableCell
+									component="th"
+									scope="row"
+								>
+									<Ellipsis maxLines={2}>
+										{row.project.description}
+									</Ellipsis>
 								</CustomTableCell>
 							</TableRow>
 						))}
@@ -251,7 +244,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 					style={{ overflow: 'auto' }}
 					rowsPerPageOptions={[5, 10, 20]}
 					component="div"
-					count={proposals.totalElements}
+					count={this.state.awardData.length}
 					rowsPerPage={this.state.rowsPerPage}
 					page={this.state.currentPage}
 					backIconButtonProps={{ 'aria-label': 'Previous Page' }}

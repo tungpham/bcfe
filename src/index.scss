@@ -121,7 +121,6 @@ h.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignCenter {
   display: flex;
 }
 svg.MuiSvgIcon-root.Arrowdown {
-  /* padding-left: 8px; */
   margin-right: 5px;
   margin-left: 5px;
   font-size: 13px !important;
@@ -197,9 +196,6 @@ svg.MuiSvgIcon-root.profiledropdown {
   color: #bebebe;
 }
 
-// header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.beforeloginheader.MuiAppBar-colorPrimary {
-//   background: white ;
-// }
 .MuiPaper-root.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft {
   background-color: #e9edf5 !important;
 }
@@ -252,12 +248,7 @@ svg.MuiSvgIcon-root.CustomTabs-rootIco {
   background-color: #68e191 !important;
   border-bottom: 4px solid #68e191;
 }
-// span.PrivateTabIndicator-root-220.PrivateTabIndicator-colorPrimary-221.MuiTabs-indicator {
-//   width: 80px !important;
-// }
-// .MuiTab-textColorPrimary.Mui-selected{
-//   background-color: #68e191 !important;
-// }
+
 .PrivateTabIndicator,
 .PrivateTabIndicator-colorPrimary-342,
 .PrivateTabIndicator-colorPrimary-1044 {
@@ -355,9 +346,6 @@ span.PrivateTabIndicator-root-606.PrivateTabIndicator-colorPrimary-607.MuiTabs-i
   z-index: 1;
 }
 
-// th.MuiTableCell-root.title.MuiTableCell-body {
-//   padding: 16px 15px !important;
-// }
 tr:nth-child(even) {
   background: #ffffff;
 }
@@ -408,15 +396,8 @@ svg.MuiSvgIcon-root.Addicon {
  
 button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorPrimary{
   padding: 0px;
-.withRouter\(Connect\(Header\)\)-drawerPaper-32{
-  position:fixed !important;
 }
-.withRouter\(Connect\(Header\)\)-drawerPaperClose-33 {
-  //  width: 0; 
-  //  overflow-x: hidden ; 
-  //  position: relative !important;
-  //  transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;  
-}
+
 header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolute.MuiAppBar-colorPrimary{
   position:  fixed !important;
 }
@@ -425,12 +406,14 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolu
 }
 .MuiContainer-root  { 
   padding-left: 3.5% !important;
- 
 }
-}
+
 .PrivateTabScrollButton-root-1047{
   width: 0px !important;
 }
 .sub-header-tab header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary div.MuiTabs-root div.MuiTabs-scrollButtons{
   width: 0px !important;
+}
+.drawer{
+  margin-top: 47px;
 }
