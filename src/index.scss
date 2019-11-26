@@ -77,14 +77,21 @@ code {
 }
 .MuiTab-textColorPrimary.Mui-selected,
 .PrivateTabIndicator-colorPrimary-496 {
-  color: #68e191 !important;
+  color: #1f1f1f !important;
+  font-size: 18px;
+  font-weight: 500;
   border-bottom: 5px solid #68e191 !important;
+}
+a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.MuiTab-labelIcon {
+  font-size: 18px;
+  font-weight: 400;
+  color: #2c2c2c;
 }
 svg.MuiSvgIcon-root.CustomTabs-rootIcon-196.active {
   color: #68e191 !important;
 }
-a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.MuiTab-labelIcon span svg{
-  font-size: 20px !important;
+a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.MuiTab-labelIcon span svg.Mui-selected{
+  font-size: 24px !important
 }
 .PrivateTabIndicator-colorPrimary-221,
 .PrivateTabIndicator-colorPrimary-2665 {
@@ -232,11 +239,7 @@ svg.MuiSvgIcon-root.profiledropdown {
 .MuiTab-labelIcon .MuiTab-wrapper > *:first-child {
   margin-right: 5px !important;
 }
-.MuiTab-textColorPrimary.Mui-selected,
-.PrivateTabIndicator-colorPrimary-496 {
-  color: #68e191 !important;
-  border-bottom: 5px solid #68e191 !important;
-}
+
 svg.MuiSvgIcon-root.CustomTabs-rootIcon-196.active {
   color: #68e191 !important;
 }
@@ -334,12 +337,7 @@ span.PrivateTabIndicator-root-606.PrivateTabIndicator-colorPrimary-607.MuiTabs-i
   background-color: white !important;
 }
 
-.MuiTab-textColorPrimary.Mui-selected,
-.PrivateTabIndicator-colorPrimary-496 {
-  color: #68e191 !important;
-  border-bottom:5px solid #68e191 !important;
-  z-index: 1;
-}
+
 .MuiTab-textColorPrimary,
 .PrivateTabIndicator-colorPrimary-496 {
   border-bottom: 4px solid white !important;
@@ -419,4 +417,9 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolu
 }
 .withRouter\(Connect\(Header\)\)-drawerPaper-32{
   position: fixed !important;
+}
+.time {
+  font-size: 13px;
+  padding-top: 3px;
+  color: #858585;
 }
