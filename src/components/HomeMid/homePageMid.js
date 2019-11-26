@@ -24,6 +24,7 @@ import ModalCity from '../modals/modalCity';
 import ModalProperty from '../modals/modalProperty';
 import ModalMaterial from '../modals/modalMaterial';
 import auth0Client from 'services/auth0/auth';
+import HttpUrlConstant from 'apis/global';
 import Axios from 'axios';
 
 const useStyles = makeStyles({
@@ -53,6 +54,8 @@ function HomePageMid(props) {
     const [getdisc, setgetdisc] = useState('');
     const [validation, setvalidation] = useState("");
     const [getChar, setgetChar] = useState('');
+    const [Newdata,setNewdata]= useState([]);
+
      
     const callback = (value) => {
         setgetvalue(value);
@@ -151,6 +154,21 @@ function HomePageMid(props) {
         auth0Client.signIn();
        
        }
+       var apiPath = `/contractors/7327766/projects`;
+        if (activeStep === 7) {
+            const payload = {
+                "title": "A project",
+                "description": getdisc,
+                "budget":Number(getbudjet) ,
+                "endDate": new Date(),
+            };
+            if (payload) {
+                Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
+                    payload, { headers: HttpUrlConstant.headers }).then(response => {
+                        Newdata.push(response.data);
+                    })
+            }
+        }
         setActiveStep(0);
         setOpen(false);
     };

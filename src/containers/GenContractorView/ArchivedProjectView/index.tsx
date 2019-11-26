@@ -211,12 +211,15 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                 <CustomTableCell
                                     component="th"
                                     scope="row"
+                                    className="margintopbottom"
                                     onClick={() => this.handleSelectProject(data.project.id)}>
+                                        
                                     <Ellipsis maxLines={2}>{data.project.title}</Ellipsis>
                                 </CustomTableCell>
 
                                 <CustomTableCell
                                     align="center"
+                                    className="margintopbottom"
                                     onClick={() => this.handleSelectProject(data.project.id)}
                                 >
                                     {data.contractor.address.name}
@@ -224,6 +227,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
                                 <CustomTableCell
                                     align="center"
+                                    className="margintopbottom"
                                     onClick={() => this.handleSelectProject(data.project.id)}
                                 >
                                     {data.contractor.address.city}
@@ -231,6 +235,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
                                 <CustomTableCell
                                     align="center"
+                                    className="margintopbottom"
                                     onClick={() => this.handleSelectProject(data.project.id)}
                                 >
                                     ${data.project.budget}
@@ -238,6 +243,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
                                 <CustomTableCell
                                     align="center"
+                                    className="margintopbottom"
                                     onClick={() => this.handleSelectProject(data.project.id)}
                                 >
                                     {data.project.startDate}
@@ -245,6 +251,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
                                 <CustomTableCell
                                     align="center"
+                                    className="margintopbottom"
                                     onClick={() => this.handleSelectProject(data.project.id)}>
                                     {data.project.endDate}
                                     <div className="notDisplayFlex">
@@ -254,6 +261,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
                                 <CustomTableCell
                                     align="center"
+                                    className="margintopbottom"
                                     onClick={() => this.handleSelectProject(data.project.id)}
                                 ><Ellipsis maxLines={2}>
                                         <IconButton
