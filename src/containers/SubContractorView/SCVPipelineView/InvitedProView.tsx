@@ -91,10 +91,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		const { userProfile } = this.props;
 		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
 		this.setState({ inviteData: res.data.content })
-		 
 		}); 
-		
-		
 		this.props.getInvitedProjects(
 			userProfile.user_metadata.contractor_id,
 			0, 0
@@ -215,25 +212,26 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 									component="th"
 									scope="row"
 									onClick={() => this.handleSelectProject(row.id)}
-								> 
+								>
+									 
 								</CustomTableCell>
 								<CustomTableCell
 									align="center"
 									onClick={() => this.handleSelectProject(row.id)}
 								>
-									{row.budget}
+									 
 								</CustomTableCell>
 								<CustomTableCell
 									align="center"
 									onClick={() => this.handleSelectProject(row.id)}
 								>
-									{row.due && row.due.slice(0, 10)}
+									 
 								</CustomTableCell>
 								<CustomTableCell
 									align="center"
 									onClick={() => this.handleSelectProject(row.id)}
 								>
-									 {removeMd(row.description)} 
+									 
 								</CustomTableCell>
 								<CustomTableCell align="center">
 									<IconButton
