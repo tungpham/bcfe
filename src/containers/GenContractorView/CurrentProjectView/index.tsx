@@ -11,9 +11,7 @@ import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
-import IconButton from '@material-ui/core/IconButton';
 import TablePagination from '@material-ui/core/TablePagination';
-import DeleteIcon from '@material-ui/icons/Delete';
 import removeMd from 'remove-markdown';
 import CustomTableCell from 'components/shared/CustomTableCell';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
@@ -174,9 +172,6 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {/* {this.state.compltedArray.map((data:any) =>{
-                            return(<div>data</div>)
-                        })} */}
                         {this.state.compltedArray.map((data: any) => (
                             <TableRow className="" key={data.project.id} hover>
 
@@ -212,13 +207,15 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                                     align="center"
                                     onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                    {data.project.due && data.project.due.slice(0, 10)}
+                                    {data.project.startDate}
+                                    <div className="time">HH:MM:SS AM</div>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
                                     onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                    {data.project.due && data.project.due.slice(0, 10)}
+                                    {data.project.endDate}
+                                    <div className="time">HH:MM:SS AM</div>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"

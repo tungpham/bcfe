@@ -217,18 +217,6 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 					className={clsx(classes.appBar, open && classes.appBarShift)}
 					style={{ boxShadow: 'none', backgroundColor: 'white' }}>
 					<Toolbar className="myheader">
-						{/* <IconButton
-							edge="start"
-							color="inherit"
-							aria-label="Open drawer"
-							// onMouseEnter={this.handleDrawerOpen}
-							className={clsx(
-								classes.menuButton,
-								this.state.open && classes.menuButtonHidden,
-							)}
-						>
-							<MenuIcon />
-						</IconButton> */}
 						<Typography
 							component="h1"
 							variant="h6"
@@ -236,7 +224,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 							noWrap
 							className={classes.title}
 						>
-							Dashboard
+							LOGO NAME
             			</Typography>
 						{rightApp}
 					</Toolbar>
@@ -249,21 +237,6 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 					}}
 					open={open}
 				>
-					{/* <div className="mylogo" >
-						<Typography
-							component="h1"
-							variant="h6"
-							color="inherit"
-							noWrap
-							className={classes.title}
-						>
-							LOGO
-            			</Typography>
-						<IconButton   >
-							<ChevronLeftIcon color="primary" className="rightarrow" />
-						</IconButton>
-					</div>
-					<Divider /> */}
 					<div className="drawer" onMouseOver={this.handleDrawerOpen}
 						onMouseLeave={this.handleDrawerClose}>
 						<MenuList />

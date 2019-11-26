@@ -99,7 +99,7 @@ interface IAddProjectViewState extends ISnackbarProps, ProjectBriefInfo {
     compltedArray: [];
     rowsPerPage: any;
     currentPage: any;
-   
+    days: number;
 }
 
 class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectViewState> {
@@ -112,6 +112,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
             currentPage: 0,
             title: '',
             price: 0,
+            days: 0,
             description: '',
             dueDate: new Date(),
             isBusy: false,
@@ -129,7 +130,12 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         await this.props.loadRoots();
         Axios.get(`https://bcbe-service.herokuapp.com/contractors/${this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`).then(data => {
             this.setState({ compltedArray: data.data.content })
+            data.data.content.map(d => {
+                var diff = Math.floor((Date.parse(d.project.endDate) - Date.parse(d.project.startDate)) / 86400000);
+                this.setState({ days: diff })
+            });
         })
+        this.setState({ isBusy: false });
     }
 
 
@@ -203,8 +209,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
         this.setState({ files: [...files] });
     };
-    handleChangePage = async (event, page) => {
-        const { userProfile } = this.props;
+    handleChangePage = async (page) => {
         this.setState({ currentPage: page, isBusy: true });
     };
 
@@ -214,14 +219,14 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         const currentPage =
             rowsPerPage >= this.state.compltedArray.length ? 0 : this.state.currentPage;
 
-            this.setState({ rowsPerPage, currentPage, isBusy: true });
-            try {
-                Axios.get(`https://bcbe-service.herokuapp.com/contractors/${this.props.userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${rowsPerPage}&status=ONGOING`).then(data => {
-                    this.setState({ compltedArray: data.data.content })
-                })
-            } catch (error) {
-                console.log('CurrentProjectView.handleChangeRowsPerPage', error);
-            }
+        this.setState({ rowsPerPage, currentPage, isBusy: true });
+        try {
+            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${this.props.userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${rowsPerPage}&status=ONGOING`).then(data => {
+                this.setState({ compltedArray: data.data.content })
+            })
+        } catch (error) {
+            console.log('CurrentProjectView.handleChangeRowsPerPage', error);
+        }
 
         this.setState({ rowsPerPage, currentPage, isBusy: true });
         this.setState({ isBusy: false });
@@ -480,7 +485,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
                                     >
                                         {data.project.startDate}
-                                        {/* {data.due && data.due.slice(0, 10)} */}
+                                        <div className="time">HH:MM:SS AM</div>
                                     </CustomTableCell>
 
                                     <CustomTableCell
@@ -488,21 +493,15 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
                                     >
                                         {data.project.endDate}
+                                        <div className="notDisplayFlex">
+                                            <p className="font-size-12">{this.state.days}&nbsp; Days Left</p>
+                                        </div>
                                     </CustomTableCell>
 
                                     <CustomTableCell
                                         align="center"
 
                                     ><Ellipsis maxLines={2}>
-                                            {/* <IconButton
-                                                aria-label="Delete"
-                                                color="primary"
-                                            >
-                                                <Ellipsis maxLines={2}><CheckCircleIcon className="greendoneicon" />
-                                                    <ErrorIcon className="redwarning" />
-                                                    <WarningIcon className="yellowworning" />
-                                                </Ellipsis>
-                                            </IconButton> */}
                                             {removeMd(data.project.description)}
                                         </Ellipsis>
                                     </CustomTableCell>

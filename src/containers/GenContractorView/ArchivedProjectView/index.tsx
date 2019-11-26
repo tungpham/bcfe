@@ -105,10 +105,6 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         this.setState({ isBusy: true });
         Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`).then(data => {
             this.setState({ compltedArray: data.data.content });
-            data.data.content.map(d => {
-                var diff = Math.floor((Date.parse(d.project.endDate) - Date.parse(d.project.startDate)) / 86400000);
-                this.setState({days : diff})
-            });
         })
         this.setState({ isBusy: false });
     }
@@ -247,6 +243,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                     onClick={() => this.handleSelectProject(data.project.id)}
                                 >
                                     {data.project.startDate}
+                                    <div className="time">HH:MM:SS AM</div>
                                 </CustomTableCell>
 
                                 <CustomTableCell
@@ -254,9 +251,8 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                     className="margintopbottom"
                                     onClick={() => this.handleSelectProject(data.project.id)}>
                                     {data.project.endDate}
-                                    <div className="notDisplayFlex">
-                                        <p className="font-size-12">{this.state.days}&nbsp; Days Left</p>
-                                    </div>
+                                    <div className="time">HH:MM:SS AM</div>
+                                   
                                 </CustomTableCell>
 
                                 <CustomTableCell
