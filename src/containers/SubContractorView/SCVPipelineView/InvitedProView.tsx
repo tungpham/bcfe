@@ -89,7 +89,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 
 	componentDidMount() { 
 		const { userProfile } = this.props;
-		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
+		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
 		this.setState({ inviteData: res.data.content })
 		}); 
 		this.props.getInvitedProjects(
@@ -247,9 +247,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 									scope="row"
 									className="title"
 								>
-									<Ellipsis maxLines={2}><CheckCircleIcon className="greendoneicon" />
-										<ErrorIcon className="redwarning" />
-										<WarningIcon className="yellowworning" />
+									<Ellipsis maxLines={2}>
 									</Ellipsis>
 								</CustomTableCell>
 							</TableRow>

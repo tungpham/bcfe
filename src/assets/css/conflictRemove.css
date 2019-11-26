@@ -259,6 +259,7 @@ div#search {
 }
 main.AppRouterConnect-content-4 {
   min-height: 260px;
+  width: 100% !important; 
 }
 .MuiSvgIcon-root {
   font-size: 1.9rem !important;
