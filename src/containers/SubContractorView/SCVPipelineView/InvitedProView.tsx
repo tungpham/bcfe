@@ -216,7 +216,6 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 									align="center"
 									onClick={() => this.handleSelectProject(row.id)}
 								>
-
 								</CustomTableCell>
 								<CustomTableCell
 									align="center"

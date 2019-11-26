@@ -407,6 +407,13 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolu
 .MuiContainer-root  { 
   padding-left: 3.5% !important;
 }
+
+.PrivateTabScrollButton-root-1047{
+  width: 0px !important;
+}
+.sub-header-tab header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary div.MuiTabs-root div.MuiTabs-scrollButtons{
+  width: 0px !important;
+}
 .drawer{
   margin-top: 47px;
 }
