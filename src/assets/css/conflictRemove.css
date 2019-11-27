@@ -18,6 +18,7 @@ input#input {
 .MuiContainer-root.AppRouterConnect-container-5 {
   background: white !important;
   padding-top: 4%;
+  min-height: 424px !important;
 }
 .AppRouterConnect-content-4 {
   margin-top: 30px;

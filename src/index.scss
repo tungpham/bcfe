@@ -5,7 +5,6 @@ body {
     "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f0f2f5;
   height: 100%;
 }
 
@@ -78,7 +77,7 @@ code {
 .MuiTab-textColorPrimary.Mui-selected,
 .PrivateTabIndicator-colorPrimary-496 {
   color: #1f1f1f !important;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 500;
   border-bottom: 5px solid #68e191 !important;
 }
@@ -205,6 +204,7 @@ svg.MuiSvgIcon-root.profiledropdown {
 
 .MuiPaper-root.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft {
   background-color: #e9edf5 !important;
+  position: absolute !important;
 }
 .mylogo {
   background-color: white !important;
@@ -422,4 +422,11 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolu
   font-size: 13px;
   padding-top: 3px;
   color: #858585;
+} 
+
+// Footer CSS
+.MuiGrid-root.footer-bg.MuiGrid-container {
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
