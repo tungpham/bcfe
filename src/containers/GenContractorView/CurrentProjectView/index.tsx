@@ -157,6 +157,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
             return <CircularProgress className={classes.waitingSpin} />;
         }
 
+        // console.log(this.props);
         return (
             <Box>
                 <Table>
@@ -233,7 +234,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                     style={{ overflow: 'auto' }}
                     rowsPerPageOptions={[5, 10, 20]}
                     component="div"
-                    count={projects.totalElements}
+                    count={this.state.compltedArray.length}
                     rowsPerPage={this.state.rowsPerPage}
                     page={this.state.currentPage}
                     backIconButtonProps={{ 'aria-label': 'Previous Page' }}

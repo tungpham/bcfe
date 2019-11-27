@@ -174,12 +174,8 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		const { classes, projects } = this.props;
 		const { showMessage, variant, message } = this.state;
 
-		if (!projects) {
-			return (
-				<Box className={classes.root}>
-					<CircularProgress className={classes.busy} />
-				</Box>
-			);
+		if (this.state.inviteData.length === 0) {
+			return <CircularProgress className={classes.busy} />
 		}
 
 		return (

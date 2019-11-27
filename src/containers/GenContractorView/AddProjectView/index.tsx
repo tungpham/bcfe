@@ -16,6 +16,7 @@ import { ProjectBriefInfo } from './Overview';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import TablePagination from '@material-ui/core/TablePagination';
 import removeMd from 'remove-markdown';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
     addFilesToProject,
     addProject,
@@ -408,8 +409,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
     }
 
     public render() {
-        console.log(this.props);
-        const { match, location } = this.props;
+        const { classes, match, location } = this.props;
         const tabs = [
             { href: `${match.url}/submitted`, label: 'Overview' },
             { href: `${match.url}/add-levels`, label: 'Levels' },
@@ -419,6 +419,9 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         let tab = tabs.map(tab => tab.href).indexOf(location.pathname);
         if (tab < 0) tab = 0;
 
+        if (this.state.compltedArray.length === 0) {
+            return <CircularProgress className={classes.waitingSpin} />
+        }
         return (
             <div>
                 <Box>

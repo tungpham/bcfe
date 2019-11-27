@@ -78,7 +78,7 @@ code {
 .MuiTab-textColorPrimary.Mui-selected,
 .PrivateTabIndicator-colorPrimary-496 {
   color: #1f1f1f !important;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 500;
   border-bottom: 5px solid #68e191 !important;
 }
@@ -226,6 +226,7 @@ svg.MuiSvgIcon-root.profiledropdown {
   border-bottom: 4px solid #ccddfe !important;
   z-index: 1;
   background: #ccddfe;
+  
 }
 .sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary {
   color: gray !important;
@@ -420,6 +421,9 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolu
 .withRouter\(Connect\(Header\)\)-drawerPaper-32 {
   position: fixed !important;
 }
+.withRouter\(Connect\(Header\)\)-drawerPaper-277{
+  position: fixed !important;
+}
 .time {
   font-size: 13px;
   padding-top: 3px;
@@ -427,4 +431,13 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolu
 }
 .makeStyles-card-265 {
   max-width: 172px !important;
+}
+
+//27 - Nov //
+
+.nodata {
+  justify-content: center;
+  display: flex;
+  margin-top: 10%;
+  margin-bottom: 10%;
 }
