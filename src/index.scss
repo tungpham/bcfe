@@ -78,7 +78,7 @@ code {
 .MuiTab-textColorPrimary.Mui-selected,
 .PrivateTabIndicator-colorPrimary-496 {
   color: #1f1f1f !important;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 500;
   border-bottom: 5px solid #68e191 !important;
 }
@@ -417,6 +417,9 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolu
   margin-top: 47px;
 }
 .withRouter\(Connect\(Header\)\)-drawerPaper-32{
+  position: fixed !important;
+}
+.withRouter\(Connect\(Header\)\)-drawerPaper-277{
   position: fixed !important;
 }
 .time {
