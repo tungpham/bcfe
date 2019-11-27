@@ -145,7 +145,7 @@ function ContractorDetails(props) {
             if (payload) {
                 Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
                     payload, { headers: HttpUrlConstant.headers }).then(response => {
-                        console.log("r", Response.data);
+                        // console.log("r", Response.data);
                     })
             }
         }
@@ -258,7 +258,6 @@ function ContractorDetails(props) {
     const currentReview = PersonReviewList.slice(indexOfFirstReview, indexOfLastReview);
     const [open, setOpen] = React.useState(false);
 
-    console.log("de",data);
     return (
         <div style={{ width: '1290px', marginTop: '-30px' }} className="full-width">
             {Detailsdata.map((detailsdata) => {

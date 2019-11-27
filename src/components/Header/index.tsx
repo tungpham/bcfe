@@ -8,12 +8,9 @@ import { History } from 'history';
 
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -31,9 +28,7 @@ import { Menu, MenuItem } from '@material-ui/core';
 import { MenuProps } from '@material-ui/core/Menu';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import CustomAvatar from 'components/CustomAvatar';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ContApi from 'services/contractor';
 
 const StyledMenu = withStyles({
 	paper: {
@@ -115,6 +110,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 	};
 
 	handleUserLogOut = () => {
+		localStorage.clear();
 		auth0Client.signOut();
 		this.handleMenuClose();
 	};

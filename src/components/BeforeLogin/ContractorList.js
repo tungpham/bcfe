@@ -36,7 +36,6 @@ function ContractorList(props) {
                 })
         }
     }
-    // console.log()
 
     return (<div style={{ marginTop: '-30px' }}>
         <Container className="contractor-list">

@@ -5,10 +5,7 @@ import { Redirect, Switch, RouteComponentProps } from 'react-router-dom';
 import NoSsr from '@material-ui/core/NoSsr';
 import Box from '@material-ui/core/Box';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import SettingsIcon from '@material-ui/icons/Settings';
-import TableChartIcon from '@material-ui/icons/TableChart';
 import TuneIcon from '@material-ui/icons/Tune';
 import PeopleIcon from '@material-ui/icons/People';
 import DateRangeIcon from '@material-ui/icons/DateRange';
@@ -19,10 +16,8 @@ import ProjectDetailView from 'components/ProjectDetailView';
 import ProposalDetailView from 'components/ProposalDetailView';
 import CustomTabs from "components/shared/CustomTabs";
 import ContractorDetailView from 'components/ContractorDetailView';
-
 import SCVAnalyticsView from './SCVAnalyticsView';
 import SCVCalendarView from './SCVCalendarView';
-
 import SCVPipelineView from './SCVPipelineView/index';
 import SCVReportsView from './SCVReportsView';
 import SCVSettingsView from './SCVSettingsView';

@@ -9,7 +9,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
@@ -18,10 +17,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Box from '@material-ui/core/Box';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
-import DeleteIcon from '@material-ui/icons/Delete';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import removeMd from 'remove-markdown';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Button from "components/CustomButtons/Button.jsx";
 import CustomTableCell from "components/shared/CustomTableCell";
 import { deleteProject } from 'store/actions/gen-actions';
@@ -30,8 +26,6 @@ import { Projects } from 'types/project';
 import { UserProfile } from 'types/global';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import Ellipsis from 'components/Typography/Ellipsis';
-import ErrorIcon from '@material-ui/icons/Error';
-import WarningIcon from '@material-ui/icons/Warning';
 import Axios from 'axios';
 
 const styles = createStyles((theme: Theme) => ({
@@ -110,7 +104,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 	};
 
 	handleChangeRowsPerPage = event => {
-		const { projects, userProfile } = this.props;
+		const { userProfile } = this.props;
 
 		const rowsPerPage = event.target.value;
 		const currentPage =
