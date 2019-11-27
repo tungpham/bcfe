@@ -182,13 +182,8 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 
 	render() {
 		const { classes, proposals } = this.props;
-
-		if (!proposals) {
-			return (
-				<Box className={classes.root}>
-					<CircularProgress className={classes.busy} />
-				</Box>
-			);
+         if (this.state.submitData.length === 0) {
+			return <CircularProgress className={classes.busy} />
 		}
 		return (
 			<Box className={classes.root}>

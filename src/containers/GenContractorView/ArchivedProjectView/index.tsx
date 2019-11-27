@@ -182,7 +182,8 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
     render() {
         const { classes, projects } = this.props;
-        if (!projects) {
+        
+        if (this.state.compltedArray.length === 0) {
             return <CircularProgress className={classes.waitingSpin} />;
         }
 

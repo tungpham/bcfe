@@ -20,6 +20,7 @@ import { ProjectBriefInfo } from './Overview';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import TablePagination from '@material-ui/core/TablePagination';
 import removeMd from 'remove-markdown';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
     addFilesToProject,
     addProject,
@@ -432,6 +433,11 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
         let tab = tabs.map(tab => tab.href).indexOf(location.pathname);
         if (tab < 0) tab = 0;
+
+        if(this.state.compltedArray.length === 0)
+        {
+            return <CircularProgress className={classes.waitingSpin} />;
+        }
 
         // console.log("ongoing", this.state.compltedArray);
         return (
