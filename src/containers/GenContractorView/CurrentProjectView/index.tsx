@@ -157,6 +157,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
             return <CircularProgress className={classes.waitingSpin} />;
         }
 
+        // console.log(this.props);
         return (
             <Box>
                 <Table>
