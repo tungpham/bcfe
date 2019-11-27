@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../assets/css/modal.css';
 import { makeStyles, useTheme } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -41,9 +41,9 @@ const useStyles = makeStyles({
 });
 
 function HomePageMid(props) {
-   
+
     const theme = useTheme();
-    const [title ,settitle] = useState('');
+    const [title, settitle] = useState('');
     const [getvalue, setgetvalue] = useState('');
     const [getcheck, setgetcheck] = useState(false);
     const [getredio, setgetredio] = useState('');
@@ -54,26 +54,26 @@ function HomePageMid(props) {
     const [getdisc, setgetdisc] = useState('');
     const [validation, setvalidation] = useState("");
     const [getChar, setgetChar] = useState('');
-    const [Newdata,setNewdata]= useState([]);
+    const [Newdata, setNewdata] = useState([]);
+    const [parsedata, setparsedata] = useState([]);
 
-     
     const callback = (value) => {
         setgetvalue(value);
     }
-    const data=[getvalue,getredio,getarearedio,getbudjet,getmaterial,getcheck];
+    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck];
 
     const serviceCall = (value) => {
-          setgetcheck(value); 
+        setgetcheck(value);
     }
     const propertyCall = (value) => {
         setgetredio(value);
-        if(value !== ''){
+        if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
     const areaCall = (value) => {
         setgetarearedio(value);
-        if(value !== ''){
+        if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
@@ -81,23 +81,23 @@ function HomePageMid(props) {
         setgetChar(value);
     }
     const budjetCallvalue = (value) => {
-          setgetbudjetvalue(value);
+        setgetbudjetvalue(value);
     }
     const budjetCall = (value) => {
         setgetbudjet(value);
-        if(value !== ''){
+        if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
     const MaterialCall = (value) => {
         setgetmaterial(value);
-        if(value !== ''){
+        if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
     const discCall = (value) => {
         setgetdisc(value);
-    } 
+    }
     const handleNext = () => {
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
             || (activeStep === 1 && getcheck === false)
@@ -114,14 +114,14 @@ function HomePageMid(props) {
         if ((activeStep === 7 && getdisc === '') || getdisc === null) {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
             handleClose();
-            
-        } 
+
+        }
 
     };
     const handleBack = () => {
-        setActiveStep(prevActiveStep => prevActiveStep - 1); 
+        setActiveStep(prevActiveStep => prevActiveStep - 1);
     };
-    
+
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
@@ -143,23 +143,22 @@ function HomePageMid(props) {
     const [open, setOpen] = React.useState(false);
     const classes = useStyles();
 
+
     const [activeStep, setActiveStep] = React.useState(0);
     const handleOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
-       if(!localStorage.getItem('User_Id') && activeStep === 7 )
-       {
-        auth0Client.signIn();
-       
-       }
-       var apiPath = `/contractors/7327766/projects`;
+        if (!localStorage.getItem('User_Id') && activeStep === 7) {
+            auth0Client.signIn();
+           }
+        var apiPath = `/contractors/7327766/projects`;
         if (activeStep === 7) {
             const payload = {
                 "title": "A project",
                 "description": getdisc,
-                "budget":Number(getbudjet) ,
+                "budget": Number(getbudjet),
                 "endDate": new Date(),
             };
             if (payload) {
@@ -173,12 +172,10 @@ function HomePageMid(props) {
         setOpen(false);
     };
 
-   const gettitle = (e) =>
-    {
-      settitle(e.target.title);
+    const gettitle = (e) => {
+        settitle(e.target.title);
     }
-    
-    console.log(title);
+
     return (<div className="container home-mid-bg">
         <h2 className="font-color">Contact  Local Professional</h2>
         <Carousel
@@ -198,7 +195,7 @@ function HomePageMid(props) {
             itemClass="carousel-item-padding-40-px"
         >
             <div>
-                <Card className={classes.card}  onClick={gettitle} > 
+                <Card className={classes.card} onClick={gettitle} >
                     <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
@@ -234,7 +231,7 @@ function HomePageMid(props) {
                 </Card>
             </div>
             <div>
-                <Card className={classes.card} onClick={gettitle}> 
+                <Card className={classes.card} onClick={gettitle}>
                     <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
@@ -424,7 +421,7 @@ function HomePageMid(props) {
                             <CardMedia
                                 className={classes.media}
                                 image="data:image/jpeg;base64,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"
-                                title="Exterior Ideas"/>
+                                title="Exterior Ideas" />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
                                     Exterior Ideas
@@ -464,17 +461,17 @@ function HomePageMid(props) {
 
                             {activeStep === 0 ? <ModalCity parentCallback={callback} errorMessage={validation} />
                                 : activeStep === 1 ? <ModalService data={data} serviceCallback={serviceCall} errorMessage={validation} />
-                                    : activeStep === 2 ? <ModalProperty   
-                                     data={data}
-                                     propertyCallback={propertyCall} errorMessage={validation} />
-                                        : activeStep === 3 ? <ModalArea  data={data}  areaCallback={areaCall} errorMessage={validation} />
+                                    : activeStep === 2 ? <ModalProperty
+                                        data={data}
+                                        propertyCallback={propertyCall} errorMessage={validation} />
+                                        : activeStep === 3 ? <ModalArea data={data} areaCallback={areaCall} errorMessage={validation} />
                                             : activeStep === 4 ? <ModalBudjet
                                                 data={data}
                                                 budjetCallbackvalue={budjetCallvalue}
                                                 budjetCallback={budjetCall}
                                                 errorMessage={validation} />
-                                                : activeStep === 5 ? < ModalMaterial 
-                                                data={data}  MaterialCallback={MaterialCall} errorMessage={validation} />
+                                                : activeStep === 5 ? < ModalMaterial
+                                                    data={data} MaterialCallback={MaterialCall} errorMessage={validation} />
                                                     : activeStep === 6 ? <ModalDisc
                                                         charCountback={charCount}
                                                         discCallback={discCall} errorMessage={validation} /> : handleClose()}
@@ -485,8 +482,8 @@ function HomePageMid(props) {
                             position="static"
                             activeStep={activeStep}
                             className={classes.root}
-                             
-                            />
+
+                        />
                         <Grid container spacing={0}>
                             <Grid item xs={12} style={{ textAlign: 'center', margin: '20px 0px' }}>
                                 <Button variant="contained" className="service-modal-prev"
@@ -500,8 +497,8 @@ function HomePageMid(props) {
                                 >
                                     {activeStep === 6 ? 'Submit' : 'Next'}
                                     {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                                    
-                               </Button>
+
+                                </Button>
                             </Grid>
                         </Grid>
                     </div>

@@ -36,7 +36,7 @@ function HomeView(props) {
     }
   }
 
-  console.log(props);
+  // console.log("H",props);
 
   return (
     <div>
