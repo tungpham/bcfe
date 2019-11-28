@@ -83,8 +83,8 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
             rowsPerPage: 20,
             currentPage: 0,
             isBusy: true,
-            startDate: new Date,
-            endDate: new Date,
+            startDate: new Date(),
+            endDate: new Date(),
             days: 0,
             showMessage: false,
             message: '',
@@ -125,7 +125,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
     };
 
     handleChangeRowsPerPage = async event => {
-        const { projects, userProfile } = this.props;
+        const {  userProfile } = this.props;
 
         const rowsPerPage = event.target.value;
         const currentPage =

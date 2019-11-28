@@ -1,16 +1,16 @@
-import Avatar               from '@material-ui/core/Avatar';
-import Card                 from '@material-ui/core/Card';
-import CircularProgress     from '@material-ui/core/CircularProgress';
-import { withStyles }       from '@material-ui/core/styles';
-import TextField            from '@material-ui/core/TextField';
-import axios                from 'axios';
+import Avatar from '@material-ui/core/Avatar';
+import Card from '@material-ui/core/Card';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import axios from 'axios';
 import React, { Component } from 'react';
-import { connect }          from 'react-redux';
-import { compose }          from 'redux';
-import { setUserProfile }   from 'store/actions/global-actions';
-import auth0Client          from 'services/auth0/auth';
-import Button               from '../CustomButtons/Button';
-import TSnackbarContent     from '../SnackBarContent';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { setUserProfile } from 'store/actions/global-actions';
+import auth0Client from 'services/auth0/auth';
+import Button from '../CustomButtons/Button';
+import TSnackbarContent from '../SnackBarContent';
 
 const styles = theme => ({
   root: {
@@ -148,12 +148,12 @@ class ProfileView extends Component {
       picture: userProfile.picture,
       isGenChecked:
         userProfile.user_metadata.roles.includes('Gen') ||
-        userProfile.user_metadata.roles.includes('GenSub')
+          userProfile.user_metadata.roles.includes('GenSub')
           ? true
           : false,
       isSubChecked:
         userProfile.user_metadata.roles.includes('Sub') ||
-        userProfile.user_metadata.roles.includes('GenSub')
+          userProfile.user_metadata.roles.includes('GenSub')
           ? true
           : false,
       isDataLoaded: true,
@@ -197,7 +197,7 @@ class ProfileView extends Component {
       {
         email: userProfile.user_metadata.email,
         updatedBy: userProfile.user_metadata.email,
-        address: addressData,
+        address: addressData
       },
     );
 
@@ -221,7 +221,7 @@ class ProfileView extends Component {
     const { classes } = this.props;
 
     if (this.state.isDataLoaded === false)
-      return <CircularProgress className={classes.waitingSpin}/>;
+      return <CircularProgress className={classes.waitingSpin} />;
 
     return (
       <div className={classes.root}>
@@ -233,8 +233,8 @@ class ProfileView extends Component {
             message="Your profile has been saved!"
           />
         ) : (
-          <div/>
-        )}
+            <div />
+          )}
         <form noValidate autoComplete="off">
           <Card className={classes.container}>
             <Avatar
@@ -311,7 +311,7 @@ class ProfileView extends Component {
             >
               Confirm
               {this.state.isSaving && (
-                <CircularProgress size={24} thickness={4}/>
+                <CircularProgress size={24} thickness={4} />
               )}
             </Button>
           </Card>

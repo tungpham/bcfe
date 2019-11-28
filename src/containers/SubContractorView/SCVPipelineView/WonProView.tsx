@@ -2,23 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { RouteComponentProps } from 'react-router-dom';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
-import DeleteIcon from '@material-ui/icons/Delete';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-
-
-import removeMd from 'remove-markdown';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import CustomTableCell from "components/shared/CustomTableCell";
 import Ellipsis from 'components/Typography/Ellipsis';
@@ -69,7 +62,6 @@ interface IWonProjectViewState extends ISnackbarProps {
 class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectViewState> {
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			awardData: [],
 			rowsPerPage: 20,
@@ -96,7 +88,6 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 	handleChangePage = (event, page) => {
 		const { userProfile } = this.props;
 		this.setState({ currentPage: page });
-
 		this.props.getProposals(
 			userProfile.user_metadata.contractor_id,
 			page,
@@ -106,7 +97,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 	};
 
 	handleChangeRowsPerPage = event => {
-		const { proposals, userProfile } = this.props;
+		const { userProfile } = this.props;
 
 		const rowsPerPage = event.target.value;
 		const currentPage =
@@ -123,7 +114,6 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 	};
 
 	handleDeleteProposal = async id => {
-
 		const { userProfile, proposals } = this.props;
 		this.setState({ isBusy: true });
 		try {

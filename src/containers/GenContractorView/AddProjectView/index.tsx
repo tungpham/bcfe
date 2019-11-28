@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps, Switch, Redirect } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { compose } from "redux";
-import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
@@ -12,10 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import CustomTableCell from 'components/shared/CustomTableCell';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Ellipsis from 'components/Typography/Ellipsis';
-import ErrorIcon from '@material-ui/icons/Error';
-import WarningIcon from '@material-ui/icons/Warning';
 import { ProjectBriefInfo } from './Overview';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import TablePagination from '@material-ui/core/TablePagination';
@@ -133,18 +129,15 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
             this.setState({ compltedArray: data.data.content })
             data.data.content.map(d => {
                 var diff = Math.floor((Date.parse(d.project.endDate) - Date.parse(d.project.startDate)) / 86400000);
-                this.setState({ days: diff })
+                return this.setState({ days: diff })
             });
         })
         this.setState({ isBusy: false });
     }
 
-
     closeMessage = () => {
         this.setState({ showMessage: false });
     }
-
-
 
     handleAddProject = async () => {
         const { userProfile, history } = this.props;
@@ -257,7 +250,6 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                 message: 'You should post a project first',
                 variant: 'warning'
             });
-
             return;
         }
 
@@ -416,15 +408,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         }
     }
 
-
-    // handleSelectProject = id => {
-    //     this.props.setCurrentProject(id);
-    //     this.props.history.push('/gen-contractor/project_detail/' + id);
-    // };
-
     public render() {
-        console.log(this.props);
-        const { classes, match, location, levels } = this.props;
+        const { classes, match, location } = this.props;
         const tabs = [
             { href: `${match.url}/submitted`, label: 'Overview' },
             { href: `${match.url}/add-levels`, label: 'Levels' },
@@ -434,12 +419,9 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         let tab = tabs.map(tab => tab.href).indexOf(location.pathname);
         if (tab < 0) tab = 0;
 
-        if(this.state.compltedArray.length === 0)
-        {
-            return <CircularProgress className={classes.waitingSpin} />;
+        if (this.state.compltedArray.length === 0) {
+            return <CircularProgress className={classes.waitingSpin} />
         }
-
-        // console.log("ongoing", this.state.compltedArray);
         return (
             <div>
                 <Box>

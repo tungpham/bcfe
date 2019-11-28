@@ -20,7 +20,6 @@ export default class AutoComplete extends React.Component {
 
     getitem(e) {
         let value = e.target.textContent;
-        console.log(value);
         var inputText = document.getElementById('input');
         inputText.value = value;
         var sug = document.getElementById('sug');

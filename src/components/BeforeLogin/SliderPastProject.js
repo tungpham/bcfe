@@ -70,8 +70,6 @@ function SliderPastProject(props) {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     };
 
-    // console.log("jdnsn",detailsData);
-
     return (<div>
         <Carousel
             swipeable={false}

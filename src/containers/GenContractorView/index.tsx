@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Switch, RouteComponentProps } from 'react-router-dom';
 
@@ -19,12 +19,7 @@ import AssignmentReturnOutlinedIcon from '@material-ui/icons/AssignmentReturnOut
 import { Button, InputAdornment, TextField, Grid, Typography } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
-
-import { number, string } from 'prop-types';
-
-
-
-import { makeStyles, useTheme } from '@material-ui/core';
+import { useTheme } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import CloseIcon from '@material-ui/icons/Close';
 import MobileStepper from '@material-ui/core/MobileStepper';
@@ -37,7 +32,6 @@ import ModalDisc from '../../components/modals/modalDesc';
 import ModalCity from '../../components/modals/modalCity';
 import ModalProperty from '../../components/modals/modalProperty';
 import ModalMaterial from '../../components/modals/modalMaterial';
-import auth0Client from 'services/auth0/auth';
 import Axios from 'axios';
 import HttpUrlConstant from 'apis/global';
 
@@ -47,20 +41,8 @@ interface IGenContractorViewProps extends RouteComponentProps {
 }
 
 const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultProps) => {
-    const useStyles = makeStyles({
-        card: {
-            maxWidth: 179,
-        },
-        media: {
-            height: 130,
-        },
-        root: {
-            maxWidth: 1200,
-            flexGrow: 1,
-        },
-    });
 
-    const [Id, setId] = useState(props.userProfile.user_metadata.contractor_id);
+    const [Id] = useState(props.userProfile.user_metadata.contractor_id);
     const [getvalue, setgetvalue] = useState('');
     const [getcheck, setgetcheck] = useState(false);
     const [getredio, setgetredio] = useState('');
@@ -71,7 +53,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     const [getdisc, setgetdisc] = useState('');
     const [validation, setvalidation] = useState("");
     const [getChar, setgetChar] = useState(0);
-    const [Newdata, setNewdata]=useState([]);
+    const [Newdata] = useState([]);
 
 
     const theme = useTheme();
@@ -133,7 +115,6 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
         if ((activeStep === 7 && getdisc === '') || getdisc === null) {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
             handleClose();
-
         }
 
     };
@@ -141,9 +122,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     };
 
-
     const [open, setOpen] = React.useState(false);
-
 
     const [activeStep, setActiveStep] = React.useState(0);
     const handleOpen = () => {
@@ -156,7 +135,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
             const payload = {
                 "title": "A project",
                 "description": getdisc,
-                "budget":Number(getbudjet) ,
+                "budget": Number(getbudjet),
                 "endDate": new Date(),
             };
             if (payload) {
@@ -183,23 +162,22 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     if (location.pathname.includes('add_project')) tab = 1;
     if (location.pathname.includes('archived')) tab = 2;
 
-// console.log("n",Newdata);
     return (
-        <Box style={{ flexGrow: 1, backgroundColor: 'white', color: '#68e191'  }}>
+        <Box style={{ flexGrow: 1, backgroundColor: 'white', color: '#68e191' }}>
             <CustomTabs
                 tabs={[{
-                    className:'icon-size',
+                    className: 'icon-size',
                     label: 'New',
                     href: `${match.url}/current_pros`,
                     icon: ViewComfyIcon
                 }, {
-                    className:'icon-size',
+                    className: 'icon-size',
                     label: 'Ongoing',
                     href: `${match.url}/add_project`,
                     icon: DateRangeIcon
                 },
                 {
-                    className:'icon-size',
+                    className: 'icon-size',
                     label: 'Completed',
                     href: `${match.url}/archived`,
                     icon: AssignmentReturnOutlinedIcon
@@ -213,11 +191,11 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                     placeholder="Search"
                     className="gensearch"
                     InputProps={{
-                        startAdornment: <InputAdornment position="start"><SearchIcon className="searchicon"/></InputAdornment>,
+                        startAdornment: <InputAdornment position="start"><SearchIcon className="searchicon" /></InputAdornment>,
                     }}
                     variant="outlined"
                 />
-                <Button onClick={handleOpen} color="default" variant="contained"  ><AddIcon className="Addicon"/>Add Project</Button>
+                <Button onClick={handleOpen} color="default" variant="contained"  ><AddIcon className="Addicon" />Add Project</Button>
             </div>
             <Box style={{ height: 'calc(100vh - 64px - 56px)', paddingTop: '8px', overflow: 'auto' }}>
                 <Switch >
@@ -298,8 +276,6 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                                 steps={7}
                                 position="static"
                                 activeStep={activeStep}
-                            // className={classes.root}
-
                             />
                         </React.Fragment>
                         <Grid container spacing={0}>
@@ -315,13 +291,11 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                                 >
                                     {activeStep === 6 ? 'Submit' : 'Next'}
                                     {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-
                                 </Button>
                             </Grid>
                         </Grid>
                     </div>
                 </Modal>
-
             </Box>
         </Box>
     );

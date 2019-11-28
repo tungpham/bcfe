@@ -67,7 +67,7 @@ code {
 .CodeMirror {
   height: calc(100% - 81px);
 }
- 
+
 // Nov 18 2019 and 20 Nov
 .MuiTab-wrapper {
   display: contents !important;
@@ -90,27 +90,27 @@ a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.MuiTab-labelIcon {
 svg.MuiSvgIcon-root.CustomTabs-rootIcon-196.active {
   color: #68e191 !important;
 }
-a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.MuiTab-labelIcon span svg.Mui-selected{
-  font-size: 24px !important
+a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.MuiTab-labelIcon span svg.Mui-selected {
+  font-size: 24px !important;
 }
 .PrivateTabIndicator-colorPrimary-221,
 .PrivateTabIndicator-colorPrimary-2665 {
   background-color: #68e191 !important;
   border-bottom: 5px solid #68e191;
 }
- 
+
 .PrivateTabIndicator,
 .PrivateTabIndicator-colorPrimary-342,
 .PrivateTabIndicator-colorPrimary-1044 {
   background-color: #68e191 !important;
 }
 button.MuiButtonBase-root.MuiButton-root.MuiButton-contained {
-  background-color: #1752A8;
+  background-color: #1752a8;
   color: white;
   padding-top: 2px;
-    padding-bottom: 2px;
-    padding-left: 5px;
-    padding-right: 5px;
+  padding-bottom: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .MuiTableHead-root {
   background-color: white !important;
@@ -245,7 +245,7 @@ svg.MuiSvgIcon-root.CustomTabs-rootIcon-196.active {
   color: #68e191 !important;
 }
 svg.MuiSvgIcon-root.CustomTabs-rootIco {
-   font-size: 20px!important;
+  font-size: 20px !important;
 }
 .PrivateTabIndicator-colorPrimary-221,
 .PrivateTabIndicator-colorPrimary-2665 {
@@ -338,7 +338,6 @@ span.PrivateTabIndicator-root-606.PrivateTabIndicator-colorPrimary-607.MuiTabs-i
   background-color: white !important;
 }
 
-
 .MuiTab-textColorPrimary,
 .PrivateTabIndicator-colorPrimary-496 {
   border-bottom: 4px solid white !important;
@@ -361,7 +360,7 @@ th.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignCenter,
 }
 
 .PrivateTabScrollButton.MuiTabs-scrollButtons,
-.MuiButtonBase-root.PrivateTabScrollButton.MuiTabs-scrollButtons{
+.MuiButtonBase-root.PrivateTabScrollButton.MuiTabs-scrollButtons {
   width: 0px !important;
 }
 
@@ -377,12 +376,12 @@ a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.MuiTab-labelIcon {
 svg.MuiSvgIcon-root.Addicon {
   font-size: 20px !important;
 }
-.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-10{
+.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-10 {
   padding-left: 24px !important;
 }
 .MuiTableCell-root {
   display: table-cell;
-  padding: 10px 16px  !important;
+  padding: 10px 16px !important;
   font-size: 0.875rem;
   text-align: left;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
@@ -392,31 +391,34 @@ svg.MuiSvgIcon-root.Addicon {
   letter-spacing: 0.01071em;
   vertical-align: inherit;
 }
- 
-button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorPrimary{
+
+button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorPrimary {
   padding: 0px;
 }
 
-header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolute.MuiAppBar-colorPrimary{
-  position:  fixed !important;
+header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolute.MuiAppBar-colorPrimary {
+  position: fixed !important;
 }
 .MuiDrawer-paperAnchorDockedLeft {
   border-right: 0px solid !important;
 }
-.MuiContainer-root  { 
+.MuiContainer-root {
   padding-left: 3.5% !important;
 }
 
-.PrivateTabScrollButton-root-1047{
+.PrivateTabScrollButton-root-1047 {
   width: 0px !important;
 }
-.sub-header-tab header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary div.MuiTabs-root div.MuiTabs-scrollButtons{
+.sub-header-tab
+  header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary
+  div.MuiTabs-root
+  div.MuiTabs-scrollButtons {
   width: 0px !important;
 }
-.drawer{
+.drawer {
   margin-top: 47px;
 }
-.withRouter\(Connect\(Header\)\)-drawerPaper-32{
+.withRouter\(Connect\(Header\)\)-drawerPaper-32 {
   position: fixed !important;
 }
 .withRouter\(Connect\(Header\)\)-drawerPaper-277{
@@ -426,6 +428,9 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolu
   font-size: 13px;
   padding-top: 3px;
   color: #858585;
+}
+.makeStyles-card-265 {
+  max-width: 172px !important;
 }
 
 //27 - Nov //

@@ -75,7 +75,6 @@ function Gallery(props) {
             })
         })
     }
-// console.log("img" ,imagelist);
     return (
         <div>
             <Carousel

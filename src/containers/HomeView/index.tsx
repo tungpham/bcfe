@@ -24,7 +24,6 @@ function HomeView(props) {
   }
 
   useEffect(() => {
-        localStorage.clear();
     fetchCities();
   }, []);
   
@@ -35,9 +34,6 @@ function HomeView(props) {
       setError("");
     }
   }
-
-  // console.log("H",props);
-
   return (
     <div>
       <Container>

@@ -10,14 +10,10 @@ import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
-
 import removeMd from 'remove-markdown';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import CustomTableCell from 'components/shared/CustomTableCell';
 import Ellipsis from 'components/Typography/Ellipsis';
@@ -25,7 +21,6 @@ import { UserProfile } from 'types/global';
 import { deleteProposal, getProposals } from 'store/actions/sub-actions';
 import { Proposals } from 'types/proposal';
 import Axios from 'axios';
-
 
 const styles = createStyles((theme: Theme) => ({
 	root: {
@@ -106,7 +101,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 	};
 
 	handleChangeRowsPerPage = event => {
-		const { proposals, userProfile } = this.props;
+		const { userProfile } = this.props;
 		const rowsPerPage = event.target.value;
 		const currentPage =
 			rowsPerPage >= this.state.submitData.length ? 0 : this.state.currentPage;

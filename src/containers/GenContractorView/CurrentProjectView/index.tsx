@@ -98,7 +98,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     };
 
     handleChangeRowsPerPage = async event => {
-        const { projects, userProfile } = this.props;
+        const { userProfile } = this.props;
 
         const rowsPerPage = event.target.value;
         const currentPage =
