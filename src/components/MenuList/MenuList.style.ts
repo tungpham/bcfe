@@ -18,7 +18,6 @@ export default createStyles((theme: Theme) =>
       },
     },
     selectedStyle: {
-      // backgroundColor: '#f0f2f5',
       color: theme.palette.common.black,
     },
     activeIcon: {

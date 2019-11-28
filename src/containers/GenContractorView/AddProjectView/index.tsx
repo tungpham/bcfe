@@ -9,7 +9,6 @@ import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import CustomTableCell from 'components/shared/CustomTableCell';
 import Ellipsis from 'components/Typography/Ellipsis';
 import { ProjectBriefInfo } from './Overview';
@@ -17,6 +16,8 @@ import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar
 import TablePagination from '@material-ui/core/TablePagination';
 import removeMd from 'remove-markdown';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+
 import {
     addFilesToProject,
     addProject,
@@ -93,6 +94,8 @@ interface IAddProjectViewProps extends RouteComponentProps {
 interface IAddProjectViewState extends ISnackbarProps, ProjectBriefInfo {
     isBusy: boolean;
     project: any;
+    startDateOrder: "desc" | "asc";
+    endDateOrder: "desc" | "asc";
     compltedArray: [];
     rowsPerPage: any;
     currentPage: any;
@@ -111,6 +114,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
             price: 0,
             days: 0,
             description: '',
+            startDateOrder: "desc",
+            endDateOrder: "desc",
             dueDate: new Date(),
             isBusy: false,
             files: [],
@@ -409,6 +414,30 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         }
     }
 
+    StartDateToggleSort = () => {
+        let startDateOrder: ('desc' | 'asc') = 'desc';
+
+        if (this.state.startDateOrder === 'desc') {
+            startDateOrder = 'asc';
+        }
+        this.state.compltedArray.sort((a: any, b: any) =>
+            a.project.submittedDate > b.project.submittedDate ? 1 : -1
+        );
+        this.setState({ startDateOrder });
+    }
+
+    EndDateToggleSort = () => {
+        let endDateOrder: ('desc' | 'asc') = 'desc';
+
+        if (this.state.endDateOrder === 'desc') {
+            endDateOrder = 'asc';
+        }
+        this.state.compltedArray.sort((a: any, b: any) =>
+            a.project.endDate > b.project.endDate ? 1 : -1
+        );
+        this.setState({ endDateOrder });
+    }
+
     public render() {
         const { classes, match, location } = this.props;
         const tabs = [
@@ -423,6 +452,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         if (this.state.compltedArray.length === 0) {
             return <CircularProgress className={classes.waitingSpin} />
         }
+
         return (
             <div>
                 <Box>
@@ -433,8 +463,23 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                 <CustomTableCell align="center">Contractor</CustomTableCell>
                                 <CustomTableCell align="center">Location</CustomTableCell>
                                 <CustomTableCell align="center">Budget</CustomTableCell>
-                                <CustomTableCell align="center">Start Date <ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
-                                <CustomTableCell align="center">End Date<ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+                                <CustomTableCell align="center">
+                                    <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                                        active={true}
+                                        direction={this.state.startDateOrder}
+                                        onClick={this.StartDateToggleSort}
+                                    >
+                                        Start Date
+                            </TableSortLabel>
+                                </CustomTableCell>
+                                <CustomTableCell align="center"><TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                                    active={true}
+                                    direction={this.state.endDateOrder}
+                                    onClick={this.EndDateToggleSort}
+                                >
+                                    End Date
+                            </TableSortLabel>
+                                </CustomTableCell>
                                 <CustomTableCell align="center">Project Details</CustomTableCell>
                             </TableRow>
                         </TableHead>
@@ -473,17 +518,21 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                         align="center"
 
                                     >
-                                        {data.project.startDate && data.project.startDate.slice(0, 10)}
-                                        <div className="time">{data.project.startDate && data.project.startDate.slice(10, 19)}&nbsp;{data.project.startDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
+                                        {data.project.submittedDate && data.project.submittedDate.slice(0, 10)}
+                                        <div className="time">{data.project.submittedDate && data.project.submittedDate.slice(10, 19)}&nbsp;{data.project.submittedDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
                                     </CustomTableCell>
 
                                     <CustomTableCell
                                         align="center"
                                     >
-                                        {data.project.endDate && data.project.endDate.slice(0, 10)}
+                                        {data.project.submittedDate && data.project.submittedDate.slice(0, 10)}
                                         <div className="notDisplayFlex">
                                             <p className="font-size-12">{this.state.days}&nbsp; Days Left</p>
                                         </div>
+                                        {/* {data.project.endDate && data.project.endDate.slice(0, 10)}
+                                        <div className="notDisplayFlex">
+                                            <p className="font-size-12">{this.state.days}&nbsp; Days Left</p>
+                                        </div> */}
                                     </CustomTableCell>
 
                                     <CustomTableCell

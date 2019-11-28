@@ -4,7 +4,6 @@
 html,
 body {
   max-width: 100%;
-  overflow-x: hidden;
 }
 input#input {
   text-transform: capitalize !important;
@@ -277,7 +276,7 @@ select.city {
   border: 1px solid #d9dadb;
   border-radius: 1px;
   padding-top: 12px;
-  padding-bottom: 15px;
+  padding-bottom: 17px;
   padding-left: 6px;
   padding-right: 40px;
   color: #3e3f42;

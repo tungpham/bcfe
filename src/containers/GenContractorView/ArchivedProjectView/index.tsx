@@ -251,7 +251,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                     align="center"
                                     className="margintopbottom"
                                     onClick={() => this.handleSelectProject(data.project.id)}>
-                                    {data.project.endDate && data.project.startDate.slice(0, 10)}
+                                    {data.project.endDate}
                                     <div className="time">{data.project.endDate && data.project.endDate.slice(10, 19)}&nbsp;{data.project.endDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
                                    
                                 </CustomTableCell>

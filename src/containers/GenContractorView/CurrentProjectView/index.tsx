@@ -23,10 +23,9 @@ import { setCurrentProject } from 'store/actions/global-actions';
 import { archiveProject } from 'store/actions/gen-actions';
 import { UserProfile } from 'types/global';
 import { Projects } from 'types/project';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import style from './CurrentProject.style';
 import Axios from 'axios';
-
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 interface CurrentProjectProps extends RouteComponentProps {
     classes: ClassNameMap<string>;
@@ -41,6 +40,8 @@ interface CurrentProjectState extends ISnackbarProps {
     rowsPerPage: number;
     currentPage: number;
     isBusy: boolean;
+    order: "desc" | "asc";
+    bidsOrder: "desc" | "asc";
     compltedArray: [];
     totalLength: number,
     showConfirm: boolean;
@@ -58,6 +59,8 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
             currentPage: 0,
             isBusy: false,
             totalLength: 0,
+            order: 'desc',
+            bidsOrder: "desc",
             showMessage: false,
             message: '',
             variant: 'success',
@@ -168,6 +171,30 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         }
     };
 
+    UploadToggleSort = () => {
+        let order: ('desc' | 'asc') = 'desc';
+
+        if (this.state.order === 'desc') {
+            order = 'asc';
+        }
+        this.state.compltedArray.sort((a: any, b: any) =>
+            a.project.submittedDate > b.project.submittedDate ? 1 : -1
+        );
+        this.setState({ order });
+    }
+
+    BidsToggleSort = () => {
+        let bidsOrder: ('desc' | 'asc') = 'desc';
+
+        if (this.state.bidsOrder === 'desc') {
+            bidsOrder = 'asc';
+        }
+        this.state.compltedArray.sort((a: any, b: any) =>
+            a.project.due > b.project.due ? 1 : -1
+        );
+        this.setState({ bidsOrder });
+    }
+
     handleSelectProject = async (id: string) => {
         await this.props.setCurrentProject(id);
         this.props.history.push('/gen-contractor/project_detail/' + id);
@@ -190,8 +217,20 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                             <CustomTableCell align="center">Bids</CustomTableCell>
                             <CustomTableCell align="center">Location</CustomTableCell>
                             <CustomTableCell align="center">Budget</CustomTableCell>
-                            <CustomTableCell align="center">Upload Date <ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
-                            <CustomTableCell align="center">Bids Due<ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+                            <CustomTableCell align="center"> <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                                active={true}
+                                direction={this.state.order}
+                                onClick={this.UploadToggleSort}
+                            >
+                                Upload Date
+                            </TableSortLabel></CustomTableCell>
+                            <CustomTableCell align="center">   <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                                active={true}
+                                direction={this.state.bidsOrder}
+                                onClick={this.BidsToggleSort}
+                            >
+                                Bids Due
+                            </TableSortLabel></CustomTableCell>
                             <CustomTableCell align="center">Project Details</CustomTableCell>
                         </TableRow>
                     </TableHead>
@@ -228,8 +267,8 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                                 <CustomTableCell
                                     align="center"
                                     onClick={() => this.handleSelectProject(data.project.id)}>
-                                    {data.project.startDate && data.project.startDate.slice(0, 10)}
-                                    <div className="time"> {data.project.startDate && data.project.startDate.slice(10, 19)}&nbsp;{data.project.startDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
+                                    {data.project.submittedDate && data.project.submittedDate.slice(0, 10)}
+                                    <div className="time"> {data.project.submittedDate && data.project.submittedDate.slice(10, 19)}&nbsp;{data.project.submittedDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
