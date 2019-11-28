@@ -518,17 +518,21 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                         align="center"
 
                                     >
-                                        {data.project.startDate && data.project.startDate.slice(0, 10)}
-                                        <div className="time">{data.project.startDate && data.project.startDate.slice(10, 19)}&nbsp;{data.project.startDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
+                                        {data.project.submittedDate && data.project.submittedDate.slice(0, 10)}
+                                        <div className="time">{data.project.submittedDate && data.project.submittedDate.slice(10, 19)}&nbsp;{data.project.submittedDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
                                     </CustomTableCell>
 
                                     <CustomTableCell
                                         align="center"
                                     >
-                                        {data.project.endDate && data.project.endDate.slice(0, 10)}
+                                        {data.project.submittedDate && data.project.submittedDate.slice(0, 10)}
                                         <div className="notDisplayFlex">
                                             <p className="font-size-12">{this.state.days}&nbsp; Days Left</p>
                                         </div>
+                                        {/* {data.project.endDate && data.project.endDate.slice(0, 10)}
+                                        <div className="notDisplayFlex">
+                                            <p className="font-size-12">{this.state.days}&nbsp; Days Left</p>
+                                        </div> */}
                                     </CustomTableCell>
 
                                     <CustomTableCell
