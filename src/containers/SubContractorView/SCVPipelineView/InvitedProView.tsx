@@ -222,6 +222,9 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 								</CustomTableCell>
 								<CustomTableCell align="center">
 									{row.project.startDate && row.project.startDate.slice(0, 10)}
+									<div className="time">
+										{row.project.startDate && row.project.startDate.slice(10, 19)}&nbsp;{row.project.startDate.slice(10, 13) <= 11 ? "AM" : "PM"}
+									</div>
 								</CustomTableCell>
 								<CustomTableCell
 									component="th"
@@ -229,6 +232,9 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 								>
 									<Ellipsis maxLines={2}>
 										{row.project.endDate && row.project.endDate.slice(0, 10)}
+										<div className="time">
+											{row.project.endDate && row.project.endDate.slice(10, 19)}&nbsp;{row.project.endDate.slice(10, 13) <= 11 ? "AM" : "PM"}
+										</div>
 									</Ellipsis>
 								</CustomTableCell>
 								<CustomTableCell
