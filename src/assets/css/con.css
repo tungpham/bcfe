@@ -75,7 +75,7 @@ button.MuiButtonBase-root.MuiButton-root.myNextButton.MuiButton-text.MuiButton-s
 .modal-gallery {
   background-color: black !important;
   width: 64% !important;
-  height: 500px !important;
+  height:80% !important;
   margin-left: auto !important;
   margin-right: auto !important;
   margin-top: 25px !important;
@@ -88,7 +88,7 @@ button.MuiButtonBase-root.MuiButton-root.myNextButton.MuiButton-text.MuiButton-s
   padding-top: 35px !important;
 }
 .rootclass {
-  height: 450px !important;
+  height: 575px !important;
 }
 img.imageclass {
   width: 100%;
@@ -383,7 +383,7 @@ svg.MuiSvgIcon-root.close {
   background-color: black;
   width: 65%;
   display: flex;
-  height:500px;
+  height:80%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 5%;
@@ -402,12 +402,12 @@ svg.MuiSvgIcon-root.close {
   background-color: white;
 }
 .post-img-height{
-  height: 470px ;
+  height: 575px ;
   overflow: hidden;
 }
 .post-slider-img{
-  width: 80%;
-  height: 70% !important;
+  width: 100%;
+  height: 100% !important;
   padding: 30px 0px;
   object-fit: cover !important;
 }
