@@ -42,8 +42,10 @@ interface CurrentProjectState extends ISnackbarProps {
     currentPage: number;
     isBusy: boolean;
     compltedArray: [];
+    totalLength: number,
     showConfirm: boolean;
     proId: string;
+
 }
 
 class CurrentProject extends React.Component<CurrentProjectProps, CurrentProjectState> {
@@ -55,6 +57,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
             rowsPerPage: 20,
             currentPage: 0,
             isBusy: false,
+            totalLength: 0,
             showMessage: false,
             message: '',
             variant: 'success',
@@ -67,13 +70,14 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     async componentDidMount() {
         var d = new Date();
         var n = d.toLocaleString([], { hour12: true });
-        console.log(n);
+        // console.log(n);
         const { userProfile } = this.props;
         this.setState({ isBusy: true });
 
         try {
             Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}`).then(data => {
                 this.setState({ compltedArray: data.data.content })
+                this.setState({ totalLength: data.data.totalElements })
             })
             await this.props.getProjectsByGenId(userProfile.user_metadata.contractor_id, 0, 20);
         } catch (error) {
@@ -84,13 +88,18 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
 
     handleChangePage = async (event, page) => {
         const { userProfile } = this.props;
-        this.setState({ currentPage: page, isBusy: true });
+        const { rowsPerPage } = this.state;
         try {
-            await this.props.getProjectsByGenId(
-                userProfile.user_metadata.contractor_id,
-                page,
-                this.state.rowsPerPage
-            );
+            if (page >= this.state.totalLength) page = this.state.totalLength - 1;
+            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}`)
+                .then(data => {
+                    this.setState({
+                        compltedArray: data.data.content,
+                        isBusy: false,
+                        currentPage: page,
+                    });
+                })
+            this.setState({ isBusy: false });
         } catch (error) {
             console.log('CurrentProjectView.handleChangePage', error);
         }
@@ -98,19 +107,30 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     };
 
     handleChangeRowsPerPage = async event => {
+        const { currentPage, rowsPerPage } = this.state;
+        const curIndex = currentPage * rowsPerPage;
+        const newPageSize = event.target.value;
+        const newPage = Math.floor(curIndex / newPageSize);
+
         const { userProfile } = this.props;
-
-        const rowsPerPage = event.target.value;
-        const currentPage =
-            rowsPerPage >= this.state.compltedArray.length ? 0 : this.state.currentPage;
-
-        this.setState({ rowsPerPage, currentPage });
         try {
-            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${rowsPerPage}`).then(data => {
-                this.setState({ compltedArray: data.data.content })
-            })
+            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${rowsPerPage}`)
+                .then(data => {
+                    this.setState({
+                        compltedArray: data.data.content,
+                        isBusy: false,
+                        currentPage: newPage,
+                        rowsPerPage: newPageSize,
+                    });
+                })
         } catch (error) {
             console.log('CurrentProjectView.handleChangeRowsPerPage', error);
+            this.setState({
+                isBusy: false,
+                showMessage: true,
+                message: 'Some errors occured',
+                variant: 'error'
+            });
         }
         this.setState({ isBusy: false });
     };
@@ -154,6 +174,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     };
 
     render() {
+        console.log(this.state.compltedArray)
         const { classes, projects } = this.props;
 
         if (!projects) {
@@ -175,9 +196,9 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                         </TableRow>
                     </TableHead>
                     <TableBody>
+                        {/* .slice(this.state.currentPage * this.state.rowsPerPage, this.state.currentPage * this.state.rowsPerPage + this.state.rowsPerPage) */}
                         {this.state.compltedArray.map((data: any) => (
                             <TableRow className="" key={data.project.id} hover>
-
                                 <CustomTableCell
                                     component="th"
                                     scope="row"
@@ -185,8 +206,6 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                                     className="title"
                                 >
                                     <Ellipsis maxLines={2}>{data.project.title}</Ellipsis>
-
-                                    {/* <Typography className="nowrap">{row.title}</Typography> */}
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
@@ -235,7 +254,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                     style={{ overflow: 'auto' }}
                     rowsPerPageOptions={[5, 10, 20]}
                     component="div"
-                    count={this.state.compltedArray.length}
+                    count={this.state.totalLength}
                     rowsPerPage={this.state.rowsPerPage}
                     page={this.state.currentPage}
                     backIconButtonProps={{ 'aria-label': 'Previous Page' }}
@@ -255,8 +274,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                     onCancel={() => this.setState({ showConfirm: false })}
                     message="Do you want to delete this project?"
                 />
-                {this.state.isBusy && <CircularProgress className={classes.busy} />}
-            </Box>
+            </Box >
         );
     }
 }

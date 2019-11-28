@@ -439,7 +439,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.compltedArray.map((data: any) => (
+                            {this.state.compltedArray.slice(this.state.currentPage * this.state.rowsPerPage, this.state.currentPage * this.state.rowsPerPage + this.state.rowsPerPage).map((data: any) => (
                                 <TableRow className="" key={data.project.id} hover>
                                     <CustomTableCell
                                         component="th"
