@@ -23,10 +23,9 @@ import { setCurrentProject } from 'store/actions/global-actions';
 import { archiveProject } from 'store/actions/gen-actions';
 import { UserProfile } from 'types/global';
 import { Projects } from 'types/project';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import style from './CurrentProject.style';
 import Axios from 'axios';
-
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 interface CurrentProjectProps extends RouteComponentProps {
     classes: ClassNameMap<string>;
@@ -41,6 +40,8 @@ interface CurrentProjectState extends ISnackbarProps {
     rowsPerPage: number;
     currentPage: number;
     isBusy: boolean;
+    order: "desc" | "asc";
+    bidsOrder: "desc" | "asc";
     compltedArray: [];
     showConfirm: boolean;
     proId: string;
@@ -55,6 +56,8 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
             rowsPerPage: 20,
             currentPage: 0,
             isBusy: false,
+            order: 'desc',
+            bidsOrder: "desc",
             showMessage: false,
             message: '',
             variant: 'success',
@@ -148,6 +151,30 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         }
     };
 
+    UploadToggleSort = () => {
+        let order: ('desc' | 'asc') = 'desc';
+
+        if (this.state.order === 'desc') {
+            order = 'asc';
+        }
+        this.state.compltedArray.sort((a: any, b: any) =>
+            a.project.submittedDate > b.project.submittedDate ? 1 : -1
+        );
+        this.setState({ order });
+    }
+
+    BidsToggleSort = () => {
+        let bidsOrder: ('desc' | 'asc') = 'desc';
+
+        if (this.state.bidsOrder === 'desc') {
+            bidsOrder = 'asc';
+        }
+        this.state.compltedArray.sort((a: any, b: any) =>
+            a.project.due > b.project.due ? 1 : -1
+        );
+        this.setState({ bidsOrder });
+    }
+
     handleSelectProject = async (id: string) => {
         await this.props.setCurrentProject(id);
         this.props.history.push('/gen-contractor/project_detail/' + id);
@@ -164,14 +191,26 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
             <Box>
                 <Table>
                     <TableHead>
-                        <TableRow className="sub-table-row-width">
-                            <CustomTableCell  className="sub-table-col-1" > Project Title </CustomTableCell>
-                            <CustomTableCell  >Bids</CustomTableCell>
-                            <CustomTableCell  >Location</CustomTableCell>
-                            <CustomTableCell  >Budget</CustomTableCell>
-                            <CustomTableCell className="sub-table-col-1" >Upload Date <ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
-                            <CustomTableCell  >Bids Due<ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
-                            <CustomTableCell  className="sub-table-col-width">Project Details</CustomTableCell>
+                        <TableRow>
+                            <CustomTableCell> Project Title </CustomTableCell>
+                            <CustomTableCell align="center">Bids</CustomTableCell>
+                            <CustomTableCell align="center">Location</CustomTableCell>
+                            <CustomTableCell align="center">Budget</CustomTableCell>
+                            <CustomTableCell align="center"> <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                                active={true}
+                                direction={this.state.order}
+                                onClick={this.UploadToggleSort}
+                            >
+                                Upload Date
+                            </TableSortLabel></CustomTableCell>
+                            <CustomTableCell align="center">   <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                                active={true}
+                                direction={this.state.bidsOrder}
+                                onClick={this.BidsToggleSort}
+                            >
+                                Bids Due
+                            </TableSortLabel></CustomTableCell>
+                            <CustomTableCell align="center">Project Details</CustomTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
