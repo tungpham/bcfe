@@ -7,6 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   // background-color: #f0f2f5;
   height: 100%;
+  background-color: white;
 }
 
 code {
@@ -214,7 +215,7 @@ svg.MuiSvgIcon-root.profiledropdown {
   border: 1px solid gray !important;
   background-color: #eee !important;
   border-radius: 4px;
-  width: 35% !important;
+  width: 300px !important;
 }
 .sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary {
   border-right: 1px solid gray !important;
@@ -302,7 +303,7 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic
   border: 1px solid gray !important;
   background-color: #eee !important;
   border-radius: 4px;
-  width: 33% !important;
+  width: 300px !important;
 }
 
 .sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary {
@@ -411,9 +412,19 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolu
 }
 .sub-header-tab
   header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary
+  div.MuiTabs-root{
+    border-top-left-radius: 5px  !important;
+    border-bottom-left-radius: 5px !important;
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+    z-index: 10 !important;
+  }
+.sub-header-tab
+  header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary
   div.MuiTabs-root
   div.MuiTabs-scrollButtons {
   width: 0px !important;
+  
 }
 .drawer {
   margin-top: 47px;

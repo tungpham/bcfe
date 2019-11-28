@@ -225,19 +225,19 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 						{rightApp}
 					</Toolbar>
 				</AppBar>
-				<Drawer
-					variant="permanent"
-					classes={{
-						root: classes.drawerPaperRoot,
-						paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-					}}
-					open={open}
-				>
-					<div className="drawer" onMouseOver={this.handleDrawerOpen}
-						onMouseLeave={this.handleDrawerClose}>
+				<div className="drawer" onMouseOver={this.handleDrawerOpen}
+					onMouseLeave={this.handleDrawerClose}>
+					<Drawer
+						variant="permanent"
+						classes={{
+							root: classes.drawerPaperRoot,
+							paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+						}}
+						open={open}
+					>
 						<MenuList />
-					</div>
-				</Drawer>
+					</Drawer>
+				</div>
 			</>
 		);
 	}
