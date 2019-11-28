@@ -100,11 +100,6 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
             this.setState({ compltedArray: data.data.content })
             // console.log(data.data.content);
         })
-        // try {
-        //     await this.props.getArchivedProjectsByGenId(userProfile.user_metadata.contractor_id, 0, 20);
-        // } catch (error) {
-        //     console.log(error);
-        // }
         this.setState({ isBusy: false });
     }
 

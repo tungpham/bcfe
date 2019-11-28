@@ -496,7 +496,6 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
                                     <CustomTableCell
                                         align="center"
-
                                     >
                                         {data.project.endDate}
                                         <div className="notDisplayFlex">

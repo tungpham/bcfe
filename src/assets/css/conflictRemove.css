@@ -214,7 +214,7 @@ hr.MuiDivider-root.footer-divider.MuiDivider-middle {
   background-color: #eee;
     padding-bottom: 5%;
     position: relative;
-    z-index: 9999;
+    z-index:1300;
 }
 .footer-head-text {
   text-transform: uppercase;
