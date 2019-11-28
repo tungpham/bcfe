@@ -164,14 +164,14 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
             <Box>
                 <Table>
                     <TableHead>
-                        <TableRow>
-                            <CustomTableCell> Project Title </CustomTableCell>
-                            <CustomTableCell align="center">Bids</CustomTableCell>
-                            <CustomTableCell align="center">Location</CustomTableCell>
-                            <CustomTableCell align="center">Budget</CustomTableCell>
-                            <CustomTableCell align="center">Upload Date <ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
-                            <CustomTableCell align="center">Bids Due<ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
-                            <CustomTableCell align="center">Project Details</CustomTableCell>
+                        <TableRow className="sub-table-row-width">
+                            <CustomTableCell  className="sub-table-col-1" > Project Title </CustomTableCell>
+                            <CustomTableCell  >Bids</CustomTableCell>
+                            <CustomTableCell  >Location</CustomTableCell>
+                            <CustomTableCell  >Budget</CustomTableCell>
+                            <CustomTableCell className="sub-table-col-1" >Upload Date <ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+                            <CustomTableCell  >Bids Due<ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+                            <CustomTableCell  className="sub-table-col-width">Project Details</CustomTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -209,8 +209,8 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                                 <CustomTableCell
                                     align="center"
                                     onClick={() => this.handleSelectProject(data.project.id)}>
-                                    {data.project.startDate && data.project.startDate.slice(0, 10)}
-                                    <div className="time"> {data.project.startDate && data.project.startDate.slice(10, 19)}&nbsp;{data.project.startDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
+                                    {data.project.submittedDate && data.project.submittedDate.slice(0, 10)}
+                                    <div className="time"> {data.project.submittedDate && data.project.submittedDate.slice(10, 19)}&nbsp;{data.project.submittedDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
