@@ -177,7 +177,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 
 	render() {
 		const { classes, proposals } = this.props;
-         if (this.state.submitData.length === 0) {
+		if (this.state.submitData.length === 0) {
 			return <CircularProgress className={classes.busy} />
 		}
 		return (
@@ -228,16 +228,23 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 									scope="row"
 									align="center"
 								>
-									{row.budget}
+									${row.budget}
 								</CustomTableCell>
 								<CustomTableCell
 									onClick={() => this.handleSelectProposal(row.id)}
 									align="center"
 								>
-									{row.project.due && row.project.due.slice(0, 10)}
+									{row.project.startDate && row.project.startDate.slice(0, 10)}
+									<div className="time">
+										{row.project.startDate && row.project.startDate.slice(10, 19)}&nbsp;{row.project.startDate.slice(10, 13) <= 11 ? "AM" : "PM"}
+									</div>
 								</CustomTableCell>
 								<CustomTableCell align="center">
-									<Ellipsis maxLines={2}>{removeMd(row.project.endDate)}</Ellipsis>
+									<Ellipsis maxLines={2}>{removeMd(row.project.endDate && row.project.endDate.slice(0, 10))}
+										<div className="time">
+											{row.project.endDate && row.project.endDate.slice(10, 19)}&nbsp;{row.project.endDate.slice(10, 13) <= 11 ? "AM" : "PM"}
+										</div>
+									</Ellipsis>
 								</CustomTableCell>
 								<CustomTableCell align="center">
 									{row.project.description}

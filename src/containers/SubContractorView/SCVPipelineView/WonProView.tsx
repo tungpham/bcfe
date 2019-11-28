@@ -200,11 +200,14 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 									align="center"
 
 								>
-									<Ellipsis maxLines={2}>{row.budget}
+									<Ellipsis maxLines={2}>${row.budget}
 									</Ellipsis>
 								</CustomTableCell>
 								<CustomTableCell align="center">
 									{row.project.startDate && row.project.startDate.slice(0, 10)}
+									<div className="time">
+										{row.project.startDate && row.project.startDate.slice(10, 19)}&nbsp;{row.project.startDate.slice(10, 13) <= 11 ? "AM" : "PM"}
+									</div>
 								</CustomTableCell>
 								<CustomTableCell
 									component="th"
@@ -212,6 +215,9 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 								>
 									<Ellipsis maxLines={2}>
 										{row.project.endDate && row.project.endDate.slice(0, 10)}
+										<div className="time">
+										{row.project.endDate && row.project.endDate.slice(10, 19)}&nbsp;{row.project.endDate.slice(10, 13) <= 11 ? "AM" : "PM"}
+									</div>
 									</Ellipsis>
 								</CustomTableCell>
 								<CustomTableCell

@@ -65,6 +65,9 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     }
 
     async componentDidMount() {
+        var d = new Date();
+        var n = d.toLocaleString([], { hour12: true });
+        console.log(n);
         const { userProfile } = this.props;
         this.setState({ isBusy: true });
 
@@ -157,7 +160,6 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
             return <CircularProgress className={classes.waitingSpin} />;
         }
 
-        // console.log(this.props);
         return (
             <Box>
                 <Table>
@@ -202,21 +204,20 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                                     align="center"
                                     onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                    {data.project.budget}
+                                    ${data.project.budget}
+                                </CustomTableCell>
+                                <CustomTableCell
+                                    align="center"
+                                    onClick={() => this.handleSelectProject(data.project.id)}>
+                                    {data.project.startDate && data.project.startDate.slice(0, 10)}
+                                    <div className="time"> {data.project.startDate && data.project.startDate.slice(10, 19)}&nbsp;{data.project.startDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
                                     onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                    {data.project.startDate}
-                                    <div className="time">HH:MM:SS AM</div>
-                                </CustomTableCell>
-                                <CustomTableCell
-                                    align="center"
-                                    onClick={() => this.handleSelectProject(data.project.id)}
-                                >
-                                    {data.project.endDate}
-                                    <div className="time">HH:MM:SS AM</div>
+                                    {data.project.endDate && data.project.endDate.slice(0, 10)}
+                                    <div className="time"> {data.project.endDate && data.project.endDate.slice(10, 19)}&nbsp;{data.project.endDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
