@@ -830,7 +830,7 @@ svg.MuiSvgIcon-root.searchicon {
   margin-top: 8px;
 }
 .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-5 {
-  margin-left: 13px;
+  /* margin-left: 13px; */
 }
 @media only screen and (max-width: 600px) {
   .contractor-details {

@@ -213,12 +213,12 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 				<Table className={classes.table}>
 					<TableHead>
 						<TableRow>
-							<CustomTableCell> Project Title </CustomTableCell>
+							<CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
 							<CustomTableCell align="center">Bids</CustomTableCell>
 							<CustomTableCell align="center">Location</CustomTableCell>
 							<CustomTableCell align="center">Price</CustomTableCell>
 							<CustomTableCell align="center">
-							<TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+							<TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown "
                                         active={true}
                                         direction={this.state.startDateOrder}
                                         onClick={this.StartDateToggleSort}
@@ -232,7 +232,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
                                 >
 									Bids Due  </TableSortLabel>
 									</CustomTableCell>
-							<CustomTableCell align="center">Project Details</CustomTableCell>
+							<CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>

@@ -194,7 +194,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 				<Table>
 					<TableHead>
 						<TableRow>
-							<CustomTableCell> Project Title </CustomTableCell>
+							<CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
 							<CustomTableCell align="center">owner</CustomTableCell>
 							<CustomTableCell align="center">Location</CustomTableCell>
 							<CustomTableCell align="center">Price</CustomTableCell>
@@ -213,7 +213,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 								End Date
 									</TableSortLabel>
 							</CustomTableCell>
-							<CustomTableCell align="center">Project Details</CustomTableCell>
+							<CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
