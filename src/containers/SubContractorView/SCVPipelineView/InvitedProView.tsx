@@ -121,6 +121,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		});
 		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${rowsPerPage}&status=AWARDED`).then(res => {
 			this.setState({ inviteData: res.data.content })
+		 
 		});
 	};
 
@@ -211,7 +212,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 				<Table>
 					<TableHead>
 						<TableRow>
-							<CustomTableCell> Project Title </CustomTableCell>
+							<CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
 							<CustomTableCell align="center">Owner</CustomTableCell>
 							<CustomTableCell align="center">Location</CustomTableCell>
 							<CustomTableCell align="center">Price</CustomTableCell>
@@ -232,7 +233,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 									End Date
 									</TableSortLabel>
 								</CustomTableCell>
-								<CustomTableCell align="center">Project Details</CustomTableCell>
+								<CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
 						</TableRow>
 					</TableHead>
 						<TableBody>
@@ -249,6 +250,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 										align="center"
 										onClick={() => this.handleSelectProject(row.id)}
 									>
+											{/* {row.project.genContractor.address.name} */}
 									</CustomTableCell>
 									<CustomTableCell
 										align="center"

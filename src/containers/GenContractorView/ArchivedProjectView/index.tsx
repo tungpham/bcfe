@@ -221,12 +221,12 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <CustomTableCell> Project Title </CustomTableCell>
+                            <CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
                             <CustomTableCell align="center">Contractor</CustomTableCell>
                             <CustomTableCell align="center">Location</CustomTableCell>
                             <CustomTableCell align="center">Budget</CustomTableCell>
                             <CustomTableCell align="center">
-                                <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                                <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown "
                                     active={true}
                                     direction={this.state.startDateOrder}
                                     onClick={this.StartDateToggleSort} > Start Date </TableSortLabel>
@@ -240,7 +240,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                     End Date
                                      </TableSortLabel>
                             </CustomTableCell>
-                            <CustomTableCell align="center">Project Details</CustomTableCell>
+                            <CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

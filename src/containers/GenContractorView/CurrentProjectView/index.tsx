@@ -213,11 +213,11 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <CustomTableCell> Project Title </CustomTableCell>
+                            <CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
                             <CustomTableCell align="center">Bids</CustomTableCell>
                             <CustomTableCell align="center">Location</CustomTableCell>
                             <CustomTableCell align="center">Budget</CustomTableCell>
-                            <CustomTableCell align="center"> <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                            <CustomTableCell align="center"> <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown  "
                                 active={true}
                                 direction={this.state.order}
                                 onClick={this.UploadToggleSort}
@@ -231,7 +231,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                             >
                                 Bids Due
                             </TableSortLabel></CustomTableCell>
-                            <CustomTableCell align="center">Project Details</CustomTableCell>
+                            <CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

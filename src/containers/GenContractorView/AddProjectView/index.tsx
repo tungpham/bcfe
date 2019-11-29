@@ -132,8 +132,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         await this.props.loadRoots();
         Axios.get(`https://bcbe-service.herokuapp.com/contractors/${this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`).then(data => {
             this.setState({ compltedArray: data.data.content })
-            data.data.content.map(d => {
-                console.log(d.project.endDate)
+            data.data.content.map(d => { 
                 var diff = Math.floor((Date.parse(d.project.endDate) - Date.parse(d.project.startDate)) / 86400000);
                 return this.setState({ days: diff })
             });
@@ -452,19 +451,20 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         if (this.state.compltedArray.length === 0) {
             return <CircularProgress className={classes.waitingSpin} />
         }
-
+       
+        
         return (
             <div>
                 <Box>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <CustomTableCell> Project Title </CustomTableCell>
+                                <CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
                                 <CustomTableCell align="center">Contractor</CustomTableCell>
                                 <CustomTableCell align="center">Location</CustomTableCell>
                                 <CustomTableCell align="center">Budget</CustomTableCell>
                                 <CustomTableCell align="center">
-                                    <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                                    <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown "
                                         active={true}
                                         direction={this.state.startDateOrder}
                                         onClick={this.StartDateToggleSort}
@@ -480,7 +480,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                     End Date
                             </TableSortLabel>
                                 </CustomTableCell>
-                                <CustomTableCell align="center">Project Details</CustomTableCell>
+                                <CustomTableCell align="center"  className="sub-table-col-width">Project Details</CustomTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -494,15 +494,13 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                     </CustomTableCell>
 
                                     <CustomTableCell
-                                        align="center"
-
+                                        align="center" 
                                     >
                                         {data.contractor.address.name}
                                     </CustomTableCell>
 
                                     <CustomTableCell
-                                        align="center"
-
+                                        align="center" 
                                     >
                                         {data.contractor.address.city}
                                     </CustomTableCell>
