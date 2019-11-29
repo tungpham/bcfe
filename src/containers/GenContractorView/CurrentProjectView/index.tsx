@@ -92,6 +92,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     handleChangePage = async (event, page) => {
         const { userProfile } = this.props;
         const { rowsPerPage } = this.state;
+        
         try {
             if (page >= this.state.totalLength) page = this.state.totalLength - 1;
             Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}`)

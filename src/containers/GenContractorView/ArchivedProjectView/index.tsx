@@ -71,6 +71,7 @@ interface ArchivedProjectState extends ISnackbarProps {
     compltedArray: [];
     isBusy: boolean;
     showConfirm: boolean;
+    totalLength: number;
     proId: string;
     startDate: Date;
     endDate: Date;
@@ -84,6 +85,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
             compltedArray: [],
             rowsPerPage: 20,
             currentPage: 0,
+            totalLength: 0,
             isBusy: true,
             startDateOrder: "desc",
             endDateOrder: "desc",
@@ -109,19 +111,24 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         this.setState({ isBusy: true });
         Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`).then(data => {
             this.setState({ compltedArray: data.data.content });
+            this.setState({ totalLength: data.data.totalElements })
         })
         this.setState({ isBusy: false });
     }
-
     handleChangePage = async (event, page) => {
         const { userProfile } = this.props;
-        this.setState({ currentPage: page, isBusy: true });
+        const { rowsPerPage } = this.state;
         try {
-            await this.props.getArchivedProjectsByGenId(
-                userProfile.user_metadata.contractor_id,
-                page,
-                this.state.rowsPerPage
-            );
+            if (page >= this.state.totalLength) page = this.state.totalLength - 1;
+            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}&status=ARCHIVED`)
+                .then(data => {
+                    this.setState({
+                        compltedArray: data.data.content,
+                        isBusy: false,
+                        currentPage: page,
+                    });
+                })
+            this.setState({ isBusy: false });
         } catch (error) {
             console.log('CurrentProjectView.handleChangePage', error);
         }
@@ -129,19 +136,30 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
     };
 
     handleChangeRowsPerPage = async event => {
+        const { currentPage, rowsPerPage } = this.state;
+        const curIndex = currentPage * rowsPerPage;
+        const newPageSize = event.target.value;
+        const newPage = Math.floor(curIndex / newPageSize);
+
         const { userProfile } = this.props;
-
-        const rowsPerPage = event.target.value;
-        const currentPage =
-            rowsPerPage >= this.state.compltedArray.length ? 0 : this.state.currentPage;
-
-        this.setState({ rowsPerPage, currentPage, isBusy: true });
         try {
-            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${rowsPerPage}&status=ARCHIVED`).then(data => {
-                this.setState({ compltedArray: data.data.content })
-            })
+            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}&status=ARCHIVED`)
+                .then(data => {
+                    this.setState({
+                        compltedArray: data.data.content,
+                        isBusy: false,
+                        currentPage: newPage,
+                        rowsPerPage: newPageSize,
+                    });
+                })
         } catch (error) {
             console.log('CurrentProjectView.handleChangeRowsPerPage', error);
+            this.setState({
+                isBusy: false,
+                showMessage: true,
+                message: 'Some errors occured',
+                variant: 'error'
+            });
         }
         this.setState({ isBusy: false });
     };
@@ -318,7 +336,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                     style={{ overflow: 'auto' }}
                     rowsPerPageOptions={[5, 10, 20]}
                     component="div"
-                    count={this.state.compltedArray.length}
+                    count={this.state.totalLength}
                     rowsPerPage={this.state.rowsPerPage}
                     page={this.state.currentPage}
                     backIconButtonProps={{ 'aria-label': 'Previous Page' }}

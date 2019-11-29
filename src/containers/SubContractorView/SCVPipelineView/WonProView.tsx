@@ -11,7 +11,6 @@ import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import CustomTableCell from "components/shared/CustomTableCell";
 import Ellipsis from 'components/Typography/Ellipsis';
@@ -58,6 +57,7 @@ interface IWonProjectViewState extends ISnackbarProps {
 	currentPage: number;
 	isBusy: boolean;
 	awardData: [];
+	totalLength: number;
 	startDateOrder: "desc" | "asc";
 	endDateOrder: "desc" | "asc";
 }
@@ -69,6 +69,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 			awardData: [],
 			rowsPerPage: 20,
 			currentPage: 0,
+			totalLength: 0,
 			isBusy: false,
 			showMessage: false,
 			startDateOrder: "desc",
@@ -89,34 +90,48 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 			0, 0, 'AWARDED'
 		);
 	}
-
-	handleChangePage = (event, page) => {
+	handleChangePage = async (event, page) => {
 		const { userProfile } = this.props;
-		this.setState({ currentPage: page });
-		this.props.getProposals(
-			userProfile.user_metadata.contractor_id,
-			page,
-			this.state.rowsPerPage,
-			'AWARDED'
-		);
+		const { rowsPerPage } = this.state;
+		try {
+			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
+			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=INACTIVE`)
+				.then(data => {
+					console.log(data);
+					this.setState({
+						awardData: data.data.content,
+						isBusy: false,
+						currentPage: page,
+					});
+				})
+			this.setState({ isBusy: false });
+		} catch (error) {
+			console.log('CurrentProjectView.handleChangePage', error);
+		}
+		this.setState({ isBusy: false });
 	};
+
+
 
 	handleChangeRowsPerPage = event => {
+		const { currentPage, rowsPerPage } = this.state;
+		const curIndex = currentPage * rowsPerPage;
+		const newPageSize = event.target.value;
+		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
-
-		const rowsPerPage = event.target.value;
-		const currentPage =
-			rowsPerPage >= this.state.awardData.length ? 0 : this.state.currentPage;
-
-		this.setState({
-			rowsPerPage: rowsPerPage,
-			currentPage: currentPage,
-		});
-
-		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${rowsPerPage}&status=INACTIVE`).then(res => {
-			this.setState({ awardData: res.data.content })
-		});
-	};
+		try {
+			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=INACTIVE`).then(res => {
+				this.setState({
+					awardData: res.data.content,
+					isBusy: false,
+					currentPage: newPage,
+					rowsPerPage: newPageSize,
+				});
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	}; 
 
 	handleDeleteProposal = async id => {
 		const { userProfile, proposals } = this.props;
@@ -182,13 +197,13 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 
 
 	render() {
-		const { classes, proposals } = this.props;
+		const { classes } = this.props;
 		const { showMessage, variant, message } = this.state;
 
 		if (this.state.awardData.length === 0) {
 			return <div className="nodata">No Data Available!</div>
 		}
-
+		console.log("awa", this.state.awardData);
 		return (
 			<Box className={classes.root}>
 				<Table>
@@ -231,7 +246,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 									align="center"
 
 								>
-
+									{row.subContractor.address.name}
 								</CustomTableCell>
 								<CustomTableCell
 									align="center"
@@ -279,7 +294,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 					style={{ overflow: 'auto' }}
 					rowsPerPageOptions={[5, 10, 20]}
 					component="div"
-					count={this.state.awardData.length}
+					count={this.state.totalLength}
 					rowsPerPage={this.state.rowsPerPage}
 					page={this.state.currentPage}
 					backIconButtonProps={{ 'aria-label': 'Previous Page' }}
