@@ -73,7 +73,6 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     async componentDidMount() {
         var d = new Date();
         var n = d.toLocaleString([], { hour12: true });
-        // console.log(n);
         const { userProfile } = this.props;
         this.setState({ isBusy: true });
 
@@ -201,7 +200,6 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     };
 
     render() {
-        console.log(this.state.compltedArray)
         const { classes, projects } = this.props;
 
         if (!projects) {
