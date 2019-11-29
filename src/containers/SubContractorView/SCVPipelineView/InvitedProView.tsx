@@ -17,7 +17,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Box from '@material-ui/core/Box';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Button from "components/CustomButtons/Button.jsx";
 import CustomTableCell from "components/shared/CustomTableCell";
 import { deleteProject } from 'store/actions/gen-actions';
@@ -200,7 +199,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
     }
 
 	render() {
-		const { classes, projects } = this.props;
+		const { classes } = this.props;
 		const { showMessage, variant, message } = this.state;
 
 		if (this.state.inviteData.length === 0) {

@@ -11,7 +11,6 @@ import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import CustomTableCell from "components/shared/CustomTableCell";
 import Ellipsis from 'components/Typography/Ellipsis';
@@ -182,7 +181,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 
 
 	render() {
-		const { classes, proposals } = this.props;
+		const { classes } = this.props;
 		const { showMessage, variant, message } = this.state;
 
 		if (this.state.awardData.length === 0) {
