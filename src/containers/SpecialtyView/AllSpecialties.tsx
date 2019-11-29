@@ -163,6 +163,7 @@ class AllSpecialties extends Component<IAllSpecialtiesProps, IAllSpecialtiesStat
 	};
 
 	handleChangePage = async (event, page) => {
+		console.log(page)
 		const { specialties } = this.props;
 		const { pageSize } = this.state;
 		if (specialties) {
@@ -186,7 +187,6 @@ class AllSpecialties extends Component<IAllSpecialtiesProps, IAllSpecialtiesStat
 		const curIndex = currentPage * pageSize;
 		const newPageSize = event.target.value;
 		const newPage = Math.floor(curIndex / newPageSize);
-
 		try {
 			this.setState({ isBusy: true });
 			await this.props.loadSpecs(newPage, newPageSize);
