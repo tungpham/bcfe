@@ -17,7 +17,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Box from '@material-ui/core/Box';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Button from "components/CustomButtons/Button.jsx";
 import CustomTableCell from "components/shared/CustomTableCell";
 import { deleteProject } from 'store/actions/gen-actions';
@@ -215,7 +214,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 	}
 
 	render() {
-		const { classes, projects } = this.props;
+		const { classes } = this.props;
 		const { showMessage, variant, message } = this.state;
 
 		if (this.state.inviteData.length === 0) {
@@ -227,7 +226,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 				<Table>
 					<TableHead>
 						<TableRow>
-							<CustomTableCell> Project Title </CustomTableCell>
+							<CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
 							<CustomTableCell align="center">Owner</CustomTableCell>
 							<CustomTableCell align="center">Location</CustomTableCell>
 							<CustomTableCell align="center">Price</CustomTableCell>
@@ -248,7 +247,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 								End Date
 									</TableSortLabel>
 							</CustomTableCell>
-							<CustomTableCell align="center">Project Details</CustomTableCell>
+							<CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>

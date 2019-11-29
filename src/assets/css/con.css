@@ -75,7 +75,7 @@ button.MuiButtonBase-root.MuiButton-root.myNextButton.MuiButton-text.MuiButton-s
 .modal-gallery {
   background-color: black !important;
   width: 64% !important;
-  height:80% !important;
+  height:600px !important;
   margin-left: auto !important;
   margin-right: auto !important;
   margin-top: 25px !important;
@@ -89,6 +89,7 @@ button.MuiButtonBase-root.MuiButton-root.myNextButton.MuiButton-text.MuiButton-s
 }
 .rootclass {
   height: 575px !important;
+  padding-bottom: 20px;
 }
 img.imageclass {
   width: 100%;
@@ -640,6 +641,7 @@ h3.credential {
   font-size: 15px;
   margin-top: 10px;
   margin-bottom: 2px;
+  display: flex;
 }
 
 svg.MuiSvgIcon-root.tick-mark {
@@ -830,7 +832,7 @@ svg.MuiSvgIcon-root.searchicon {
   margin-top: 8px;
 }
 .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-5 {
-  margin-left: 13px;
+  /* margin-left: 13px; */
 }
 @media only screen and (max-width: 600px) {
   .contractor-details {

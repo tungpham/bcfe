@@ -22,7 +22,6 @@ import { setCurrentProject } from 'store/actions/global-actions';
 import { deleteProject } from 'store/actions/gen-actions';
 import { UserProfile } from 'types/global';
 import { Projects } from 'types/project';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Axios from 'axios';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
@@ -227,24 +226,23 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
     }
 
     render() {
-        const { classes, projects } = this.props;
+        const { classes } = this.props;
 
         if (this.state.compltedArray.length === 0) {
             return <CircularProgress className={classes.waitingSpin} />;
         }
 
-        console.log("projects", projects);
         return (
             <Box className={classes.root}>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <CustomTableCell> Project Title </CustomTableCell>
+                            <CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
                             <CustomTableCell align="center">Contractor</CustomTableCell>
                             <CustomTableCell align="center">Location</CustomTableCell>
                             <CustomTableCell align="center">Budget</CustomTableCell>
                             <CustomTableCell align="center">
-                                <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                                <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown "
                                     active={true}
                                     direction={this.state.startDateOrder}
                                     onClick={this.StartDateToggleSort} > Start Date </TableSortLabel>
@@ -258,7 +256,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                     End Date
                                      </TableSortLabel>
                             </CustomTableCell>
-                            <CustomTableCell align="center">Project Details</CustomTableCell>
+                            <CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -310,7 +308,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                     align="center"
                                     className="margintopbottom"
                                     onClick={() => this.handleSelectProject(data.project.id)}>
-                                    {data.project.endDate}
+                                    {data.project.endDate && data.project.endDate.slice(0, 10)}
                                     <div className="time">{data.project.endDate && data.project.endDate.slice(10, 19)}&nbsp;{data.project.endDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
 
                                 </CustomTableCell>

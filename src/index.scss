@@ -406,6 +406,7 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolu
 }
 .MuiContainer-root {
   padding-left: 3.5% !important;
+  overflow-x: hidden !important;
 }
 
 .PrivateTabScrollButton-root-1047 {
@@ -454,15 +455,18 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionAbsolu
   margin-bottom: 10%;
 }
 th.MuiTableCell-root.MuiTableCell-head.sub-table-col-width{
-  width: 22% !important;
+  width: 35% !important;
 }
+th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter
  
 th.MuiTableCell-root.MuiTableCell-head.sub-table-col-1{
   width: 15% !important;
 }
-th.MuiTableCell-root.MuiTableCell-head{
-  width: 10%;
-}
+ 
 .MuiPaper-root.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft{
 margin-top: 45px !important;
+}
+svg.MuiSvgIcon-root.MuiTableSortLabel-icon.MuiTableSortLabel-iconDirectionDesc,
+svg.MuiSvgIcon-root.MuiTableSortLabel-icon.MuiTableSortLabel-iconDirectionAsc {
+  font-size: 18px !important;
 }

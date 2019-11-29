@@ -13,7 +13,6 @@ import TableRow from '@material-ui/core/TableRow';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
 import removeMd from 'remove-markdown';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import CustomTableCell from 'components/shared/CustomTableCell';
 import Ellipsis from 'components/Typography/Ellipsis';
@@ -223,7 +222,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 	}
 
 	render() {
-		const { classes, proposals } = this.props;
+		const { classes } = this.props;
 		if (this.state.submitData.length === 0) {
 			return <CircularProgress className={classes.busy} />
 		}
@@ -232,26 +231,26 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 				<Table className={classes.table}>
 					<TableHead>
 						<TableRow>
-							<CustomTableCell> Project Title </CustomTableCell>
+							<CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
 							<CustomTableCell align="center">Bids</CustomTableCell>
 							<CustomTableCell align="center">Location</CustomTableCell>
 							<CustomTableCell align="center">Price</CustomTableCell>
 							<CustomTableCell align="center">
-								<TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
-									active={true}
-									direction={this.state.startDateOrder}
-									onClick={this.StartDateToggleSort}
-								>
-									Upload Date  </TableSortLabel>
-							</CustomTableCell>
+							<TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown "
+                                        active={true}
+                                        direction={this.state.startDateOrder}
+                                        onClick={this.StartDateToggleSort}
+                                    >
+										Upload Date  </TableSortLabel>
+										</CustomTableCell>
 							<CustomTableCell align="center"><TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
-								active={true}
-								direction={this.state.endDateOrder}
-								onClick={this.EndDateToggleSort}
-							>
-								Bids Due  </TableSortLabel>
-							</CustomTableCell>
-							<CustomTableCell align="center">Project Details</CustomTableCell>
+                                    active={true}
+                                    direction={this.state.endDateOrder}
+                                    onClick={this.EndDateToggleSort}
+                                >
+									Bids Due  </TableSortLabel>
+									</CustomTableCell>
+							<CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>

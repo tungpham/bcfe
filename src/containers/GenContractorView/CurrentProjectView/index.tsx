@@ -46,7 +46,6 @@ interface CurrentProjectState extends ISnackbarProps {
     totalLength: number,
     showConfirm: boolean;
     proId: string;
-
 }
 
 class CurrentProject extends React.Component<CurrentProjectProps, CurrentProjectState> {
@@ -71,12 +70,8 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     }
 
     async componentDidMount() {
-        var d = new Date();
-        var n = d.toLocaleString([], { hour12: true });
-        // console.log(n);
         const { userProfile } = this.props;
         this.setState({ isBusy: true });
-
         try {
             Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}`).then(data => {
                 this.setState({ compltedArray: data.data.content })
@@ -89,7 +84,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         this.setState({ isBusy: false });
     }
 
-    handleChangePage = async (event, page) => {
+    handleChangePage = async (page) => {
         const { userProfile } = this.props;
         const { rowsPerPage } = this.state;
         
@@ -202,7 +197,6 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     };
 
     render() {
-        console.log(this.state.compltedArray)
         const { classes, projects } = this.props;
 
         if (!projects) {
@@ -214,11 +208,11 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <CustomTableCell> Project Title </CustomTableCell>
+                            <CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
                             <CustomTableCell align="center">Bids</CustomTableCell>
                             <CustomTableCell align="center">Location</CustomTableCell>
                             <CustomTableCell align="center">Budget</CustomTableCell>
-                            <CustomTableCell align="center"> <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                            <CustomTableCell align="center"> <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown  "
                                 active={true}
                                 direction={this.state.order}
                                 onClick={this.UploadToggleSort}
@@ -232,7 +226,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                             >
                                 Bids Due
                             </TableSortLabel></CustomTableCell>
-                            <CustomTableCell align="center">Project Details</CustomTableCell>
+                            <CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

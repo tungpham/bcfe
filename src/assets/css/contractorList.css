@@ -23,8 +23,8 @@ img.displayNone,
 img.myAvatar {
   height: 135px;
   width: 135px;
-  border-radius: 4px;
-  /* padding: 7px; */
+  border-radius: 12px;
+  padding: 7px 7px 7px 0px;
 }
 .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-6 {
   padding-left: 0px;
@@ -85,6 +85,9 @@ h3.no-margin {
 }
 .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-3 {
   text-align: right;
+}
+.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-5,.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-3{
+  padding: 0px !important;
 }
 
 .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-12 {
