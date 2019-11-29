@@ -46,7 +46,6 @@ interface CurrentProjectState extends ISnackbarProps {
     totalLength: number,
     showConfirm: boolean;
     proId: string;
-
 }
 
 class CurrentProject extends React.Component<CurrentProjectProps, CurrentProjectState> {
@@ -71,11 +70,8 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     }
 
     async componentDidMount() {
-        var d = new Date();
-        var n = d.toLocaleString([], { hour12: true });
         const { userProfile } = this.props;
         this.setState({ isBusy: true });
-
         try {
             Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}`).then(data => {
                 this.setState({ compltedArray: data.data.content })
@@ -88,7 +84,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         this.setState({ isBusy: false });
     }
 
-    handleChangePage = async (event, page) => {
+    handleChangePage = async (page) => {
         const { userProfile } = this.props;
         const { rowsPerPage } = this.state;
         try {

@@ -22,7 +22,6 @@ import { setCurrentProject } from 'store/actions/global-actions';
 import { deleteProject } from 'store/actions/gen-actions';
 import { UserProfile } from 'types/global';
 import { Projects } from 'types/project';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Axios from 'axios';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
@@ -209,7 +208,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
     }
 
     render() {
-        const { classes, projects } = this.props;
+        const { classes } = this.props;
 
         if (this.state.compltedArray.length === 0) {
             return <CircularProgress className={classes.waitingSpin} />;

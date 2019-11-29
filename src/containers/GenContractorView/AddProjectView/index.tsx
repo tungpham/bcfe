@@ -370,7 +370,6 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
     updateCategory = async (id: string, cat: ProjectLevelCategory) => {
         const { updateRoom, getLevels } = this.props;
         const { project } = this.state;
-
         this.setState({ isBusy: true });
         try {
             await updateRoom(cat.id, cat);
