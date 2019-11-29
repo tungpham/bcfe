@@ -211,26 +211,49 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
         this.setState({ files: [...files] });
     };
-    handleChangePage = async (page) => {
-        this.setState({ currentPage: page, isBusy: true });
+    handleChangePage = async (event, page) => {
+        const { rowsPerPage } = this.state;
+        try {
+            if (page >= this.state.totalLength) page = this.state.totalLength - 1;
+            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${this.props.userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}&status=ONGOING`)
+                .then(data => {
+                    this.setState({
+                        compltedArray: data.data.content,
+                        isBusy: false,
+                        currentPage: page,
+                    });
+                })
+            this.setState({ isBusy: false });
+        } catch (error) {
+            console.log('CurrentProjectView.handleChangePage', error);
+        }
+        this.setState({ isBusy: false });
     };
 
     handleChangeRowsPerPage = async event => {
 
-        const rowsPerPage = event.target.value;
-        const currentPage =
-            rowsPerPage >= this.state.compltedArray.length ? 0 : this.state.currentPage;
+        const { currentPage, rowsPerPage } = this.state;
+        const curIndex = currentPage * rowsPerPage;
+        const newPageSize = event.target.value;
+        const newPage = Math.floor(curIndex / newPageSize);
 
         this.setState({ rowsPerPage, currentPage, isBusy: true });
         try {
-            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${this.props.userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${rowsPerPage}&status=ONGOING`).then(data => {
-                this.setState({ compltedArray: data.data.content })
+            
+            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${this.props.userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}&status=ONGOING`).then(data => {
+                this.setState({
+                    compltedArray: data.data.content,
+                    isBusy: false,
+                    currentPage: newPage,
+                    rowsPerPage: newPageSize,
+                })
+
+
             })
         } catch (error) {
             console.log('CurrentProjectView.handleChangeRowsPerPage', error);
         }
 
-        this.setState({ rowsPerPage, currentPage, isBusy: true });
         this.setState({ isBusy: false });
     };
 
@@ -453,8 +476,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         if (this.state.compltedArray.length === 0) {
             return <CircularProgress className={classes.waitingSpin} />
         }
-       
-        
+
+
         return (
             <div>
                 <Box>
@@ -482,7 +505,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                     End Date
                             </TableSortLabel>
                                 </CustomTableCell>
-                                <CustomTableCell align="center"  className="sub-table-col-width">Project Details</CustomTableCell>
+                                <CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -496,13 +519,13 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                     </CustomTableCell>
 
                                     <CustomTableCell
-                                        align="center" 
+                                        align="center"
                                     >
                                         {data.contractor.address.name}
                                     </CustomTableCell>
 
                                     <CustomTableCell
-                                        align="center" 
+                                        align="center"
                                     >
                                         {data.contractor.address.city}
                                     </CustomTableCell>

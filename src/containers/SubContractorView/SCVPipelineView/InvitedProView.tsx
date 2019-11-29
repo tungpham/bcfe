@@ -60,7 +60,8 @@ interface InvitedProViewState extends ISnackbarProps {
 	isBusy: boolean;
 	alertConfirm: boolean;
 	startDateOrder: "desc" | "asc";
-    endDateOrder: "desc" | "asc";
+	endDateOrder: "desc" | "asc";
+	totalLength: number;
 	proId: string;
 	inviteData: [];
 }
@@ -76,7 +77,8 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 			isBusy: false,
 			showMessage: false,
 			startDateOrder: "desc",
-            endDateOrder: "desc",
+			endDateOrder: "desc",
+			totalLength: 0,
 			message: '',
 			variant: 'success',
 			alertConfirm: false,
@@ -89,39 +91,52 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		const { userProfile } = this.props;
 		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
 			this.setState({ inviteData: res.data.content })
+			this.setState({ totalLength: res.data.totalElements })
 		});
 		this.props.getInvitedProjects(
 			userProfile.user_metadata.contractor_id,
 			0, 0
 		);
 	}
-
-	handleChangePage = (event, page) => {
+	handleChangePage = async (event, page) => {
 		const { userProfile } = this.props;
-		this.setState({ currentPage: page });
-
-		this.props.getInvitedProjects(
-			userProfile.user_metadata.contractor_id,
-			page,
-			this.state.rowsPerPage
-		);
+		const { rowsPerPage } = this.state;
+		try {
+			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
+			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=AWARDED`)
+				.then(data => {
+					console.log(data);
+					this.setState({
+						inviteData: data.data.content,
+						isBusy: false,
+						currentPage: page,
+					});
+				})
+			this.setState({ isBusy: false });
+		} catch (error) {
+			console.log('CurrentProjectView.handleChangePage', error);
+		}
+		this.setState({ isBusy: false });
 	};
 
 	handleChangeRowsPerPage = event => {
+		const { currentPage, rowsPerPage } = this.state;
+		const curIndex = currentPage * rowsPerPage;
+		const newPageSize = event.target.value;
+		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
-
-		const rowsPerPage = event.target.value;
-		const currentPage =
-			rowsPerPage >= this.state.inviteData.length ? 0 : this.state.currentPage;
-
-		this.setState({
-			rowsPerPage: rowsPerPage,
-			currentPage: currentPage,
-		});
-		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${rowsPerPage}&status=AWARDED`).then(res => {
-			this.setState({ inviteData: res.data.content })
-		 
-		});
+		try {
+			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=AWARDED`).then(res => {
+				this.setState({
+					inviteData: res.data.content,
+					isBusy: false,
+					currentPage: newPage,
+					rowsPerPage: newPageSize,
+				});
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	handleDeleteProject = async id => {
@@ -175,28 +190,28 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		this.props.history.push('/projects/project_detail/' + id);
 	};
 	StartDateToggleSort = () => {
-        let startDateOrder: ('desc' | 'asc') = 'desc';
+		let startDateOrder: ('desc' | 'asc') = 'desc';
 
-        if (this.state.startDateOrder === 'desc') {
-            startDateOrder = 'asc';
-        }
-        this.state.inviteData.sort((a: any, b: any) =>
-            a.project.startDate > b.project.startDate ? 1 : -1
-        );
-        this.setState({ startDateOrder });
-    }
+		if (this.state.startDateOrder === 'desc') {
+			startDateOrder = 'asc';
+		}
+		this.state.inviteData.sort((a: any, b: any) =>
+			a.project.startDate > b.project.startDate ? 1 : -1
+		);
+		this.setState({ startDateOrder });
+	}
 
-    EndDateToggleSort = () => {
-        let endDateOrder: ('desc' | 'asc') = 'desc';
+	EndDateToggleSort = () => {
+		let endDateOrder: ('desc' | 'asc') = 'desc';
 
-        if (this.state.endDateOrder === 'desc') {
-            endDateOrder = 'asc';
-        }
-        this.state.inviteData.sort((a: any, b: any) =>
-            a.project.endDate > b.project.endDate ? 1 : -1
-        );
-        this.setState({ endDateOrder });
-    }
+		if (this.state.endDateOrder === 'desc') {
+			endDateOrder = 'asc';
+		}
+		this.state.inviteData.sort((a: any, b: any) =>
+			a.project.endDate > b.project.endDate ? 1 : -1
+		);
+		this.setState({ endDateOrder });
+	}
 
 	render() {
 		const { classes } = this.props;
@@ -205,7 +220,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		if (this.state.inviteData.length === 0) {
 			return <CircularProgress className={classes.busy} />
 		}
-
+		// console.log('ina' , this.state.inviteData);
 		return (
 			<Box className={classes.root}>
 				<Table>
@@ -222,139 +237,139 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 									onClick={this.StartDateToggleSort}
 								>
 									Start Date </TableSortLabel> </CustomTableCell>
-							
 
-								<CustomTableCell align="center"><TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
-									active={true}
-									direction={this.state.endDateOrder}
-									onClick={this.EndDateToggleSort}
-								>
-									End Date
+
+							<CustomTableCell align="center"><TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+								active={true}
+								direction={this.state.endDateOrder}
+								onClick={this.EndDateToggleSort}
+							>
+								End Date
 									</TableSortLabel>
-								</CustomTableCell>
-								<CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
+							</CustomTableCell>
+							<CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
 						</TableRow>
 					</TableHead>
-						<TableBody>
-							{this.state.inviteData.map((row: any) => (
-								<TableRow className={classes.row} key={row.id} hover>
-									<CustomTableCell
-										component="th"
-										scope="row"
-										onClick={() => this.handleSelectProject(row.id)}
-									>
-										<Ellipsis maxLines={2}>{row.project.title}</Ellipsis>
-									</CustomTableCell>
-									<CustomTableCell
-										align="center"
-										onClick={() => this.handleSelectProject(row.id)}
-									>
-											{/* {row.project.genContractor.address.name} */}
-									</CustomTableCell>
-									<CustomTableCell
-										align="center"
-										onClick={() => this.handleSelectProject(row.id)}
-									>
-										{row.project.city}
-									</CustomTableCell>
-									<CustomTableCell
-										align="center"
-										onClick={() => this.handleSelectProject(row.id)}
-									>
-										<Ellipsis maxLines={2}>{row.budget}
-										</Ellipsis>
-									</CustomTableCell>
-									<CustomTableCell align="center">
-										{row.project.startDate && row.project.startDate.slice(0, 10)}
+					<TableBody>
+						{this.state.inviteData.map((row: any) => (
+							<TableRow className={classes.row} key={row.id} hover>
+								<CustomTableCell
+									component="th"
+									scope="row"
+									onClick={() => this.handleSelectProject(row.id)}
+								>
+									<Ellipsis maxLines={2}>{row.project.title}</Ellipsis>
+								</CustomTableCell>
+								<CustomTableCell
+									align="center"
+									onClick={() => this.handleSelectProject(row.id)}
+								>
+									{row.subContractor.address.name}
+								</CustomTableCell>
+								<CustomTableCell
+									align="center"
+									onClick={() => this.handleSelectProject(row.id)}
+								>
+									{row.project.city}
+								</CustomTableCell>
+								<CustomTableCell
+									align="center"
+									onClick={() => this.handleSelectProject(row.id)}
+								>
+									<Ellipsis maxLines={2}>{row.budget}
+									</Ellipsis>
+								</CustomTableCell>
+								<CustomTableCell align="center">
+									{row.project.startDate && row.project.startDate.slice(0, 10)}
+									<div className="time">
+										{row.project.startDate && row.project.startDate.slice(10, 19)}&nbsp;{row.project.startDate.slice(10, 13) <= 11 ? "AM" : "PM"}
+									</div>
+								</CustomTableCell>
+								<CustomTableCell
+									component="th"
+									scope="row"
+								>
+									<Ellipsis maxLines={2}>
+										{row.project.endDate && row.project.endDate.slice(0, 10)}
 										<div className="time">
-											{row.project.startDate && row.project.startDate.slice(10, 19)}&nbsp;{row.project.startDate.slice(10, 13) <= 11 ? "AM" : "PM"}
+											{row.project.endDate && row.project.endDate.slice(10, 19)}&nbsp;{row.project.endDate.slice(10, 13) <= 11 ? "AM" : "PM"}
 										</div>
-									</CustomTableCell>
-									<CustomTableCell
-										component="th"
-										scope="row"
-									>
-										<Ellipsis maxLines={2}>
-											{row.project.endDate && row.project.endDate.slice(0, 10)}
-											<div className="time">
-												{row.project.endDate && row.project.endDate.slice(10, 19)}&nbsp;{row.project.endDate.slice(10, 13) <= 11 ? "AM" : "PM"}
-											</div>
-										</Ellipsis>
-									</CustomTableCell>
-									<CustomTableCell
-										component="th"
-										scope="row"
-									>
-										<Ellipsis maxLines={2}>
-											{row.project.description}
-										</Ellipsis>
-									</CustomTableCell>
-								</TableRow>
-							))}
-						</TableBody>
+									</Ellipsis>
+								</CustomTableCell>
+								<CustomTableCell
+									component="th"
+									scope="row"
+								>
+									<Ellipsis maxLines={2}>
+										{row.project.description}
+									</Ellipsis>
+								</CustomTableCell>
+							</TableRow>
+						))}
+					</TableBody>
 				</Table>
-					<TablePagination
-						style={{ overflow: 'auto' }}
-						rowsPerPageOptions={[5, 10, 20]}
-						component="div"
-						count={this.state.inviteData.length}
-						rowsPerPage={this.state.rowsPerPage}
-						page={this.state.currentPage}
-						backIconButtonProps={{ 'aria-label': 'Previous Page' }}
-						nextIconButtonProps={{ 'aria-label': 'Next Page' }}
-						onChangePage={this.handleChangePage}
-						onChangeRowsPerPage={this.handleChangeRowsPerPage}
-					/>
-					<CustomSnackbar
-						open={showMessage}
-						variant={variant}
-						message={message}
-						handleClose={this.state.handleClose}
-					/>
-					<Dialog
-						open={this.state.alertConfirm}
-						onClose={() => this.setState({ alertConfirm: false })}
-						aria-labelledby="alert-dialog-title"
-						aria-describedby="alert-dialog-description"
-					>
-						<DialogTitle id="alert-dialog-title">{'Delete Project?'}</DialogTitle>
-						<DialogContent>
-							<DialogContentText id="alert-dialog-description">
-								Do you want to delete this project?
+				<TablePagination
+					style={{ overflow: 'auto' }}
+					rowsPerPageOptions={[5, 10, 20]}
+					component="div"
+					count={this.state.totalLength}
+					rowsPerPage={this.state.rowsPerPage}
+					page={this.state.currentPage}
+					backIconButtonProps={{ 'aria-label': 'Previous Page' }}
+					nextIconButtonProps={{ 'aria-label': 'Next Page' }}
+					onChangePage={this.handleChangePage}
+					onChangeRowsPerPage={this.handleChangeRowsPerPage}
+				/>
+				<CustomSnackbar
+					open={showMessage}
+					variant={variant}
+					message={message}
+					handleClose={this.state.handleClose}
+				/>
+				<Dialog
+					open={this.state.alertConfirm}
+					onClose={() => this.setState({ alertConfirm: false })}
+					aria-labelledby="alert-dialog-title"
+					aria-describedby="alert-dialog-description"
+				>
+					<DialogTitle id="alert-dialog-title">{'Delete Project?'}</DialogTitle>
+					<DialogContent>
+						<DialogContentText id="alert-dialog-description">
+							Do you want to delete this project?
             			</DialogContentText>
-						</DialogContent>
-						<DialogActions>
-							<Button onClick={() => this.setState({ alertConfirm: false })}>
-								No
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={() => this.setState({ alertConfirm: false })}>
+							No
             			</Button>
-							<Button
-								onClick={() => this.handleDeleteProject(this.state.proId)}
-								color="primary"
-								autoFocus
-							>
-								Yes
+						<Button
+							onClick={() => this.handleDeleteProject(this.state.proId)}
+							color="primary"
+							autoFocus
+						>
+							Yes
             			</Button>
-						</DialogActions>
-					</Dialog>
+					</DialogActions>
+				</Dialog>
 			</Box>
-				);
-			}
-		}
-		
+		);
+	}
+}
+
 const mapDispatchToProps = {
-					getInvitedProjects,
-					deleteProject
-				};
-				
+	getInvitedProjects,
+	deleteProject
+};
+
 const mapStateToProps = state => ({
-					projects: state.sub_data.projects,
-				userProfile: state.global_data.userProfile,
-			})
-			
-			export default compose(
-				withStyles(styles),
-				connect(
-					mapStateToProps,
-					mapDispatchToProps
-				)
-			)(InvitedProView)
+	projects: state.sub_data.projects,
+	userProfile: state.global_data.userProfile,
+})
+
+export default compose(
+	withStyles(styles),
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)
+)(InvitedProView)

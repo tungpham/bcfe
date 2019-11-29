@@ -66,7 +66,8 @@ interface ISubmittedProViewState extends ISnackbarProps {
 	currentPage: number;
 	isBusy: boolean;
 	startDateOrder: "desc" | "asc";
-    endDateOrder: "desc" | "asc";
+	endDateOrder: "desc" | "asc";
+	totalLength: number;
 	submitData: [];
 }
 
@@ -79,10 +80,11 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 			submitData: [],
 			rowsPerPage: 20,
 			currentPage: 0,
+			totalLength: 0,
 			isBusy: false,
 			showMessage: false,
 			startDateOrder: "desc",
-            endDateOrder: "desc",
+			endDateOrder: "desc",
 			message: '',
 			variant: 'success',
 			handleClose: () => this.setState({ showMessage: false })
@@ -94,30 +96,47 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		const { userProfile } = this.props;
 		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=SUBMITTED`).then(res => {
 			this.setState({ submitData: res.data.content })
+			this.setState({ totalLength: res.data.totalElements })
 		});
 		this.props.getProposals(userProfile.user_metadata.contractor_id,
 			0, 0, 'SUBMITTED');
 	}
-	handleChangePage = (event, page) => {
+
+	handleChangePage = async (event, page) => {
 		const { userProfile } = this.props;
-		this.setState({ currentPage: page });
-		this.props.getProposals(userProfile.user_metadata.contractor_id, page, this.state.rowsPerPage, 'SUBMITTED');
+		const { rowsPerPage } = this.state;
+		try {
+			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
+			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=SUBMITTED`)
+				.then(data => {
+					console.log(data);
+					this.setState({
+						submitData: data.data.content,
+						isBusy: false,
+						currentPage: page,
+					});
+				})
+			this.setState({ isBusy: false });
+		} catch (error) {
+			console.log('CurrentProjectView.handleChangePage', error);
+		}
+		this.setState({ isBusy: false });
 	};
 
 	handleChangeRowsPerPage = event => {
+		const { currentPage, rowsPerPage } = this.state;
+		const curIndex = currentPage * rowsPerPage;
+		const newPageSize = event.target.value;
+		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
-		const rowsPerPage = event.target.value;
-		const currentPage =
-			rowsPerPage >= this.state.submitData.length ? 0 : this.state.currentPage;
-
-		this.setState({
-			rowsPerPage: rowsPerPage,
-			currentPage: currentPage,
-		});
-
 		try {
-			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${rowsPerPage}&status=SUBMITTED`).then(res => {
-				this.setState({ submitData: res.data.content })
+			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=SUBMITTED`).then(res => {
+				this.setState({
+					submitData: res.data.content,
+					isBusy: false,
+					currentPage: newPage,
+					rowsPerPage: newPageSize,
+				});
 			});
 		} catch (error) {
 			console.log(error);
@@ -179,28 +198,28 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		this.props.history.push(`/s_cont/proposal_detail/${id}`);
 	};
 	StartDateToggleSort = () => {
-        let startDateOrder: ('desc' | 'asc') = 'desc';
+		let startDateOrder: ('desc' | 'asc') = 'desc';
 
-        if (this.state.startDateOrder === 'desc') {
-            startDateOrder = 'asc';
-        }
-        this.state.submitData.sort((a: any, b: any) =>
-            a.project.startDate > b.project.startDate ? 1 : -1
-        );
-        this.setState({ startDateOrder });
+		if (this.state.startDateOrder === 'desc') {
+			startDateOrder = 'asc';
+		}
+		this.state.submitData.sort((a: any, b: any) =>
+			a.project.startDate > b.project.startDate ? 1 : -1
+		);
+		this.setState({ startDateOrder });
 	}
-	
-	EndDateToggleSort = () => {
-        let endDateOrder: ('desc' | 'asc') = 'desc';
 
-        if (this.state.endDateOrder === 'desc') {
-            endDateOrder = 'asc';
-        }
-        this.state.submitData.sort((a: any, b: any) =>
-            a.project.endDate > b.project.endDate ? 1 : -1
-        );
-        this.setState({ endDateOrder });
-    }
+	EndDateToggleSort = () => {
+		let endDateOrder: ('desc' | 'asc') = 'desc';
+
+		if (this.state.endDateOrder === 'desc') {
+			endDateOrder = 'asc';
+		}
+		this.state.submitData.sort((a: any, b: any) =>
+			a.project.endDate > b.project.endDate ? 1 : -1
+		);
+		this.setState({ endDateOrder });
+	}
 
 	render() {
 		const { classes } = this.props;
@@ -296,10 +315,10 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 				<TablePagination
 					style={{ overflow: 'auto' }}
 					rowsPerPageOptions={[5, 10, 20]}
-					count={this.state.submitData.length}
+					component="div"
+					count={this.state.totalLength}
 					rowsPerPage={this.state.rowsPerPage}
 					page={this.state.currentPage}
-					component="div"
 					backIconButtonProps={{ 'aria-label': 'Previous Page' }}
 					nextIconButtonProps={{ 'aria-label': 'Next Page' }}
 					onChangePage={this.handleChangePage}
