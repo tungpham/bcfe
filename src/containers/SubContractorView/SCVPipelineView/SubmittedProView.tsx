@@ -21,6 +21,7 @@ import { UserProfile } from 'types/global';
 import { deleteProposal, getProposals } from 'store/actions/sub-actions';
 import { Proposals } from 'types/proposal';
 import Axios from 'axios';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 const styles = createStyles((theme: Theme) => ({
 	root: {
@@ -65,6 +66,8 @@ interface ISubmittedProViewState extends ISnackbarProps {
 	rowsPerPage: number;
 	currentPage: number;
 	isBusy: boolean;
+	startDateOrder: "desc" | "asc";
+    endDateOrder: "desc" | "asc";
 	submitData: [];
 }
 
@@ -79,6 +82,8 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 			currentPage: 0,
 			isBusy: false,
 			showMessage: false,
+			startDateOrder: "desc",
+            endDateOrder: "desc",
 			message: '',
 			variant: 'success',
 			handleClose: () => this.setState({ showMessage: false })
@@ -174,6 +179,29 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 	handleSelectProposal = id => {
 		this.props.history.push(`/s_cont/proposal_detail/${id}`);
 	};
+	StartDateToggleSort = () => {
+        let startDateOrder: ('desc' | 'asc') = 'desc';
+
+        if (this.state.startDateOrder === 'desc') {
+            startDateOrder = 'asc';
+        }
+        this.state.submitData.sort((a: any, b: any) =>
+            a.project.startDate > b.project.startDate ? 1 : -1
+        );
+        this.setState({ startDateOrder });
+	}
+	
+	EndDateToggleSort = () => {
+        let endDateOrder: ('desc' | 'asc') = 'desc';
+
+        if (this.state.endDateOrder === 'desc') {
+            endDateOrder = 'asc';
+        }
+        this.state.submitData.sort((a: any, b: any) =>
+            a.project.endDate > b.project.endDate ? 1 : -1
+        );
+        this.setState({ endDateOrder });
+    }
 
 	render() {
 		const { classes, proposals } = this.props;
@@ -189,8 +217,21 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 							<CustomTableCell align="center">Bids</CustomTableCell>
 							<CustomTableCell align="center">Location</CustomTableCell>
 							<CustomTableCell align="center">Price</CustomTableCell>
-							<CustomTableCell align="center">Upload Date <ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
-							<CustomTableCell align="center">Bids Due<ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+							<CustomTableCell align="center">
+							<TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                                        active={true}
+                                        direction={this.state.startDateOrder}
+                                        onClick={this.StartDateToggleSort}
+                                    >
+										Upload Date  </TableSortLabel>
+										</CustomTableCell>
+							<CustomTableCell align="center"><TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                                    active={true}
+                                    direction={this.state.endDateOrder}
+                                    onClick={this.EndDateToggleSort}
+                                >
+									Bids Due  </TableSortLabel>
+									</CustomTableCell>
 							<CustomTableCell align="center">Project Details</CustomTableCell>
 						</TableRow>
 					</TableHead>

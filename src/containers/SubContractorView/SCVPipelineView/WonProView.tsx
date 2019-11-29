@@ -19,6 +19,7 @@ import { deleteProposal, getProposals } from 'store/actions/sub-actions';
 import { UserProfile } from 'types/global';
 import { Proposals } from 'types/proposal';
 import Axios from 'axios';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 const styles = createStyles(theme => ({
 	root: {
@@ -57,6 +58,8 @@ interface IWonProjectViewState extends ISnackbarProps {
 	currentPage: number;
 	isBusy: boolean;
 	awardData: [];
+	startDateOrder: "desc" | "asc";
+	endDateOrder: "desc" | "asc";
 }
 
 class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectViewState> {
@@ -68,6 +71,8 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 			currentPage: 0,
 			isBusy: false,
 			showMessage: false,
+			startDateOrder: "desc",
+			endDateOrder: "desc",
 			message: '',
 			variant: 'success',
 			handleClose: () => this.setState({ showMessage: false })
@@ -151,6 +156,31 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		this.props.history.push(`/s_cont/proposal_detail/${id}`);
 	};
 
+	StartDateToggleSort = () => {
+		let startDateOrder: ('desc' | 'asc') = 'desc';
+
+		if (this.state.startDateOrder === 'desc') {
+			startDateOrder = 'asc';
+		}
+		this.state.awardData.sort((a: any, b: any) =>
+			a.project.startDate > b.project.startDate ? 1 : -1
+		);
+		this.setState({ startDateOrder });
+	}
+
+	EndDateToggleSort = () => {
+		let endDateOrder: ('desc' | 'asc') = 'desc';
+
+		if (this.state.endDateOrder === 'desc') {
+			endDateOrder = 'asc';
+		}
+		this.state.awardData.sort((a: any, b: any) =>
+			a.project.endDate > b.project.endDate ? 1 : -1
+		);
+		this.setState({ endDateOrder });
+	}
+
+
 	render() {
 		const { classes, proposals } = this.props;
 		const { showMessage, variant, message } = this.state;
@@ -168,8 +198,21 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 							<CustomTableCell align="center">owner</CustomTableCell>
 							<CustomTableCell align="center">Location</CustomTableCell>
 							<CustomTableCell align="center">Price</CustomTableCell>
-							<CustomTableCell align="center">Start Date <ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
-							<CustomTableCell align="center">End Date<ArrowDownwardIcon style={{ fontSize: '15px' }} className="Arrowdown" /></CustomTableCell>
+							<CustomTableCell align="center">
+								<TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+									active={true}
+									direction={this.state.startDateOrder}
+									onClick={this.StartDateToggleSort}
+								>
+									Start Date </TableSortLabel> </CustomTableCell>
+							<CustomTableCell align="center"><TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+								active={true}
+								direction={this.state.endDateOrder}
+								onClick={this.EndDateToggleSort}
+							>
+								End Date
+									</TableSortLabel>
+							</CustomTableCell>
 							<CustomTableCell align="center">Project Details</CustomTableCell>
 						</TableRow>
 					</TableHead>
@@ -216,8 +259,8 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 									<Ellipsis maxLines={2}>
 										{row.project.endDate && row.project.endDate.slice(0, 10)}
 										<div className="time">
-										{row.project.endDate && row.project.endDate.slice(10, 19)}&nbsp;{row.project.endDate.slice(10, 13) <= 11 ? "AM" : "PM"}
-									</div>
+											{row.project.endDate && row.project.endDate.slice(10, 19)}&nbsp;{row.project.endDate.slice(10, 13) <= 11 ? "AM" : "PM"}
+										</div>
 									</Ellipsis>
 								</CustomTableCell>
 								<CustomTableCell
