@@ -136,7 +136,6 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
             this.setState({ compltedArray: data.data.content })
             this.setState({ totalLength: data.data.totalElements })
             data.data.content.map(d => {
-                console.log(d.project.endDate)
                 var diff = Math.floor((Date.parse(d.project.endDate) - Date.parse(d.project.startDate)) / 86400000);
                 return this.setState({ days: diff })
             });
