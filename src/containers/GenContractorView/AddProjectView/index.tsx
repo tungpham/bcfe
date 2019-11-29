@@ -100,6 +100,7 @@ interface IAddProjectViewState extends ISnackbarProps, ProjectBriefInfo {
     rowsPerPage: any;
     currentPage: any;
     days: number;
+    totalLength: number;
 }
 
 class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectViewState> {
@@ -108,6 +109,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         super(props);
         this.state = {
             compltedArray: [],
+            totalLength: 0,
             rowsPerPage: 20,
             currentPage: 0,
             title: '',
@@ -132,7 +134,9 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         await this.props.loadRoots();
         Axios.get(`https://bcbe-service.herokuapp.com/contractors/${this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`).then(data => {
             this.setState({ compltedArray: data.data.content })
-            data.data.content.map(d => { 
+            this.setState({ totalLength: data.data.totalElements })
+            data.data.content.map(d => {
+                console.log(d.project.endDate)
                 var diff = Math.floor((Date.parse(d.project.endDate) - Date.parse(d.project.startDate)) / 86400000);
                 return this.setState({ days: diff })
             });
@@ -484,7 +488,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.compltedArray.slice(this.state.currentPage * this.state.rowsPerPage, this.state.currentPage * this.state.rowsPerPage + this.state.rowsPerPage).map((data: any) => (
+                            {this.state.compltedArray.map((data: any) => (
                                 <TableRow className="" key={data.project.id} hover>
                                     <CustomTableCell
                                         component="th"
@@ -548,7 +552,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                         style={{ overflow: 'auto' }}
                         rowsPerPageOptions={[5, 10, 20]}
                         component="div"
-                        count={this.state.compltedArray.length}
+                        count={this.state.totalLength}
                         rowsPerPage={this.state.rowsPerPage}
                         page={this.state.currentPage}
                         backIconButtonProps={{ 'aria-label': 'Previous Page' }}

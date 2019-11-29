@@ -117,7 +117,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
 
         const { userProfile } = this.props;
         try {
-            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${rowsPerPage}`)
+            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
