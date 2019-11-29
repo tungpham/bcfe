@@ -136,7 +136,6 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
             this.setState({ compltedArray: data.data.content })
             this.setState({ totalLength: data.data.totalElements })
             data.data.content.map(d => {
-                console.log(d.project.endDate)
                 var diff = Math.floor((Date.parse(d.project.endDate) - Date.parse(d.project.startDate)) / 86400000);
                 return this.setState({ days: diff })
             });
@@ -454,8 +453,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         if (this.state.compltedArray.length === 0) {
             return <CircularProgress className={classes.waitingSpin} />
         }
-       
-        
+
+
         return (
             <div>
                 <Box>
@@ -483,7 +482,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                     End Date
                             </TableSortLabel>
                                 </CustomTableCell>
-                                <CustomTableCell align="center"  className="sub-table-col-width">Project Details</CustomTableCell>
+                                <CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -497,13 +496,13 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                     </CustomTableCell>
 
                                     <CustomTableCell
-                                        align="center" 
+                                        align="center"
                                     >
                                         {data.contractor.address.name}
                                     </CustomTableCell>
 
                                     <CustomTableCell
-                                        align="center" 
+                                        align="center"
                                     >
                                         {data.contractor.address.city}
                                     </CustomTableCell>
