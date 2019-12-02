@@ -13,6 +13,9 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+.MuiTab-root{
+  min-width: 140px !important;
+}
 
 .Resizer {
   background: #000;

@@ -89,7 +89,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 
 	componentDidMount() {
 		const { userProfile } = this.props;
-		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
+		Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' +userProfile.user_metadata.contractor_id+'/proposals'+`?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
 			this.setState({ inviteData: res.data.content })
 			this.setState({ totalLength: res.data.totalElements })
 		});
@@ -103,7 +103,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=AWARDED`)
+			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' +userProfile.user_metadata.contractor_id+'/proposals'+`?page=${page}&size=${rowsPerPage}&status=AWARDED`)
 				.then(data => {
 					console.log(data);
 					this.setState({
@@ -126,7 +126,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
 		try {
-			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=AWARDED`).then(res => {
+			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' +userProfile.user_metadata.contractor_id+'/proposals'+`?page=${currentPage}&size=${newPageSize}&status=AWARDED`).then(res => {
 				this.setState({
 					inviteData: res.data.content,
 					isBusy: false,
@@ -187,7 +187,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 	}
 
 	handleSelectProject = async id => {
-		this.props.history.push('/projects/project_detail/' + id);
+		this.props.history.push('/s_cont/proposal_detail/' + id);
 	};
 	StartDateToggleSort = () => {
 		let startDateOrder: ('desc' | 'asc') = 'desc';
@@ -220,7 +220,6 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		if (this.state.inviteData.length === 0) {
 			return <CircularProgress className={classes.busy} />
 		}
-		// console.log('ina' , this.state.inviteData);
 		return (
 			<Box className={classes.root}>
 				<Table>

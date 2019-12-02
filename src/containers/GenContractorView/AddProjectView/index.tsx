@@ -17,7 +17,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import removeMd from 'remove-markdown';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-
+import { setCurrentProject } from 'store/actions/global-actions';
 import {
     addFilesToProject,
     addProject,
@@ -88,6 +88,7 @@ interface IAddProjectViewProps extends RouteComponentProps {
     getLevels: (id: string) => Promise<void>;
     clearLevels: () => void;
     loadRoots: () => Promise<void>;
+    setCurrentProject: (id: string) => Promise<void>;
     levels: ProjectLevel[];
 }
 
@@ -132,7 +133,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
     async componentDidMount() {
         await this.props.clearLevels();
         await this.props.loadRoots();
-        Axios.get(`https://bcbe-service.herokuapp.com/contractors/${this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`).then(data => {
+        Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + this.props.userProfile.user_metadata.contractor_id + '/projects' + `?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`).then(data => {
+
             this.setState({ compltedArray: data.data.content })
             this.setState({ totalLength: data.data.totalElements })
             data.data.content.map(d => {
@@ -215,7 +217,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         const { rowsPerPage } = this.state;
         try {
             if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${this.props.userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}&status=ONGOING`)
+            Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + this.props.userProfile.user_metadata.contractor_id + '/projects' + `?page=${page}&size=${rowsPerPage}&status=ONGOING`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -239,16 +241,13 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
         this.setState({ rowsPerPage, currentPage, isBusy: true });
         try {
-            
-            Axios.get(`https://bcbe-service.herokuapp.com/contractors/${this.props.userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}&status=ONGOING`).then(data => {
+            Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + this.props.userProfile.user_metadata.contractor_id + '/projects' + `?page=${currentPage}& size=${newPageSize}&status=ONGOING`).then(data => {
                 this.setState({
                     compltedArray: data.data.content,
                     isBusy: false,
                     currentPage: newPage,
                     rowsPerPage: newPageSize,
                 })
-
-
             })
         } catch (error) {
             console.log('CurrentProjectView.handleChangeRowsPerPage', error);
@@ -462,6 +461,11 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         this.setState({ endDateOrder });
     }
 
+    handleSelectProject = id => {
+        this.props.setCurrentProject(id);
+        this.props.history.push('/gen-contractor/project_detail/' + id);
+    };
+
     public render() {
         const { classes, match, location } = this.props;
         const tabs = [
@@ -513,8 +517,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                 <TableRow className="" key={data.project.id} hover>
                                     <CustomTableCell
                                         component="th"
-                                        scope="row"
-                                    >
+                                        onClick={() => this.handleSelectProject(data.project.id)}
+                                        scope="row">
                                         <Ellipsis maxLines={2}>{data.project.title}</Ellipsis>
                                     </CustomTableCell>
 
@@ -532,14 +536,12 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
                                     <CustomTableCell
                                         align="center"
-
                                     >
                                         ${data.project.budget}
                                     </CustomTableCell>
 
                                     <CustomTableCell
                                         align="center"
-
                                     >
                                         {data.project.submittedDate && data.project.submittedDate.slice(0, 10)}
                                         <div className="time">{data.project.submittedDate && data.project.submittedDate.slice(10, 19)}&nbsp;{data.project.submittedDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
@@ -611,7 +613,8 @@ const mapDispatchToProps = {
     deleteRoom,
     getLevels,
     clearLevels,
-    loadRoots
+    loadRoots,
+    setCurrentProject
 };
 
 export default compose(

@@ -5,6 +5,7 @@ html,
 body {
   max-width: 100%;
 }
+
 input#input {
   text-transform: capitalize !important;
 }
@@ -131,7 +132,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit {
 /* ul.MuiList-root.MuiList-padding {
   padding-left: 8px;
 } */
-ul.MuiList-root.service-modal-list.MuiList-padding{
+ul.MuiList-root.service-modal-list.MuiList-padding {
   padding: 0px !important;
 }
 .MuiGrid-root.text-center.bg-image.MuiGrid-item.MuiGrid-grid-xs-12 {
@@ -190,7 +191,7 @@ svg.MuiSvgIcon-root.footer-icon {
 p.MuiTypography-root.footerText.MuiTypography-body1 {
   display: flex !important;
 }
-.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-2{
+.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-2 {
   height: 450px !important;
 }
 .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-2.MuiGrid-wrap-xs-nowrap.MuiGrid-grid-xs-8 {
@@ -211,9 +212,9 @@ hr.MuiDivider-root.footer-divider.MuiDivider-middle {
 }
 .footer-bg {
   background-color: #eee;
-    padding-bottom: 5%;
-    position: relative;
-    z-index:1300;
+  padding-bottom: 5%;
+  position: relative;
+  z-index: 1300;
 }
 .footer-head-text {
   text-transform: uppercase;
@@ -261,7 +262,7 @@ div#search {
 }
 main.AppRouterConnect-content-4 {
   min-height: 260px;
-  width: 100% !important; 
+  width: 100% !important;
 }
 .MuiSvgIcon-root {
   font-size: 1.9rem !important;
@@ -302,15 +303,15 @@ select.city {
 }
 button.MuiButtonBase-root.MuiButton-root.MuiButton-text.getstarted {
   white-space: nowrap;
- background-color: #449b1b;
- padding-left: 16px !important;
- padding-right: 16px !important;
- padding-top: 12.5px !important;
- padding-bottom: 12px !important;
- border-top-left-radius: 0px;
- color: white;
- border-bottom-left-radius: 0px;
- /* box-shadow: 0 8px 6px -6px #e1e0e1; */
+  background-color: #449b1b;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  padding-top: 12.5px !important;
+  padding-bottom: 12px !important;
+  border-top-left-radius: 0px;
+  color: white;
+  border-bottom-left-radius: 0px;
+  /* box-shadow: 0 8px 6px -6px #e1e0e1; */
 }
 
 .suggestion {
@@ -334,11 +335,11 @@ div#none {
 header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.CustomTabs-toolbarstyle-1575.MuiAppBar-colorPrimary {
   margin-top: 40px;
 }
-label.MuiFormControlLabel-root{
+label.MuiFormControlLabel-root {
   margin-left: 5px !important;
 }
-.Mui-focused fieldset{
- border: 2px solid green !important;
+.Mui-focused fieldset {
+  border: 2px solid green !important;
 }
 
 @media only screen and (max-width: 600px) {
