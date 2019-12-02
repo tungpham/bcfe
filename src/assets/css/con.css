@@ -58,7 +58,7 @@ button.MuiButtonBase-root.MuiButton-root.myNextButton.MuiButton-text.MuiButton-s
 }
 button.MuiButtonBase-root.MuiButton-root.myBackButton.MuiButton-text.MuiButton-sizeSmall,
 button.MuiButtonBase-root.MuiButton-root.myNextButton.MuiButton-text.MuiButton-sizeSmall {
-  margin-top: -500px;
+  margin-top: -100%;
   background: #0e0e0e !important;
   color: white !important;
   border-radius: 50%;
@@ -105,7 +105,7 @@ img.imageclass {
   /* background: white; */
   color: white;
   margin-top: -2px !important;
-  padding: 0px 10px !important;
+  padding:15px !important;
 }
 button.MuiButtonBase-root.MuiButton-root.MuiButton-text.myBackButton.MuiButton-textSizeSmall.MuiButton-sizeSmall,
 button.MuiButtonBase-root.MuiButton-root.MuiButton-text.myNextButton.MuiButton-textSizeSmall.MuiButton-sizeSmall {
@@ -384,14 +384,18 @@ svg.MuiSvgIcon-root.close {
   background-color: black;
   width: 65%;
   display: flex;
-  height:80%;
+  /* height:70%; */
   margin-left: auto;
   margin-right: auto;
   margin-top: 5%;
   
 }
+.post-height{
+  height: 560px;
+}
 .myRoot{
-  width: 70%;
+  width: 80%;
+  height:100% !important;
 }
 .close-icon{
   text-align: right;
@@ -403,14 +407,15 @@ svg.MuiSvgIcon-root.close {
   background-color: white;
 }
 .post-img-height{
-  height: 575px ;
+  height: 100% ;
   overflow: hidden;
 }
 .post-slider-img{
   width: 100%;
   height: 100% !important;
-  padding: 30px 0px;
-  object-fit: cover !important;
+  padding-top: 40px;
+  padding-bottom: 0px;
+  /* object-fit: cover !important; */
 }
 
 
