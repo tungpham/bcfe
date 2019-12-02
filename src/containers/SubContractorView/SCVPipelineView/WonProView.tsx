@@ -82,7 +82,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 
 	componentDidMount() {
 		const { userProfile } = this.props;
-		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
+		Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/proposals' + `?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
 			this.setState({ awardData: res.data.content })
 		});
 		this.props.getProposals(
@@ -95,7 +95,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=INACTIVE`)
+			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/'+userProfile.user_metadata.contractor_id+'/proposals'+`?page=${page}&size=${rowsPerPage}&status=INACTIVE`)
 				.then(data => {
 					console.log(data);
 					this.setState({
@@ -120,7 +120,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
 		try {
-			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=INACTIVE`).then(res => {
+			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/'+userProfile.user_metadata.contractor_id+'/proposals'+`?page=${currentPage}&size=${newPageSize}&status=INACTIVE`).then(res => {
 				this.setState({
 					awardData: res.data.content,
 					isBusy: false,
@@ -131,7 +131,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		} catch (error) {
 			console.log(error);
 		}
-	}; 
+	};
 
 	handleDeleteProposal = async id => {
 		const { userProfile, proposals } = this.props;
