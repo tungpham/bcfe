@@ -134,7 +134,6 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         await this.props.clearLevels();
         await this.props.loadRoots();
         Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + this.props.userProfile.user_metadata.contractor_id + '/projects' + `?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`).then(data => {
-
             this.setState({ compltedArray: data.data.content })
             this.setState({ totalLength: data.data.totalElements })
             data.data.content.map(d => {

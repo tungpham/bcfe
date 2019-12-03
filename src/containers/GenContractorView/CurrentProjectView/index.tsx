@@ -84,13 +84,13 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         this.setState({ isBusy: false });
     }
 
-    handleChangePage = async (page) => {
+    handleChangePage = async (event,page) => {
         const { userProfile } = this.props;
         const { rowsPerPage } = this.state;
 
         try {
             if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-            Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/projects' + `?page = ${page} & size=${rowsPerPage}`)
+            Axios.get(process.env.REACT_APP_PROJECT_API+'contractors/'+userProfile.user_metadata.contractor_id+'/projects'+`?page=${page}&size=${rowsPerPage}`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -113,7 +113,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
 
         const { userProfile } = this.props;
         try {
-            Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors' + userProfile.user_metadata.contractor_id + '/projects' + `?page=${currentPage}&size=${newPageSize}`)
+            Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/projects' + `?page=${currentPage}&size=${newPageSize}`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -230,7 +230,6 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {/* .slice(this.state.currentPage * this.state.rowsPerPage, this.state.currentPage * this.state.rowsPerPage + this.state.rowsPerPage) */}
                         {this.state.compltedArray.map((data: any) => (
                             <TableRow className="" key={data.project.id} hover>
                                 <CustomTableCell
