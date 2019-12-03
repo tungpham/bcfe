@@ -261,12 +261,12 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                     </TableHead>
                     <TableBody>
                         {this.state.compltedArray.map((data: any) => (
-                            <TableRow className="" key={data.project.id} hover>
+                            <TableRow className="" key={data.project.id} hover onClick={() => this.handleSelectProject(data.project.id)}>
                                 <CustomTableCell
                                     component="th"
                                     scope="row"
                                     className="margintopbottom"
-                                    onClick={() => this.handleSelectProject(data.project.id)}>
+                                >
 
                                     <Ellipsis maxLines={2}>{data.project.title}</Ellipsis>
                                 </CustomTableCell>
@@ -274,7 +274,6 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                 <CustomTableCell
                                     align="center"
                                     className="margintopbottom"
-                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
                                     {data.contractor.address.name}
                                 </CustomTableCell>
@@ -282,7 +281,6 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                 <CustomTableCell
                                     align="center"
                                     className="margintopbottom"
-                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
                                     {data.contractor.address.city}
                                 </CustomTableCell>
@@ -290,7 +288,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                 <CustomTableCell
                                     align="center"
                                     className="margintopbottom"
-                                    onClick={() => this.handleSelectProject(data.project.id)}
+
                                 >
                                     ${data.project.budget}
                                 </CustomTableCell>
@@ -298,7 +296,6 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                 <CustomTableCell
                                     align="center"
                                     className="margintopbottom"
-                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 >
                                     {data.project.startDate && data.project.startDate.slice(0, 10)}
                                     <div className="time">{data.project.startDate && data.project.startDate.slice(10, 19)}&nbsp;{data.project.startDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
@@ -306,8 +303,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
                                 <CustomTableCell
                                     align="center"
-                                    className="margintopbottom"
-                                    onClick={() => this.handleSelectProject(data.project.id)}>
+                                    className="margintopbottom">
                                     {data.project.endDate && data.project.endDate.slice(0, 10)}
                                     <div className="time">{data.project.endDate && data.project.endDate.slice(10, 19)}&nbsp;{data.project.endDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
 
@@ -316,7 +312,6 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                 <CustomTableCell
                                     align="center"
                                     className="margintopbottom"
-                                    onClick={() => this.handleSelectProject(data.project.id)}
                                 ><Ellipsis maxLines={2}>
                                         <IconButton
                                             aria-label="Delete"
