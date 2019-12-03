@@ -130,7 +130,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
 		try {
-			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' +userProfile.user_metadata.contractor_id+'/proposals'+`?page=${currentPage}&size=${newPageSize}&status=SUBMITTED`).then(res => {
+			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/proposals' + `?page=${currentPage}&size=${newPageSize}&status=SUBMITTED`).then(res => {
 				this.setState({
 					submitData: res.data.content,
 					isBusy: false,
@@ -255,9 +255,8 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 					</TableHead>
 					<TableBody>
 						{this.state.submitData.map((row: any) => (
-							<TableRow className={classes.row} key={row.id} hover>
+							<TableRow className={classes.row} key={row.id} hover onClick={() => this.handleSelectProposal(row.id)}>
 								<CustomTableCell
-									onClick={() => this.handleSelectProposal(row.id)}
 									component="th"
 									scope="row"
 									align="center"
@@ -265,7 +264,6 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 									<Ellipsis maxLines={2}>{row.project.title}</Ellipsis>
 								</CustomTableCell>
 								<CustomTableCell
-									onClick={() => this.handleSelectProposal(row.id)}
 									component="th"
 									scope="row"
 									align="center"
@@ -274,7 +272,6 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 								</CustomTableCell>
 
 								<CustomTableCell
-									onClick={() => this.handleSelectProposal(row.id)}
 									component="th"
 									scope="row"
 									align="center"
@@ -282,7 +279,6 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 									{row.project.city}
 								</CustomTableCell>
 								<CustomTableCell
-									onClick={() => this.handleSelectProposal(row.id)}
 									component="th"
 									scope="row"
 									align="center"
@@ -290,7 +286,6 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 									${row.budget}
 								</CustomTableCell>
 								<CustomTableCell
-									onClick={() => this.handleSelectProposal(row.id)}
 									align="center"
 								>
 									{row.project.startDate && row.project.startDate.slice(0, 10)}
@@ -298,14 +293,16 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 										{row.project.startDate && row.project.startDate.slice(10, 19)}&nbsp;{row.project.startDate.slice(10, 13) <= 11 ? "AM" : "PM"}
 									</div>
 								</CustomTableCell>
-								<CustomTableCell align="center">
+								<CustomTableCell align="center"
+								>
 									<Ellipsis maxLines={2}>{removeMd(row.project.endDate && row.project.endDate.slice(0, 10))}
 										<div className="time">
 											{row.project.endDate && row.project.endDate.slice(10, 19)}&nbsp;{row.project.endDate.slice(10, 13) <= 11 ? "AM" : "PM"}
 										</div>
 									</Ellipsis>
 								</CustomTableCell>
-								<CustomTableCell align="center">
+								<CustomTableCell align="center"
+								>
 									{row.project.description}
 								</CustomTableCell>
 							</TableRow>
