@@ -94,7 +94,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 	}
 	componentDidMount() {
 		const { userProfile } = this.props;
-		Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=SUBMITTED`).then(res => {
+		Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/proposals' + `?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=SUBMITTED`).then(res => {
 			this.setState({ submitData: res.data.content })
 			this.setState({ totalLength: res.data.totalElements })
 		});
@@ -107,7 +107,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=SUBMITTED`)
+			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/proposals' + `?page=${page}&size=${rowsPerPage}&status=SUBMITTED`)
 				.then(data => {
 					console.log(data);
 					this.setState({
@@ -130,7 +130,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
 		try {
-			Axios.get(`https://bcbe-service.herokuapp.com/contractors/${userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=SUBMITTED`).then(res => {
+			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' +userProfile.user_metadata.contractor_id+'/proposals'+`?page=${currentPage}&size=${newPageSize}&status=SUBMITTED`).then(res => {
 				this.setState({
 					submitData: res.data.content,
 					isBusy: false,
@@ -236,20 +236,20 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 							<CustomTableCell align="center">Location</CustomTableCell>
 							<CustomTableCell align="center">Price</CustomTableCell>
 							<CustomTableCell align="center">
-							<TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown "
-                                        active={true}
-                                        direction={this.state.startDateOrder}
-                                        onClick={this.StartDateToggleSort}
-                                    >
-										Upload Date  </TableSortLabel>
-										</CustomTableCell>
+								<TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown "
+									active={true}
+									direction={this.state.startDateOrder}
+									onClick={this.StartDateToggleSort}
+								>
+									Upload Date  </TableSortLabel>
+							</CustomTableCell>
 							<CustomTableCell align="center"><TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
-                                    active={true}
-                                    direction={this.state.endDateOrder}
-                                    onClick={this.EndDateToggleSort}
-                                >
-									Bids Due  </TableSortLabel>
-									</CustomTableCell>
+								active={true}
+								direction={this.state.endDateOrder}
+								onClick={this.EndDateToggleSort}
+							>
+								Bids Due  </TableSortLabel>
+							</CustomTableCell>
 							<CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
 						</TableRow>
 					</TableHead>
