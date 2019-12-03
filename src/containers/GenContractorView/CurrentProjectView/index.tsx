@@ -26,6 +26,7 @@ import { Projects } from 'types/project';
 import style from './CurrentProject.style';
 import Axios from 'axios';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+var _ = require('lodash');
 
 interface CurrentProjectProps extends RouteComponentProps {
     classes: ClassNameMap<string>;
@@ -40,7 +41,7 @@ interface CurrentProjectState extends ISnackbarProps {
     rowsPerPage: number;
     currentPage: number;
     isBusy: boolean;
-    order: "desc" | "asc";
+    uploadOrder: "desc" | "asc";
     bidsOrder: "desc" | "asc";
     compltedArray: [];
     totalLength: number,
@@ -51,14 +52,13 @@ interface CurrentProjectState extends ISnackbarProps {
 class CurrentProject extends React.Component<CurrentProjectProps, CurrentProjectState> {
     constructor(props) {
         super(props);
-
         this.state = {
             compltedArray: [],
             rowsPerPage: 20,
             currentPage: 0,
             isBusy: false,
             totalLength: 0,
-            order: 'desc',
+            uploadOrder: 'desc',
             bidsOrder: "desc",
             showMessage: false,
             message: '',
@@ -84,13 +84,13 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         this.setState({ isBusy: false });
     }
 
-    handleChangePage = async (event,page) => {
+    handleChangePage = async (event, page) => {
         const { userProfile } = this.props;
         const { rowsPerPage } = this.state;
 
         try {
             if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-            Axios.get(process.env.REACT_APP_PROJECT_API+'contractors/'+userProfile.user_metadata.contractor_id+'/projects'+`?page=${page}&size=${rowsPerPage}`)
+            Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/projects' + `?page=${page}&size=${rowsPerPage}`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -168,15 +168,19 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     };
 
     UploadToggleSort = () => {
-        let order: ('desc' | 'asc') = 'desc';
-
-        if (this.state.order === 'desc') {
-            order = 'asc';
+        let uploadOrder: ('desc' | 'asc') = 'desc';
+        if (this.state.uploadOrder !== 'desc') {
+            this.state.compltedArray.sort((a: any, b: any) =>
+                a.project.submittedDate < b.project.submittedDate ? 1 : -1
+            );
         }
-        this.state.compltedArray.sort((a: any, b: any) =>
-            a.project.submittedDate > b.project.submittedDate ? 1 : -1
-        );
-        this.setState({ order });
+        else {
+            this.state.compltedArray.sort((a: any, b: any) =>
+                a.project.submittedDate > b.project.submittedDate ? 1 : -1
+            );
+            uploadOrder = 'asc';
+        }
+        this.setState({ uploadOrder });
     }
 
     BidsToggleSort = () => {
@@ -186,7 +190,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
             bidsOrder = 'asc';
         }
         this.state.compltedArray.sort((a: any, b: any) =>
-            a.project.due > b.project.due ? 1 : -1
+            new Date(a.project.endDate) > new Date(b.project.endDate) ? 1 : -1
         );
         this.setState({ bidsOrder });
     }
@@ -212,20 +216,22 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                             <CustomTableCell align="center">Bids</CustomTableCell>
                             <CustomTableCell align="center">Location</CustomTableCell>
                             <CustomTableCell align="center">Budget</CustomTableCell>
-                            <CustomTableCell align="center"> <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown  "
-                                active={true}
-                                direction={this.state.order}
-                                onClick={this.UploadToggleSort}
-                            >
-                                Upload Date
-                            </TableSortLabel></CustomTableCell>
-                            <CustomTableCell align="center">   <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
-                                active={true}
-                                direction={this.state.bidsOrder}
-                                onClick={this.BidsToggleSort}
-                            >
-                                Bids Due
-                            </TableSortLabel></CustomTableCell>
+                            <CustomTableCell align="center">
+                                <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                                    active={true}
+                                    direction={this.state.uploadOrder}
+                                    onClick={this.UploadToggleSort}>
+                                    Upload Date
+                            </TableSortLabel>
+                            </CustomTableCell>
+                            <CustomTableCell align="center">
+                                <TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
+                                    active={true}
+                                    direction={this.state.bidsOrder}
+                                    onClick={this.BidsToggleSort}>
+                                    Bids Due
+                            </TableSortLabel>
+                            </CustomTableCell>
                             <CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
                         </TableRow>
                     </TableHead>

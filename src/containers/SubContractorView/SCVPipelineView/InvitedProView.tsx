@@ -89,7 +89,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 
 	componentDidMount() {
 		const { userProfile } = this.props;
-		Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' +userProfile.user_metadata.contractor_id+'/proposals'+`?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
+		Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/proposals' + `?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
 			this.setState({ inviteData: res.data.content })
 			this.setState({ totalLength: res.data.totalElements })
 		});
@@ -103,7 +103,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' +userProfile.user_metadata.contractor_id+'/proposals'+`?page=${page}&size=${rowsPerPage}&status=AWARDED`)
+			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/proposals' + `?page=${page}&size=${rowsPerPage}&status=AWARDED`)
 				.then(data => {
 					console.log(data);
 					this.setState({
@@ -126,7 +126,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
 		try {
-			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' +userProfile.user_metadata.contractor_id+'/proposals'+`?page=${currentPage}&size=${newPageSize}&status=AWARDED`).then(res => {
+			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/proposals' + `?page=${currentPage}&size=${newPageSize}&status=AWARDED`).then(res => {
 				this.setState({
 					inviteData: res.data.content,
 					isBusy: false,
@@ -176,8 +176,6 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 			});
 		}
 	};
-
-
 
 	deleteProject = (id: string) => {
 		this.setState({
@@ -278,7 +276,8 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 									<Ellipsis maxLines={2}>{row.budget}
 									</Ellipsis>
 								</CustomTableCell>
-								<CustomTableCell align="center">
+								<CustomTableCell align="center" onClick={() => this.handleSelectProject(row.id)}>
+
 									{row.project.startDate && row.project.startDate.slice(0, 10)}
 									<div className="time">
 										{row.project.startDate && row.project.startDate.slice(10, 19)}&nbsp;{row.project.startDate.slice(10, 13) <= 11 ? "AM" : "PM"}
@@ -287,6 +286,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 								<CustomTableCell
 									component="th"
 									scope="row"
+									onClick={() => this.handleSelectProject(row.id)}
 								>
 									<Ellipsis maxLines={2}>
 										{row.project.endDate && row.project.endDate.slice(0, 10)}
@@ -296,6 +296,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 									</Ellipsis>
 								</CustomTableCell>
 								<CustomTableCell
+									onClick={() => this.handleSelectProject(row.id)}
 									component="th"
 									scope="row"
 								>
