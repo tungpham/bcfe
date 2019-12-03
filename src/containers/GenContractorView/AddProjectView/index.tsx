@@ -513,38 +513,33 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                         </TableHead>
                         <TableBody>
                             {this.state.compltedArray.map((data: any) => (
-                                <TableRow className="" key={data.project.id} hover>
+                                <TableRow className="" key={data.project.id} hover onClick={() => this.handleSelectProject(data.project.id)}>
                                     <CustomTableCell
                                         component="th"
-                                        onClick={() => this.handleSelectProject(data.project.id)}
                                         scope="row">
                                         <Ellipsis maxLines={2}>{data.project.title}</Ellipsis>
                                     </CustomTableCell>
 
                                     <CustomTableCell
                                         align="center"
-                                        onClick={() => this.handleSelectProject(data.project.id)}
                                     >
                                         {data.contractor.address.name}
                                     </CustomTableCell>
 
                                     <CustomTableCell
                                         align="center"
-                                        onClick={() => this.handleSelectProject(data.project.id)}
                                     >
                                         {data.contractor.address.city}
                                     </CustomTableCell>
 
                                     <CustomTableCell
                                         align="center"
-                                        onClick={() => this.handleSelectProject(data.project.id)}
                                     >
                                         ${data.project.budget}
                                     </CustomTableCell>
 
                                     <CustomTableCell
                                         align="center"
-                                        onClick={() => this.handleSelectProject(data.project.id)}
                                     >
                                         {data.project.submittedDate && data.project.submittedDate.slice(0, 10)}
                                         <div className="time">{data.project.submittedDate && data.project.submittedDate.slice(10, 19)}&nbsp;{data.project.submittedDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
@@ -552,7 +547,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
                                     <CustomTableCell
                                         align="center"
-                                        onClick={() => this.handleSelectProject(data.project.id)}
+
                                     >
                                         {data.project.submittedDate && data.project.submittedDate.slice(0, 10)}
                                         <div className="notDisplayFlex">
@@ -566,7 +561,6 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
                                     <CustomTableCell
                                         align="center"
-                                        onClick={() => this.handleSelectProject(data.project.id)}
                                     ><Ellipsis maxLines={2}>
                                             {removeMd(data.project.description)}
                                         </Ellipsis>
