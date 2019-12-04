@@ -489,6 +489,10 @@ body::-webkit-scrollbar {
   justify-content: 'space-between';
   padding: '0px 30px';
 }
+  
+.MuiTablePagination-selectIcon{
+  top: -2px !important;
+}
 main.makeStyles-contentWrapper{
   margin-top: 40px !important;
 }
