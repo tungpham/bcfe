@@ -478,7 +478,7 @@ svg.MuiSvgIcon-root.MuiTableSortLabel-icon.MuiTableSortLabel-iconDirectionAsc {
   font-size: 18px !important;
 }
 body::-webkit-scrollbar {
-  width: 3px;  /* remove scrollbar space */
+  width: 0px;  /* remove scrollbar space */
   background: transparent;  /* optional: just make scrollbar invisible */
 }
 
