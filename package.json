@@ -53,7 +53,6 @@
   },
   "homepage": "",
   "scripts": {
-    "predeploy":"npm run build",
     "deploy": "aws --profile bc s3 sync dist/ s3://bcfe",
     "start": "react-scripts start",
     "build": "react-scripts build",

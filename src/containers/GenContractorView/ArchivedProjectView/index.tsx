@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux';
