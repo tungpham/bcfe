@@ -221,7 +221,7 @@ svg.MuiSvgIcon-root.profiledropdown {
   border-radius: 4px;
   width: 300px !important;
   margin-top: 50px;
-    position: initial;
+  position: initial;
 }
 .sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary {
   border-right: 1px solid gray !important;
@@ -311,7 +311,7 @@ header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic
   border-radius: 4px;
   width: 300px !important;
   margin-top: 50px;
-    position: initial;
+  position: initial;
 }
 
 .sub-header-tab a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary {
@@ -499,5 +499,11 @@ main.makeStyles-contentWrapper{
  
 table.MuiTable-root.sub-table-margin{
   margin-top: 0px !important;
+}
+header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.beforeloginheader.MuiAppBar-colorPrimary{
+  position: unset !important;
+}
+main.makeStyles-mainWrapper{
+  margin-top: 50px !important;
 }
   

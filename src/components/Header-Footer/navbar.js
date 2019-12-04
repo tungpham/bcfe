@@ -16,7 +16,7 @@ function NavBar() {
     return (
         <div style={{marginBottom:'-4%'}}>
             <AppBar position="static"  className="beforeloginheader">
-                <Toolbar>
+                <Toolbar style={{position:'unset'}}>
                     <Button className="btn default" color="inherit">
                         Logo Placeholder
                     </Button>
