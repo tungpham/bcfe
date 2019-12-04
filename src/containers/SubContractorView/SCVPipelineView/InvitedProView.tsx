@@ -220,7 +220,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		}
 		return (
 			<Box className={classes.root}>
-				<Table>
+				<Table className="sub-table-margin"> 
 					<TableHead>
 						<TableRow>
 							<CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>

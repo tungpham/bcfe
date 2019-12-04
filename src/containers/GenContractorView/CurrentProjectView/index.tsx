@@ -209,7 +209,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
 
         return (
             <Box>
-                <Table>
+                <Table className="sub-table-margin">
                     <TableHead>
                         <TableRow>
                             <CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>

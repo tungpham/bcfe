@@ -206,7 +206,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		console.log("awa", this.state.awardData);
 		return (
 			<Box className={classes.root}>
-				<Table>
+				<Table className="sub-table-margin">
 					<TableHead>
 						<TableRow>
 							<CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
