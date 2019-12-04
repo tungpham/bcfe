@@ -142,7 +142,7 @@ strong {
 @media only screen and (max-width: 600px) {
   .MuiContainer-root {
     width: 100%;
-    padding-left: 3.5% !important;
+    padding-left:50px !important;
   }
   .MuiGrid-root.row {
     display: block;

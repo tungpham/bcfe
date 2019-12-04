@@ -185,7 +185,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                 ]}
                 init={tab}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0px 30px', margin: '10px 0px' }}>
+            <div className="gen-contractor-add-btn" style={{ display: 'flex', justifyContent: 'space-between', padding: '0px 30px', margin: '10px 0px' }}>
                 <TextField
                     id="outlined-start-adornment"
                     placeholder="Search"

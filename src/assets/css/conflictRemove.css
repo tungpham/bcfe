@@ -17,7 +17,7 @@ input#input {
 }
 .MuiContainer-root.AppRouterConnect-container-5 {
   background: white !important;
-  padding-top: 4%;
+  padding-top: 30px;
   min-height: 424px !important;
 }
 .AppRouterConnect-content-4 {
@@ -51,6 +51,7 @@ button.MuiButtonBase-root.MuiIconButton-root {
 header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary {
   /* background-color: white; */
   color: black;
+  position: fixed;
 }
 button.MuiButtonBase-root.MuiIconButton-root.Rating-iconButton-319.Rating-readOnly-322 {
   padding: 3px !important;
