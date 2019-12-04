@@ -116,6 +116,7 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps> {
                             indicatorColor="primary"
                             textColor="primary"
                             scrollButtons="off"
+                            style={{borderBottom: "1px solid rgb(247, 247, 247"}}
                             className={classes.toolbarstyle}
                         >
                             <Tab
