@@ -1,5 +1,6 @@
 import React from 'react';
-
+// import '../src/index.scss';
+// import '../src/components/Calendar/style.scss';
 import { ThemeProvider } from '@material-ui/styles';
 import theme     from './config/theme';
 import AppRouter from './routers/AppRouter';

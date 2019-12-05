@@ -489,7 +489,7 @@ class ProposalDetailView extends React.Component<IProposalDetailViewProps, IProp
         editable = editable || (match.url.includes('/s_cont') && status !== 'AWARDED');
         return (
             <Paper square>
-                <Box style={{ display: 'flex' }}>
+                <Box style={{ display: 'flex' , marginTop:'50px' ,borderBottom: '1px solid #f7f7f7'}} >
                     <IconButton onClick={this.handleBack}>
                         <ArrowBackIcon />
                     </IconButton>
