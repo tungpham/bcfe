@@ -33,14 +33,14 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps> {
         let tab = tabPaths.indexOf(location.pathname);
         if (tab < 0) tab = 0
         return (
-            <Box className="">
-                <div className="sub-header-tab" style={{ justifyContent: 'space-between', display: 'flex', padding: '0px 30px', margin: '10px 0px' }}>
+            <Box className="" style={{position:'fixed',width:'98%',marginTop:'60px'}}>
+                <div className="sub-header-tab" style={{ justifyContent: 'space-between', display: 'flex', padding: '0px 30px' }}>
                     <CustomTabs
                         init={tab}
                         tabs={[
                             {
                                 href: tabPaths[0],
-                                label: 'Submited',
+                                label: 'Submitted',
                             },
                             {
                                 href: tabPaths[1],
@@ -56,6 +56,7 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps> {
                         id="outlined-start-adornment"
                         placeholder="Search"
                         className="gensearch"
+                        
                         InputProps={{
                             startAdornment: <InputAdornment position="start"><SearchIcon className="searchicon" /></InputAdornment>,
                         }}

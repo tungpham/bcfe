@@ -185,7 +185,8 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                 ]}
                 init={tab}
             />
-            <div className="gen-contractor-add-btn" style={{ display: 'flex', justifyContent: 'space-between', padding: '0px 30px', margin: '10px 0px' }}>
+          <div style={{position:'fixed',backgroundColor:'white',width:'98%',zIndex:10}}>
+          <div className="gen-contractor-add-btn" style={{ display: 'flex', justifyContent: 'space-between', padding: '0px 30px ' , margin: '20px 0px',position:'fixed' }}>
                 <TextField
                     id="outlined-start-adornment"
                     placeholder="Search"
@@ -197,7 +198,8 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                 />
                 <Button onClick={handleOpen} color="default" variant="contained"  ><AddIcon className="Addicon" />Add Project</Button>
             </div>
-            <Box style={{ height: 'calc(100vh - 64px - 56px)', paddingTop: '8px', overflow: 'auto' }}>
+          </div>
+            <Box style={{ height: 'calc(100vh - 64px - 56px)', paddingTop: '10%', overflow: 'auto' }}>
                 <Switch >
                     <SecuredRoute
                         path={`${match.url}/current_pros`}
