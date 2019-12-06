@@ -231,7 +231,7 @@ class ContractorSpecialties extends React.Component<IContractorSpecialtiesProps,
         }
 
         return (
-            <Box className={classes.root}>
+            <Box className={classes.root} style={{marginTop:'60px'}}>
                 {edit && (
                     <Box className={classes.specialty}>
                         <Select
@@ -273,7 +273,7 @@ class ContractorSpecialties extends React.Component<IContractorSpecialtiesProps,
                 )}
 
                 <Box className={classes.tableWrap}>
-                    <Table>
+                    <Table >
                         <TableHead>
                             <TableRow>
                                 <CustomTableCell>Name</CustomTableCell>

@@ -153,7 +153,7 @@ class ContractorWorkHistory extends React.Component<IContractorWorkHistoryProps,
         return (
             <Box className={classes.root}>
                 <Paper square>
-                    <List aria-label='contractor-history'>
+                    <List aria-label='contractor-history' style={{marginTop:'30px'}}>
                         <ListItem>
                             <Box className={classes.fullWidth}>
                                 <IconButton

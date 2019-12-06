@@ -90,7 +90,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
 
         return (
             <Paper square className={classes.root}>
-                <Table>
+                <Table style={{marginTop:'40px'}}>
                     <TableHead>
                         <TableRow>
                             <CustomTableCell> Project Title </CustomTableCell>

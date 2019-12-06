@@ -144,7 +144,7 @@ class ContractorFiles extends React.Component<IContractorFilesProps, IContractor
 
         return (
             <Box className={classes.root}>
-                <Table>
+                <Table style={{marginTop:'40px'}}>
                     <TableHead>
                         <TableRow>
                             <CustomTableCell align="center">Name</CustomTableCell>

@@ -261,7 +261,7 @@ class ContractorInfoView extends React.Component<IContractorInfoViewProps, ICont
         return (
             <Box className={classes.root}>
                 <Paper square>
-                    <List aria-label='contractor-detail'>
+                    <List aria-label='contractor-detail' style={{marginTop:'40px'}}>
                         <ListItem button={false}>
                             <Box className={classes.brief}>
                                 <Typography className={clsx(classes.left, classes.title)}>

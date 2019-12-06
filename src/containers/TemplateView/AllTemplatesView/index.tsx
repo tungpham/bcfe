@@ -201,7 +201,7 @@ class AllTemplateView extends Component<ConnAllTemplateViewProps, ConnAllTemplat
 
 		return (
 			<Paper className={classes.root}>
-				<Table>
+				<Table style={{marginTop:'40px'}}>
 					<TableHead>
 						<TableRow>
 							<CustomTableCell>Name</CustomTableCell>

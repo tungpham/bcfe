@@ -220,7 +220,7 @@ class AllContractorsView extends React.Component<IAllContractorsViewProps, IAllC
 
         return (
             <Box className={classes.root}>
-                <Table>
+                <Table style={{marginTop:'40px'}}>
                     <TableHead>
                         <TableRow>
                             <CustomTableCell> Contractor Email </CustomTableCell>

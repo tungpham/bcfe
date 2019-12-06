@@ -125,7 +125,7 @@ export class SpecialtyDetailView extends Component<ISpecialtyDetailViewProps, IS
 		}
 
 		return (
-			<Container fixed className={classes.root}>
+			<Container fixed className={classes.root} style={{marginTop:'50px'}}>
 				{this.state.isBusy && <CircularProgress className={classes.busy} />}
 				<Paper className={classes.descTag}>
 					<TextField

@@ -36,7 +36,7 @@ const SpecTableView: React.SFC<ISpecTableViewProps> = props => {
 	const classes = useStyles({});
 	const { specialties, handleAdd, handleDelete, handleSelect } = props;
 	return (
-		<Table>
+		<Table style={{marginTop:'40px'}}>
 			<TableHead>
 				<TableRow>
 					<CustomTableCell> Specialty Name </CustomTableCell>

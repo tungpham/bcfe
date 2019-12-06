@@ -339,7 +339,7 @@ class TemplateDetailView extends Component<ITempDetailViewProps, ITempDetailView
 			return <Box>Node not selected</Box>;
 
 		return (
-			<Box className={classes.root}>
+			<Box className={classes.root} style={{marginTop:'50px'}}>
 				<SplitPane split="vertical" minSize={50} defaultSize={400} style={{ position: 'relative' }}>
 					<Paper className={classes.descTag}>
 						{nodeTree && (
