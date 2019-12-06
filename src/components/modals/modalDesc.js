@@ -10,11 +10,12 @@ function ModalDisc(props) {
 
     const handelchange = (e) => {
         const newvalue = e.target.value;
-        const charLength = e.target.value.length;
-        setChar(charLength);
         setvalue(newvalue);
-        props.discCallback(newvalue);
-        props.charCountback(charLength);
+    }
+
+    const getInputValue = () => {
+        var inputVal = document.getElementById("filled-full-width").value;
+        props.discCallback(inputVal);
     }
 
     return (
@@ -28,6 +29,7 @@ function ModalDisc(props) {
                     id="filled-full-width"
                     value={value}
                     onChange={handelchange}
+                    onBlur={getInputValue}
                     style={{ minHeight: '150px', color: ' #bbb' }}
                     rowsMax={10}
                     aria-label="maximum height"

@@ -52,7 +52,6 @@ function HomePageMid() {
     const [getmaterial, setgetmaterial] = useState('');
     const [getdisc, setgetdisc] = useState('');
     const [validation, setvalidation] = useState("");
-    const [getChar, setgetChar] = useState('');
     const [Newdata] = useState([]);
 
     const callback = (value) => {
@@ -75,9 +74,6 @@ function HomePageMid() {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
-    const charCount = (value) => {
-        setgetChar(value);
-    }
     const budjetCallvalue = (value) => {
         setgetbudjetvalue(value);
     }
@@ -94,6 +90,7 @@ function HomePageMid() {
         }
     }
     const discCall = (value) => {
+        console.log(value);
         setgetdisc(value);
     }
     const handleNext = () => {
@@ -102,7 +99,7 @@ function HomePageMid() {
             || (activeStep === 2 && getredio === '')
             || (activeStep === 3 && getarearedio === '')
             || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
-            || (activeStep === 6 && getChar < 40)) {
+            || (activeStep === 6 && getdisc.length < 40)) {
             setvalidation('Please fill the field');
         }
         else {
@@ -459,7 +456,6 @@ function HomePageMid() {
                                                 : activeStep === 5 ? < ModalMaterial
                                                     data={data} MaterialCallback={MaterialCall} errorMessage={validation} />
                                                     : activeStep === 6 ? <ModalDisc
-                                                        charCountback={charCount}
                                                         discCallback={discCall} errorMessage={validation} /> : handleClose()}
                         </Grid>
                         <MobileStepper
