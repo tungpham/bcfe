@@ -10,6 +10,8 @@ function ModalDisc(props) {
 
     const handelchange = (e) => {
         const newvalue = e.target.value;
+        const charLength = e.target.value.length;
+        setChar(charLength);
         setvalue(newvalue);
     }
 
