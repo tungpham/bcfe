@@ -204,13 +204,13 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     render() {
         const { classes, projects } = this.props;
 
-        if (!projects) {
+        if (!projects && this.state.compltedArray.length===0) {
             return <CircularProgress className={classes.waitingSpin} />;
         }
 
         return (
             <Box>
-                <Table className="sub-table-margin" style={{marginTop:'2%'}}>
+                <Table className="sub-table-margin" style={{marginTop:'30px'}}>
                     <TableHead>
                         <TableRow>
                             <CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>

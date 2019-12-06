@@ -485,7 +485,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         return (
             <div>
                 <Box>
-                    <Table className="sub-table-margin" style={{marginTop:'2%'}}>
+                    <Table className="sub-table-margin" style={{marginTop:'30px'}}>
                         <TableHead>
                             <TableRow>
                                 <CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
