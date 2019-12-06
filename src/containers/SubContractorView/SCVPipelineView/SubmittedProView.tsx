@@ -229,7 +229,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		}
 		return (
 			<Box className={classes.root}>
-				<Table className={classes.table}>
+				<Table className={classes.table} style={{marginTop:'40px'}}>
 					<TableHead>
 						<TableRow>
 							<CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>

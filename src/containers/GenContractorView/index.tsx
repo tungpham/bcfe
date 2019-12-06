@@ -54,15 +54,12 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     const [validation, setvalidation] = useState("");
     const [getChar, setgetChar] = useState(0);
     const [Newdata] = useState([]);
-
-
-    const theme = useTheme();
-
+ 
+    const theme = useTheme(); 
     const callback = (value) => {
         setgetvalue(value);
     }
-    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck];
-
+    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck]; 
     const serviceCall = (value) => {
         setgetcheck(value);
     }
@@ -199,7 +196,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                 <Button onClick={handleOpen} color="default" variant="contained"  ><AddIcon className="Addicon" />Add Project</Button>
             </div>
           </div>
-            <Box style={{ height: 'calc(100vh - 64px - 56px)', paddingTop: '10%', overflow: 'auto' }}>
+            <Box style={{ height: 'calc(100vh - 64px - 56px)', paddingTop: '75px', overflow: 'auto' }}>
                 <Switch >
                     <SecuredRoute
                         path={`${match.url}/current_pros`}

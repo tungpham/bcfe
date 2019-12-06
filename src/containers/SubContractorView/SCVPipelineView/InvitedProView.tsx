@@ -32,7 +32,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 const styles = createStyles((theme: Theme) => ({
 	root: {
 		position: 'relative',
-		marginTop: '30px',
+		marginTop: '24px',
 		minHeight: 'calc(100vh - 64px - 56px - 16px - 48px)'
 	},
 	row: {

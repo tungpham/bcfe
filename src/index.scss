@@ -497,9 +497,9 @@ main.makeStyles-contentWrapper{
   margin-top: 40px !important;
 }
  
-table.MuiTable-root.sub-table-margin{
-  margin-top: 0px !important;
-}
+// table.MuiTable-root.sub-table-margin{
+//   margin-top: 0px !important;
+// }
 header.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.beforeloginheader.MuiAppBar-colorPrimary{
   position: unset !important;
 }
@@ -517,6 +517,6 @@ a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary{
   position: fixed !important;
 }
 
-.MuiBox-root.MuiBox-root-280{
+.MuiBox-root.MuiBox-root-280, .MuiBox-root.MuiBox-root-3642{
   padding-top: 115px !important;
 }
