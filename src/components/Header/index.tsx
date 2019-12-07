@@ -235,6 +235,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 						}}
 						open={open}
 					>
+						{/* paper: clsx("MuiPaper-root.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft" ,!open && "MuiPaper-root MuiPaper-elevation0 MuiDrawer-paper withRouter(Connect(Header))-drawerPaper-32 withRouter(Connect(Header))-drawerPaperClose-33 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft"), */}
 						<MenuList />
 					</Drawer>
 				</div>

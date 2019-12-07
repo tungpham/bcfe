@@ -471,6 +471,7 @@ th.MuiTableCell-root.MuiTableCell-head.sub-table-col-1{
 }
  
 .MuiPaper-root.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft{
+  position: fixed !important;
 margin-top: 45px !important;
 }
 svg.MuiSvgIcon-root.MuiTableSortLabel-icon.MuiTableSortLabel-iconDirectionDesc,
