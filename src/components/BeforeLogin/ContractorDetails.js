@@ -131,44 +131,22 @@ function ContractorDetails(props) {
         }
     });
     const handleClose = () => {
-        // var apiPath = `/contractors/${Id}/projects`;
-        // if (!localStorage.getItem('User_Id') && activeStep === 7) {
-        //     auth0Client.signIn();
-        // }
-        // else {
-        //     const payload = {
-        //         "title": "hello",
-        //         "description": "description"
-        //     };
-        //     if (payload) {
-        //         Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
-        //             payload, { headers: HttpUrlConstant.headers }).then(response => {
-        //                 // console.log("r", Response.data);
-        //             })
-        //     }
-        // }
-        // setActiveStep(0);
-        // setOpen(false);
-
+        var apiPath = `/contractors/${Id}}/projects`;
+        const payload = {
+            "title": "A project",
+            "description": getdisc,
+            "budget": Number(getbudjet),
+            "endDate": new Date(),
+        };
         var popupModalArray = [{ "modalTitle": "A project", "getbudjet": getbudjet, "getbudjetvalue": getbudjet, "description": getdisc, "budgetCustomValue":getbudjetvalue }];
         localStorage.setItem("modalData", JSON.stringify(popupModalArray));
-        if (!localStorage.getItem('User_Id') && activeStep === 7) {
-            auth0Client.signIn();
-            var apiPath = `/contractors/${Id}/projects`;
-            const payload = {
-                "title": "A project",
-                "description": getdisc,
-                "budget": Number(getbudjet),
-                "endDate": new Date(),
-            };
-            if (payload) {
+        if (activeStep === 7) {
+            localStorage.getItem('User_Id') === null || localStorage.getItem('User_Id') === '' ? auth0Client.signIn():
                 Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
                     payload, { headers: HttpUrlConstant.headers }).then(response => {
                         Newdata.push(response.data);
-                    })
-            }
+                    });
         }
-
         setActiveStep(0);
         setOpen(false);
     };
@@ -237,7 +215,7 @@ function ContractorDetails(props) {
         })
     }
 
-    function handleClick(event) {//call when click on pagination number.
+    function handleClick(event) {
         setcurrentPage(Number(event.target.id))
         setactive(true);
     }
