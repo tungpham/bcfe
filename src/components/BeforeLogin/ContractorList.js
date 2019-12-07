@@ -39,6 +39,7 @@ function ContractorList(props) {
 
     return (<div style={{ marginTop: '-30px' }}>
         <Container className="contractor-list">
+            {contractorData.length ===0 ?<List className="loader">No Data Available!</List>:
             <List className="list">
                 {contractorData.map((cntDetail, index) => {
                     return (
@@ -104,6 +105,7 @@ function ContractorList(props) {
                         </div>)
                 })}
             </List>
+}
         </Container>
     </div>
     )

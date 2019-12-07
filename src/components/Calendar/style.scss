@@ -228,7 +228,8 @@ main.jss4{
   display: block !important;
 }
 .MuiPaper-root.MuiPaper-elevation0.MuiDrawer-paper.jss32.jss33.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft{
-  position: absolute !important;
+  position: fixed !important;
+  top: 0 !important;
 }
 // table.MuiTable-root{
 //   margin-top: 43px;

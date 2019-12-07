@@ -42,7 +42,9 @@ li.MuiListItem-root.list-item.MuiListItem-gutters {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-
+ul.MuiList-root.loader.MuiList-padding {
+  margin: 35%;
+}
 span.views {
   color: rgba(0, 0, 0, 0.54);
   vertical-align: top;
