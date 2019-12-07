@@ -94,9 +94,7 @@ function ContractorDetails(props) {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
-    const charCount = (value) => {
-        setgetChar(value);
-    }
+
     const budjetCallvalue = (value) => {
         setgetbudjetvalue(value);
     }
@@ -133,22 +131,44 @@ function ContractorDetails(props) {
         }
     });
     const handleClose = () => {
-        var apiPath = `/contractors/${Id}/projects`;
+        // var apiPath = `/contractors/${Id}/projects`;
+        // if (!localStorage.getItem('User_Id') && activeStep === 7) {
+        //     auth0Client.signIn();
+        // }
+        // else {
+        //     const payload = {
+        //         "title": "hello",
+        //         "description": "description"
+        //     };
+        //     if (payload) {
+        //         Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
+        //             payload, { headers: HttpUrlConstant.headers }).then(response => {
+        //                 // console.log("r", Response.data);
+        //             })
+        //     }
+        // }
+        // setActiveStep(0);
+        // setOpen(false);
+
+        var popupModalArray = [{ "modalTitle": "A project", "getbudjet": getbudjet, "getbudjetvalue": getbudjet, "description": getdisc, "budgetCustomValue":getbudjetvalue }];
+        localStorage.setItem("modalData", JSON.stringify(popupModalArray));
         if (!localStorage.getItem('User_Id') && activeStep === 7) {
             auth0Client.signIn();
-        }
-        else {
+            var apiPath = `/contractors/${Id}/projects`;
             const payload = {
-                "title": "hello",
-                "description": "description"
+                "title": "A project",
+                "description": getdisc,
+                "budget": Number(getbudjet),
+                "endDate": new Date(),
             };
             if (payload) {
                 Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
                     payload, { headers: HttpUrlConstant.headers }).then(response => {
-                        // console.log("r", Response.data);
+                        Newdata.push(response.data);
                     })
             }
         }
+
         setActiveStep(0);
         setOpen(false);
     };
@@ -159,7 +179,7 @@ function ContractorDetails(props) {
             || (activeStep === 2 && getredio === '')
             || (activeStep === 3 && getarearedio === '')
             || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
-            || (activeStep === 6 && getChar < 40)) {
+            || (activeStep === 6 && getdisc.length < 40)) {
             setvalidation('Please fill the field');
         }
         else {
@@ -597,7 +617,7 @@ function ContractorDetails(props) {
                                                     MaterialCallback={MaterialCall}
                                                     errorMessage={validation} />
                                                     : activeStep === 6 ? <ModalDisc
-                                                        charCountback={charCount} discCallback={discCall}
+                                                     discCallback={discCall}
                                                         errorMessage={validation} /> : handleClose()}
                         </Grid>
                         <MobileStepper

@@ -75,9 +75,9 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
-    const charCount = (value) => {
-        setgetChar(value);
-    }
+    // const charCount = (value) => {
+    //     setgetChar(value);
+    // }
     const budjetCallvalue = (value) => {
         setgetbudjetvalue(value);
     }
@@ -102,7 +102,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
             || (activeStep === 2 && getredio === '')
             || (activeStep === 3 && getarearedio === '')
             || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
-            || (activeStep === 6 && getChar < 40)) {
+            || (activeStep === 6 && getdisc.length < 40)) {
             setvalidation('Please fill the field');
         }
         else {
@@ -263,7 +263,6 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                                                             : activeStep === 5 ? < ModalMaterial
                                                                 data={data} MaterialCallback={MaterialCall} errorMessage={validation} />
                                                                 : activeStep === 6 ? <ModalDisc
-                                                                    charCountback={charCount}
                                                                     discCallback={discCall} errorMessage={validation} /> : handleClose()}</div>
                                     }
                                 </Grid>
