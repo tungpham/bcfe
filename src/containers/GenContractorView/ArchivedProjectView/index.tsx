@@ -235,7 +235,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
         return (
             <Box className={classes.root}>
-                <Table className="sub-table-margin" style={{marginTop:'30px'}}>
+                <Table className="sub-table-margin" style={{marginTop:'40px'}}>
                     <TableHead>
                         <TableRow>
                             <CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
