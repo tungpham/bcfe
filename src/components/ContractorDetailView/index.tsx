@@ -82,8 +82,8 @@ class ContractorDetailView extends React.Component<IContractorDetailViewProps> {
         ];
         const tab = tabPaths.indexOf(location.pathname) % 5;
         return (
-            <Box className={classes.root} style={{paddingTop:'30px'}}>
-                <Box style={{ display: 'flex' }}>
+            <Box className={classes.root} style={{paddingTop:'30px', marginTop: -3}}>
+                <Box style={{ display: 'flex', marginTop: 10 }}>
                     {/* <IconButton className={classes.backBtn} onClick={this.handleBack}>
                         <ArrowBackIcon />
                     </IconButton> */}
