@@ -9,7 +9,9 @@ import HttpUrlConstant from 'apis/global';
 import Axios from 'axios';
 
 class connectedCallback extends Component {
+
 	async componentDidMount() {
+		console.log("Callback");
 		await auth0Client.handleAuthentication();
 		const data = await auth0Client.getUserInfo();
 		this.props.setUserProfileAction(data);
@@ -38,7 +40,10 @@ class connectedCallback extends Component {
 	}
 
 	render() {
-		return <CircularProgress />;
+		// return(<div><CircularProgress color="secondary" /></div>);
+		return(
+			<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+		)
 	}
 }
 
