@@ -300,9 +300,9 @@ select.city {
   /* box-shadow: 0 8px 6px -6px #e1e0e1; */
 }
 .MuiInputBase-root.search {
-  padding-right: 140px;
   padding-top: 5px;
-  padding-bottom: 6px;
+    padding-bottom: 6px;
+    width: 320px;
 }
 button.MuiButtonBase-root.MuiButton-root.MuiButton-text.getstarted {
   white-space: nowrap;
