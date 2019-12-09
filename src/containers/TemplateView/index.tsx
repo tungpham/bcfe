@@ -50,7 +50,7 @@ const TemplatesView: React.SFC<TemplatesViewProps> = (props) => {
 	// if (location.pathname.includes('category_detail')) tab = 2;
 	// if (location.pathname.includes('option_detail')) tab = 3;
 	return (
-		<Box className={classes.root}>
+		<Box className={classes.root} style={{marginTop: -2}}>
 			<CustomNavTabs
 				tabs={[
 					{
