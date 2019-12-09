@@ -224,9 +224,10 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 
 	render() {
 		const { classes } = this.props;
-		if (this.state.submitData.length === 0) {
-			return <CircularProgress className={classes.busy} />
-		}
+
+        if (this.state.submitData.length === 0) {
+            return <CircularProgress className={classes.waitingSpin} />;
+        }
 		return (
 			<Box className={classes.root}>
 				<Table className={classes.table} style={{marginTop:'40px'}}>

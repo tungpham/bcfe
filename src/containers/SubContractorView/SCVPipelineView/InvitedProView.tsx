@@ -216,9 +216,9 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		const { classes } = this.props;
 		const { showMessage, variant, message } = this.state;
 
-		if (this.state.inviteData.length === 0) {
-			return <CircularProgress className={classes.busy} />
-		}
+        if (this.state.inviteData.length === 0) {
+            return <CircularProgress className={classes.waitingSpin} />;
+        }
 		return (
 			<Box className={classes.root}>
 				<Table className="sub-table-margin"> 
