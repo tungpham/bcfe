@@ -37,12 +37,8 @@ import HttpUrlConstant from 'apis/global';
 import { withRouter } from 'react-router-dom';
 import auth0Client from 'services/auth0/auth';
 import Axios from 'axios';
-<<<<<<< HEAD
-import { CircularProgress } from '@material-ui/core/es';
-=======
 import CircularProgress from '@material-ui/core/CircularProgress';
 
->>>>>>> dc96e68691e2acc30eabf7a2446d833ebacc798f
 console.clear();
 
 function ContractorDetails(props) {
