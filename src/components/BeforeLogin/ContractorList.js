@@ -14,6 +14,7 @@ import '../../assets/css/contractorList.css';
 import HttpUrlConstant from '../../apis/global.js';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function ContractorList(props) {
     var apiPath = '/contractors/search';
@@ -39,7 +40,7 @@ function ContractorList(props) {
 
     return (<div style={{ marginTop: '-30px' }}>
         <Container className="contractor-list">
-            {contractorData.length === 0 ? <List className="loader">No Data Available! </List>:
+            {contractorData.length ===0 ?<List className="loader"><CircularProgress/></List>:
             <List className="list">
                 {contractorData.map((cntDetail, index) => {
                     return (
