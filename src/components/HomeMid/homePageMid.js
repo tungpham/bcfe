@@ -75,6 +75,7 @@ function HomePageMid() {
         }
     }
     const budjetCallvalue = (value) => {
+        console.log(value);
         setgetbudjetvalue(value);
     }
     const budjetCall = (value) => {
@@ -90,7 +91,6 @@ function HomePageMid() {
         }
     }
     const discCall = (value) => {
-        console.log(value);
         setgetdisc(value);
     }
     const handleNext = () => {
