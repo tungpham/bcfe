@@ -4,7 +4,6 @@ import auth0Client from './auth';
 
 import { connect } from 'react-redux';
 import { setUserProfile } from 'store/actions/global-actions';
-import { CircularProgress } from '@material-ui/core/es';
 import HttpUrlConstant from 'apis/global';
 import Axios from 'axios';
 

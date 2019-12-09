@@ -37,7 +37,7 @@ import HttpUrlConstant from 'apis/global';
 import { withRouter } from 'react-router-dom';
 import auth0Client from 'services/auth0/auth';
 import Axios from 'axios';
-
+import { CircularProgress } from '@material-ui/core/es';
 console.clear();
 
 function ContractorDetails(props) {
@@ -258,6 +258,7 @@ function ContractorDetails(props) {
 
     return (
         <div style={{ width: '1290px', marginTop: '-30px' }} className="full-width">
+            <div className="loader">{Detailsdata.length === 0 ? <CircularProgress /> : ''}</div>
             {Detailsdata.map((detailsdata) => {
                 return <div key={detailsdata.address.id}
                     className="contractor-details">
