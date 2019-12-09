@@ -111,7 +111,7 @@ class HistoryDetail extends React.Component<IHistoryDetailProps, IHistoryDetailS
 			return <Box className={classes.root}>History Item not selected</Box>
 		}
 		return (
-			<Paper square className={classes.root}>
+			<Paper square className={classes.root} style={{ paddingTop: 40 }}>
 				<List aria-label='contractor-history' style={{ padding: 0 }}>
 					<ListItem button={false} className={classes.titlebar}>
 						<Typography className={classes.title}>
