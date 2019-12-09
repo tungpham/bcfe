@@ -83,7 +83,7 @@ class ContractorDetailView extends React.Component<IContractorDetailViewProps> {
         const tab = tabPaths.indexOf(location.pathname) % 5;
         return (
             <Box className={match.url + '/info' === `/gen-contractor/contractor_detail/${this.props.match.params.id}/info` ? 'cnt-list': 'bidder-list'}>
-                <Box style={{ display: 'flex', marginTop: 10 }}>
+                <Box style={{ display: 'flex', marginTop: 40 }}>
                     {/* <IconButton className={classes.backBtn} onClick={this.handleBack}>
                         <ArrowBackIcon />
                     </IconButton> */}
