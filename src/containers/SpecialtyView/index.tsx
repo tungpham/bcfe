@@ -43,7 +43,7 @@ const SpecialtyView: React.SFC<ISpecialtyViewProps> = (props) => {
     if (location.pathname.includes(tabPaths[1])) tab = 1;
     // console.log(location.pathname, tab);
     return (
-        <Box className={classes.root}>
+        <Box className={classes.root} style={{marginTop:-2}}>
             <CustomTabs
                 init={tab}
                 tabs={[
