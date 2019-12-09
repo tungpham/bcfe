@@ -201,9 +201,9 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		const { classes } = this.props;
 		const { showMessage, variant, message } = this.state;
 
-		if (this.state.awardData.length === 0) {
-			return <div className="nodata">No Data Available!</div>
-		}
+	if (this.state.awardData.length === 0) {
+            return <CircularProgress className={classes.waitingSpin} />;
+        }
 		console.log("awa", this.state.awardData);
 		return (
 			<Box className={classes.root}>
