@@ -25,11 +25,17 @@ function ModalBudjet(props) {
     const handleChange = event => {
         props.budjetCallback(event.target.value);
     };
+
     const handleChangevalue=(e)=>{
         const newvalue = e.target.value;
         setvalue(newvalue);
-        props.budjetCallbackvalue(newvalue);
     }
+
+    const getInputValue = () => {
+        var inputVal = document.getElementById("filled-full-width").value;
+        props.budjetCallbackvalue(inputVal);
+    }
+
     return (
         <Grid className="service-modal-col" item xs={10}>
             <Typography className="city-head-text font-weight text-left" variant="h5">
@@ -44,6 +50,7 @@ function ModalBudjet(props) {
                     margin="normal"
                     value={value}
                     onChange={handleChangevalue}
+                    onBlur={getInputValue}
                     variant="outlined"
                     InputProps={{
                         startAdornment: (
@@ -66,7 +73,6 @@ function ModalBudjet(props) {
                                control={<GreenRadio />}
                                label="I m Not sure"
                                name="radio-button-demo"
-                                
                            />
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
@@ -75,7 +81,6 @@ function ModalBudjet(props) {
                                control={<GreenRadio />}
                                label="Less then $12,000"
                                name="radio-button-demo"
-                              
                            />
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
@@ -84,7 +89,6 @@ function ModalBudjet(props) {
                                control={<GreenRadio />}
                                label="$12000-$50000"
                                name="radio-button-demo"
-                               
                            />
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
@@ -93,7 +97,6 @@ function ModalBudjet(props) {
                                control={<GreenRadio />}
                                label="$50000-$100000"
                                name="radio-button-demo"
-                                
                            />
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
@@ -102,13 +105,11 @@ function ModalBudjet(props) {
                                control={<GreenRadio />}
                                label="More then $10000"
                                name="radio-button-demo"
-                                
                            />
                        </ListItem>
                    </RadioGroup>
                <p className='red'>{props.errorMessage}</p>
            </List>
-            
         </Grid>
     );
 }
