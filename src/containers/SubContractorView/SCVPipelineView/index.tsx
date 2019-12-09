@@ -56,7 +56,6 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps> {
                         id="outlined-start-adornment"
                         placeholder="Search"
                         className="gensearch"
-                        
                         InputProps={{
                             startAdornment: <InputAdornment position="start"><SearchIcon className="searchicon" /></InputAdornment>,
                         }}

@@ -18,7 +18,7 @@ class SCVReportsView extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <Table>
+        <Table style={{marginTop:'40px'}}>
           <TableHead>
             <TableRow>
               <CustomTableCell align="center">A</CustomTableCell>
