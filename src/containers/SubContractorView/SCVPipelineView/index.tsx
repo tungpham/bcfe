@@ -33,7 +33,7 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps> {
         let tab = tabPaths.indexOf(location.pathname);
         if (tab < 0) tab = 0
         return (
-            <Box className="" style={{width:'100%',marginTop:'60px' ,overflow:'auto' ,height:'calc((100vh - 64px) - 56px)' }}>
+            <Box className="" style={{width:'100%',marginTop:'60px' ,overflow:'auto',height:'calc((106vh - 64px) - 56px)' }}>
                 <div className="sub-header-tab" style={{ justifyContent: 'space-between', display: 'flex', padding: '0px 30px' ,paddingBottom:'17px',position:'fixed',width:'100%',zIndex:10 , backgroundColor:'white' , paddingRight:'60px' }}>
                     <CustomTabs
                         init={tab}
