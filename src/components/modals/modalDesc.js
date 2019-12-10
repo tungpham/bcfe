@@ -26,7 +26,7 @@ function ModalDisc(props) {
                 Anything else the pro should know to provide the best service/quote for you?
            </Typography>
 
-            <FormControl className="width100" style={{height:'200px'}}>
+            <FormControl className="width100" style={{height:'215px'}}>
                 <TextareaAutosize
                     id="filled-full-width"
                     value={value}
