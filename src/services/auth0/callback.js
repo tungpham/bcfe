@@ -24,7 +24,7 @@ class connectedCallback extends Component {
 					"title": element.modalTitle,
 					"description": element.description,
 					"budget": Number(element.getbudjetvalue) | Number(element.budgetCustomValue),
-					"endDate": new Date(),
+					"due": new Date(),
 				};
 				if (payload) {
 					Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,

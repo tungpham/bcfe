@@ -67,6 +67,7 @@ function ContractorDetails(props) {
     const [activeStep, setActiveStep] = React.useState(0);
     const [Avtarurl, setAvtarurl] = useState('');
     const [getChar, setgetChar] = useState('');
+    
     const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck];
     const classes = useStyles();
 
@@ -131,26 +132,28 @@ function ContractorDetails(props) {
         }
     });
     const handleClose = () => {
-        var apiPath = `/contractors/${Id}}/projects`;
-        const payload = {
-            "title": "A project",
-            "description": getdisc,
-            "budget": Number(getbudjet),
-            "endDate": new Date(),
-        };
-        var popupModalArray = [{ "modalTitle": "A project", "getbudjet": getbudjet, "getbudjetvalue": getbudjet, "description": getdisc, "budgetCustomValue":getbudjetvalue }];
+        var popupModalArray = [{ "modalTitle": 'A Project', "getbudjet": getbudjet, "getbudjetvalue": getbudjet, "description": getdisc, "budgetCustomValue":getbudjetvalue }];
         localStorage.setItem("modalData", JSON.stringify(popupModalArray));
         if (activeStep === 7) {
-            localStorage.getItem('User_Id') === null || localStorage.getItem('User_Id') === '' ? auth0Client.signIn():
+            auth0Client.signIn();
+            var apiPath = `/contractors/${localStorage.getItem("contractor_ID")}/projects`;
+            const payload = {
+                "title": "A project",
+                "description": getdisc,
+                "budget": Number(getbudjet),
+                "due": new Date(),
+            };
+            if (payload) {
                 Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
                     payload, { headers: HttpUrlConstant.headers }).then(response => {
                         Newdata.push(response.data);
-                    });
+                    })
+            }
         }
+
         setActiveStep(0);
         setOpen(false);
     };
-
     const handleNext = () => {
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
             || (activeStep === 1 && getcheck === false)

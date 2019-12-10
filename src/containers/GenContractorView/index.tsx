@@ -131,7 +131,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                 "title": "A project",
                 "description": getdisc,
                 "budget": Number(getbudjet),
-                "endDate": new Date(),
+                "due": new Date(),
             };
             if (payload) {
                 Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,

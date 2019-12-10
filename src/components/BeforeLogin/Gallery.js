@@ -70,13 +70,13 @@ function Gallery(props) {
         Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId).then((data) => {
             setImagelist(data.data.contractorFiles);
             data.data.contractorFiles.map((i) => {
-              i.type === "PICTURE"  ?  Image.push(i.name) : null
+                i.type === "PICTURE" ? Image.push(i.name) : null
                 setImage(Image);
             })
         })
     }
 
-    console.log("i",Image);
+    console.log("i", Image);
     return (
         <div>
             <Carousel
@@ -101,8 +101,9 @@ function Gallery(props) {
                                 <img alt="no" src={process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId + '/files/' + image.name} alt="past-project"></img>
                             </div>
                         </div>
-                    </div> : null
+                    </div> : image.type === "LINK" ? <iframe frameborder="0" allowfullscreen="1" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" title="YouTube video player" width="256" height="208" src="https://www.youtube.com/embed/sHsFIv8VA7w?enablejsapi=1&amp;origin=http%3A%2F%2Flocalhost%3A4000&amp;widgetid=1" id="widget2"></iframe> : null
                 })}
+                {/* https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DsHsFIv8VA7w */}
             </Carousel>
             <Modal
                 aria-labelledby="simple-modal-title"
