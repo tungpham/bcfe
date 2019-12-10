@@ -31,7 +31,6 @@ const styles = createStyles(theme => ({
     root: {
         flexGrow: 1,
         position: 'relative',
-        minHeight: 'calc(100vh - 64px - 56px - 8px)'
     },
     row: {
         cursor: 'pointer',
