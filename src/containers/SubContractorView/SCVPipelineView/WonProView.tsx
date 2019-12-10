@@ -86,10 +86,10 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/proposals' + `?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
 			this.setState({ awardData: res.data.content })
 		});
-		this.props.getProposals(
-			userProfile.user_metadata.contractor_id,
-			0, 0, 'AWARDED'
-		);
+		// this.props.getProposals(
+		// 	userProfile.user_metadata.contractor_id,
+		// 	0, 0, 'AWARDED'
+		// );
 	}
 	handleChangePage = async (event, page) => {
 		const { userProfile } = this.props;

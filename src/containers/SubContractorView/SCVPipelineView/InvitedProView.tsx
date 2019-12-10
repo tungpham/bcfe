@@ -94,10 +94,10 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 			this.setState({ inviteData: res.data.content })
 			this.setState({ totalLength: res.data.totalElements })
 		});
-		this.props.getInvitedProjects(
-			userProfile.user_metadata.contractor_id,
-			0, 0
-		);
+		// this.props.getInvitedProjects(
+		// 	userProfile.user_metadata.contractor_id,
+		// 	0, 0
+		// );
 	}
 	handleChangePage = async (event, page) => {
 		const { userProfile } = this.props;

@@ -99,8 +99,8 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 			this.setState({ submitData: res.data.content })
 			this.setState({ totalLength: res.data.totalElements })
 		});
-		this.props.getProposals(userProfile.user_metadata.contractor_id,
-			0, 0, 'SUBMITTED');
+		// this.props.getProposals(userProfile.user_metadata.contractor_id,
+		// 	0, 0, 'SUBMITTED');
 	}
 
 	handleChangePage = async (event, page) => {

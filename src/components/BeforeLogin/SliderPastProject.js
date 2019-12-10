@@ -116,7 +116,7 @@ function SliderPastProject(props) {
                         enableMouseEvents>
                         {modalId ?
                             detailsData[modalId].projectFiles.map((step, index) => (
-                                <div className="post-height" key={index}>
+                                <div style={{overflow:'hidden'}} className="post-height" key={index}>
                                     {Math.abs(activeStep - index) <= 2 ? (
                                         <img className="post-slider-img" src={`${HttpUrlConstant.BASE_URL}/projects/${detailsData[modalId].id}/files/${step.name}`} alt={step.label} />
                                     ) : null}
