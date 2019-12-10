@@ -108,9 +108,9 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
 								<Redirect to="/" />
 							</Switch>
 						</Container>
+						{auth0Client.isAuthenticated() === true ? "" : <Footer />}
 					</main>
 				</div>
-				{auth0Client.isAuthenticated() === true ? "" : <Footer />}
 			</>
 		);
 	}

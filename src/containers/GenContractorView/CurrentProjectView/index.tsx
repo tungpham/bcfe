@@ -78,7 +78,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                 this.setState({ compltedArray: data.data.content })
                 this.setState({ totalLength: data.data.totalElements })
             })
-            await this.props.getProjectsByGenId(userProfile.user_metadata.contractor_id, 0, 20);
+            // await this.props.getProjectsByGenId(userProfile.user_metadata.contractor_id, 0, 20);
         } catch (error) {
             console.log(error);
         }
@@ -191,7 +191,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
             bidsOrder = 'asc';
         }
         this.state.compltedArray.sort((a: any, b: any) =>
-            new Date(a.project.endDate) > new Date(b.project.endDate) ? 1 : -1
+            new Date(a.project.due) > new Date(b.project.due) ? 1 : -1
         );
         this.setState({ bidsOrder });
     }
@@ -275,8 +275,8 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                                     align="center"
                                     onClick={() => this.handleSelectProject(data.project.id)}
                                 >
-                                    {data.project.endDate && data.project.endDate.slice(0, 10)}
-                                    <div className="time"> {data.project.endDate && data.project.endDate.slice(10, 19)}&nbsp;{data.project.endDate.slice(10, 13) <= 11 ? "AM" : "PM"}</div>
+                                    {data.project.due ? data.project.due && data.project.due.slice(0, 10) : ''}
+                                    <div className="time"> {data.project.due  ? data.project.due && data.project.due.slice(11, 19) : ''}&nbsp;{data.project.due ? data.project.due.slice(10, 13) <= 11 ? "AM" : "PM" : ''}</div>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"

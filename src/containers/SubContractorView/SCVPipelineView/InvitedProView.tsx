@@ -221,7 +221,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
         }
 		return (
 			<Box className={classes.root}>
-				<Table className="sub-table-margin"> 
+				<Table className="sub-table-margin"  style={{marginTop:'55px'}}> 
 					<TableHead>
 						<TableRow>
 							<CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>

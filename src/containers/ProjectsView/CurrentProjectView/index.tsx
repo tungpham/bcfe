@@ -22,7 +22,6 @@ import { Projects } from 'types/project';
 const styles = theme => createStyles({
     root: {
         flexGrow: 1,
-        height: 'calc(100vh - 64px - 55px - 16px)',
         overflow: 'auto'
     },
     waitingSpin: {

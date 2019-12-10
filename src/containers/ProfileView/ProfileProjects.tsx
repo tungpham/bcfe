@@ -312,7 +312,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                                 />
                                                 {projectInFocus === item.id && (
                                                     <IconButton
-                                                        style={{ position: 'absolute', right: 0, top: 0 }}
+                                                        style={{ position: 'absolute', right: 12, top: 2 }}
                                                         color="primary"
                                                         onClick={(e) => this.handleDelProject(e, item.id)}
                                                     >

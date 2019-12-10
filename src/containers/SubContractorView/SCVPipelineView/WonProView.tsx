@@ -147,7 +147,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 				userProfile.user_metadata.contractor_id,
 				curPage,
 				this.state.rowsPerPage,
-				'AWARDED'
+				'INACTIVE'
 			);
 
 			this.setState({
@@ -202,12 +202,12 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		const { showMessage, variant, message } = this.state;
 
 	if (this.state.awardData.length === 0) {
-            return <CircularProgress className={classes.waitingSpin} />;
+            return <div className="nodata">No Data Available!</div>;
         }
 		console.log("awa", this.state.awardData);
 		return (
 			<Box className={classes.root}>
-				<Table className="sub-table-margin">
+				<Table className="sub-table-margin" style={{marginTop:'55px'}}>
 					<TableHead>
 						<TableRow>
 							<CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
