@@ -187,7 +187,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                     placeholder="Search"
                     className="gensearch"
                     InputProps={{
-                        startAdornment: <InputAdornment position="start"><SearchIcon className="searchicon" /></InputAdornment>,
+                        startAdornment: <InputAdornment style={{height:40}} position="start"><SearchIcon className="searchicon" /></InputAdornment>,
                     }}
                     variant="outlined"
                 />

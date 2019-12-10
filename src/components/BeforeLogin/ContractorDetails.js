@@ -395,7 +395,7 @@ function ContractorDetails(props) {
                     <Divider />
                     <div className="gallery" ref={galleryref} >
                         <h3 className="photos">Photos and Videos</h3>
-                        <span style={{ color: '#878c90', fontSize: '15px' }}>15 photos</span>
+                        <span style={{ color: '#878c90', fontSize: '15px' }}>{detailsdata.contractorFiles.length} photos</span>
 
                         <div className="gallery-slider">
                             <Gallery Idprops={Id} />
