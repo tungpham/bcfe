@@ -212,7 +212,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 					position="absolute"
 					className={clsx(classes.appBar, open && classes.appBarShift)}
 					style={{ boxShadow: 'none', backgroundColor: 'white' }}>
-					<Toolbar className="myheader">
+					<Toolbar className="myheader" style={{minHeight:47}}>
 						<Typography
 							component="h1"
 							variant="h6"

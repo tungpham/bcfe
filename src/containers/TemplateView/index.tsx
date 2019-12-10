@@ -19,7 +19,6 @@ import TempDetailView from './TempDetailView';
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
 		flexGrow: 1,
-		minHeight: 'calc(100vh - 64px - 56px)'
 	},
 	contentWrapper: {
 		paddingTop: theme.spacing(1),

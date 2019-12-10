@@ -18,11 +18,9 @@ import { UserProfile } from 'types/global'
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
-		height: 'calc(100vh - 64px)',
 		overflow: 'auto',
 	},
 	contentWrapper: {
-		height: 'calc(100vh - 64px - 56px)',
 		paddingTop: theme.spacing(1)
 	},
 	buttonAdditional: {

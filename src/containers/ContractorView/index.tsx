@@ -17,7 +17,6 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1
     },
     contentWrapper: {
-        height: 'calc(100vh - 64px - 56px)',
         paddingTop: theme.spacing(1),
         overflow: 'auto'
     },
