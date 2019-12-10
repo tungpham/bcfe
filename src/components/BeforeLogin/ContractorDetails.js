@@ -140,7 +140,7 @@ function ContractorDetails(props) {
             const payload = {
                 "title": "A project",
                 "description": getdisc,
-                "budget": Number(getbudjet),
+                "budget":  Number(getbudjet) ?  Number(getbudjet) : getbudjetvalue,
                 "due": new Date(),
             };
             if (payload) {
