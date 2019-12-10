@@ -217,7 +217,7 @@ class ProfilePhotos extends React.Component<IProfilePhotosProps, IProfilePhotosS
                                                 />
                                                 {(hover === photo.id) && (
                                                     <IconButton
-                                                        style={{ position: 'absolute', right: 0, top: 0 }}
+                                                        style={{ position: 'absolute', right: 12, top: 2, fontSize:12 }}
                                                         color="primary"
                                                         onClick={() => this.handleDelete(photo.id)}
                                                     >
@@ -259,7 +259,7 @@ class ProfilePhotos extends React.Component<IProfilePhotosProps, IProfilePhotosS
                                                 />
                                                 {(hover === video.id) && (
                                                     <IconButton
-                                                        style={{ position: 'absolute', right: 0, top: 0 }}
+                                                        style={{ position: 'absolute', right: 12, top: 2, fontSize:12}}
                                                         color="primary"
                                                         onClick={() => this.handleDelete(video.id)}
                                                     >
