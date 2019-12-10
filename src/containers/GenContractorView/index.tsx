@@ -75,9 +75,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
-    // const charCount = (value) => {
-    //     setgetChar(value);
-    // }
+
     const budjetCallvalue = (value) => {
         setgetbudjetvalue(value);
     }
@@ -160,7 +158,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     if (location.pathname.includes('archived')) tab = 2;
 
     return (
-        <Box style={{ flexGrow: 1, backgroundColor: 'white', color: '#68e191' }}>
+        <Box style={{ flexGrow: 1, backgroundColor: 'white', color: '#68e191' ,height:'calc((111vh - 64px) - 56px)'}}>
             <CustomTabs
                 tabs={[{
                     className: 'icon-size',
