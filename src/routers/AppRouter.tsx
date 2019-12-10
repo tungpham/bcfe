@@ -81,7 +81,7 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
 			<>
 				<div className={auth0Client.isAuthenticated() === true ? classes.root : 'beforeLogin'}>
 					{auth0Client.isAuthenticated() === false ? <Header /> : <AfterLoginHeader />}
-					<main className={classes.content}>
+					<main className={classes.content} style={{minHeight:47}}>
 						<div className={classes.appBarSpacer} />
 						<Container className={classes.container} maxWidth={false}>
 							<Switch>

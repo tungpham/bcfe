@@ -52,7 +52,6 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     const [getmaterial, setgetmaterial] = useState('');
     const [getdisc, setgetdisc] = useState('');
     const [validation, setvalidation] = useState("");
-    const [getChar, setgetChar] = useState(0);
     const [Newdata] = useState([]);
  
     const theme = useTheme(); 

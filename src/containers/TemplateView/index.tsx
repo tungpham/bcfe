@@ -75,7 +75,7 @@ const TemplatesView: React.SFC<TemplatesViewProps> = (props) => {
 				]}
 				value={tab}
 			/>
-			<main className={classes.contentWrapper}>
+			<main className={classes.contentWrapper} style={{minHeight:47}}>
 				<Switch>
 					<SecuredRoute
 						path={`${match.url}/all_templates`}

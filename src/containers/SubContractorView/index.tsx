@@ -94,7 +94,7 @@ const SubContractorView: React.SFC<ISubContractorViewProps> = (props) => {
                     tabs={tabs}
                     init={tab}
                 />
-                <main className={classes.mainWrapper}>
+                <main className={classes.mainWrapper} style={{minHeight:47}}>
                     <Switch>
                         <SecuredRoute
                             path={`${match.url}/pipeline`}

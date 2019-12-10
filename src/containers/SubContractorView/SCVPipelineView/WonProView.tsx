@@ -25,7 +25,7 @@ const styles = createStyles(theme => ({
 	root: {
 		position: 'relative',
 		marginTop: '24px',
-		minHeight: 'calc(100vh - 64px - 56px - 16px - 48px)'
+		minHeight: '47px'
 	},
 	row: {
 		'&:nth-of-type(odd)': {
