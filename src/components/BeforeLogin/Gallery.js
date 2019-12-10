@@ -52,7 +52,7 @@ function Gallery(props) {
 
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
-    const maxSteps = imagelist.length;
+    const maxSteps = Image.length;
 
     const handleNext = () => {
         setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -70,11 +70,13 @@ function Gallery(props) {
         Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId).then((data) => {
             setImagelist(data.data.contractorFiles);
             data.data.contractorFiles.map((i) => {
-                Image.push(i.name);
+              i.type === "PICTURE"  ?  Image.push(i.name) : null
                 setImage(Image);
             })
         })
     }
+
+    console.log("i",Image);
     return (
         <div>
             <Carousel
@@ -93,13 +95,13 @@ function Gallery(props) {
                 dotListClass="custom-dot-list-style"
                 itemClass="carousel-item-padding-40-px">
                 {imagelist.map((image) => {
-                    return <div key={image.name}>
+                    return image.type === "PICTURE" ? <div key={image.name}>
                         <div className="">
                             <div className="slider-gallery-img" onClick={handleOpen}>
                                 <img alt="no" src={process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId + '/files/' + image.name} alt="past-project"></img>
                             </div>
                         </div>
-                    </div>
+                    </div> : null
                 })}
             </Carousel>
             <Modal
