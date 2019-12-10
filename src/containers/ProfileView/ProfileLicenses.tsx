@@ -222,7 +222,7 @@ class ProfileLicense extends React.Component<IProfileLicenseProps, IProfileLicen
                                                 />
                                                 {licInFocus === item.id && (
                                                     <IconButton
-                                                        style={{ position: 'absolute', right: 0, top: 0 }}
+                                                        style={{ position: 'absolute', right: 12, top: 2 }}
                                                         color="primary"
                                                         onClick={(e) => this.handleDelLicense(e, item.id)}
                                                     >

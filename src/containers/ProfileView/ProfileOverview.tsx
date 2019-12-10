@@ -172,8 +172,8 @@ const ProfileOverview: React.FC<ProfileOverviewProps> = props => {
                     </Box>
                 </ListItem>
                 <Divider className={classes.divider} />
-                <ListItem style={{ width: '100%' }}>
-                    <Box className={classes.row}>
+                <ListItem style={{ width: '100%' }} >
+                    <Box className={classes.row} style={{ paddingTop:0 }}>
                         <InfoView
                             label={'Website'}
                             content={profile.address.website}
