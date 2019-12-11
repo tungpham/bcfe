@@ -309,7 +309,7 @@ function ContractorDetails(props) {
                             <Grid item lg={6} className="overview">
                                 <h3 className="Introduction-title"> Overview</h3>
                                 <List>
-                                    <ListItem className="icons-overview">
+                                    <ListItem className="icons-overview" key={detailsdata.numberOfHires}>
                                         <span className="icons">
                                             <i className="fa fa-trophy" aria-hidden="true"></i>
                                         </span>
@@ -318,7 +318,7 @@ function ContractorDetails(props) {
                                     {
                                         detailsdata.address.backgroundChecked ?
                                             <div>
-                                                <ListItem className="icons-overview">
+                                                <ListItem className="icons-overview" key={detailsdata.address.backgroundChecked}>
                                                     <span className="icons"><PersonOutlineSharpIcon id="matrial-icon" /></span>
                                                     <span className="icon-text">Background Checked</span>
                                                 </ListItem>
@@ -327,7 +327,7 @@ function ContractorDetails(props) {
                                     {
                                         detailsdata.licenseVerified ?
                                             <div>
-                                                <ListItem className="icons-overview">
+                                                <ListItem className="icons-overview" key={detailsdata.licenseVerified}>
                                                     <span className="icons"><VerifiedUserOutlinedIcon id="matrial-icon" /></span>
                                                     <span className="icon-text">License Verified</span>
                                                 </ListItem>

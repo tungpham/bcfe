@@ -110,6 +110,7 @@ function Gallery(props) {
                             //     autoplay: 1
                             // }
                         }}
+                        key={image.name}
                     /> : null
                 })}
                 {/* https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DsHsFIv8VA7w */}
