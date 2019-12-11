@@ -367,10 +367,10 @@ function ContractorDetails(props) {
                                             {
                                                 detailsdata.contractorFiles.map((type) => {
                                                     return (<>
-                                                        {type.type === "TWITTER" ? <a className="socialmediallink" href={decodeURIComponent(type.name)}>Twitter</a> : ''}
-                                                        {type.type === "INSTAGRAM" ? <a className="socialmediallink" href={decodeURIComponent(type.name)}>Instagram</a> : ''}
-                                                        {type.type === "FACEBOOK" ? <a className="socialmediallink" href={decodeURIComponent(type.name)}>Facebook</a> : ''}
-                                                        {type.type === "LINKEDIN" ? <a className="socialmediallink" href={decodeURIComponent(type.name)}>LinkedIn</a> : ''}
+                                                        {type.type === "TWITTER" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Twitter</a> : ''}
+                                                        {type.type === "INSTAGRAM" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Instagram</a> : ''}
+                                                        {type.type === "FACEBOOK" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Facebook</a> : ''}
+                                                        {type.type === "LINKEDIN" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">LinkedIn</a> : ''}
                                                     </>)
 
                                                 })
