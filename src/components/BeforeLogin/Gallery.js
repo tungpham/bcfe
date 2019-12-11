@@ -131,11 +131,7 @@ function Gallery(props) {
                             index={activeStep}
                             onChangeIndex={handleStepChange}
                             enableMouseEvents>
-<<<<<<< HEAD
-                            {imagelist.map((step, index) => ( 
-=======
                             {Image.map((step, index) => (
->>>>>>> fb21c3c794f9aeea4763ea8bee804601eabee74f
                                 <div key={index} className="steeper">
                                     {Math.abs(activeStep - index) <= 2 ? (
                                         <img className="" src={step.imgPath} alt={step.label} />
