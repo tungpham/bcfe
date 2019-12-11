@@ -65,10 +65,11 @@ export default class AutoComplete extends React.Component {
 
     renderSuggestions() {
         const { suggestion } = this.state;
-        return (<ul className="myList" id='test'>
+        if(suggestion){
+            return(<ul className="myList" id='test'>
             {suggestion.map((item) => <li key={item} onClick={this.getitem} className="sug-li" style={{ cursor: 'pointer' }} value={item}>{item}</li>)}
-        </ul>
-        )
+        </ul>)
+        }
     }
 
     render() {
