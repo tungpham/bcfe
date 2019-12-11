@@ -46,7 +46,6 @@ const theme = createMuiTheme({
 			root: {
 				position: 'relative',
 				left: 'calc(50% - 16px)',
-				top: 'calc(50% - 16px)',
 				zIndex: '2000',
 				top: '100px',
 			}

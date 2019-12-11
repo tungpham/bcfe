@@ -5,11 +5,12 @@ import 'react-multi-carousel/lib/styles.css';
 import Modal from '@material-ui/core/Modal';
 import { useTheme } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
-import Paper from '@material-ui/core/Paper';
+import Youtube from 'react-youtube';
 import Button from '@material-ui/core/Button';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import Axios from 'axios';
+import queryString from 'query-string';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -77,7 +78,6 @@ function Gallery(props) {
             })
         })
     }
- 
     return (
         <div>
             <Carousel
@@ -102,7 +102,17 @@ function Gallery(props) {
                                 <img alt="no" src={process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId + '/files/' + image.name} alt="past-project"></img>
                             </div>
                         </div>
-                    </div> : image.type === "LINK" ? <iframe frameborder="0" allowfullscreen="1" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" title="YouTube video player" width="180" height="200" src="https://www.youtube.com/embed/sHsFIv8VA7w?enablejsapi=1&amp;origin=http%3A%2F%2Flocalhost%3A4000&amp;widgetid=1" id="widget2"></iframe> : null
+                    </div> : image.type === "LINK" ? <Youtube
+                        videoId={(queryString.parse((new URL(decodeURIComponent(image.name))).search))['v']}
+                        opts={{
+                            width: 180,
+                            height: 208,
+                            // playerVars: { // https://developers.google.com/youtube/player_parameters
+                            //     autoplay: 1
+                            // }
+                        }}
+                        key={image.name}
+                    /> : null
                 })}
                 {/* https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DsHsFIv8VA7w */}
             </Carousel>
@@ -121,7 +131,11 @@ function Gallery(props) {
                             index={activeStep}
                             onChangeIndex={handleStepChange}
                             enableMouseEvents>
+<<<<<<< HEAD
                             {imagelist.map((step, index) => ( 
+=======
+                            {Image.map((step, index) => (
+>>>>>>> fb21c3c794f9aeea4763ea8bee804601eabee74f
                                 <div key={index} className="steeper">
                                     {Math.abs(activeStep - index) <= 2 ? (
                                         <img className="" src={step.imgPath} alt={step.label} />

@@ -66,7 +66,6 @@ function ContractorDetails(props) {
     const [material, setMaterial] = useState("");
     const [activeStep, setActiveStep] = React.useState(0);
     const [Avtarurl, setAvtarurl] = useState('');
-    const [getChar, setgetChar] = useState('');
     
     const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck];
     const classes = useStyles();
@@ -78,7 +77,6 @@ function ContractorDetails(props) {
     const callback = (value) => {
         setgetvalue(value);
     }
-
 
     const serviceCall = (value) => {
         setgetcheck(value);
@@ -115,8 +113,6 @@ function ContractorDetails(props) {
         setgetdisc(value);
     }
 
-
-
     function fetchimage() {
         axios.get(`${HttpUrlConstant.BASE_URL}/contractors/${Id}/avatar`).then((data) => {
             if (data.status === 200) {
@@ -131,6 +127,7 @@ function ContractorDetails(props) {
             handleNext();
         }
     });
+
     const handleClose = () => {
         var popupModalArray = [{ "modalTitle": 'A Project', "getbudjet": getbudjet, "getbudjetvalue": getbudjet, "description": getdisc, "budgetCustomValue":getbudjetvalue }];
         localStorage.setItem("modalData", JSON.stringify(popupModalArray));
@@ -312,7 +309,7 @@ function ContractorDetails(props) {
                             <Grid item lg={6} className="overview">
                                 <h3 className="Introduction-title"> Overview</h3>
                                 <List>
-                                    <ListItem className="icons-overview">
+                                    <ListItem className="icons-overview" key={detailsdata.numberOfHires}>
                                         <span className="icons">
                                             <i className="fa fa-trophy" aria-hidden="true"></i>
                                         </span>
@@ -321,7 +318,7 @@ function ContractorDetails(props) {
                                     {
                                         detailsdata.address.backgroundChecked ?
                                             <div>
-                                                <ListItem className="icons-overview">
+                                                <ListItem className="icons-overview" key={detailsdata.address.backgroundChecked}>
                                                     <span className="icons"><PersonOutlineSharpIcon id="matrial-icon" /></span>
                                                     <span className="icon-text">Background Checked</span>
                                                 </ListItem>
@@ -330,14 +327,14 @@ function ContractorDetails(props) {
                                     {
                                         detailsdata.licenseVerified ?
                                             <div>
-                                                <ListItem className="icons-overview">
+                                                <ListItem className="icons-overview" key={detailsdata.licenseVerified}>
                                                     <span className="icons"><VerifiedUserOutlinedIcon id="matrial-icon" /></span>
                                                     <span className="icon-text">License Verified</span>
                                                 </ListItem>
                                             </div> : ''
                                     }
 
-                                    <ListItem className="icons-overview" key={4}>
+                                    <ListItem className="icons-overview" key={detailsdata.address.employees}>
                                         <span className="icons"><PeopleOutlineIcon id="matrial-icon" /> </span>
                                         <span className="icon-text">{detailsdata.address.employees} employees</span>
                                     </ListItem>
@@ -370,10 +367,10 @@ function ContractorDetails(props) {
                                             {
                                                 detailsdata.contractorFiles.map((type) => {
                                                     return (<>
-                                                        {type.type === "TWITTER" ? "Twitter" : ''}
-                                                        {type.type === "INSTAGRAM" ? "Instagram" : ''}
-                                                        {type.type === "FACEBOOK" ? "Facebook" : ''}
-                                                        {type.type === "LINKEDIN" ? "LinkedIn" : ''}
+                                                        {type.type === "TWITTER" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Twitter</a> : ''}
+                                                        {type.type === "INSTAGRAM" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Instagram</a> : ''}
+                                                        {type.type === "FACEBOOK" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Facebook</a> : ''}
+                                                        {type.type === "LINKEDIN" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">LinkedIn</a> : ''}
                                                     </>)
 
                                                 })
