@@ -75,7 +75,6 @@ function HomePageMid() {
         }
     }
     const budjetCallvalue = (value) => {
-        console.log(value);
         setgetbudjetvalue(value);
     }
     const budjetCall = (value) => {
@@ -94,7 +93,6 @@ function HomePageMid() {
         setgetdisc(value);
     }
     const handleNext = () => {
-        console.log("check",getcheck);
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
             || (activeStep === 1 && getcheck === false)
             || (activeStep === 2 && getredio === '')

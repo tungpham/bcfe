@@ -53,6 +53,7 @@ function Gallery(props) {
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = Image.length;
+     
 
     const handleNext = () => {
         setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -63,6 +64,7 @@ function Gallery(props) {
     };
 
     const handleStepChange = step => {
+       
         setActiveStep(step);
     };
 
@@ -75,8 +77,7 @@ function Gallery(props) {
             })
         })
     }
-
-    console.log("i", Image);
+ 
     return (
         <div>
             <Carousel
@@ -120,7 +121,7 @@ function Gallery(props) {
                             index={activeStep}
                             onChangeIndex={handleStepChange}
                             enableMouseEvents>
-                            {imagelist.map((step, index) => (
+                            {imagelist.map((step, index) => ( 
                                 <div key={index} className="steeper">
                                     {Math.abs(activeStep - index) <= 2 ? (
                                         <img className="" src={step.imgPath} alt={step.label} />
