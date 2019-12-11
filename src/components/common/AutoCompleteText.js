@@ -51,11 +51,16 @@ export default class AutoComplete extends React.Component {
             this.setState(() => ({ suggestion }));
         });
         var sug = document.getElementById('sug');
-        if (text.length === 0 || text.length === '') {
+        if (text.length === 0) {
             sug.style.display = "none";
         }else{
             sug.style.display = 'block';
         }
+    }
+
+    onKeyPress = (e) =>{
+        if (e.which === 32 && !e.target.value.length)
+        e.preventDefault();
     }
 
     renderSuggestions() {
@@ -78,6 +83,7 @@ export default class AutoComplete extends React.Component {
                         className="search"
                         placeholder="Search reviews"
                         onChange={this.onTextChanges}
+                        onKeyPress={this.onKeyPress}
                         autoComplete="off" />
                 </div>
                 <div className="suggestions" id='sug'>
