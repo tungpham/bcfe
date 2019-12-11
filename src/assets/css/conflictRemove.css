@@ -297,8 +297,10 @@ select.city {
 .search-bar {
   border: 1px solid #d9dadb;
   border-radius: 1px;
-  /* box-shadow: 0 8px 6px -6px #e1e0e1; */
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
+
 .MuiInputBase-root.search {
   padding-top: 5px;
     padding-bottom: 6px;
