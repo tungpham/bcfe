@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Typography, FormControlLabel } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,7 +7,8 @@ import Radio from '@material-ui/core/Radio';
 import { withStyles } from '@material-ui/core/styles';
 import RadioGroup from '@material-ui/core/RadioGroup';
 
-function ModalProperty(props) {   
+function ModalProperty(props) {
+    const [value, setValue] = useState('');
     const GreenRadio = withStyles({
         root: {
             color: green[400],
@@ -17,9 +18,11 @@ function ModalProperty(props) {
         },
         checked: {},
     })(props => <Radio color="default" {...props} />);
-    
+
     const handleChange = event => {
         props.propertyCallback(event.target.value);
+        console.log(props.data);
+        setValue(event.target.value)
     };
     return (
         <Grid container spacing={2}>
@@ -30,38 +33,38 @@ function ModalProperty(props) {
                 <List className="service-modal-list" onChange={handleChange}>
                     <RadioGroup aria-label="gender" name="gender1">
                         <ListItem className="list-border" role={undefined} dense button  >
-                            <FormControlLabel checked={props.data[1] === 'House'  }
+                            <FormControlLabel checked={props.data[1] === 'House'}
                                 value="House"
                                 control={<GreenRadio />}
                                 label="House"
-                                name="radio-button-demo"  
+                                name="radio-button-demo"
                             />
                         </ListItem>
                         <ListItem className="list-border" role={undefined} dense button  >
-                            <FormControlLabel checked={props.data[1] === 'Apartment' }
+                            <FormControlLabel checked={props.data[1] === 'Apartment'}
                                 value="Apartment"
                                 control={<GreenRadio />}
                                 label="Apartment"
                                 name="radio-button-demo"
-                                
+
                             />
                         </ListItem>
                         <ListItem className="list-border" role={undefined} dense button  >
-                            <FormControlLabel checked={props.data[1] === 'Condominium' }
+                            <FormControlLabel checked={props.data[1] === 'Condominium'}
                                 value="Condominium"
                                 control={<GreenRadio />}
                                 label="Condominium"
                                 name="radio-button-demo"
-                                 
+
                             />
                         </ListItem>
                         <ListItem className="list-border" role={undefined} dense button  >
-                            <FormControlLabel checked={props.data[1] === 'Townhouse' }
+                            <FormControlLabel checked={props.data[1] === 'Townhouse'}
                                 value="Townhouse"
                                 control={<GreenRadio />}
                                 label="Townhouse"
                                 name="radio-button-demo"
-                                 
+
                             />
                         </ListItem>
                         <ListItem className="list-border" role={undefined} dense button  >
@@ -70,12 +73,12 @@ function ModalProperty(props) {
                                 control={<GreenRadio />}
                                 label="Other"
                                 name="radio-button-demo"
-                                
+
                             />
                         </ListItem>
                     </RadioGroup>
                 </List>
-                <p className='red'>{props.errorMessage}</p>
+                {!value ? <p className='red'>{props.errorMessage}</p> : ''}
             </Grid>
         </Grid>
     );

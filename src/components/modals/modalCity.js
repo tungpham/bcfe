@@ -38,7 +38,7 @@ function ModalCity(props) {
                     inputProps={{ 'aria-label': 'bare' }}
                     required
                 />
-                <p className='red'>{props.errorMessage}</p>
+                {value.length === 0 ? <p className='red'>{props.errorMessage}</p> : ''}
                 <div></div>
             </FormControl>
         </Grid>

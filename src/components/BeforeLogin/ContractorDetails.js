@@ -66,7 +66,6 @@ function ContractorDetails(props) {
     const [material, setMaterial] = useState("");
     const [activeStep, setActiveStep] = React.useState(0);
     const [Avtarurl, setAvtarurl] = useState('');
-    const [getChar, setgetChar] = useState('');
     
     const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck];
     const classes = useStyles();
@@ -78,7 +77,6 @@ function ContractorDetails(props) {
     const callback = (value) => {
         setgetvalue(value);
     }
-
 
     const serviceCall = (value) => {
         setgetcheck(value);
@@ -115,8 +113,6 @@ function ContractorDetails(props) {
         setgetdisc(value);
     }
 
-
-
     function fetchimage() {
         axios.get(`${HttpUrlConstant.BASE_URL}/contractors/${Id}/avatar`).then((data) => {
             if (data.status === 200) {
@@ -131,6 +127,7 @@ function ContractorDetails(props) {
             handleNext();
         }
     });
+
     const handleClose = () => {
         var popupModalArray = [{ "modalTitle": 'A Project', "getbudjet": getbudjet, "getbudjetvalue": getbudjet, "description": getdisc, "budgetCustomValue":getbudjetvalue }];
         localStorage.setItem("modalData", JSON.stringify(popupModalArray));

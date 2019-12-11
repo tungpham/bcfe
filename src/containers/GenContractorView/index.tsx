@@ -79,6 +79,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
         setgetbudjetvalue(value);
     }
     const budjetCall = (value) => {
+        console.log(value.split('-'))
         setgetbudjet(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -129,8 +130,10 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
             const payload = {
                 "title": "A project",
                 "description": getdisc,
-                "budget":  Number(getbudjet) ?  Number(getbudjet) : getbudjetvalue,
+                "budget":  getbudjetvalue,
                 "due": new Date(),
+                "budgetFrom":getbudjet.split('-')[0],
+                "budgetTo":getbudjet.split('-')[1]
             };
             if (payload) {
                 Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
