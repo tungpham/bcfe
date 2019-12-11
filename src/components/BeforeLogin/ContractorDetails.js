@@ -334,7 +334,7 @@ function ContractorDetails(props) {
                                             </div> : ''
                                     }
 
-                                    <ListItem className="icons-overview" key={4}>
+                                    <ListItem className="icons-overview" key={detailsdata.address.employees}>
                                         <span className="icons"><PeopleOutlineIcon id="matrial-icon" /> </span>
                                         <span className="icon-text">{detailsdata.address.employees} employees</span>
                                     </ListItem>

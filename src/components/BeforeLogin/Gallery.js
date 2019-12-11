@@ -104,7 +104,7 @@ function Gallery(props) {
                     </div> : image.type === "LINK" ? <Youtube
                         videoId={(queryString.parse((new URL(decodeURIComponent(image.name))).search))['v']}
                         opts={{
-                            width: 256,
+                            width: 180,
                             height: 208,
                             // playerVars: { // https://developers.google.com/youtube/player_parameters
                             //     autoplay: 1
@@ -130,7 +130,7 @@ function Gallery(props) {
                             index={activeStep}
                             onChangeIndex={handleStepChange}
                             enableMouseEvents>
-                            {imagelist.map((step, index) => (
+                            {Image.map((step, index) => (
                                 <div key={index} className="steeper">
                                     {Math.abs(activeStep - index) <= 2 ? (
                                         <img className="" src={step.imgPath} alt={step.label} />
