@@ -13,20 +13,9 @@ export default class AutoComplete extends React.Component {
             searchArray: [],
             suggestion: [],
             setError: '',
-            term : '',
+            term: '',
         };
         this.getitem = this.getitem.bind(this);
-    }
-
-    getitem(e) {
-        let value = e.target.textContent;
-        var inputText = document.getElementById('input');
-        inputText.value = value;
-        var sug = document.getElementById('sug');
-        localStorage.setItem('specialitie', value);
-        if (inputText.value) {
-            sug.style.display = "none";
-        }
     }
 
     componentDidMount() {
@@ -35,41 +24,52 @@ export default class AutoComplete extends React.Component {
         })
     }
 
+    getitem(e) {
+        let value = e.target.textContent;
+        localStorage.setItem('specialitie', value);
+        var inputText = document.getElementById('input');
+        inputText.value = value;
+        var sug = document.getElementById('sug');
+        if (inputText.value) {
+            sug.style.display = "none";
+        }
+    }
+
     onTextChanges = (e) => {
         const text = e.target.value;
-        this.setState({term : text});
-        localStorage.setItem('specialitie', text.charAt(0).toUpperCase()+text.slice(1));
+        this.setState({ term: text });
+        localStorage.setItem('specialitie', text.charAt(0).toUpperCase() + text.slice(1));
         var suggestionss = [];
         this.state.searchArray.forEach(element => {
             suggestionss.push(element.name)
             this.setState({ items: suggestionss });
             let suggestion = [];
-            if (text.length > 0) {
+            if (text.length >= 0) {
                 const regex = new RegExp(`^${text}`, 'i');
                 suggestion = suggestionss.sort().filter(v => regex.test(v));
             }
             this.setState(() => ({ suggestion }));
         });
+        var sug = document.getElementById('sug');
+        if (text.length === 0) {
+            sug.style.display = "none";
+        }else{
+            sug.style.display = 'block';
+        }
     }
 
     renderSuggestions() {
         const { suggestion } = this.state;
-        if (suggestion.length === 0) {
-            return null;
-        }
-        else {
-            return (
-                <ul className="myList" id='test'>
-                    {suggestion.map((item) => <li key={item} onClick={this.getitem} className="sug-li" style={{ cursor: 'pointer' }} value={item}>{item}</li>)}
-                </ul>
-            )
-        }
+        return (<ul className="myList" id='test'>
+            {suggestion.map((item) => <li key={item} onClick={this.getitem} className="sug-li" style={{ cursor: 'pointer' }} value={item}>{item}</li>)}
+        </ul>
+        )
     }
-    
+
     render() {
         return (
             <div className="suggestion-search">
-                <div className={this.state.suggestion === [] ? alert("hi") : 'search-bar'}>
+                <div className='search-bar'>
                     <IconButton aria-label="search">
                         <SearchIcon />
                     </IconButton>
