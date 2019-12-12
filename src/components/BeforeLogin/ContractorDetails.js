@@ -66,7 +66,8 @@ function ContractorDetails(props) {
     const [material, setMaterial] = useState("");
     const [activeStep, setActiveStep] = React.useState(0);
     const [Avtarurl, setAvtarurl] = useState('');
-    
+    const [Galleryarr, setGalleryarr] = useState([]);
+
     const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck];
     const classes = useStyles();
 
@@ -129,16 +130,18 @@ function ContractorDetails(props) {
     });
 
     const handleClose = () => {
-        var popupModalArray = [{ "modalTitle": 'A Project', "getbudjet": getbudjet, "getbudjetvalue": getbudjet, "description": getdisc, "budgetCustomValue":getbudjetvalue }];
+        var popupModalArray = [{ "modalTitle": 'A Project', "getbudjet": getbudjet, "getbudjetvalue": getbudjetvalue, "description": getdisc , "budgetFrom" : getbudjet.split('-')[0] , "budgetTo" : getbudjet.split('-')[1] }];
         localStorage.setItem("modalData", JSON.stringify(popupModalArray));
         if (activeStep === 7) {
             auth0Client.signIn();
             var apiPath = `/contractors/${localStorage.getItem("contractor_ID")}/projects`;
             const payload = {
-                "title": "A project",
+                "title": 'A Project',
                 "description": getdisc,
-                "budget":  Number(getbudjet) ?  Number(getbudjet) : getbudjetvalue,
+                "budget":  getbudjetvalue,
                 "due": new Date(),
+                "budgetFrom":getbudjet.split('-')[0],
+                "budgetTo":getbudjet.split('-')[1]
             };
             if (payload) {
                 Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
@@ -194,6 +197,11 @@ function ContractorDetails(props) {
         axios.get(process.env.REACT_APP_PROJECT_API + apiPath + Id).then((data) => {
             const detailsdata = [...Detailsdata, data.data];
             setDetailsdata(detailsdata);
+            data.data.contractorFiles.map((i) => {
+                i.type === "PICTURE" ? Galleryarr.push(i.name) : i.type === "LINK" ? Galleryarr.push(i.name) : null
+                setGalleryarr(Galleryarr);
+            })
+
         })
     }
 
@@ -395,7 +403,7 @@ function ContractorDetails(props) {
                     <Divider />
                     <div className="gallery" ref={galleryref} >
                         <h3 className="photos">Photos and Videos</h3>
-                        <span style={{ color: '#878c90', fontSize: '15px' }}>{detailsdata.contractorFiles.length} photos</span>
+                        <span style={{ color: '#878c90', fontSize: '15px' }}>{Galleryarr.length} photos</span>
 
                         <div className="gallery-slider">
                             <Gallery Idprops={Id} />
@@ -596,7 +604,7 @@ function ContractorDetails(props) {
                                                     MaterialCallback={MaterialCall}
                                                     errorMessage={validation} />
                                                     : activeStep === 6 ? <ModalDisc
-                                                     discCallback={discCall}
+                                                        discCallback={discCall}
                                                         errorMessage={validation} /> : handleClose()}
                         </Grid>
                         <MobileStepper
