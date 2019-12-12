@@ -85,7 +85,7 @@ function ModalBudjet(props) {
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
                        <FormControlLabel checked={props.data[3] === '$12000-$50000'}
-                               value="$12000-$50000"
+                               value="12000-50000"
                                control={<GreenRadio />}
                                label="$12000-$50000"
                                name="radio-button-demo"
@@ -93,7 +93,7 @@ function ModalBudjet(props) {
                        </ListItem>
                        <ListItem className="list-border" role={undefined} dense button  >
                        <FormControlLabel checked={props.data[3] === '$50000-$100000'}
-                               value='$50000-$100000'
+                               value='50000-100000'
                                control={<GreenRadio />}
                                label="$50000-$100000"
                                name="radio-button-demo"

@@ -104,7 +104,7 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps> {
         if (location.pathname === match.url) curTabPos = 0;
 
         return (
-            <Box className={classes.root} style={{marginTop:'35px'}}>
+            <Box className={classes.root} style={{marginTop:'50px'}}>
                 <Paper square style={{ height: '100%', overflow: 'auto' }}>
                     <Box style={{ display: 'flex' }}>
                         <IconButton className={classes.backBtn} onClick={this.handleBack}>

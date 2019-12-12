@@ -40,7 +40,7 @@ function ModalService(props) {
                 <FormGroup aria-label="position" onClick={handleToggle()} row>
                     <ListItem className="list-border" dense button  >
                         <FormControlLabel
-                            checked={a === 'Design Service' || b === 'Design Service'}
+                            checked={a === 'Design Service' }
                             value="Design Service"
                             control={<Checkbox style={{
                             color: "green",
@@ -50,7 +50,7 @@ function ModalService(props) {
                     </ListItem>
                     <ListItem className="list-border" dense button  >
                         <FormControlLabel
-                            checked={a === 'Construction Service' || b === 'Construction Service'}
+                            checked={b === 'Construction Service'}
                             value="Construction Service" 
                             control={<Checkbox style={{
                             color: "green",
