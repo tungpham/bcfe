@@ -220,6 +220,7 @@ const ProfileEditView: React.FC<ProfileEditViewProps> = props => {
 								value={address.company || ''}
 								onChange={nameChange}
 								margin="normal"
+								 
 							/>
 						</Grid>
 						<Grid item xs={6} style={{ paddingRight: 8 }}>
@@ -229,6 +230,7 @@ const ProfileEditView: React.FC<ProfileEditViewProps> = props => {
 								value={profile.firstname}
 								onChange={e => handleChange('firstname')(e.target.value)}
 								margin="normal"
+								className="profile-form-input"
 							/>
 						</Grid>
 						<Grid item xs={6} style={{ paddingLeft: 8 }}>
@@ -238,6 +240,7 @@ const ProfileEditView: React.FC<ProfileEditViewProps> = props => {
 								value={profile.lastname}
 								onChange={e => handleChange('lastname')(e.target.value)}
 								margin="normal"
+								className="profile-form-input"
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -248,6 +251,8 @@ const ProfileEditView: React.FC<ProfileEditViewProps> = props => {
 								value={address.phone || ''}
 								onChange={phoneChange}
 								margin="normal"
+								className="profile-form-input"
+							 	 
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -257,6 +262,7 @@ const ProfileEditView: React.FC<ProfileEditViewProps> = props => {
 								value={address.website || ''}
 								onChange={websiteChange}
 								margin="normal"
+								className="profile-form-input" 
 							/>
 						</Grid>
 						<Grid item xs={6} style={{ paddingRight: 8 }}>
@@ -267,6 +273,8 @@ const ProfileEditView: React.FC<ProfileEditViewProps> = props => {
 								value={address.founded || ''}
 								onChange={foundedChange}
 								margin="normal"
+								className="profile-input profile-form-input"
+								 
 							/>
 						</Grid>
 						<Grid item xs={6} style={{ paddingLeft: 8 }}>
@@ -277,6 +285,8 @@ const ProfileEditView: React.FC<ProfileEditViewProps> = props => {
 								value={address.employees || ''}
 								onChange={employeesChange}
 								margin="normal"
+								className="profile-form-input" 
+								 
 							/>
 						</Grid>
 						<Grid item xs={6} style={{ paddingRight: 8 }}>
@@ -286,6 +296,8 @@ const ProfileEditView: React.FC<ProfileEditViewProps> = props => {
 								value={address.street || ''}
 								onChange={streetChange}
 								margin="normal"
+								className="profile-form-input" 
+								 
 							/>
 						</Grid>
 						<Grid item xs={6} style={{ paddingLeft: 8 }}>
@@ -295,6 +307,7 @@ const ProfileEditView: React.FC<ProfileEditViewProps> = props => {
 								value={address.city || ''}
 								onChange={cityChange}
 								margin="normal"
+								className="profile-form-input"  
 							/>
 						</Grid>
 					</Grid>

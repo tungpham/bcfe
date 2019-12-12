@@ -126,7 +126,7 @@ const ProfileReviewCard: React.FunctionComponent<IProfileReviewCardProps> = (pro
                 <Divider />
                 <ListItem>
                     <Box className={classes.flex}>
-                        <RateIcon style={{ padding: '16px 0', fontSize: 64 }} />
+                        <RateIcon style={{ marginTop:10, fontSize: 64 }} />
                         <Box id='review-description' style={{ flex: 1, padding: 8 }}>
                             <Typography style={{ fontWeight: 600 }}>
                                 {"Get reviews from past customers, even if they're not on Thumbtack."}

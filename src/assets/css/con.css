@@ -547,7 +547,7 @@ svg.MuiSvgIcon-root.single-star {
 }
 
 svg.MuiSvgIcon-root {
-  font-size: 1.9rem !important;
+  font-size: 1.9rem;
 }
 .MuiInputBase-root {
   font-size: 13px !important;

@@ -379,10 +379,11 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                     fullWidth
                                     value={location}
                                     onChange={e => this.setState({ location: e.target.value })}
+                                    className="profile-form-input"
                                     InputProps={{
                                         startAdornment: (
-                                            <InputAdornment position="start">
-                                                <LocationIcon style={{ marginBottom: 5 }} />
+                                            <InputAdornment  position="start">
+                                                <LocationIcon className="profile-past-icon" style={{ marginBottom: 5, fontSize:16}} />
                                             </InputAdornment>
                                         )
                                     }}
@@ -446,7 +447,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                         ))}
                                         {range(0, imageCount).map(idx => (
                                             <Box className={classes.imageItem} key={idx + files.length}>
-                                                <ImageIcon />
+                                                <ImageIcon className="profile-past-icon" />
                                             </Box>
                                         ))}
                                     </Box>
@@ -476,6 +477,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                     value={title}
                                     onChange={e => this.setState({ title: e.target.value })}
                                     required
+                                    className="profile-input-font"
                                 />
                             </Grid>
                             <Grid item xs={6} style={{ paddingLeft: 8 }}>
@@ -483,6 +485,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                     label={'Approximate totla price'}
                                     margin="dense"
                                     fullWidth
+                                    className="profile-input-font"
                                     value={price}
                                     onChange={e => this.setState({ price: parseInt(e.target.value) })}
                                     required
@@ -499,6 +502,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                 <TextField
                                     label={`Duration (optional)`}
                                     margin="dense"
+                                    className="profile-input-font"
                                     fullWidth
                                     value={duration}
                                     onChange={e => this.setState({ duration: parseInt(e.target.value) })}
@@ -521,6 +525,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                     <Select
                                         id='past-project-year-select'
                                         fullWidth
+                                        className="profile-input-font"
                                         value={year}
                                         onChange={e => this.setState({ year: e.target.value as number })}
                                         name="services"
@@ -538,6 +543,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                     label={`Description (optional)`}
                                     margin="dense"
                                     fullWidth
+                                    className="profile-input-font"
                                     multiline
                                     value={desc}
                                     onChange={e => this.setState({ desc: e.target.value })}

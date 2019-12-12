@@ -566,44 +566,22 @@ a.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary{
     color: #00a0da;
     text-decoration: none;
 }
+.MuiFormControl-root.MuiTextField-root.profile-form-input.MuiFormControl-marginNormal.MuiFormControl-fullWidth {
+  padding: 10px 0px !important;
+}
+svg.MuiSvgIcon-root.profile-past-icon {
+  font-size: 16px !important;
+}
+.MuiFormControl-root.MuiTextField-root.profile-form-input.MuiFormControl-marginDense.MuiFormControl-fullWidth{
+  margin: 8px 0px !important;
+}
+div#select-services,.profile-input-font{
+  font-size: 16px !important;
+}
 
 
-// .lds-ring {
-//   display: inline-block;
-//   position: relative;
-//   // width: 80px;
-//   height: 80px;
-// }
-// .lds-ring div {
-//   top: 150px;
-//   // left: 100%;
-//   box-sizing: border-box;
-//   display: block;
-//   position: absolute;
-//   width: 40px;
-//   height: 40px;
-//   // margin: 50px;
-//   margin-left: 45% !important;
-//   margin-right:  45% !important;
-//   border: 3px solid #4A148C;
-//   border-radius: 50%;
-//   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-//   border-color: #4A148C transparent transparent transparent;
-// }
-// .lds-ring div:nth-child(1) {
-//   animation-delay: -0.45s;
-// }
-// .lds-ring div:nth-child(2) {
-//   animation-delay: -0.3s;
-// }
-// .lds-ring div:nth-child(3) {
-//   animation-delay: -0.15s;
-// }
-// @keyframes lds-ring {
-//   0% {
-//     transform: rotate(0deg);
-//   }
-//   100% {
-//     transform: rotate(360deg);
-//   }
-// }
+input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-inputMarginDense ,
+.MuiSelect-root.MuiSelect-select.MuiSelect-selectMenu.MuiInputBase-input.MuiInput-input.MuiInputBase-inputSelect.MuiInputBase-inputMarginDense.MuiInput-inputMarginDense,
+textarea.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMultiline.MuiInput-inputMultiline.MuiInputBase-inputMarginDense.MuiInput-inputMarginDense{
+  font-size: 16px;
+}
