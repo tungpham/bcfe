@@ -144,16 +144,18 @@ function HomePageMid() {
     };
 
     const handleClose = () => {
-        var popupModalArray = [{ "modalTitle": title, "getbudjet": getbudjet, "getbudjetvalue": getbudjet, "description": getdisc, "budgetCustomValue":getbudjetvalue }];
+        var popupModalArray = [{ "modalTitle": title, "getbudjet": getbudjet, "getbudjetvalue": getbudjetvalue, "description": getdisc , "budgetFrom" : getbudjet.split('-')[0] , "budgetTo" : getbudjet.split('-')[1] }];
         localStorage.setItem("modalData", JSON.stringify(popupModalArray));
         if (activeStep === 7) {
             auth0Client.signIn();
             var apiPath = `/contractors/${localStorage.getItem("contractor_ID")}/projects`;
             const payload = {
-                "title": "A project",
+                "title": title,
                 "description": getdisc,
-                "budget":  Number(getbudjet) ?  Number(getbudjet) : getbudjetvalue,
+                "budget":  getbudjetvalue,
                 "due": new Date(),
+                "budgetFrom":getbudjet.split('-')[0],
+                "budgetTo":getbudjet.split('-')[1]
             };
             if (payload) {
                 Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,

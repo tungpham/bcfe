@@ -25,6 +25,8 @@ class connectedCallback extends Component {
 					"description": element.description,
 					"budget": Number(element.getbudjetvalue) | Number(element.budgetCustomValue),
 					"due": new Date(),
+					"budgetFrom": element.budgetFrom,
+					"budgetTo":element.budgetTo
 				};
 				if (payload) {
 					Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
@@ -40,7 +42,7 @@ class connectedCallback extends Component {
 
 	render() {
 		// return(<div><CircularProgress color="secondary" /></div>);
-		return(
+		return (
 			<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
 		)
 	}
