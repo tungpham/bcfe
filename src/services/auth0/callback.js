@@ -43,7 +43,7 @@ class connectedCallback extends Component {
 	render() {
 		// return(<div><CircularProgress color="secondary" /></div>);
 		return (
-			<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+			<div className="lds-ring"><div></div><div></div><div></div><div></div></div>
 		)
 	}
 }

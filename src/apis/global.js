@@ -4,7 +4,9 @@ const HttpUrlConstant = {
     Image_URL: 'https://ui-avatars.com/api',
     headers: {
         'Content-Type': 'application/json',
-        'Authorization': ''
+        'Authorization': '',
+        "Set-Cookie": "CookieName=CookieValue; SameSite=Strict",
+        'Set-Cookie':"HttpOnly;Secure;SameSite=Strict"
     }
 }
 export default HttpUrlConstant;

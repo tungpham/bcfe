@@ -283,7 +283,7 @@ li.MuiListItem-root.social-media.MuiListItem-gutters {
   display: block;
 }
 
-p.instagram {
+div.instagram {
   margin-top: 3px;
   margin-bottom: 3px;
   color: #00a0da;
