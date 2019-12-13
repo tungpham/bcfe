@@ -20,8 +20,7 @@ function ModalProperty(props) {
     })(props => <Radio color="default" {...props} />);
 
     const handleChange = event => {
-        props.propertyCallback(event.target.value);
-        console.log(props.data);
+        props.propertyCallback(event.target.value); 
         setValue(event.target.value)
     };
     return (
