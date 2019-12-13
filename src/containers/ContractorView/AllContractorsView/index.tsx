@@ -209,12 +209,11 @@ class AllContractorsView extends React.Component<IAllContractorsViewProps, IAllC
         }
     }
 
-
     public render() {
         const { classes } = this.props;
         const { contractors } = this.state;
-        if (!contractors) {
-            return <CircularProgress className={classes.waitingSpin} />;
+        if(this.state.isBusy || !contractors){
+            return <CircularProgress className={classes.busy} />
         }
 
         return (
