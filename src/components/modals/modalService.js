@@ -42,7 +42,7 @@ function ModalService(props) {
                                     color: "green",
                                 }} />}
                                 label="Design Service"
-                                onClick={handleToggle('0')}
+                                onChange={handleToggle('0')}
                             />
                         </ListItem>
                         <ListItem className="list-border" dense button  >
@@ -53,7 +53,7 @@ function ModalService(props) {
                                     color: "green",
                                 }} />}
                                 label="Construction Service"
-                                onClick={handleToggle('1')}
+                                onChange={handleToggle('1')}
                             />
                         </ListItem>
 

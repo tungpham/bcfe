@@ -44,7 +44,8 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
 
     const [Id] = useState(props.userProfile.user_metadata.contractor_id);
     const [getvalue, setgetvalue] = useState('');
-    const [getcheck, setgetcheck] = useState(false);
+    const [getcheck1, setgetcheck1] = useState('');
+    const [getcheck2, setgetcheck2] = useState('');
     const [getredio, setgetredio] = useState('');
     const [getarearedio, setgetarearedio] = useState('');
     const [getbudjet, setgetbudjet] = useState('');
@@ -53,15 +54,21 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     const [getdisc, setgetdisc] = useState('');
     const [validation, setvalidation] = useState("");
     const [Newdata] = useState([]);
- 
-    const theme = useTheme(); 
+
+    const theme = useTheme();
     const callback = (value) => {
         setgetvalue(value);
     }
-    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck]; 
-    const serviceCall = (value) => {
-        setgetcheck(value);
+    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1, getcheck2];
+
+    const serviceCallvalue1 = (value1) => {
+        setgetcheck1(value1);
     }
+
+    const serviceCallvalue2 = (value2) => {
+        setgetcheck2(value2);
+    }
+
     const propertyCall = (value) => {
         setgetredio(value);
         if (value !== '') {
@@ -96,7 +103,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     }
     const handleNext = () => {
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
-            || (activeStep === 1 && getcheck === false)
+            || (activeStep === 1 && getcheck1 === '' && getcheck2 === '')
             || (activeStep === 2 && getredio === '')
             || (activeStep === 3 && getarearedio === '')
             || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
@@ -130,10 +137,10 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
             const payload = {
                 "title": "A project",
                 "description": getdisc,
-                "budget":  getbudjetvalue,
+                "budget": getbudjetvalue,
                 "due": new Date(),
-                "budgetFrom":getbudjet.split('-')[0],
-                "budgetTo":getbudjet.split('-')[1]
+                "budgetFrom": getbudjet.split('-')[0],
+                "budgetTo": getbudjet.split('-')[1]
             };
             if (payload) {
                 Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
@@ -160,7 +167,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     if (location.pathname.includes('archived')) tab = 2;
 
     return (
-        <Box style={{ flexGrow: 1, backgroundColor: 'white', color: '#68e191' ,height:'calc((111vh - 64px) - 56px)'}}>
+        <Box style={{ flexGrow: 1, backgroundColor: 'white', color: '#68e191', height: 'calc((111vh - 64px) - 56px)' }}>
             <CustomTabs
                 tabs={[{
                     className: 'icon-size',
@@ -182,21 +189,21 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                 ]}
                 init={tab}
             />
-          <div style={{position:'fixed',backgroundColor:'white',width:'98%',zIndex:10}}>
-          <div className="gen-contractor-add-btn" style={{ display: 'flex', justifyContent: 'space-between', padding: '0px 30px ' , margin: '20px 0px',position:'fixed' }}>
-                <TextField
-                    id="outlined-start-adornment"
-                    placeholder="Search"
-                    className="gensearch"
-                    InputProps={{
-                        startAdornment: <InputAdornment style={{height:40}} position="start"><SearchIcon className="searchicon" /></InputAdornment>,
-                    }}
-                    variant="outlined"
-                />
-                <Button onClick={handleOpen} color="default" variant="contained"  ><AddIcon className="Addicon" />Add Project</Button>
+            <div style={{ position: 'fixed', backgroundColor: 'white', width: '98%', zIndex: 10 }}>
+                <div className="gen-contractor-add-btn" style={{ display: 'flex', justifyContent: 'space-between', padding: '0px 30px ', margin: '20px 0px', position: 'fixed' }}>
+                    <TextField
+                        id="outlined-start-adornment"
+                        placeholder="Search"
+                        className="gensearch"
+                        InputProps={{
+                            startAdornment: <InputAdornment style={{ height: 40 }} position="start"><SearchIcon className="searchicon" /></InputAdornment>,
+                        }}
+                        variant="outlined"
+                    />
+                    <Button onClick={handleOpen} color="default" variant="contained"  ><AddIcon className="Addicon" />Add Project</Button>
+                </div>
             </div>
-          </div>
-            <Box style={{paddingTop: '75px', overflow: 'auto' }}>
+            <Box style={{ paddingTop: '75px', overflow: 'auto' }}>
                 <Switch >
                     <SecuredRoute
                         path={`${match.url}/current_pros`}
@@ -250,7 +257,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                                 <Grid item lg={12} xs={12}>
                                     {
                                         <div> {activeStep === 0 ? <ModalCity parentCallback={callback} errorMessage={validation} />
-                                            : activeStep === 1 ? <ModalService data={data} serviceCallback={serviceCall} errorMessage={validation} />
+                                            : activeStep === 1 ? <ModalService data={data} serviceCallbackvalue1={serviceCallvalue1} serviceCallbackvalue2={serviceCallvalue2} errorMessage={validation} />
                                                 : activeStep === 2 ? <ModalProperty
                                                     data={data}
                                                     propertyCallback={propertyCall} errorMessage={validation} />

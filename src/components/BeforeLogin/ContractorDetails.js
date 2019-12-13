@@ -53,7 +53,8 @@ function ContractorDetails(props) {
     const [ReviewPerPage] = useState(2);
     const [active, setactive] = useState(false);
     const [getvalue, setgetvalue] = useState('');
-    const [getcheck, setgetcheck] = useState(false);
+    const [getcheck1, setgetcheck1] = useState('');
+    const [getcheck2, setgetcheck2] = useState('');
     const [getredio, setgetredio] = useState('');
     const [getarearedio, setgetarearedio] = useState('');
     const [getbudjet, setgetbudjet] = useState('');
@@ -68,15 +69,22 @@ function ContractorDetails(props) {
     const [Avtarurl, setAvtarurl] = useState('');
     const [Galleryarr, setGalleryarr] = useState([]);
 
-    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck];
+    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1 ,getcheck2];
     const classes = useStyles();
-
     const handleOpen = () => {
         setOpen(true);
     };
 
     const callback = (value) => {
         setgetvalue(value);
+    }
+
+    const serviceCallvalue1= (value1) => {
+        setgetcheck1(value1);
+    }
+
+    const serviceCallvalue2= (value2) => {
+        setgetcheck2(value2);
     }
 
     const serviceCall = (value) => {
@@ -156,7 +164,7 @@ function ContractorDetails(props) {
     };
     const handleNext = () => {
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
-            || (activeStep === 1 && getcheck === false)
+            || (activeStep === 1 && getcheck1 === '' && getcheck2 === '')
             || (activeStep === 2 && getredio === '')
             || (activeStep === 3 && getarearedio === '')
             || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
@@ -593,7 +601,7 @@ function ContractorDetails(props) {
                         </Grid>
                         <Grid container spacing={2}>
                             {activeStep === 0 ? <ModalCity parentCallback={callback} errorMessage={validation} />
-                                : activeStep === 1 ? <ModalService data={data} serviceCallback={serviceCall} errorMessage={validation} />
+                                : activeStep === 1 ? <ModalService data={data} serviceCallbackvalue1={serviceCallvalue1} serviceCallbackvalue2={serviceCallvalue2} errorMessage={validation} />
                                     : activeStep === 2 ? <ModalProperty data={data} propertyCallback={propertyCall} errorMessage={validation} />
                                         : activeStep === 3 ? <ModalArea data={data} areaCallback={areaCall} errorMessage={validation} />
                                             : activeStep === 4 ? <ModalBudjet
