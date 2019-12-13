@@ -8,61 +8,59 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 function ModalService(props) {
-    const [checked, setChecked] = React.useState([]); 
-    const newData=props.data[5]; 
-    const a = newData[0];
-    const b = newData[1];
+    const handleToggle = id => (event) => {
+        const currentIndex = id;
+        if (currentIndex === '0') {
+            props.serviceCallbackvalue1(event.target.value);
+            if (event.target.checked === false) {
+                props.serviceCallbackvalue1('');
+            }
 
-    const handleToggle = value => (event) => {
-        const currentIndex = checked.indexOf(event.target.value);
-        const newChecked = [...checked];
-       
-        if (currentIndex === -1) {
-            newChecked.push(event.target.value);
-            
         } else {
-            newChecked.splice(currentIndex, 1);
-            
-        } 
-        setChecked(newChecked);
-        props.serviceCallback(newChecked);
+            props.serviceCallbackvalue2(event.target.value);
+            if (event.target.checked === false) {
+                props.serviceCallbackvalue2('');
+            }
+        }
     };
     return (
         <React.Fragment>
-        <Grid className="service-modal-col city-head-text font-weight" item xs={10}>
-            <Typography className="heading-service" variant="h5">
-                Which Service(s) are you Looking for?
+            <Grid className="service-modal-col city-head-text font-weight" item xs={10}>
+                <Typography className="heading-service" variant="h5">
+                    Which Service(s) are you Looking for?
             </Typography>
-            <Typography className="service-sub-text" variant="body1">
-                Select all that Apply
+                <Typography className="service-sub-text" variant="body1">
+                    Select all that Apply
             </Typography>
-            <List className="service-modal-list">
-                <FormGroup aria-label="position" onClick={handleToggle()} row>
-                    <ListItem className="list-border" dense button  >
-                        <FormControlLabel
-                            checked={a === 'Design Service' || b === 'Design Service'}
-                            value="Design Service"
-                            control={<Checkbox style={{
-                            color: "green",
-                            }} />}
-                            label="Design Service" 
-                        />
-                    </ListItem>
-                    <ListItem className="list-border" dense button  >
-                        <FormControlLabel
-                            checked={a === 'Construction Service' || b === 'Construction Service'}
-                            value="Construction Service" 
-                            control={<Checkbox style={{
-                            color: "green",
-                            }} />}
-                            label="Construction Service" 
-                        />
-                    </ListItem>
+                <List className="service-modal-list">
+                    <FormGroup aria-label="position" row>
+                        <ListItem className="list-border" dense button  >
+                            <FormControlLabel
+                                checked={props.data[5] === "Design Service" ? true : false}
+                                value="Design Service"
+                                control={<Checkbox style={{
+                                    color: "green",
+                                }} />}
+                                label="Design Service"
+                                onClick={handleToggle('0')}
+                            />
+                        </ListItem>
+                        <ListItem className="list-border" dense button  >
+                            <FormControlLabel
+                                checked={props.data[6] === "Construction Service" ? true :false}
+                                value="Construction Service"
+                                control={<Checkbox style={{
+                                    color: "green",
+                                }} />}
+                                label="Construction Service"
+                                onClick={handleToggle('1')}
+                            />
+                        </ListItem>
 
-                </FormGroup>
-            </List>
-            <p className='red font'>{props.errorMessage}</p>
-        </Grid>
+                    </FormGroup>
+                </List>
+                <p className='red font'>{props.errorMessage}</p>
+            </Grid>
         </React.Fragment>
     );
 }

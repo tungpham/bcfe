@@ -44,7 +44,8 @@ function HomePageMid() {
     const theme = useTheme();
     const [title, settitle] = useState('');
     const [getvalue, setgetvalue] = useState('');
-    const [getcheck, setgetcheck] = useState(false);
+    const [getcheck1, setgetcheck1] = useState('');
+    const [getcheck2, setgetcheck2] = useState('');
     const [getredio, setgetredio] = useState('');
     const [getarearedio, setgetarearedio] = useState('');
     const [getbudjet, setgetbudjet] = useState('');
@@ -56,11 +57,16 @@ function HomePageMid() {
 
     const callback = (value) => {
         setgetvalue(value);
+  
     }
-    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck];
+    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1 ,getcheck2];
 
-    const serviceCall = (value) => {
-        setgetcheck(value);
+    const serviceCallvalue1= (value1) => {
+        setgetcheck1(value1);
+    }
+
+    const serviceCallvalue2= (value2) => {
+        setgetcheck2(value2);
     }
     const propertyCall = (value) => {
         setgetredio(value);
@@ -94,7 +100,7 @@ function HomePageMid() {
     }
     const handleNext = () => {
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
-            || (activeStep === 1 && getcheck === false)
+            || (activeStep === 1 && getcheck1 === '' && getcheck2 === '')
             || (activeStep === 2 && getredio === '')
             || (activeStep === 3 && getarearedio === '')
             || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
@@ -172,6 +178,8 @@ function HomePageMid() {
     const gettitle = (e) => {
         settitle(e.target.title);
     }
+   
+ 
 
     return (<div className="container home-mid-bg">
         <h2 className="font-color">Contact  Local Professional</h2>
@@ -444,7 +452,7 @@ function HomePageMid() {
                         <Grid container spacing={2}>
 
                             {activeStep === 0 ? <ModalCity parentCallback={callback} errorMessage={validation} />
-                                : activeStep === 1 ? <ModalService data={data} serviceCallback={serviceCall} errorMessage={validation} />
+                                : activeStep === 1 ? <ModalService data={data} serviceCallbackvalue1={serviceCallvalue1} serviceCallbackvalue2={serviceCallvalue2} errorMessage={validation} />
                                     : activeStep === 2 ? <ModalProperty
                                         data={data}
                                         propertyCallback={propertyCall} errorMessage={validation} />
