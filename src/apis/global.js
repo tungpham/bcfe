@@ -5,7 +5,6 @@ const HttpUrlConstant = {
     headers: {
         'Content-Type': 'application/json',
         'Authorization': '',
-        "Set-Cookie": "CookieName=CookieValue; SameSite=Strict",
         'Set-Cookie':"HttpOnly;Secure;SameSite=Strict"
     }
 }

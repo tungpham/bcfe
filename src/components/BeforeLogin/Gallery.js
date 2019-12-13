@@ -107,14 +107,11 @@ function Gallery(props) {
                         opts={{
                             width: 180,
                             height: 208,
-                            // playerVars: { // https://developers.google.com/youtube/player_parameters
-                            //     autoplay: 1
-                            // }
                         }}
                         key={image.name}
+                        
                     /> : null
                 })}
-                {/* https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DsHsFIv8VA7w */}
             </Carousel>
             <Modal
                 aria-labelledby="simple-modal-title"
