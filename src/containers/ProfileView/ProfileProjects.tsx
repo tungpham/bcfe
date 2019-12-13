@@ -91,7 +91,7 @@ const styles = (theme: Theme) => createStyles({
         color: 'white',
         backgroundColor: theme.palette.primary.light,
         '&:hover': {
-            backgroundColor: theme.palette.primary.dark,
+            backgroundColor: '#12005e',
         },
         '&:disabled': {
             backgroundColor: '#4a148c',
