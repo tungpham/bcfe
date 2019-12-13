@@ -82,7 +82,7 @@ code {
 .MuiTab-textColorPrimary.Mui-selected,
 .PrivateTabIndicator-colorPrimary-496 {
   color: #1f1f1f !important;
-  font-size: 13px;
+  // font-size: 13px;
   font-weight: 500;
   border-bottom: 5px solid #68e191 !important;
 }
@@ -577,6 +577,9 @@ svg.MuiSvgIcon-root.profile-past-icon {
 }
 div#select-services,.profile-input-font{
   font-size: 16px !important;
+}
+input#city,input#name{
+  padding: 6px 0px !important;
 }
 
 
