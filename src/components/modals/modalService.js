@@ -8,6 +8,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 function ModalService(props) {
+    
     const handleToggle = id => (event) => {
         const currentIndex = id;
         if (currentIndex === '0') {
