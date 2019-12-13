@@ -298,7 +298,7 @@ select.city {
   border: 1px solid #d9dadb;
   border-radius: 1px;
   padding-top: 5px;
-  padding-bottom: 5px;
+  padding-bottom: 1px;
 }
 
 .MuiInputBase-root.search {
