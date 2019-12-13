@@ -205,11 +205,10 @@ function ContractorDetails(props) {
         axios.get(process.env.REACT_APP_PROJECT_API + apiPath + Id).then((data) => {
             const detailsdata = [...Detailsdata, data.data];
             setDetailsdata(detailsdata);
-            data.data.contractorFiles.map((i) => {
+            data.data.contractorFiles.map((i,index) => {
                 i.type === "PICTURE" ? Galleryarr.push(i.name) : i.type === "LINK" ? Galleryarr.push(i.name) : null
                 setGalleryarr(Galleryarr);
             })
-
         })
     }
 
@@ -379,19 +378,17 @@ function ContractorDetails(props) {
 
                                     <ListItem className="social-media" key={3}>
                                         <h3 className="Introduction-title">Social media</h3>
-                                        <p className="instagram">
-                                            {
-                                                detailsdata.contractorFiles.map((type) => {
-                                                    return (<>
+                                        <div className="instagram">
+                                            {detailsdata.contractorFiles.map((type,index) => {
+                                                    return (<div key={index}>
                                                         {type.type === "TWITTER" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Twitter</a> : ''}
                                                         {type.type === "INSTAGRAM" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Instagram</a> : ''}
                                                         {type.type === "FACEBOOK" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Facebook</a> : ''}
                                                         {type.type === "LINKEDIN" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">LinkedIn</a> : ''}
-                                                    </>)
-
+                                                    </div>)
                                                 })
                                             }
-                                        </p>
+                                        </div>
                                     </ListItem>
 
                                 </List>

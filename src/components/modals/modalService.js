@@ -16,7 +16,6 @@ function ModalService(props) {
             if (event.target.checked === false) {
                 props.serviceCallbackvalue1('');
             }
-
         } else {
             props.serviceCallbackvalue2(event.target.value);
             if (event.target.checked === false) {

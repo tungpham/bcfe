@@ -283,7 +283,7 @@ li.MuiListItem-root.social-media.MuiListItem-gutters {
   display: block;
 }
 
-p.instagram {
+div.instagram {
   margin-top: 3px;
   margin-bottom: 3px;
   color: #00a0da;
@@ -831,7 +831,7 @@ li.active {
 }
 input.MuiInputBase-input {
   padding-top: 2px;
-  padding-bottom: 4px;
+  padding-bottom: 9px;
 }
 svg.MuiSvgIcon-root.searchicon {
   margin-top: 8px;
