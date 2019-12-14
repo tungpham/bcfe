@@ -204,7 +204,7 @@ function HomePageMid() {
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_1AtyXV3mqWkTsUBxWTS82EPp8t0Jb4fPgkiauR6Sx4Ba4tBo3g"
+                                image="../../assets/images/interial1.jpeg"
                                 title="Bathroom Remodeling" />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2" id="title">
@@ -326,7 +326,7 @@ function HomePageMid() {
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                image="https://www.cadsoftwaredirect.com/media/catalog/product/cache/3/thumbnail/9df78eab33525d08d6e5fb8d27136e95/v/-/v-ray_sketchup_interior_stairs_1.jpg"
+                                image=""
                                 title="Bathroom Ideas" />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
