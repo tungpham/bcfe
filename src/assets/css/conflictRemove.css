@@ -280,11 +280,10 @@ select.city {
   border: 1px solid #d9dadb;
   border-radius: 1px;
   padding-top: 12px;
-  padding-bottom: 12px;
+  padding-bottom: 13px;
   padding-left: 6px;
   padding-right: 40px;
   color: #3e3f42;
-  /* box-shadow: 0 8px 6px -6px #e1e0e1; */
 }
 .city-btn {
   display: flex;
