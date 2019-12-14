@@ -178,8 +178,6 @@ function HomePageMid() {
     const gettitle = (e) => {
         settitle(e.target.title);
     }
-   
- 
 
     return (<div className="container home-mid-bg">
         <h2 className="font-color">Contact  Local Professional</h2>
@@ -204,8 +202,7 @@ function HomePageMid() {
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                image="../../assets/images/interial1.jpeg"
-                                title="Bathroom Remodeling" />
+                                title="Bathroom Remodeling"><img src="interial-images/interial1.jpeg"/></CardMedia>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2" id="title">
                                     Bathroom Remodeling
@@ -221,8 +218,8 @@ function HomePageMid() {
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_1AtyXV3mqWkTsUBxWTS82EPp8t0Jb4fPgkiauR6Sx4Ba4tBo3g"
-                                title="Home Remodeling" />
+                                src="interial-images/interial2.jpeg"
+                                title="Home Remodeling"><img src="interial-images/interial1.jpeg"/></CardMedia>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
                                     Home Remodeling
@@ -232,13 +229,13 @@ function HomePageMid() {
                     </div>
                 </Card>
             </div>
-            <div>
+            {/* <div>
                 <Card className={classes.card} onClick={gettitle}>
                     <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_1AtyXV3mqWkTsUBxWTS82EPp8t0Jb4fPgkiauR6Sx4Ba4tBo3g"
+                                src="../../assets/images/interial1.jpeg"
                                 title="Kitchen Remodeling" />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
@@ -248,14 +245,14 @@ function HomePageMid() {
                         </CardActionArea>
                     </div>
                 </Card>
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
                 <Card className={classes.card} onClick={gettitle}>
                     <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                image="https://freshome.com/wp-content/uploads/2015/07/online-virtual-room-programs-5d-render.jpg"
+                                src="../../assets/images/interial1.jpeg"
                                 title="General Contracting" />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
@@ -265,23 +262,20 @@ function HomePageMid() {
                         </CardActionArea>
                     </div>
                 </Card>
-            </div>
+            </div> */}
             <div>
                 <Card className={classes.card} onClick={gettitle}>
                     <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6r-nFGkJjRU_X2dd-Lk4W7H-XetUL6PorttraCkS11brJsDfP"
-                                title="New Home Construction" />
+                                title="New Home Construction"><img src="interial-images/interial3.jpeg" /></CardMedia>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
                                     New Home Construction
                                 </Typography>
-
                             </CardContent>
                         </CardActionArea>
-
                     </div>
                 </Card>
             </div>
@@ -291,9 +285,7 @@ function HomePageMid() {
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM6k45BnwpjpY7DOBmu5dAYUbRG2e7GpXx7f2mBlkpCTQwRrtvqw"
-                                title="Interior Design" />
-                            <CardContent>
+                                title="Interior Design"><img src="interial-images/interial4.jpeg" /></CardMedia>                            <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
                                     Interior Design
                                 </Typography>
@@ -305,7 +297,7 @@ function HomePageMid() {
             </div>
         </Carousel >
         <h2 className="font-color">Browse Ideas by Room</h2>
-        <Carousel
+        {/* <Carousel
             swipeable={false}
             draggable={false}
             showDots={true}
@@ -424,7 +416,7 @@ function HomePageMid() {
                     </div>
                 </Card>
             </div>
-        </Carousel>
+        </Carousel> */}
         <Grid container spacing={0}>
             <Grid item xs={10}>
                 <Typography variant="h6">
