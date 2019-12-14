@@ -54,7 +54,7 @@ function Gallery(props) {
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = Image.length;
-     
+
 
     const handleNext = () => {
         setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -65,7 +65,7 @@ function Gallery(props) {
     };
 
     const handleStepChange = step => {
-       
+
         setActiveStep(step);
     };
 
@@ -102,14 +102,17 @@ function Gallery(props) {
                                 <img alt="no" src={process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId + '/files/' + image.name} alt="past-project"></img>
                             </div>
                         </div>
-                    </div> : image.type === "LINK" ? <Youtube
-                        videoId={(queryString.parse((new URL(decodeURIComponent(image.name))).search))['v']}
-                        opts={{
-                            width: 180,
-                            height: 208,
+                    </div> : image.type === "LINK" ? <iframe
+                        style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "180px",
+                            height: "200px"
                         }}
                         key={image.name}
-                        
+                        src={`https://www.youtube.com/embed/${image.name.slice(44)}`}
+                        frameBorder="0"
                     /> : null
                 })}
             </Carousel>

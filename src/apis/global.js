@@ -5,6 +5,7 @@ const HttpUrlConstant = {
     headers: {
         'Content-Type': 'application/json',
         'Authorization': '',
+        'Set-Cookie': 'cross-site-cookie=modalData; SameSite=None; Secure'
     }
 }
 export default HttpUrlConstant;
