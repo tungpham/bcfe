@@ -534,11 +534,13 @@ span.numbers-rate {
   color: #7e7e81;
   font-weight: 800;
   font-size: 13px;
+  margin-top: 2px;
 }
 
 svg.MuiSvgIcon-root.single-star {
   color: #eaedee;
   font-size: 15px;
+  margin-top: -5px !important;
 }
 
 .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-7 {
