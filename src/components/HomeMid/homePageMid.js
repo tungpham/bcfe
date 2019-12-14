@@ -202,7 +202,7 @@ function HomePageMid() {
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                title="Bathroom Remodeling"><img src="../../assets/images/interial1.jpeg"/></CardMedia>
+                                title="Bathroom Remodeling"><img src="interial-images/interial1.jpeg"/></CardMedia>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2" id="title">
                                     Bathroom Remodeling
@@ -218,8 +218,8 @@ function HomePageMid() {
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                src="../../assets/images/interial1.jpeg"
-                                title="Home Remodeling" />
+                                src="interial-images/interial2.jpeg"
+                                title="Home Remodeling"><img src="interial-images/interial1.jpeg"/></CardMedia>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
                                     Home Remodeling
@@ -269,16 +269,13 @@ function HomePageMid() {
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                src="../../assets/images/interial1.jpeg"
-                                title="New Home Construction" />
+                                title="New Home Construction"><img src="interial-images/interial3.jpeg" /></CardMedia>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
                                     New Home Construction
                                 </Typography>
-
                             </CardContent>
                         </CardActionArea>
-
                     </div>
                 </Card>
             </div>
@@ -288,9 +285,7 @@ function HomePageMid() {
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                src="../../assets/images/interial1.jpeg"
-                                title="Interior Design" />
-                            <CardContent>
+                                title="Interior Design"><img src="interial-images/interial4.jpeg" /></CardMedia>                            <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
                                     Interior Design
                                 </Typography>
