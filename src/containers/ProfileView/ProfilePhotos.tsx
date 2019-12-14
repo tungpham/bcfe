@@ -17,7 +17,6 @@ import Youtube from 'react-youtube';
 import UploadButton from 'components/CustomUpload/UploadButton';
 import { FileInfo } from 'types/global';
 
-
 const styles = (theme: Theme) => createStyles({
     contents: {
         width: '100%',
@@ -252,9 +251,9 @@ class ProfilePhotos extends React.Component<IProfilePhotosProps, IProfilePhotosS
                                                     opts={{
                                                         width: 256,
                                                         height: 208,
-                                                        // playerVars: { // https://developers.google.com/youtube/player_parameters
-                                                        //     autoplay: 1
-                                                        // }
+                                                        playerVars: { // https://developers.google.com/youtube/player_parameters
+                                                            autoplay: 1
+                                                        }
                                                     }}
                                                 />
                                                 {(hover === video.id) && (
