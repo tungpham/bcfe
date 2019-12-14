@@ -280,7 +280,7 @@ select.city {
   border: 1px solid #d9dadb;
   border-radius: 1px;
   padding-top: 12px;
-  padding-bottom: 17px;
+  padding-bottom: 12px;
   padding-left: 6px;
   padding-right: 40px;
   color: #3e3f42;
@@ -297,8 +297,8 @@ select.city {
 .search-bar {
   border: 1px solid #d9dadb;
   border-radius: 1px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .MuiInputBase-root.search {
@@ -311,8 +311,8 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.getstarted {
   background-color: #449b1b;
   padding-left: 16px !important;
   padding-right: 16px !important;
-  padding-top: 12.5px !important;
-  padding-bottom: 12px !important;
+  padding-top: 10.5px !important;
+  padding-bottom: 10px !important;
   border-top-left-radius: 0px;
   color: white;
   border-bottom-left-radius: 0px;
