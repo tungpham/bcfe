@@ -128,7 +128,7 @@ function SliderPastProject(props) {
                                 </div>
                             )) : ''}
                     </AutoPlaySwipeableViews>
-                    {modalId ? detailsData[modalId].projectFiles.length : 'null'}
+                    <div style={{color:'white'}}>{modalId ? detailsData[modalId].projectFiles.length : 'null'}</div>
                     <MobileStepper 
                         className="stepper-divider"
                         steps={modalId ? detailsData[modalId].projectFiles.length : ''}
