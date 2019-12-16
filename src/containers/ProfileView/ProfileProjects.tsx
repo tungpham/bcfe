@@ -500,7 +500,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={6} style={{ paddingRight: 8,display:'flex' }}>
+                            <Grid item xs={6} id="profile-input-hover" style={{ paddingRight: 8,display:'flex' }}>
                                 <TextField
                                     label={`Duration (optional)`}
                                     margin="dense"
