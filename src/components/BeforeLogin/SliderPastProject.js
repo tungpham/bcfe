@@ -45,12 +45,14 @@ function SliderPastProject(props) {
         Axios.get(`${HttpUrlConstant.BASE_URL}/contractors/${Id}/projects/past`).then((data) => {
             setdetailsData(data.data.content);
         })
+
     }, [])
 
 
     const handleOpen = (e) => {
         setModalId(e.target.id)
         setOpen(true);
+        setActiveStep(0);
     };
 
     const handleClose = () => {
@@ -59,11 +61,12 @@ function SliderPastProject(props) {
 
 
     const handleStepChange = step => {
-        // setActiveStep(step);
+        setActiveStep(step);
+        // console.log(step);
     };
 
     const handleNext = () => {
-        setActiveStep(prevActiveStep => prevActiveStep + 1);
+        activeStep > detailsData[modalId].projectFiles.length - 1 ? setActiveStep(0) : setActiveStep(prevActiveStep => prevActiveStep + 1); 
     };
 
     const handleBack = () => {
@@ -90,7 +93,7 @@ function SliderPastProject(props) {
                     <div key={index1} style={{ display: 'flex' }}>
                         <div className="pastproject">
                             <div className="pastprojectimg">{item.projectFiles.map((image, index) => {
-                                return <img key={index} id={index1}  className={index === 0 ? "pastprojectimg" : 'none'} src={`${HttpUrlConstant.BASE_URL}/projects/${item.id}/files/${image.name}`} onClick={handleOpen} ></img>
+                                return <img key={index} id={index1} className={index === 0 ? "pastprojectimg" : 'none'} src={`${HttpUrlConstant.BASE_URL}/projects/${item.id}/files/${image.name}`} onClick={handleOpen} ></img>
                             })}
                             </div>
                             <div className="pastprojectdetails">
@@ -116,21 +119,21 @@ function SliderPastProject(props) {
                         enableMouseEvents>
                         {modalId ?
                             detailsData[modalId].projectFiles.map((step, index) => (
-                                <div style={{overflow:'hidden'}} className="post-height" key={index}>
+                                <div style={{ overflow: 'hidden' }} className="post-height" key={index}>
                                     {Math.abs(activeStep - index) <= 2 ? (
                                         <img className="post-slider-img" src={`${HttpUrlConstant.BASE_URL}/projects/${detailsData[modalId].id}/files/${step.name}`} alt={step.label} />
                                     ) : null}
                                 </div>
                             )) : ''}
                     </AutoPlaySwipeableViews>
-                    <MobileStepper 
+                    <MobileStepper
                         className="stepper-divider"
                         steps={modalId ? detailsData[modalId].projectFiles.length : ''}
                         position="static"
                         variant="text"
                         activeStep={activeStep}
                         nextButton={
-                            <Button size="small" className="myNextButton" onClick={handleNext} disabled={modalId ? activeStep === detailsData[modalId].projectFiles.length - 1 : ''}>
+                            <Button size="small" className="myNextButton" onClick={handleNext} disabled={modalId ? activeStep === detailsData[modalId].projectFiles.length - 1 : false}>
                                 <i className="fa fa-chevron-right" aria-hidden="true"></i>
                             </Button>
                         }
