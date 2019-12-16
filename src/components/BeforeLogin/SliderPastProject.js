@@ -117,7 +117,7 @@ function SliderPastProject(props) {
                         onChangeIndex={handleStepChange}
                         className="post-img-height"
                         enableMouseEvents>
-                        {modalId ?
+                        {modalId && detailsData[modalId].projectFiles.length >= activeStep ?
                             detailsData[modalId].projectFiles.map((step, index) => (
                                 <div style={{ overflow: 'hidden' }} className="post-height" key={index}>
                                     {Math.abs(activeStep - index) <= 2 ? (
@@ -131,7 +131,7 @@ function SliderPastProject(props) {
                         steps={modalId ? detailsData[modalId].projectFiles.length : ''}
                         position="static"
                         variant="text"
-                        activeStep={activeStep}
+                        activeStep={modalId && detailsData[modalId].projectFiles.length<activeStep ? setActiveStep(0):activeStep}
                         nextButton={
                             <Button size="small" className="myNextButton" onClick={handleNext} disabled={modalId ? activeStep === detailsData[modalId].projectFiles.length - 1 : false}>
                                 <i className="fa fa-chevron-right" aria-hidden="true"></i>
