@@ -168,6 +168,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         }
     };
 
+    // Implemented Sort function on upload column.
     UploadToggleSort = () => {
         let uploadOrder: ('desc' | 'asc') = 'desc';
         if (this.state.uploadOrder !== 'desc') {
@@ -184,6 +185,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         this.setState({ uploadOrder });
     }
 
+    // Implemented Sort function on Bids Due column.
     BidsToggleSort = () => {
         let bidsOrder: ('desc' | 'asc') = 'desc';
 

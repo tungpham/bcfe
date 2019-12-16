@@ -436,7 +436,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
             });
         }
     }
-
+    // Implemented Sort function on Start Date  column.
     StartDateToggleSort = () => {
         let startDateOrder: ('desc' | 'asc') = 'desc';
 
@@ -449,6 +449,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         this.setState({ startDateOrder });
     }
 
+    // Implemented Sort function on End Date column.
     EndDateToggleSort = () => {
         let endDateOrder: ('desc' | 'asc') = 'desc';
 
@@ -477,14 +478,14 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         let tab = tabs.map(tab => tab.href).indexOf(location.pathname);
         if (tab < 0) tab = 0;
 
-        if(this.state.isBusy || this.state.compltedArray.length === 0){
+        if (this.state.isBusy || this.state.compltedArray.length === 0) {
             return <CircularProgress className={classes.busy} />
         }
 
         return (
             <div>
                 <Box>
-                    <Table className="sub-table-margin" style={{marginTop:'40px'}}>
+                    <Table className="sub-table-margin" style={{ marginTop: '40px' }}>
                         <TableHead>
                             <TableRow>
                                 <CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>

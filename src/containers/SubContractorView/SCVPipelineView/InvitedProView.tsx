@@ -141,7 +141,6 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 	};
 
 	handleDeleteProject = async id => {
-
 		const { projects, userProfile } = this.props;
 		this.setState({
 			isBusy: true,
@@ -188,6 +187,8 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 	handleSelectProject = async id => {
 		this.props.history.push('/s_cont/proposal_detail/' + id);
 	};
+
+	// Implemented Sort function on Start Date  column.
 	StartDateToggleSort = () => {
 		let startDateOrder: ('desc' | 'asc') = 'desc';
 
@@ -200,6 +201,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		this.setState({ startDateOrder });
 	}
 
+	// Implemented Sort function on End Date  column.
 	EndDateToggleSort = () => {
 		let endDateOrder: ('desc' | 'asc') = 'desc';
 

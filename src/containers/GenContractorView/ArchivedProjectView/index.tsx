@@ -115,6 +115,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         })
         this.setState({ isBusy: false });
     }
+
     handleChangePage = async (event, page) => {
         const { userProfile } = this.props;
         const { rowsPerPage } = this.state;
@@ -202,6 +203,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         this.props.history.push('/gen-contractor/project_detail/' + id);
     };
 
+    // Implemented Sort function on Start Date column.
     StartDateToggleSort = () => {
         let startDateOrder: ('desc' | 'asc') = 'desc';
 
@@ -214,6 +216,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         this.setState({ startDateOrder });
     }
 
+    // Implemented Sort function on End Date column.
     EndDateToggleSort = () => {
         let endDateOrder: ('desc' | 'asc') = 'desc';
 
