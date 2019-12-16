@@ -124,7 +124,7 @@ class ConnectedProposalDetailMessages extends React.Component<ProposalDetailMess
 		};
 	}
 
-	async componentWillMount() {
+	async UNSAFE_componentWillMount() {
 		const { proposal } = this.props;
 
 		try {

@@ -70,7 +70,7 @@ class SettingsView extends React.Component {
 		this.setState({ [name]: event.target.checked });
 	};
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		const { userProfile } = this.props;
 
 		this.setState({
