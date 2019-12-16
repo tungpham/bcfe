@@ -498,7 +498,28 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={6} style={{ paddingRight: 8 }}>
+                            {/* <Grid item xs={6} style={{ paddingRight: 8 }}>
+                                <TextField
+                                    label={`Duration (optional)`}
+                                    margin="dense"
+                                    className="profile-input-font"
+                                    fullWidth
+                                    value={duration}
+                                    onChange={e => this.setState({ duration: parseInt(e.target.value) })}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <Select style={{ width: 160 }} value={unit} onChange={e => this.setState({ unit: e.target.value as string })}>
+                                                {units.map(unt => (
+                                                    <MenuItem value={unt} key={unt}>
+                                                        {unt}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        )
+                                    }}
+                                />
+                            </Grid> */}
+                             <Grid item xs={6} style={{ paddingRight: 8 }}>
                                 <TextField
                                     label={`Duration (optional)`}
                                     margin="dense"
@@ -519,6 +540,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                     }}
                                 />
                             </Grid>
+
                             <Grid item xs={6} style={{ paddingLeft: 8 }}>
                                 <FormControl fullWidth style={{ marginTop: 5 }}>
                                     <InputLabel htmlFor='past-project-year-select'>Year</InputLabel>

@@ -84,7 +84,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 		window.addEventListener('resize', this.resizedWindow);
 	}
 
-	UNSAFE_componentWillMount() {
+	UNSAFE_UNSAFE_componentWillMount() {
 		window.removeEventListener('resize', this.resizedWindow);
 	}
 
