@@ -22,11 +22,10 @@ function ContractorList(props) {
     const [date] = useState(new Date().getFullYear());
 
     useEffect(() => {
-        getContractorDetails();
+        postContractorDetails();
     }, []);
-
-   
-    async function getContractorDetails() {
+    
+    async function postContractorDetails() {
         const payload = {
             "city": props.location.state.cityName,
             "specialty": props.location.state.specialty

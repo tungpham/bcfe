@@ -62,9 +62,9 @@ function ContractorDetails(props) {
     const [getmaterial, setgetmaterial] = useState('');
     const [getdisc, setgetdisc] = useState('');
     const [validation, setvalidation] = useState("");
-    const [radioButton, setRadioButton] = useState("");
-    const [aCall, setAreaCall] = useState("");
-    const [material, setMaterial] = useState("");
+    const [radioButton] = useState("");
+    const [aCall] = useState("");
+    const [material] = useState("");
     const [activeStep, setActiveStep] = React.useState(0);
     const [Avtarurl, setAvtarurl] = useState('');
     const [Galleryarr, setGalleryarr] = useState([]);
