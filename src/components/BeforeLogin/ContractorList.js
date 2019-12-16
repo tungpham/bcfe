@@ -25,6 +25,7 @@ function ContractorList(props) {
         getContractorDetails();
     }, []);
 
+   
     async function getContractorDetails() {
         const payload = {
             "city": props.location.state.cityName,
