@@ -87,9 +87,6 @@ function ContractorDetails(props) {
         setgetcheck2(value2);
     }
 
-    const serviceCall = (value) => {
-        setgetcheck(value);
-    }
     const propertyCall = (value) => {
         setgetredio(value);
         if (value !== '') {
@@ -129,13 +126,6 @@ function ContractorDetails(props) {
             }
         })
     }
-
-    // useEffect(() => {
-    //     fetchimage()
-    //     if ((!radioButton === '' && activeStep === 2) || (!aCall === '' && activeStep === 3) || (!material === '' && activeStep === 5)) {
-    //         handleNext();
-    //     }
-    // });
 
     const handleClose = () => {
         var popupModalArray = [{ "modalTitle": 'A Project', "getbudjet": getbudjet, "getbudjetvalue": getbudjetvalue, "description": getdisc , "budgetFrom" : getbudjet.split('-')[0] , "budgetTo" : getbudjet.split('-')[1] }];
@@ -246,6 +236,7 @@ function ContractorDetails(props) {
         fetchPersonReviews();
         fetchRating();
         fetchFAQ();
+        fetchimage();
         // eslint-disable-next-line
     }, [])
 

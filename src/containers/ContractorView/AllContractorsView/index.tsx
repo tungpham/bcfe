@@ -115,7 +115,7 @@ class AllContractorsView extends React.Component<IAllContractorsViewProps, IAllC
         this.props.getContractors(this.state.currentPage, this.state.rowsPerPage);
     }
 
-    componentWillReceiveProps({ contractors }) {
+    UNSAFE_componentWillReceiveProps({ contractors }) {
         this.setState({ contractors: contractors });
     }
 

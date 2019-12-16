@@ -518,6 +518,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                     ))}
                                 </Select>
                             </Grid>
+
                             <Grid item xs={6} style={{ paddingLeft: 8 }}>
                                 <FormControl fullWidth style={{ marginTop: 5 }}>
                                     <InputLabel htmlFor='past-project-year-select'>Year</InputLabel>

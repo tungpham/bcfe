@@ -178,7 +178,7 @@ class ProjectBidders extends React.Component<IProjectBiddersProps, IProjectBidde
 		this.setState({ showMessage: false });
 	}
 
-	componentWillReceiveProps({ invited, contractors, searchResult }) {
+	UNSAFE_componentWillReceiveProps({ invited, contractors, searchResult }) {
 		this.setState({
 			invited: invited,
 			contractors: contractors,
