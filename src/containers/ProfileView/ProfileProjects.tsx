@@ -374,6 +374,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                             </Grid>
                             <Grid item xs={6} style={{ paddingLeft: 8 }}>
                                 <TextField
+                                    id="location-align"
                                     label={`Location(optional)`}
                                     margin="dense"
                                     fullWidth
