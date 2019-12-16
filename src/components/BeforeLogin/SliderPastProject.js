@@ -78,7 +78,7 @@ function SliderPastProject(props) {
             draggable={false}
             showDots={true}
             responsive={responsive}
-            ssr={true} // means to render carousel on server-side.
+            ssr={true}  
             infinite={true}
             keyBoardControl={true}
             customTransition="all .5"

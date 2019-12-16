@@ -6,6 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 
 export default class AutoComplete extends React.Component {
+
     constructor(props) {
         super(props);
         this.items = [""];
@@ -15,7 +16,7 @@ export default class AutoComplete extends React.Component {
             setError: '',
             term: '',
         };
-        this.getitem = this.getitem.bind(this);
+        this.getItem = this.getItem.bind(this);
     }
 
     componentDidMount() {
@@ -24,7 +25,8 @@ export default class AutoComplete extends React.Component {
         })
     }
 
-    getitem(e) {
+    // For get user selected Item/value from dropdown.
+    getItem(e) {
         let value = e.target.textContent;
         localStorage.setItem('specialitie', value);
         var inputText = document.getElementById('input');
@@ -40,6 +42,8 @@ export default class AutoComplete extends React.Component {
         this.setState({ term: text });
         localStorage.setItem('specialitie', text.charAt(0).toUpperCase() + text.slice(1));
         var suggestionss = [];
+
+        // Implement Suggestion Items from existing list
         this.state.searchArray.forEach(element => {
             suggestionss.push(element.name)
             this.setState({ items: suggestionss });
@@ -58,6 +62,7 @@ export default class AutoComplete extends React.Component {
         }
     }
 
+    // Implement for disable the space keyword at begining of the textbox.
     onKeyPress = (e) =>{
         if (e.which === 32 && !e.target.value.length)
         e.preventDefault();
@@ -67,11 +72,12 @@ export default class AutoComplete extends React.Component {
         const { suggestion } = this.state;
         if(suggestion.length){
             return(<ul className="myList" id='test'>
-            {suggestion.map((item) => <li key={item} onClick={this.getitem} className="sug-li" style={{ cursor: 'pointer' }} value={item}>{item}</li>)}
+            {suggestion.map((item) => <li key={item} onClick={this.getItem} className="sug-li" style={{ cursor: 'pointer' }} value={item}>{item}</li>)}
         </ul>)
         }
     }
 
+    
     render() {
         return (
             <div className="suggestion-search">

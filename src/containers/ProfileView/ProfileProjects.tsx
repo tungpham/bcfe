@@ -76,6 +76,7 @@ const styles = (theme: Theme) => createStyles({
     imageItem: {
         width: 128,
         height: 128,
+        objectFit:'contain',
         border: 'solid 1px rgba(0, 0, 0, 0.2)',
         display: 'flex',
         marginBottom: theme.spacing(1),
@@ -402,7 +403,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                                 onMouseEnter={() => this.setState({ hover: index })}
                                                 onMouseLeave={() => this.setState({ hover: -1 })}
                                             >
-                                                <img src={url} alt='project-snapshot' style={{ width: 128, height: 128 }} />
+                                                <img src={url} alt='project-snapshot' style={{ width: 128, height: 128,objectFit:'contain' }} />
                                                 {hover === index && (
                                                     <IconButton
                                                         style={{ position: 'absolute', right: 0, top: 0 }}
@@ -434,7 +435,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                                 <img
                                                     src={process.env.REACT_APP_PROJECT_API + '/projects/' + editing + '/files/' + file.name}
                                                     alt='project-snapshot'
-                                                    style={{ width: 128, height: 128 }}
+                                                    style={{ width: 126, height: 128, objectFit:'contain' }}
                                                 />
                                                 {hover === index && (
                                                     <IconButton

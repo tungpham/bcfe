@@ -62,48 +62,49 @@ function ContractorDetails(props) {
     const [getmaterial, setgetmaterial] = useState('');
     const [getdisc, setgetdisc] = useState('');
     const [validation, setvalidation] = useState("");
-    const [radioButton, setRadioButton] = useState("");
-    const [aCall, setAreaCall] = useState("");
-    const [material, setMaterial] = useState("");
+    const [radioButton] = useState("");
+    const [aCall] = useState("");
+    const [material] = useState("");
     const [activeStep, setActiveStep] = React.useState(0);
     const [Avtarurl, setAvtarurl] = useState('');
-    const [Galleryarr, setGalleryarr] = useState([]); 
-    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1 ,getcheck2];
+    const [Galleryarr, setGalleryarr] = useState([]);
+    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1, getcheck2];
     const classes = useStyles();
 
-    const handleOpen = () => {
+    const HandleOpen = () => {
         setOpen(true);// For Getting the value from modal(parent to child).
     };
 
-    const callback = (value) => {
+    // Callback functions from child components modal.
+    const Callback = (value) => {
         setgetvalue(value);
     }
 
-    const serviceCallvalue1= (value1) => {
+    const ServiceCallValue1 = (value1) => {
         setgetcheck1(value1);
     }
 
-    const serviceCallvalue2= (value2) => {
+    const ServiceCallValue2 = (value2) => {
         setgetcheck2(value2);
     }
 
-    const propertyCall = (value) => {
+    const PropertyCall = (value) => {
         setgetredio(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
-    const areaCall = (value) => {
+    const AreaCall = (value) => {
         setgetarearedio(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
 
-    const budjetCallvalue = (value) => {
+    const BudjetCallValue = (value) => {
         setgetbudjetvalue(value);
     }
-    const budjetCall = (value) => {
+    const BudjetCall = (value) => {
         setgetbudjet(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -115,11 +116,11 @@ function ContractorDetails(props) {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
-    const discCall = (value) => {
+    const DiscCall = (value) => {
         setgetdisc(value);
     }
 
-    function fetchimage() {
+    function FetchImage() {
         axios.get(`${HttpUrlConstant.BASE_URL}/contractors/${Id}/avatar`).then((data) => {
             if (data.status === 200) {
                 setAvtarurl(`${HttpUrlConstant.BASE_URL}/contractors/${Id}/avatar`);
@@ -127,8 +128,8 @@ function ContractorDetails(props) {
         })
     }
 
-    const handleClose = () => {
-        var popupModalArray = [{ "modalTitle": 'A Project', "getbudjet": getbudjet, "getbudjetvalue": getbudjetvalue, "description": getdisc , "budgetFrom" : getbudjet.split('-')[0] , "budgetTo" : getbudjet.split('-')[1] }];
+    const HandleClose = () => {
+        var popupModalArray = [{ "modalTitle": 'A Project', "getbudjet": getbudjet, "getbudjetvalue": getbudjetvalue, "description": getdisc, "budgetFrom": getbudjet.split('-')[0], "budgetTo": getbudjet.split('-')[1] }];
         localStorage.setItem("modalData", JSON.stringify(popupModalArray));
         if (activeStep === 7) {
             auth0Client.signIn();
@@ -136,10 +137,10 @@ function ContractorDetails(props) {
             const payload = {
                 "title": 'A Project',
                 "description": getdisc,
-                "budget":  getbudjetvalue,
+                "budget": getbudjetvalue,
                 "due": new Date(),
-                "budgetFrom":getbudjet.split('-')[0],
-                "budgetTo":getbudjet.split('-')[1]
+                "budgetFrom": getbudjet.split('-')[0],
+                "budgetTo": getbudjet.split('-')[1]
             };
             if (payload) {
                 Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
@@ -148,11 +149,11 @@ function ContractorDetails(props) {
                     })
             }
         }
-
         setActiveStep(0);
         setOpen(false);
     };
-    const handleNext = () => {
+
+    const HandleNext = () => {
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
             || (activeStep === 1 && getcheck1 === '' && getcheck2 === '')
             || (activeStep === 2 && getredio === '')
@@ -167,101 +168,104 @@ function ContractorDetails(props) {
         }
         if ((activeStep === 7 && getdisc === '') || getdisc === null) {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
-            handleClose();
+            HandleClose();
         }
 
     };
-    const handleBack = () => {
+
+    const HandleBack = () => {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     };
-    const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
-    const credentialref = useRef(null)
-    const executeScrolltocredential = () => scrollToRef(credentialref)
+    const ScrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
-    const Aboutref = useRef(null)
-    const executeScrolltointro = () => scrollToRef(Aboutref)
+    const CredentialRef = useRef(null)
+    const executeScrolltocredential = () => ScrollToRef(CredentialRef)
 
-    const galleryref = useRef(null)
-    const executeScrolltoGallery = () => scrollToRef(galleryref);
+    const AboutRef = useRef(null)
+    const executeScrolltointro = () => ScrollToRef(AboutRef)
 
-    const Reviewref = useRef(null);
-    const executeScrolltoReview = () => scrollToRef(Reviewref);
+    const GalleryRef = useRef(null)
+    const executeScrolltoGallery = () => ScrollToRef(GalleryRef);
 
-    const Faqref = useRef(null);
-    const executeScrolltoFAQ = () => scrollToRef(Faqref);
+    const ReviewRef = useRef(null);
+    const executeScrolltoReview = () => ScrollToRef(ReviewRef);
 
-    function fetchdetails() {
+    const FaqRef = useRef(null);
+    const executeScrolltoFAQ = () => ScrollToRef(FaqRef);
+
+    function FetchDetails() {
         axios.get(process.env.REACT_APP_PROJECT_API + apiPath + Id).then((data) => {
             const detailsdata = [...Detailsdata, data.data];
             setDetailsdata(detailsdata);
-            data.data.contractorFiles.map((i,index) => {
+            data.data.contractorFiles.map((i, index) => {
                 i.type === "PICTURE" ? Galleryarr.push(i.name) : i.type === "LINK" ? Galleryarr.push(i.name) : null
                 setGalleryarr(Galleryarr);
             })
         })
     }
 
-    function fetchPersonReviews() {
+    function FetchPersonReviews() {
         axios.get(process.env.REACT_APP_PROJECT_API + apiPath + Id + '/reviews').then((data) => {
             setPersonReviewList(data.data);
         })
     }
 
-    function fetchRating() {
+    function FetchRating() {
         axios.get(process.env.REACT_APP_PROJECT_API + apiPath + Id + '/get_reviews').then((data) => {
             setRate(data.data);
         })
     }
 
-    function fetchFAQ() {
+    function FetchFAQ() {
         axios.get(process.env.REACT_APP_PROJECT_API + apiPath + Id + '/faq').then((data) => {
             setFaqList(data.data);
         })
     }
 
-    function handleClick(event) {
+    function HandleClick(event) {
         setcurrentPage(Number(event.target.id))
         setactive(true);
     }
 
     useEffect(() => {
-        setRate({fiveStarRating: 0,fourStarRating: 0,oneStarRating: 0,reviews: 0,threeStarRating: 0,twoStarRating: 0});
+        setRate({ fiveStarRating: 0, fourStarRating: 0, oneStarRating: 0, reviews: 0, threeStarRating: 0, twoStarRating: 0 });
         if ((radioButton !== '' && activeStep === 2) ||
             (aCall !== '' && activeStep === 3) ||
             (material !== '' && activeStep === 5)) {
-            handleNext();
+            HandleNext();
         }
-        fetchdetails();
-        fetchPersonReviews();
-        fetchRating();
-        fetchFAQ();
-        fetchimage();
+        FetchDetails();
+        FetchPersonReviews();
+        FetchRating();
+        FetchFAQ();
+        FetchImage();
         // eslint-disable-next-line
     }, [])
 
-    // Logic for displaying page numbers
-
+    // Implimentation of Pagination.
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(PersonReviewList.length / ReviewPerPage); i++) {
         pageNumbers.push(i);
     }
-    const renderPageNumbers = pageNumbers.map(number => {
+    const RenderPageNumbers = pageNumbers.map(number => {
         return (
             <li
                 className={currentPage === number ? 'active' : 'pagenumbers'}
                 key={number}
                 id={number}
-                onClick={handleClick}>
+                onClick={HandleClick}>
                 {number}
             </li>
         );
     });
 
+
     const indexOfLastReview = currentPage * ReviewPerPage;
     const indexOfFirstReview = indexOfLastReview - ReviewPerPage;
     const currentReview = PersonReviewList.slice(indexOfFirstReview, indexOfLastReview);
     const [open, setOpen] = React.useState(false);
+    //End of Pagination.
 
     return (
         <div style={{ width: '1290px', marginTop: '-30px' }} className="full-width">
@@ -305,12 +309,10 @@ function ContractorDetails(props) {
                             </div>
                         </Grid>
                     </Grid>
-
-                    <div className="introduction" ref={Aboutref}>
+                    <div className="introduction" ref={AboutRef}>
                         <p className="intro"> <strong> Introduction: </strong> Ben Erickson, Ownar, has haan practicing Landscape Architecture in the Twin Cities for over'. years, first learning the ropes at the office of CLOSE Landscape Architecture until opening lose landscape designs in MU. We do commercial aswellas residential projects and as of 20, Ea. landscape designs offers installation as part of scope of services, so give us a call and let us know how wa can help outwith your nert Project. </p>
                         <p className="intro">Most did a great job at installing a Jack shaft "opener" on my garage door. I appreciate his hard work."I had a garage door installed with very convinient Wi-Fi capabilities! John was very punctual and professional. He...</p>
                     </div>
-
                     <div className="business-details">
                         <Grid container spacing={3}>
                             <Grid item lg={6} className="overview">
@@ -322,25 +324,20 @@ function ContractorDetails(props) {
                                         </span>
                                         <span className="icon-text">Hired {detailsdata.numberOfHires} times</span>
                                     </ListItem>
-                                    {
-                                        detailsdata.address.backgroundChecked ?
-                                            <div>
-                                                <ListItem className="icons-overview" key={detailsdata.address.backgroundChecked}>
-                                                    <span className="icons"><PersonOutlineSharpIcon id="matrial-icon" /></span>
-                                                    <span className="icon-text">Background Checked</span>
-                                                </ListItem>
-                                            </div> : ''
-                                    }
-                                    {
-                                        detailsdata.licenseVerified ?
-                                            <div>
-                                                <ListItem className="icons-overview" key={detailsdata.licenseVerified}>
-                                                    <span className="icons"><VerifiedUserOutlinedIcon id="matrial-icon" /></span>
-                                                    <span className="icon-text">License Verified</span>
-                                                </ListItem>
-                                            </div> : ''
-                                    }
-
+                                    {detailsdata.address.backgroundChecked ?
+                                        <div>
+                                            <ListItem className="icons-overview" key={detailsdata.address.backgroundChecked}>
+                                                <span className="icons"><PersonOutlineSharpIcon id="matrial-icon" /></span>
+                                                <span className="icon-text">Background Checked</span>
+                                            </ListItem>
+                                        </div> : ''}
+                                    {detailsdata.licenseVerified ?
+                                        <div>
+                                            <ListItem className="icons-overview" key={detailsdata.licenseVerified}>
+                                                <span className="icons"><VerifiedUserOutlinedIcon id="matrial-icon" /></span>
+                                                <span className="icon-text">License Verified</span>
+                                            </ListItem>
+                                        </div> : ''}
                                     <ListItem className="icons-overview" key={detailsdata.address.employees}>
                                         <span className="icons"><PeopleOutlineIcon id="matrial-icon" /> </span>
                                         <span className="icon-text">{detailsdata.address.employees} employees</span>
@@ -350,7 +347,6 @@ function ContractorDetails(props) {
                                         <span className="icon-text">{year - detailsdata.address.founded}  years in business</span></ListItem>
                                 </List>
                             </Grid>
-
                             <Grid item lg={6} className="hours">
                                 <h3 className="Introduction-title"> Business hours</h3>
                                 <List>
@@ -367,22 +363,19 @@ function ContractorDetails(props) {
                                         })}
                                         </div>
                                     </ListItem>
-
                                     <ListItem className="social-media" key={3}>
                                         <h3 className="Introduction-title">Social media</h3>
                                         <div className="instagram">
-                                            {detailsdata.contractorFiles.map((type,index) => {
-                                                    return (<div key={index}>
-                                                        {type.type === "TWITTER" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Twitter</a> : ''}
-                                                        {type.type === "INSTAGRAM" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Instagram</a> : ''}
-                                                        {type.type === "FACEBOOK" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Facebook</a> : ''}
-                                                        {type.type === "LINKEDIN" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">LinkedIn</a> : ''}
-                                                    </div>)
-                                                })
-                                            }
+                                            {detailsdata.contractorFiles.map((type, index) => {
+                                                return (<div key={index}>
+                                                    {type.type === "TWITTER" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Twitter</a> : ''}
+                                                    {type.type === "INSTAGRAM" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Instagram</a> : ''}
+                                                    {type.type === "FACEBOOK" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">Facebook</a> : ''}
+                                                    {type.type === "LINKEDIN" ? <a className="socialmediallink" href={decodeURIComponent(type.name)} target="blank">LinkedIn</a> : ''}
+                                                </div>)
+                                            })}
                                         </div>
                                     </ListItem>
-
                                 </List>
                             </Grid>
                         </Grid>
@@ -398,7 +391,7 @@ function ContractorDetails(props) {
                         </div>
                     </div>
                     <Divider />
-                    <div className="gallery" ref={galleryref} >
+                    <div className="gallery" ref={GalleryRef} >
                         <h3 className="photos">Photos and Videos</h3>
                         <span style={{ color: '#878c90', fontSize: '15px' }}>{Galleryarr.length} photos</span>
 
@@ -407,7 +400,7 @@ function ContractorDetails(props) {
                         </div>
                     </div>
                     <Divider />
-                    <div className="Reviews" ref={Reviewref}>
+                    <div className="Reviews" ref={ReviewRef}>
                         <h3 className="reviews">Reviews</h3>
                         <span className="main-review">{detailsdata.reviewSummary.areview}</span>
                         <Grid container className="review-stars">
@@ -518,10 +511,10 @@ function ContractorDetails(props) {
                         })}
                     </div>
                     <div className="pagination">
-                        {renderPageNumbers}
+                        {RenderPageNumbers}
                     </div>
                     <Divider />
-                    <div className="credential" ref={credentialref}>
+                    <div className="credential" ref={CredentialRef}>
                         <Grid item xs={12}>
                             <h3 className="reviews">Credentials<InfoOutlinedIcon className="info-icon" /></h3>
                         </Grid>
@@ -540,7 +533,7 @@ function ContractorDetails(props) {
                         </Grid>
                     </div>
                     <Divider />
-                    <div className="FAQs" ref={Faqref}>
+                    <div className="FAQs" ref={FaqRef}>
                         <Grid container className="que-ans" >
                             <Grid item lg={12} xs={12}>
                                 <h3 className="reviews">FAQs</h3>
@@ -565,7 +558,7 @@ function ContractorDetails(props) {
             })}
             <div className="message-box">
                 <Paper className="msg-box-align">
-                    <Button variant="contained" onClick={handleOpen} color="primary" className="msg-box-btn">
+                    <Button variant="contained" onClick={HandleOpen} color="primary" className="msg-box-btn">
                         <ChatBubbleOutlineOutlinedIcon className="message-box-icon" /> Message Pro</Button>
                 </Paper>
 
@@ -573,9 +566,9 @@ function ContractorDetails(props) {
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
                     open={open}
-                    onClose={handleClose}>
+                    onClose={HandleClose}>
                     <div className="service-modal" >
-                        <CloseIcon onClick={handleClose} className="modal-close" />
+                        <CloseIcon onClick={HandleClose} className="modal-close" />
                         <Grid className="modal-page-col" item xs={10}>
                             <span variant="subtitle2" color="textSecondary">
                                 {activeStep === 0 ? 1
@@ -589,21 +582,21 @@ function ContractorDetails(props) {
                                </span>
                         </Grid>
                         <Grid container spacing={2}>
-                              {/* Receiving the value from Child */}
-                            {activeStep === 0 ? <ModalCity parentCallback={callback} errorMessage={validation} />
-                                : activeStep === 1 ? <ModalService data={data} serviceCallbackvalue1={serviceCallvalue1} serviceCallbackvalue2={serviceCallvalue2} errorMessage={validation} />
-                                    : activeStep === 2 ? <ModalProperty data={data} propertyCallback={propertyCall} errorMessage={validation} />
-                                        : activeStep === 3 ? <ModalArea data={data} areaCallback={areaCall} errorMessage={validation} />
+                            {/* Receiving the value from Child */}
+                            {activeStep === 0 ? <ModalCity parentCallback={Callback} errorMessage={validation} />
+                                : activeStep === 1 ? <ModalService data={data} serviceCallbackvalue1={ServiceCallValue1} serviceCallbackvalue2={ServiceCallValue2} errorMessage={validation} />
+                                    : activeStep === 2 ? <ModalProperty data={data} propertyCallback={PropertyCall} errorMessage={validation} />
+                                        : activeStep === 3 ? <ModalArea data={data} areaCallback={AreaCall} errorMessage={validation} />
                                             : activeStep === 4 ? <ModalBudjet
-                                                data={data} budjetCallbackvalue={budjetCallvalue}
-                                                budjetCallback={budjetCall}
+                                                data={data} budjetCallbackvalue={BudjetCallValue}
+                                                budjetCallback={BudjetCall}
                                                 errorMessage={validation} />
                                                 : activeStep === 5 ? < ModalMaterial data={data}
                                                     MaterialCallback={MaterialCall}
                                                     errorMessage={validation} />
                                                     : activeStep === 6 ? <ModalDisc
-                                                        discCallback={discCall}
-                                                        errorMessage={validation} /> : handleClose()}
+                                                        discCallback={DiscCall}
+                                                        errorMessage={validation} /> : HandleClose()}
                         </Grid>
                         <MobileStepper
                             variant="progress"
@@ -615,13 +608,13 @@ function ContractorDetails(props) {
                         <Grid container spacing={0}>
                             <Grid item xs={12} style={{ textAlign: 'center', margin: '20px 0px' }}>
                                 <Button variant="contained" className="service-modal-prev"
-                                    onClick={handleBack} disabled={activeStep === 0}
+                                    onClick={HandleBack} disabled={activeStep === 0}
                                 >
                                     {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
                                     Prev
                                    </Button>
                                 <Button variant="contained" className="service-modal-next"
-                                    onClick={handleNext} disabled={activeStep === 7}
+                                    onClick={HandleNext} disabled={activeStep === 7}
                                 >
                                     {activeStep === 6 ? 'Submit' : 'Next'}
                                     {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
