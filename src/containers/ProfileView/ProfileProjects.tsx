@@ -104,7 +104,8 @@ const styles = (theme: Theme) => createStyles({
         left: 'calc(50% - 20px)',
         top: 'calc(50% - 20px)',
         position: 'absolute'
-    }
+    },
+    
 });
 
 export interface IProfileProjectsProps extends StyledComponentProps {
@@ -499,7 +500,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={6} style={{ paddingRight: 8 }}>
+                            <Grid item xs={6} style={{ paddingRight: 8,display:'flex' }}>
                                 <TextField
                                     label={`Duration (optional)`}
                                     margin="dense"
@@ -507,18 +508,15 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                     fullWidth
                                     value={duration}
                                     onChange={e => this.setState({ duration: parseInt(e.target.value) })}
-                                    InputProps={{
-                                        endAdornment: (
-                                            <Select style={{ width: 160 }} value={unit} onChange={e => this.setState({ unit: e.target.value as string })}>
+                                  
+                                />
+                                <Select className="profile-select-days" style={{ width: 160,margin:'4px 0px' }} value={unit} onChange={e => this.setState({ unit: e.target.value as string })}>
                                                 {units.map(unt => (
-                                                    <MenuItem value={unt} key={unt}>
+                                                    <MenuItem  value={unt} key={unt}>
                                                         {unt}
                                                     </MenuItem>
-                                                ))}
-                                            </Select>
-                                        )
-                                    }}
-                                />
+                                    ))}
+                                </Select>
                             </Grid>
                             <Grid item xs={6} style={{ paddingLeft: 8 }}>
                                 <FormControl fullWidth style={{ marginTop: 5 }}>
