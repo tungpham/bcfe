@@ -240,8 +240,7 @@ function ContractorDetails(props) {
         // eslint-disable-next-line
     }, [])
 
-    // Logic for displaying page numbers
-
+    // displaying page numbers
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(PersonReviewList.length / ReviewPerPage); i++) {
         pageNumbers.push(i);
