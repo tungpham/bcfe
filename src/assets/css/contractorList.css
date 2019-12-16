@@ -13,7 +13,7 @@
 }
  
 span.MuiButton-label {
-  text-transform: capitalize;
+  text-transform: uppercase;
   font-weight: 400;
 }
 .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-3 {
