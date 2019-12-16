@@ -40,6 +40,24 @@ const useStyles = makeStyles({
     },
 });
 
+const responsive = {
+    desktop: {
+        breakpoint: { max: 3000, min: 1024 },
+        items: 6,
+        slidesToSlide: 1,
+    },
+    tablet: {
+        breakpoint: { max: 1024, min: 464 },
+        items: 4,
+        slidesToSlide: 1,
+    },
+    mobile: {
+        breakpoint: { max: 464, min: 0 },
+        items: 2,
+        slidesToSlide: 1, // optional, default to 1.
+    },
+};
+
 function HomePageMid() {
     const theme = useTheme();
     const [title, settitle] = useState('');
@@ -54,50 +72,59 @@ function HomePageMid() {
     const [getdisc, setgetdisc] = useState('');
     const [validation, setvalidation] = useState("");
     const [Newdata] = useState([]);
+    const [activeStep, setActiveStep] = React.useState(0);
+    const [open, setOpen] = React.useState(false);
+    const classes = useStyles();
+    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1, getcheck2];
 
     const callback = (value) => {
-        setgetvalue(value);
-  
+        setgetvalue(value); // For Getting the value from modal(parent to child).
     }
-    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1 ,getcheck2];
 
-    const serviceCallvalue1= (value1) => {
+    const serviceCallvalue1 = (value1) => {
         setgetcheck1(value1);
     }
 
-    const serviceCallvalue2= (value2) => {
+    const serviceCallvalue2 = (value2) => {
         setgetcheck2(value2);
     }
+
     const propertyCall = (value) => {
         setgetredio(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
+
     const areaCall = (value) => {
         setgetarearedio(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
+
     const budjetCallvalue = (value) => {
         setgetbudjetvalue(value);
     }
+
     const budjetCall = (value) => {
         setgetbudjet(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
+
     const MaterialCall = (value) => {
         setgetmaterial(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
+
     const discCall = (value) => {
         setgetdisc(value);
     }
+
     const handleNext = () => {
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
             || (activeStep === 1 && getcheck1 === '' && getcheck2 === '')
@@ -114,43 +141,19 @@ function HomePageMid() {
         if ((activeStep === 7 && getdisc === '') || getdisc === null) {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
             handleClose();
-
         }
-
     };
+
     const handleBack = () => {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     };
 
-    const responsive = {
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 6,
-            slidesToSlide: 1,
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 4,
-            slidesToSlide: 1,
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 2,
-            slidesToSlide: 1, // optional, default to 1.
-        },
-    };
-
-    const [open, setOpen] = React.useState(false);
-    const classes = useStyles();
-
-
-    const [activeStep, setActiveStep] = React.useState(0);
     const handleOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
-        var popupModalArray = [{ "modalTitle": title, "getbudjet": getbudjet, "getbudjetvalue": getbudjetvalue, "description": getdisc , "budgetFrom" : getbudjet.split('-')[0] , "budgetTo" : getbudjet.split('-')[1] }];
+        var popupModalArray = [{ "modalTitle": title, "getbudjet": getbudjet, "getbudjetvalue": getbudjetvalue, "description": getdisc, "budgetFrom": getbudjet.split('-')[0], "budgetTo": getbudjet.split('-')[1] }];
         localStorage.setItem("modalData", JSON.stringify(popupModalArray));
         if (activeStep === 7) {
             auth0Client.signIn();
@@ -158,10 +161,10 @@ function HomePageMid() {
             const payload = {
                 "title": title,
                 "description": getdisc,
-                "budget":  getbudjetvalue,
+                "budget": getbudjetvalue,
                 "due": new Date(),
-                "budgetFrom":getbudjet.split('-')[0],
-                "budgetTo":getbudjet.split('-')[1]
+                "budgetFrom": getbudjet.split('-')[0],
+                "budgetTo": getbudjet.split('-')[1]
             };
             if (payload) {
                 Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
@@ -170,7 +173,6 @@ function HomePageMid() {
                     })
             }
         }
-
         setActiveStep(0);
         setOpen(false);
     };
@@ -178,8 +180,6 @@ function HomePageMid() {
     const gettitle = (e) => {
         settitle(e.target.title);
     }
-   
- 
 
     return (<div className="container home-mid-bg">
         <h2 className="font-color">Contact  Local Professional</h2>
@@ -449,7 +449,7 @@ function HomePageMid() {
                                </Typography>
                         </Grid>
                         <Grid container spacing={2}>
-
+                            {/* Receiving the value from Child */}
                             {activeStep === 0 ? <ModalCity parentCallback={callback} errorMessage={validation} />
                                 : activeStep === 1 ? <ModalService data={data} serviceCallbackvalue1={serviceCallvalue1} serviceCallbackvalue2={serviceCallvalue2} errorMessage={validation} />
                                     : activeStep === 2 ? <ModalProperty

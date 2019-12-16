@@ -9,15 +9,15 @@ function ModalDisc(props) {
     const [char, setChar] = useState(0);
 
     const handelchange = (e) => {
-        const newvalue = e.target.value;
-        const charLength = e.target.value.length;
+        const newvalue = e.target.value; //get the value
+        const charLength = e.target.value.length; //Get the charecter Length
         setChar(charLength);
-        setvalue(newvalue);
+        setvalue(newvalue); //set Value
     }
 
     const getInputValue = () => {
         var inputVal = document.getElementById("filled-full-width").value;
-        props.discCallback(inputVal);
+        props.discCallback(inputVal); // For Passing the value to modal series(child to parent).
     }
 
     return (

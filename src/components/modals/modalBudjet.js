@@ -23,17 +23,17 @@ function ModalBudjet(props) {
     })(props => <Radio color="default" {...props} />);
     
     const handleChange = event => {
-        props.budjetCallback(event.target.value);
+        props.budjetCallback(event.target.value); // For Passing the value to modal series(child to parent)
     };
 
     const handleChangevalue=(e)=>{
-        const newvalue = e.target.value;
-        setvalue(newvalue);
+        const newvalue = e.target.value; //get value for text field
+        setvalue(newvalue); //set value
     }
 
     const getInputValue = () => {
-        var inputVal = document.getElementById("filled-full-width").value;
-        props.budjetCallbackvalue(inputVal);
+        var inputVal = document.getElementById("filled-full-width").value; //get value
+        props.budjetCallbackvalue(inputVal); // For Passing the value to modal series(child to parent)
     }
 
     return (

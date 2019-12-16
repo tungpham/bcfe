@@ -67,12 +67,12 @@ function ContractorDetails(props) {
     const [material, setMaterial] = useState("");
     const [activeStep, setActiveStep] = React.useState(0);
     const [Avtarurl, setAvtarurl] = useState('');
-    const [Galleryarr, setGalleryarr] = useState([]);
-
+    const [Galleryarr, setGalleryarr] = useState([]); 
     const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1 ,getcheck2];
     const classes = useStyles();
+
     const handleOpen = () => {
-        setOpen(true);
+        setOpen(true);// For Getting the value from modal(parent to child).
     };
 
     const callback = (value) => {
@@ -589,6 +589,7 @@ function ContractorDetails(props) {
                                </span>
                         </Grid>
                         <Grid container spacing={2}>
+                              {/* Receiving the value from Child */}
                             {activeStep === 0 ? <ModalCity parentCallback={callback} errorMessage={validation} />
                                 : activeStep === 1 ? <ModalService data={data} serviceCallbackvalue1={serviceCallvalue1} serviceCallbackvalue2={serviceCallvalue2} errorMessage={validation} />
                                     : activeStep === 2 ? <ModalProperty data={data} propertyCallback={propertyCall} errorMessage={validation} />

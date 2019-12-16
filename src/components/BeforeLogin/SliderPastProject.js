@@ -48,7 +48,6 @@ function SliderPastProject(props) {
 
     }, [])
 
-
     const handleOpen = (e) => {
         setModalId(e.target.id)
         setOpen(true);

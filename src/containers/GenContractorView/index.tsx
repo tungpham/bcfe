@@ -54,12 +54,14 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     const [getdisc, setgetdisc] = useState('');
     const [validation, setvalidation] = useState("");
     const [Newdata] = useState([]);
-
-    const theme = useTheme();
-    const callback = (value) => {
-        setgetvalue(value);
-    }
     const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1, getcheck2];
+    const theme = useTheme();
+    const [open, setOpen] = React.useState(false); 
+    const [activeStep, setActiveStep] = React.useState(0);
+
+    const callback = (value) => {
+        setgetvalue(value); // For Getting the value from modal(parent to child).
+    } 
 
     const serviceCallvalue1 = (value1) => {
         setgetcheck1(value1);
@@ -122,11 +124,8 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     };
     const handleBack = () => {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
-    };
-
-    const [open, setOpen] = React.useState(false);
-
-    const [activeStep, setActiveStep] = React.useState(0);
+    }; 
+    
     const handleOpen = () => {
         setOpen(true);
     };
@@ -154,7 +153,6 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     };
 
     const { userProfile, match, location } = props;
-
     if (
         !userProfile.user_metadata.roles.includes('Gen') &&
         !userProfile.user_metadata.roles.includes('GenSub') &&
@@ -255,6 +253,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                         <React.Fragment>
                             <Grid container spacing={2}>
                                 <Grid item lg={12} xs={12}>
+                                      {/* Receiving the value from Child */}
                                     {
                                         <div> {activeStep === 0 ? <ModalCity parentCallback={callback} errorMessage={validation} />
                                             : activeStep === 1 ? <ModalService data={data} serviceCallbackvalue1={serviceCallvalue1} serviceCallbackvalue2={serviceCallvalue2} errorMessage={validation} />

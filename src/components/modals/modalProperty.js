@@ -20,8 +20,8 @@ function ModalProperty(props) {
     })(props => <Radio color="default" {...props} />);
 
     const handleChange = event => {
-        props.propertyCallback(event.target.value); 
-        setValue(event.target.value)
+        props.propertyCallback(event.target.value);  // For Passing the value to modal series(child to parent)
+        setValue(event.target.value) //set value
     };
     return (
         <Grid container spacing={2}>

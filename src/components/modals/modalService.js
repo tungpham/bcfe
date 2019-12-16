@@ -12,12 +12,12 @@ function ModalService(props) {
     const handleToggle = id => (event) => {
         const currentIndex = id;
         if (currentIndex === '0') {
-            props.serviceCallbackvalue1(event.target.value);
+            props.serviceCallbackvalue1(event.target.value); // For Passing the value to modal series(child to parent)
             if (event.target.checked === false) {
                 props.serviceCallbackvalue1('');
             }
         } else {
-            props.serviceCallbackvalue2(event.target.value);
+            props.serviceCallbackvalue2(event.target.value); // For Passing the value to modal series(child to parent)
             if (event.target.checked === false) {
                 props.serviceCallbackvalue2('');
             }

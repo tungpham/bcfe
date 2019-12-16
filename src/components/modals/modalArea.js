@@ -20,8 +20,7 @@ function ModalArea(props) {
     })(props => <Radio color="default" {...props} />);
 
     const handleChange = event => {
-        props.areaCallback(event.target.value);
-
+        props.areaCallback(event.target.value);// pass value to modal searies
     };
     return (
         <Grid className="service-modal-col" item xs={10}>

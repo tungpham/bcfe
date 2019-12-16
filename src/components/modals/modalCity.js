@@ -9,13 +9,13 @@ function ModalCity(props) {
     const [value, setvalue] = useState('');
 
     const handelchange = (e) => {
-        const newvalue = e.target.value;
-        setvalue(newvalue);
+        const newvalue = e.target.value; //get text field value
+        setvalue(newvalue); //set value 
     }
 
     const getInputValue = () => {
         var inputVal = document.getElementById("outlined-bare").value;
-        props.parentCallback(inputVal);
+        props.parentCallback(inputVal); // For Passing the value to modal series(child to parent).
     }
 
     return (
