@@ -59,11 +59,16 @@ function SliderPastProject(props) {
 
 
     const handleStepChange = step => {
-        // setActiveStep(step);
+        console.log(step)
+        setActiveStep(step);
     };
 
     const handleNext = () => {
-        setActiveStep(prevActiveStep => prevActiveStep + 1);
+        if(activeStep < detailsData[modalId].projectFiles.length){
+            setActiveStep(prevActiveStep => prevActiveStep + 1);
+        }else{
+            setActiveStep(0);
+        }
     };
 
     const handleBack = () => {
@@ -114,7 +119,7 @@ function SliderPastProject(props) {
                         onChangeIndex={handleStepChange}
                         className="post-img-height"
                         enableMouseEvents>
-                        {modalId ?
+                        {modalId && detailsData[modalId].projectFiles.length >= activeStep ?
                             detailsData[modalId].projectFiles.map((step, index) => (
                                 <div style={{overflow:'hidden'}} className="post-height" key={index}>
                                     {Math.abs(activeStep - index) <= 2 ? (
@@ -123,12 +128,13 @@ function SliderPastProject(props) {
                                 </div>
                             )) : ''}
                     </AutoPlaySwipeableViews>
+                    {modalId ? detailsData[modalId].projectFiles.length : 'null'}
                     <MobileStepper 
                         className="stepper-divider"
                         steps={modalId ? detailsData[modalId].projectFiles.length : ''}
                         position="static"
                         variant="text"
-                        activeStep={activeStep}
+                        activeStep={modalId && detailsData[modalId].projectFiles.length<activeStep ? setActiveStep(0):activeStep}
                         nextButton={
                             <Button size="small" className="myNextButton" onClick={handleNext} disabled={modalId ? activeStep === detailsData[modalId].projectFiles.length - 1 : ''}>
                                 <i className="fa fa-chevron-right" aria-hidden="true"></i>
