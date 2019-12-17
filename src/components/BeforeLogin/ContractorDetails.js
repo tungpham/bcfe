@@ -1,4 +1,4 @@
-/*eslint-enable*/
+/*eslint-entable*/
 import React, { useState, useEffect, useRef } from 'react';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import '../../assets/css/con.css';
@@ -292,10 +292,10 @@ function ContractorDetails(props) {
                         <Grid item xs={12} md={2} lg={2} className="details-info" >
                             <ListItemAvatar className="details-photo">
                                 {Avtarurl ? <div key={detailsdata.id}>
-                                    {<img alt="image" className="displayNone" src={process.env.REACT_APP_PROJECT_API + "contractors/" + Id + "/avatar"} />}
+                                    {<img alt="image1" className="displayNone" src={process.env.REACT_APP_PROJECT_API + "contractors/" + Id + "/avatar"} />}
                                 </div> :
                                     <div key={detailsdata.id}>
-                                        {<img alt="image" className="displayNone" src={`${HttpUrlConstant.Image_URL}/api/?name=${detailsdata.address.company}`} />}
+                                        {<img alt="image22" className="displayNone" src={`${HttpUrlConstant.Image_URL}/api/?name=${detailsdata.address.company}`} />}
                                     </div>}
                             </ListItemAvatar>
                         </Grid>

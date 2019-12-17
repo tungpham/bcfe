@@ -1,4 +1,4 @@
-/*eslint-disable*/
+/*eslint-enable*/
 import React, { useEffect, useState } from 'react';
 import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
@@ -23,7 +23,7 @@ function ContractorList(props) {
 
     useEffect(() => {
         postContractorDetails();
-    }, []);
+    });
     
     async function postContractorDetails() {
         const payload = {
@@ -53,11 +53,11 @@ function ContractorList(props) {
                                                 return (
                                                     <div key={index}>
                                                         {item.type === 'AVATAR' ?
-                                                            <img className="myAvatar" alt="image" src={`${HttpUrlConstant.BASE_URL}/contractors/${cntDetail.contractor.id}/files/${item.name}`} /> : ' '}
+                                                            <img className="myAvatar" alt={item.name} src={`${HttpUrlConstant.BASE_URL}/contractors/${cntDetail.contractor.id}/files/${item.name}`} /> : ' '}
                                                     </div>
                                                 )
                                             })}
-                                            {cntDetail.contractor['contractorFiles'].length === 0 ? <img className="myAvatar" alt="image1" className="displayNone" src={`${HttpUrlConstant.Image_URL}/api/?name=${cntDetail.contractor.address.company}`} /> : ''}
+                                            {cntDetail.contractor['contractorFiles'].length === 0 ? <img  alt="companyImage" className="displayNone" src={`${HttpUrlConstant.Image_URL}/api/?name=${cntDetail.contractor.address.company}`} /> : ''}
                                         </Grid>
                                         <Grid item xs={12} lg={10}>
                                             <Grid className="row">
@@ -76,7 +76,7 @@ function ContractorList(props) {
                                                     </div>
                                                 </Grid>
                                                 <Grid item xs={12} lg={3}>
-                                                    <h3 className="no-margin"><i className="fa fa-comment-o" aria-hidden="true"></i></h3>
+                                                    <div className="no-margin"><i className="fa fa-comment-o" aria-hidden="true"></i></div>
                                                     <span style={{ fontSize: '13px', color: 'rgba(0, 0, 0, 0.54)' }}>contact for price</span>
                                                 </Grid>
                                             </Grid>
