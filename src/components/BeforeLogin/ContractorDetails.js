@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import '../../assets/css/con.css';
-import { List, ListItem, Grid, ListItemAvatar, Avatar, Divider, Button, Paper, CircularProgress } from '@material-ui/core';
+import { List, ListItem, Grid, ListItemAvatar, Divider, Button, Paper, CircularProgress } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import { useTheme } from '@material-ui/core';
 import PersonOutlineSharpIcon from '@material-ui/icons/PersonOutlineSharp';
@@ -70,6 +70,7 @@ function ContractorDetails(props) {
     const [Galleryarr, setGalleryarr] = useState([]);
     const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1, getcheck2];
     const classes = useStyles();
+    const [Newdata] = useState([]);
 
     const HandleOpen = () => {
         setOpen(true);// For Getting the value from modal(parent to child).
@@ -199,9 +200,9 @@ function ContractorDetails(props) {
             const detailsdata = [...Detailsdata, data.data];
             setDetailsdata(detailsdata);
             data.data.contractorFiles.map((i, index) => {
-                i.type === "PICTURE" ? Galleryarr.push(i.name) : i.type === "LINK" ? Galleryarr.push(i.name) : null
-                setGalleryarr(Galleryarr);
+                return i.type === "PICTURE" ? Galleryarr.push(i.name) : i.type === "LINK" ? Galleryarr.push(i.name) : null
             })
+            setGalleryarr(Galleryarr);
         })
     }
 
