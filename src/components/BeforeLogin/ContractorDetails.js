@@ -1,4 +1,4 @@
-/*eslint-disable*/
+/*eslint-enable*/
 import React, { useState, useEffect, useRef } from 'react';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import '../../assets/css/con.css';
