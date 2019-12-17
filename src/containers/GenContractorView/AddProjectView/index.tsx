@@ -37,7 +37,6 @@ import { UserProfile } from 'types/global';
 import { ProjectLevel, ProjectPostInfo, ProjectLevelCategory } from 'types/project';
 import Axios from 'axios';
 
-
 const CONT_API_PATH = process.env.REACT_APP_PROJECT_API + 'contractors/';
 
 const styles = theme => createStyles({

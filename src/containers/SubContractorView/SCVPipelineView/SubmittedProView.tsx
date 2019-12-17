@@ -1,4 +1,4 @@
-/*eslint-disable*/
+/*eslint-enable*/
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -70,6 +70,7 @@ interface ISubmittedProViewState extends ISnackbarProps {
 	totalLength: number;
 	submitData: [];
 }
+const CONT_API_PATH = process.env.REACT_APP_PROJECT_API + 'contractors/';
 
 class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmittedProViewState> {
 
@@ -94,7 +95,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 	}
 	componentDidMount() {
 		const { userProfile } = this.props;
-		Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/proposals' + `?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=SUBMITTED`).then(res => {
+		Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=SUBMITTED`).then(res => {
 			this.setState({ submitData: res.data.content })
 			this.setState({ totalLength: res.data.totalElements })
 		});
@@ -107,9 +108,8 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/proposals' + `?page=${page}&size=${rowsPerPage}&status=SUBMITTED`)
+			Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=SUBMITTED`)
 				.then(data => {
-					console.log(data);
 					this.setState({
 						submitData: data.data.content,
 						isBusy: false,
@@ -130,7 +130,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
 		try {
-			Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/proposals' + `?page=${currentPage}&size=${newPageSize}&status=SUBMITTED`).then(res => {
+			Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=SUBMITTED`).then(res => {
 				this.setState({
 					submitData: res.data.content,
 					isBusy: false,
