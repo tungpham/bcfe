@@ -1,4 +1,4 @@
-/*eslint-disable*/
+/*eslint-enable*/
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
@@ -36,6 +36,9 @@ import { loadRoots } from 'store/actions/tem-actions';
 import { UserProfile } from 'types/global';
 import { ProjectLevel, ProjectPostInfo, ProjectLevelCategory } from 'types/project';
 import Axios from 'axios';
+
+
+const CONT_API_PATH = process.env.REACT_APP_PROJECT_API + 'contractors/';
 
 const styles = theme => createStyles({
     root: {
@@ -134,14 +137,16 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
     async componentDidMount() {
         await this.props.clearLevels();
         // await this.props.loadRoots();
-        Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + this.props.userProfile.user_metadata.contractor_id + '/projects' + `?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`).then(data => {
-            this.setState({ compltedArray: data.data.content })
-            this.setState({ totalLength: data.data.totalElements })
-            data.data.content.map(d => {
-                var diff = Math.floor((Date.parse(d.project.endDate) - Date.parse(d.project.startDate)) / 86400000);
-                return this.setState({ days: diff })
-            });
-        })
+        Axios.get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`)
+
+            .then(data => {
+                this.setState({ compltedArray: data.data.content })
+                this.setState({ totalLength: data.data.totalElements })
+                data.data.content.map(d => {
+                    var diff = Math.floor((Date.parse(d.project.endDate) - Date.parse(d.project.startDate)) / 86400000);
+                    return this.setState({ days: diff })
+                });
+            })
         this.setState({ isBusy: false });
     }
 
@@ -217,7 +222,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         const { rowsPerPage } = this.state;
         try {
             if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-            Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + this.props.userProfile.user_metadata.contractor_id + '/projects' + `?page=${page}&size=${rowsPerPage}&status=ONGOING`)
+
+            Axios.get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}&status=ONGOING`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -241,7 +247,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
         this.setState({ rowsPerPage, currentPage, isBusy: true });
         try {
-            Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + this.props.userProfile.user_metadata.contractor_id + '/projects' + `?page=${currentPage}& size=${newPageSize}&status=ONGOING`).then(data => {
+            Axios.get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}&status=ONGOING`).then(data => {
                 this.setState({
                     compltedArray: data.data.content,
                     isBusy: false,
@@ -499,7 +505,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                         onClick={this.StartDateToggleSort}
                                     >
                                         Start Date
-                            </TableSortLabel>
+                                </TableSortLabel>
                                 </CustomTableCell>
                                 <CustomTableCell align="center"><TableSortLabel style={{ fontSize: '15px', cursor: "pointer" }} className="Arrowdown"
                                     active={true}
@@ -507,7 +513,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                     onClick={this.EndDateToggleSort}
                                 >
                                     End Date
-                            </TableSortLabel>
+                                </TableSortLabel>
                                 </CustomTableCell>
                                 <CustomTableCell align="center" className="sub-table-col-width">Project Details</CustomTableCell>
                             </TableRow>
@@ -555,9 +561,9 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                             <p className="font-size-12">{this.state.days}&nbsp; Days Left</p>
                                         </div>
                                         {/* {data.project.endDate && data.project.endDate.slice(0, 10)}
-                                        <div className="notDisplayFlex">
-                                            <p className="font-size-12">{this.state.days}&nbsp; Days Left</p>
-                                        </div> */}
+                                            <div className="notDisplayFlex">
+                                                <p className="font-size-12">{this.state.days}&nbsp; Days Left</p>
+                                            </div> */}
                                     </CustomTableCell>
 
                                     <CustomTableCell
