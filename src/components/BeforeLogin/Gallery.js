@@ -1,16 +1,14 @@
-/*eslint-disable*/
+/*eslint-enable*/
 import React, { useState, useEffect } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Modal from '@material-ui/core/Modal';
 import { useTheme } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
-import Youtube from 'react-youtube';
 import Button from '@material-ui/core/Button';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import Axios from 'axios';
-import queryString from 'query-string';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -18,6 +16,7 @@ function Gallery(props) {
 
     useEffect(() => {
         getimagelist();
+        //eslint-disable-next-line
     }, [])
 
     const [galleryId] = useState(props.Idprops);
@@ -40,7 +39,7 @@ function Gallery(props) {
     };
 
     const [imagelist, setImagelist] = useState([]);
-    const [Image, setImage] = useState([]);
+    const [Image] = useState([]);
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => {
@@ -73,8 +72,8 @@ function Gallery(props) {
         Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId).then((data) => {
             setImagelist(data.data.contractorFiles);
             data.data.contractorFiles.map((i) => {
-                i.type === "PICTURE" ? Image.push(i.name) : null
-                setImage(Image);
+              return i.type === "PICTURE" ? Image.push(i.name) : null;
+                // setImage(Image);
             })
         })
     }
@@ -99,7 +98,7 @@ function Gallery(props) {
                     return image.type === "PICTURE" ? <div key={image.name}>
                         <div className="">
                             <div className="slider-gallery-img" onClick={handleOpen}>
-                                <img alt="no" src={process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId + '/files/' + image.name} alt="past-project"></img>
+                                <img src={process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId + '/files/' + image.name} alt="past-project"></img>
                             </div>
                         </div>
                     </div> : image.type === "LINK" ? <iframe
@@ -110,6 +109,7 @@ function Gallery(props) {
                             width: "180px",
                             height: "200px"
                         }}
+                        title={image.name}
                         key={image.name}
                         src={`https://www.youtube.com/embed/${image.name.slice(44)}`}
                         frameBorder="0"
@@ -125,7 +125,7 @@ function Gallery(props) {
                     <div className="rootclass">
                         <img
                             className="imageclass"
-                            src={process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId + '/files/' + Image[activeStep]} />
+                            src={process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId + '/files/' + Image[activeStep]} alt="image1"/>
                         <AutoPlaySwipeableViews
                             axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                             index={activeStep}

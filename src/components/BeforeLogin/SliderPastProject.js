@@ -1,4 +1,4 @@
-/*eslint-disable*/
+/*eslint-enable*/
 import React, { useEffect, useState } from 'react';
 import Modal from '@material-ui/core/Modal';
 import 'react-multi-carousel/lib/styles.css';
@@ -45,7 +45,7 @@ function SliderPastProject(props) {
         Axios.get(`${HttpUrlConstant.BASE_URL}/contractors/${Id}/projects/past`).then((data) => {
             setdetailsData(data.data.content);
         })
-
+        //eslint-disable-next-line
     }, [])
 
     const handleOpen = (e) => {
@@ -65,7 +65,7 @@ function SliderPastProject(props) {
     };
 
     const handleNext = () => {
-        activeStep > detailsData[modalId].projectFiles.length - 1 ? setActiveStep(0) : setActiveStep(prevActiveStep => prevActiveStep + 1); 
+        activeStep > detailsData[modalId].projectFiles.length - 1 ? setActiveStep(0) : setActiveStep(prevActiveStep => prevActiveStep + 1);
     };
 
     const handleBack = () => {
@@ -78,7 +78,7 @@ function SliderPastProject(props) {
             draggable={false}
             showDots={true}
             responsive={responsive}
-            ssr={true}  
+            ssr={true}
             infinite={true}
             keyBoardControl={true}
             customTransition="all .5"
@@ -92,7 +92,7 @@ function SliderPastProject(props) {
                     <div key={index1} style={{ display: 'flex' }}>
                         <div className="pastproject">
                             <div className="pastprojectimg">{item.projectFiles.map((image, index) => {
-                                return <img key={index} id={index1} className={index === 0 ? "pastprojectimg" : 'none'} src={`${HttpUrlConstant.BASE_URL}/projects/${item.id}/files/${image.name}`} onClick={handleOpen} ></img>
+                                return <img key={index} id={index1} className={index === 0 ? "pastprojectimg" : 'none'} src={`${HttpUrlConstant.BASE_URL}/projects/${item.id}/files/${image.name}`} onClick={handleOpen} alt="pastimage"></img>
                             })}
                             </div>
                             <div className="pastprojectdetails">
@@ -130,7 +130,7 @@ function SliderPastProject(props) {
                         steps={modalId ? detailsData[modalId].projectFiles.length : ''}
                         position="static"
                         variant="text"
-                        activeStep={modalId && detailsData[modalId].projectFiles.length<activeStep ? setActiveStep(0):activeStep}
+                        activeStep={modalId && detailsData[modalId].projectFiles.length < activeStep ? setActiveStep(0) : activeStep}
                         nextButton={
                             <Button size="small" className="myNextButton" onClick={handleNext} disabled={modalId ? activeStep === detailsData[modalId].projectFiles.length - 1 : false}>
                                 <i className="fa fa-chevron-right" aria-hidden="true"></i>
