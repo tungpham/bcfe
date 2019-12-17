@@ -1,4 +1,4 @@
-/*eslint-disable*/
+/*eslint-enable*/
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -27,7 +27,8 @@ import { Projects } from 'types/project';
 import style from './CurrentProject.style';
 import Axios from 'axios';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-var _ = require('lodash');
+
+const CONT_API_PATH = process.env.REACT_APP_PROJECT_API + 'contractors/';
 
 interface CurrentProjectProps extends RouteComponentProps {
     classes: ClassNameMap<string>;
@@ -74,7 +75,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         const { userProfile } = this.props;
         this.setState({ isBusy: true });
         try {
-            Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/projects' + `?page=${this.state.currentPage}&size=${this.state.rowsPerPage}`).then(data => {
+            Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}`).then(data => {
                 this.setState({ compltedArray: data.data.content })
                 this.setState({ totalLength: data.data.totalElements })
             })
@@ -91,7 +92,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
 
         try {
             if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-            Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/projects' + `?page=${page}&size=${rowsPerPage}`)
+            Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -114,7 +115,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
 
         const { userProfile } = this.props;
         try {
-            Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + userProfile.user_metadata.contractor_id + '/projects' + `?page=${currentPage}&size=${newPageSize}`)
+            Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -204,15 +205,15 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     };
 
     render() {
-        const { classes, projects } = this.props;
+        const { classes } = this.props;
 
-        if(this.state.isBusy || this.state.compltedArray.length === 0){
+        if (this.state.isBusy || this.state.compltedArray.length === 0) {
             return <CircularProgress className={classes.busy} />
         }
 
         return (
             <Box>
-                <Table className="sub-table-margin" style={{marginTop:'40px'}}>
+                <Table className="sub-table-margin" style={{ marginTop: '40px' }}>
                     <TableHead>
                         <TableRow>
                             <CustomTableCell className="sub-table-col-1"> Project Title </CustomTableCell>
@@ -278,7 +279,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                                     onClick={() => this.handleSelectProject(data.project.id)}
                                 >
                                     {data.project.due ? data.project.due && data.project.due.slice(0, 10) : ''}
-                                    <div className="time"> {data.project.due  ? data.project.due && data.project.due.slice(11, 19) : ''}&nbsp;{data.project.due ? data.project.due.slice(10, 13) <= 11 ? "AM" : "PM" : ''}</div>
+                                    <div className="time"> {data.project.due ? data.project.due && data.project.due.slice(11, 19) : ''}&nbsp;{data.project.due ? data.project.due.slice(10, 13) <= 11 ? "AM" : "PM" : ''}</div>
                                 </CustomTableCell>
                                 <CustomTableCell
                                     align="center"
