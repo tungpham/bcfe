@@ -70,6 +70,7 @@ const ProfileReviewCard: React.FunctionComponent<IProfileReviewCardProps> = (pro
 
     const classes = useStyles({});
     const { askReview, review } = props;
+    console.log("aSFSDF", props);
 
     const rateCount = review.reviews;
     const labels = [5, 4, 3, 2, 1];
@@ -126,7 +127,7 @@ const ProfileReviewCard: React.FunctionComponent<IProfileReviewCardProps> = (pro
                 <Divider />
                 <ListItem>
                     <Box className={classes.flex}>
-                        <RateIcon style={{ marginTop:10, fontSize: 64 }} />
+                        <RateIcon style={{ marginTop: 10, fontSize: 64 }} />
                         <Box id='review-description' style={{ flex: 1, padding: 8 }}>
                             <Typography style={{ fontWeight: 600 }}>
                                 {"Get reviews from past customers, even if they're not on Thumbtack."}
@@ -139,8 +140,7 @@ const ProfileReviewCard: React.FunctionComponent<IProfileReviewCardProps> = (pro
                             <Button
                                 className={classes.button}
                                 style={{ marginTop: 8 }}
-                                onClick={askReview}
-                            >
+                                onClick={askReview}>
                                 Ask for Reviews
                                 </Button>
                         </Box>

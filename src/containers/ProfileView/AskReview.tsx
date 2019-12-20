@@ -150,7 +150,7 @@ const AskReview: React.FunctionComponent<IAskReviewProps> = (props) => {
                                     required
                                 />
                                 <IconButton onClick={() => deleteMail(idx + 1)} style={{ height: 37, margin: 10 }}>
-                                    <DeleteIcon fontSize='small' color='error' />
+                                    <DeleteIcon  className="profile-delete-icon-size" fontSize='small' color='error' />
                                 </IconButton>
                             </Box>
                         ))
@@ -164,7 +164,7 @@ const AskReview: React.FunctionComponent<IAskReviewProps> = (props) => {
                     <Typography className={classes.bold}>
                         Email preview
                     </Typography>
-                    <Box style={{ width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                    <Box className="profile-textarea-font-size" style={{ width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                         <Avatar
                             alt="Avatar"
                             src={avatar}
@@ -183,7 +183,8 @@ const AskReview: React.FunctionComponent<IAskReviewProps> = (props) => {
                         />
                         <TextField
                             fullWidth
-                            multiline
+                            multiline 
+                            className="text-field-size"
                             value={msg}
                             onChange={e => setMsg(e.target.value)}
                             style={{ textAlign: 'left' }}
