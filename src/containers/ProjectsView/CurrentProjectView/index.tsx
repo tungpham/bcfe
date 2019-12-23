@@ -330,7 +330,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                     </Box>
                     <Box className = "page-info-view">
                         {
-                            !this.state.isBusyForLoadingProjects && this.props.projects && this.props.projects.content ? (
+                            !this.state.isBusyForLoadingProjects && this.props.projects && this.props.projects.content && this.props.projects.content.length > 0? (
                                 <React.Fragment>
                                     <Box className = "page-info">
                                         <strong>Showing {this.state.currentPage * this.state.rowsPerPage + 1} - {this.state.currentPage * this.state.rowsPerPage + this.props.projects.content.length} </strong>
