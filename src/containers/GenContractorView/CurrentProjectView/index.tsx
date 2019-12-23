@@ -79,7 +79,6 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                 this.setState({ compltedArray: data.data.content })
                 this.setState({ totalLength: data.data.totalElements })
             })
-            await this.props.getProjectsByGenId(userProfile.user_metadata.contractor_id, 0, 20);
         } catch (error) {
             console.log(error);
         }

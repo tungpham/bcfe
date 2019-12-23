@@ -70,7 +70,6 @@ const ProfileReviewCard: React.FunctionComponent<IProfileReviewCardProps> = (pro
 
     const classes = useStyles({});
     const { askReview, review } = props;
-    console.log("aSFSDF", props);
 
     const rateCount = review.reviews;
     const labels = [5, 4, 3, 2, 1];
