@@ -46,6 +46,7 @@ export interface ICurrentProjectViewState {
     isBusy: boolean,
     isBusyForLoadingProjects: boolean;
     specialties: Specialty[];
+    sort_value: number;
 }
 
 class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurrentProjectViewState> {
@@ -59,7 +60,8 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
             activeFilterParams: [],
             isBusy: false,
             isBusyForLoadingProjects: false,
-            specialties: null
+            specialties: null,
+            sort_value: 1
         }
         this.handleChangeFilterParams = this.handleChangeFilterParams.bind(this);
     }
@@ -246,7 +248,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                         id="demo-customized-select"
                         variant="outlined"
                         fullWidth
-                        defaultValue = {1}
+                        value = {this.state.sort_value}
                         className = "sort-by-select"
                     >
                         <MenuItem value={1}><strong>Upload Date:</strong> Earliest</MenuItem>

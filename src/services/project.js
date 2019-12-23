@@ -31,7 +31,12 @@ export default {
 			size: size
 		},
 	}).then(res => res.data),
-
+	getAllBySpecialties: (page, size,specialties) => Axios.get(PROJ_API_PATH + 'available?' + specialties, {
+		params: {
+			page: page,
+			size: size
+		},
+	}).then(res => res.data),
 	invite: (id, contid) => Axios.post(PROJ_API_PATH + id + '/invite/' + contid).then(res => res.data),
 	getInvites: (id, page, size) => Axios.get(PROJ_API_PATH + id + '/invites', {
 		params: {

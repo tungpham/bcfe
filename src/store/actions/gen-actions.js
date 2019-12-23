@@ -1,6 +1,7 @@
 import { createActions } from 'redux-actions';
 import {
 	ALL_PROJECT_LOADED,
+	PROJECTS_LOAD_BY_SPE,
 	CLEAR_ALL_PROJECTS,
 	CLEAR_PROJECTS,
 	CLEAR_TEMPLATES,
@@ -22,11 +23,13 @@ export const {
 
 const {
 	allProjectLoaded,
+	projectsLoadBySpe,
 	clearAllProjects,
 	projectLoaded,
 	levelsLoaded,
 } = createActions({
 	[ALL_PROJECT_LOADED]: projects => projects,
+	[PROJECTS_LOAD_BY_SPE]: projects => projects,
 	[CLEAR_ALL_PROJECTS]: () => null,
 	[PROJECT_LOADED]: projects => projects,
 	[LEVELS_LOADED]: levels => levels
@@ -49,6 +52,12 @@ export const getAllProjects = (page, size) => dispatch => {
 	dispatch(clearAllProjects());
 	return ProjApi.getAll(page, size).then(data => {
 		dispatch(allProjectLoaded(data));
+	});
+};
+export const getProjectsBySpecialty = (page, size, specialties) => dispatch => {
+	dispatch(clearAllProjects());
+	return ProjApi.getAllBySpecialties(page, size,specialties).then(data => {
+		dispatch(projectsLoadBySpe(data));
 	});
 };
 export const getProjectsByGenId = (id, page, size) => dispatch => ContApi.getProjects(id, page, size).then(data => {
