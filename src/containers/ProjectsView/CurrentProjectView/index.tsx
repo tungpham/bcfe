@@ -2,45 +2,50 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from "redux";
 import { RouteComponentProps } from 'react-router-dom';
-
+//import Material ui components;
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Typography from '@material-ui/core/Typography';
+import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Paper from '@material-ui/core/Paper';
-import { createStyles, withStyles } from '@material-ui/core/styles';
-import { ClassNameMap } from '@material-ui/styles/withStyles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-
-import { getAllProjects } from 'store/actions/gen-actions';
-import CustomTableCell from 'components/shared/CustomTableCell';
-import removeMd from 'remove-markdown';
-import Ellipsis from 'components/Typography/Ellipsis';
-import { Projects } from 'types/project';
-
-const styles = theme => createStyles({
-    root: {
-        flexGrow: 1,
-        overflow: 'auto'
-    },
-    waitingSpin: {
-        position: 'relative',
-        left: 'calc(50% - 10px)',
-        top: 'calc(40vh)',
-    },
-});
-
+//import Material ui icons;
+import AutoRenewIcon from '@material-ui/icons/Autorenew';
+import ClearIcon from '@material-ui/icons/Clear';
+import DoneIcon from '@material-ui/icons/Done';
+//import Custom components;
+import ProjectCardItem from './components/projectItemCard';
+//import Actions;
+import { getAllProjects, getProjectsBySpecialty } from 'store/actions/gen-actions';
+import { loadSpecs } from 'store/actions/spec-actions';
+import { Projects, ProjectsWithSpecialties } from 'types/project';
+import { Specialties, Specialty } from 'types/global';
+import './style.scss';
 
 export interface ICurrentProjectViewProps extends RouteComponentProps {
+    dirty: boolean;
     getAllProjects: (page: number, size: number) => Promise<void>;
-    projects: Projects;
-    classes: ClassNameMap<string>;
+    getProjectsBySpecialty: (page: number, size: number, specialities: string) => Promise<void>;
+    loadSpecs: (page: number, size: number) => Promise<void>;    
+    projects: ProjectsWithSpecialties;
+    specialties: Specialties;
 }
-
+export interface FilterParam {
+    name : String;
+    id : String;
+}
 export interface ICurrentProjectViewState {
     rowsPerPage: number;
     currentPage: number;
+    filterParams: FilterParam[];
+    activeFilterParams: FilterParam[],
+    isBusy: boolean,
+    isBusyForLoadingProjects: boolean;
+    specialties: Specialty[];
 }
 
 class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurrentProjectViewState> {
@@ -48,24 +53,55 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
         super(props);
 
         this.state = {
-            rowsPerPage: 20,
+            rowsPerPage: 10,
             currentPage: 0,
+            filterParams: [],
+            activeFilterParams: [],
+            isBusy: false,
+            isBusyForLoadingProjects: false,
+            specialties: null
         }
+        this.handleChangeFilterParams = this.handleChangeFilterParams.bind(this);
     }
 
     async componentDidMount() {
-        await this.props.getAllProjects(0, 0);
+        if ( !this.state.specialties) {
+			this.setState({ isBusy: true });
+            await this.props.loadSpecs(0, 100);
+			this.setState({ 
+                isBusy: false, 
+                specialties: this.props.specialties.content
+            });
+        }
+        this.setState({
+            isBusyForLoadingProjects: true
+        })
+        await this.props.getProjectsBySpecialty(0, 0,'');
+        this.setState({
+            rowsPerPage: this.props.projects.pageable.pageSize,
+            currentPage: this.props.projects.pageable.pageNumber,
+            isBusyForLoadingProjects: false,
+        })
     }
 
-    handleChangePage = async (event, page) => {
-        this.setState({ currentPage: page });
-
-        await this.props.getAllProjects(page, this.state.rowsPerPage);
+    handleChangePage = async (page) => {
+        var spe_params_string = "";
+        this.state.activeFilterParams.map((_spe, index)=>{
+            spe_params_string += "specialty=" + _spe.id ;
+            if(this.state.activeFilterParams.length - 1 > index) spe_params_string += "&";
+        })
+        this.setState({ 
+            isBusyForLoadingProjects: true,
+        });
+        await this.props.getProjectsBySpecialty(page, this.state.rowsPerPage, spe_params_string);
+        this.setState({
+            isBusyForLoadingProjects: false,
+            currentPage: page,
+        })
     }
 
     handleChangeRowsPerPage = event => {
         const { projects } = this.props;
-
         const rowsPerPage = event.target.value;
         const currentPage = (rowsPerPage >= projects.totalElements)
             ? 0 : this.state.currentPage;
@@ -77,80 +113,277 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
 
         this.props.getAllProjects(currentPage, rowsPerPage);
     };
-
-
+    isExist = (params, item) => {
+        var result = false;
+        for(var i = 0 ;i < params.length; i++)
+        {
+            if(params[i].id == item.id) result = true;
+        }
+        return result;
+    }
+    handleChangeFilterParams = (checked, specialityParam, activeIs) => {
+        if(specialityParam.name == 'All Specialities' && checked)
+        {
+            this.setState({
+                filterParams: []
+            })
+            return;
+        }
+        var _filterParams = this.state.filterParams;
+        var _activeFilterParams = this.state.activeFilterParams;
+        if(activeIs){
+            if(checked)
+            {
+                if(!this.isExist(_activeFilterParams,specialityParam)){
+                    _activeFilterParams.push(specialityParam);
+                }
+                if(!this.isExist(_filterParams,specialityParam)){
+                    _filterParams.push(specialityParam);
+                }
+            } else {
+                if(this.isExist(_activeFilterParams,specialityParam)){
+                    _activeFilterParams = _activeFilterParams.filter(filter_item => filter_item.id != specialityParam.id)
+                }
+                if(this.isExist(_filterParams,specialityParam)){
+                    _filterParams = _filterParams.filter(filter_item => filter_item.id != specialityParam.id)
+                }
+            }
+        } else {
+            if(checked)
+            {
+                if(!this.isExist(_filterParams,specialityParam)){
+                    _filterParams.push(specialityParam);
+                }
+            } else {
+                if(this.isExist(_filterParams,specialityParam)){
+                    _filterParams = _filterParams.filter(filter_item => filter_item.id != specialityParam.id)
+                }
+            }
+        }
+        this.setState({
+            filterParams: _filterParams,
+            activeFilterParams: _activeFilterParams
+        },
+        ()=>{
+            if(activeIs)
+            {
+                this.handleChangePage(0);
+            }
+        })
+       
+    }
+    makePagenationItems = (totalPage) => {
+        var list = [];
+        var startPage =  Math.max(0, 5 * Math.floor(this.state.currentPage / 5) - 1);
+        var endPage = Math.min(totalPage - 1,   5 * Math.floor(this.state.currentPage / 5 + 1));
+        
+        for(var i = startPage ; i <= endPage; i++)
+        {
+          list.push(i);
+        }
+        return(
+          <React.Fragment>
+            {
+              list.map((item,index)=>(
+                <Box key = {index} className={item==this.state.currentPage ? "pagenation-item-selected" : "pagenation-item"}
+                  onClick = {()=>{
+                     if(this.state.currentPage == item) return;
+                     this.handleChangePage(item)
+                  }}
+                >
+                   {item + 1}
+                </Box>
+              ))
+            }
+          </React.Fragment>
+        )
+      }
     public render() {
 
-        const { classes, projects } = this.props;
-
+        const {  projects } = this.props;
         if (!projects) {
-            return <CircularProgress className={classes.waitingSpin} />;
+            return <CircularProgress  />;
         }
-
         return (
-            <Paper square className={classes.root}>
-                <Table style={{marginTop:'40px'}}>
-                    <TableHead>
-                        <TableRow>
-                            <CustomTableCell> Project Title </CustomTableCell>
-                            <CustomTableCell align="center">Budget</CustomTableCell>
-                            <CustomTableCell align="center">Due Date</CustomTableCell>
-                            <CustomTableCell align="center">Discription</CustomTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {projects.content.map(row => (
-                            <TableRow
-                                className={classes.row}
-                                key={row.id}
-                                hover
-                                onClick={() => {
-                                    this.props.history.push('/projects/project_detail/' + row.id);
-                                }}
-                            >
-                                <CustomTableCell component="th" scope="row">
-                                    <Ellipsis>{row.title}</Ellipsis>
-                                </CustomTableCell>
-                                <CustomTableCell align="center">{row.budget}</CustomTableCell>
-                                <CustomTableCell align="center">{row.due && row.due.slice(0, 10)}</CustomTableCell>
-                                <CustomTableCell align="center">
-                                    <Ellipsis>{removeMd(row.description)}</Ellipsis>
-                                </CustomTableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-                <TablePagination
-                    style={{ overflow: 'auto' }}
-                    rowsPerPageOptions={[5, 10, 20]}
-                    component="div"
-                    count={projects.totalElements}
-                    rowsPerPage={this.state.rowsPerPage}
-                    page={this.state.currentPage}
-                    backIconButtonProps={{
-                        'aria-label': 'Previous Page',
-                    }}
-                    nextIconButtonProps={{
-                        'aria-label': 'Next Page',
-                    }}
-                    onChangePage={this.handleChangePage}
-                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                />
-            </Paper>
+            <Box  className="project-list-view">
+                <Box className = "filter-view">
+                    <Typography className = "main-title">Filters:</Typography>
+                    <Typography>
+                        <Button  variant = "contained" size="small" color = "primary"
+                            onClick = {()=>{
+
+                                this.setState({
+                                    activeFilterParams: [...this.state.filterParams]
+                                },
+                                ()=>{
+                                    this.handleChangePage(0);
+                                })
+                            }}
+                        ><AutoRenewIcon/><small>Apply filters</small></Button>
+                        <Button  color="primary" size="small" style = {{color:"#366cd9"}}
+                            onClick = {() => { 
+                                this.setState({
+                                    filterParams: [],
+                                    activeFilterParams: []
+                                },
+                                ()=>{
+                                    this.handleChangePage(0);
+                                })
+                             }}
+                        ><ClearIcon/><small>Clear filters</small></Button>
+                    </Typography>
+                    <Typography className = "sub-title">City</Typography>
+                    <TextField
+						label=""
+						defaultValue=""
+						margin="normal"
+						variant="outlined"
+                        fullWidth
+                        className = "city-input"
+					/>
+                    <Typography className = "sub-title">Sort By</Typography>
+                    <Select
+                        id="demo-customized-select"
+                        variant="outlined"
+                        fullWidth
+                        defaultValue = {1}
+                        className = "sort-by-select"
+                    >
+                        <MenuItem value={1}><strong>Upload Date:</strong> Earliest</MenuItem>
+                        <MenuItem value={2}><strong>Upload Date:</strong> Latest</MenuItem>
+                    </Select>
+                    <Typography className = "sub-title">Specialties</Typography>
+                    <Box className = "specialty-select-view">
+                        {
+                            this.state.isBusy == true ? (
+                                <CircularProgress disableShrink />
+                            ) : (null)
+                        }
+                         <FormControlLabel
+                            style = {{display:"block"}}
+                            className = {this.state.filterParams.length == 0 ? "select-item selected" : "select-item"}
+                            control={
+                            <Checkbox
+                                className = "checkbox-icon"
+                                checked = {this.state.filterParams.length == 0  ? true : false}
+                                onChange = {(e) => {this.handleChangeFilterParams(e.target.checked, {name:"All Specialities", id:""}, false)}}
+                            />
+                            }
+                            label = "All Specialities"
+                        />
+                        {
+                            this.state.specialties && this.state.specialties.length && this.state.specialties.map((item, index) => (
+                                <FormControlLabel
+                                    key = {index}
+                                    style = {{display:"block"}}
+                                    className = {this.isExist(this.state.filterParams, {"name":item.name, "id":item.id}) ? "select-item selected" : "select-item"}
+                                    control={
+                                    <Checkbox
+                                       className = "checkbox-icon"
+                                       checked = {this.state.filterParams.length == 0 && item.name == "All Specialities" ? true : this.isExist(this.state.filterParams, {"name":item.name, "id":item.id})}
+                                       onChange = {(e) => {this.handleChangeFilterParams(e.target.checked, {"name":item.name, "id":item.id}, false)}}
+                                    />
+                                    }
+                                    label = {item.name}
+                                />
+                            ))
+                        }
+                        
+                    </Box>
+                </Box>
+                <Box className = "projects-view">
+                    <Box className = "active-filter-view">
+                        {
+                            this.state.isBusyForLoadingProjects ? (
+                                 <CircularProgress  />
+                            ) : ( null )
+                        }
+                        {
+                            this.state.activeFilterParams.length && !this.state.isBusyForLoadingProjects ? (
+                                <Typography className = "active-filter-title"><strong>Active Filters: </strong></Typography>
+                            ): (null)
+                        }
+                        {
+                            !this.state.isBusyForLoadingProjects && this.state.activeFilterParams.map((item, index) => (
+                                <Chip
+                                    key = {index}
+                                    variant="outlined"
+                                    label = {item.name}
+                                    color="secondary"
+                                    onDelete = {()=>{this.handleChangeFilterParams(false, item, true)}}
+                                    className = "active-filter-item"
+                                />
+                            ))
+                        }
+                    
+                    </Box>
+                    <Box>
+                        {
+                           !this.state.isBusyForLoadingProjects && this.props.projects && this.props.projects.content && this.props.projects.content.map((item, index) => {
+                                return(
+                                     <ProjectCardItem project = {item} key = {item.project.id} {...this.props}/>
+                                )
+                            })
+                        }
+                    </Box>
+                    <Box className = "page-info-view">
+                        {
+                            !this.state.isBusyForLoadingProjects && this.props.projects && this.props.projects.content ? (
+                                <React.Fragment>
+                                    <Box className = "page-info">
+                                        <strong>Showing {this.state.currentPage * this.state.rowsPerPage + 1} - {this.state.currentPage * this.state.rowsPerPage + this.props.projects.content.length} </strong>
+                                        <span> of {this.props.projects.totalElements} entries</span>
+                                    </Box>
+                                    <Box className = "pagenation-view">
+                                        <Box className = "pagenation-item"
+                                            onClick = {()=>{
+                                                if(this.state.currentPage > 0)
+                                                {
+                                                    this.handleChangePage(this.state.currentPage - 1)
+                                                }
+                                            }}
+                                        >
+                                            {"< Prev"}
+                                        </Box>
+                                        {
+                                            this.props.projects && !this.state.isBusyForLoadingProjects ? this.makePagenationItems(this.props.projects.totalPages) : null
+                                        }
+                                        <Box className = "pagenation-item"
+                                            onClick = {()=>{
+                                                if(this.props.projects.totalPages - 1 > this.state.currentPage)
+                                                {
+                                                    this.handleChangePage(this.state.currentPage + 1)
+                                                }
+                                            }}
+                                        >
+                                            {"Next >"}
+                                        </Box>
+                                     </Box>
+                                </React.Fragment>
+                            ) : (null)
+                        }
+                       
+                    </Box>
+                </Box>
+
+            </Box>
         );
     }
 }
 
 const mapDispatchToProps = {
+    getProjectsBySpecialty,
     getAllProjects,
+    loadSpecs
 };
 
 const mapStateToProps = state => ({
-    projects: state.gen_data.allprojects,
+    projects: state.gen_data.projectsWithSpecialties,
+    specialties: state.spec_data.specialties,
+    dirty: state.spec_data.dirty,
 });
 
 export default compose(
-    withStyles(styles),
     connect(
         mapStateToProps,
         mapDispatchToProps

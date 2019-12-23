@@ -47,13 +47,13 @@ const ProjectsView: React.FunctionComponent<IProjectsViewProps> = (props) => {
 
 	return (
 		<Box className={classes.root}>
-			<CustomTabs
+			{/* <CustomTabs
 				tabs={[{
 					href: `/projects/current`,
 					label: "New",
 					icon: AppsIcon,
 				}]}
-			/>
+			/> */}
 			<Box className={classes.contentWrapper}>
 				<Switch>
 					<SecuredRoute
