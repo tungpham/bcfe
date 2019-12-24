@@ -11,7 +11,7 @@
         padding: 10px;
         .main-title{
             font-weight: 500;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 15px;
         }
         .sub-title{
@@ -29,9 +29,7 @@
             padding: 0;
         }
         .specialty-select-view{
-            max-height: 500px;
             max-width: 300px;
-            overflow: auto;
             .select-item{
                 .checkbox-icon{
                     color: $projectListViewThemeColor;
@@ -59,7 +57,6 @@
             }
         }
         .page-info-view{
-            display: flex;
             padding: 20px 0px;
             .page-info{
                 flex: 1;

@@ -18,6 +18,9 @@
             flex: 1;
             display: inline-block;
             margin: 0px 10px;
+            .location-icon{
+                font-size: 1rem !important;
+            }
         }
         .bids-due-view{
             display: inline-block;
@@ -30,14 +33,13 @@
             .project-title{
                 color: $projectListViewThemeColor;
                 font-weight: bold;
-                font-size: 1.3rem;
+                font-size: 1.2rem;
             }
             .project-des{
                 display: block;
                 padding: 10px 0px;
                 .show-more-des{
                     color: $projectListViewThemeColor;
-                    font-weight: bold;
                     &:hover{
                         cursor: pointer;
                     }
@@ -52,7 +54,6 @@
     .project-item-card-footer{
         .show-more-spe{
             color: $projectListViewThemeColor;
-            font-weight: bold;
             &:hover{
                 cursor: pointer;
             }

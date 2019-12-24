@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Typography  from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
+import LocationIcon from '@material-ui/icons/LocationOn';
 import { ProjectWithSpecialty } from '../../../../types/project';
 import './style.scss';
 export interface ProjectItemProps{
@@ -56,7 +57,7 @@ class ProjectItemCard extends React.Component<ProjectItemProps, ProjectItemState
                                         isExpandedDes: false
                                     })
                                 }}
-                            >&nbsp;...less</span>
+                            >&nbsp; less</span>
                     </React.Fragment>
                 )
             }
@@ -67,7 +68,7 @@ class ProjectItemCard extends React.Component<ProjectItemProps, ProjectItemState
     render_date = (_due) => {
         if(_due == null || _due == undefined || _due == "") return "";
         var due_date = new Date(_due);
-        return MONTH_NAMES[due_date.getMonth()].substr(0,3) + " " + due_date.getDay() + "," + due_date.getFullYear();
+        return MONTH_NAMES[due_date.getMonth()].substr(0,3) + " " + due_date.getDay() + ", " + due_date.getFullYear();
     }
     render()
     {
@@ -77,13 +78,13 @@ class ProjectItemCard extends React.Component<ProjectItemProps, ProjectItemState
             <Box className = "project-item-card-view">
                 <Box className = "project-item-card-header">
                     <Typography className = "posted-date-and-bids">
-                        Posted on { this.render_date(this.props.project.project.submittedDate)}- {this.props.project.numberOfBids} Bids Recieved |
+                        Posted on { this.render_date(this.props.project.project.submittedDate)}- {this.props.project.numberOfBids} Bids Received |
                     </Typography>
                     <Typography className = "name-text">
-                        Connor N
+                        {this.props.project.project.genContractor.address.name}
                     </Typography>
                     <Typography className = "location-text">
-                        {this.props.project.project.city}
+                        <LocationIcon className = "location-icon"/>&nbsp;{this.props.project.project.city}
                     </Typography>
                     <Typography className = "bids-due-view">
                         <strong>Bids Due: </strong>
@@ -146,7 +147,7 @@ class ProjectItemCard extends React.Component<ProjectItemProps, ProjectItemState
                                         isExpandedSpe: false
                                     })
                                 }}
-                            >&nbsp;...less</span>
+                            >&nbsp;less</span>
                         ) : (null)
                     }
                 </Box>

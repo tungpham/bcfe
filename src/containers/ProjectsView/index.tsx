@@ -4,11 +4,9 @@ import { Redirect, Switch, RouteComponentProps } from 'react-router-dom';
 
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
-import AppsIcon from '@material-ui/icons/Apps';
 
 import ProjectDetailView from 'components/ProjectDetailView';
 import ProposalDetailView from 'components/ProposalDetailView';
-import CustomTabs from 'components/shared/CustomTabs';
 import SecuredRoute from 'routers/SecuredRoute';
 import CurrentProjectView from './CurrentProjectView/index';
 import ContractorDetailView from 'components/ContractorDetailView';

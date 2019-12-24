@@ -36,7 +36,7 @@ export default {
 			page: page,
 			size: size
 		},
-	}).then(res => res.data),
+	}).then(res => res.data).catch(error => null),
 	invite: (id, contid) => Axios.post(PROJ_API_PATH + id + '/invite/' + contid).then(res => res.data),
 	getInvites: (id, page, size) => Axios.get(PROJ_API_PATH + id + '/invites', {
 		params: {
