@@ -79,7 +79,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
         this.setState({
             isBusyForLoadingProjects: true
         })
-        await this.props.getProjectsBySpecialty(0, 0,'');
+        await this.props.getProjectsBySpecialty(0, this.state.rowsPerPage,'');
         this.setState({
             rowsPerPage: this.props.projects ? this.props.projects.pageable.pageSize : this.state.rowsPerPage,
             currentPage: this.props.projects ? this.props.projects.pageable.pageNumber : this.state.currentPage,
@@ -87,9 +87,9 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
         })
     }
 
-    handleChangePage =   async (page) => {
+    handleChangePage =   async (event, page) => {
         var spe_params_string = "";
-        this.state.activeFilterParams.map((_spe, index)=>{
+        this.state.activeFilterParams.forEach((_spe, index)=>{
             spe_params_string += "specialty=" + _spe.id ;
             if(this.state.activeFilterParams.length - 1 > index) spe_params_string += "&";
         })
@@ -114,7 +114,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
             currentPage: currentPage,
         },
         ()=>{
-            this.handleChangePage(0);
+            this.handleChangePage(null, 0);
         });
 
         // this.props.getAllProjects(currentPage, rowsPerPage);
@@ -123,12 +123,12 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
         var result = false;
         for(var i = 0 ;i < params.length; i++)
         {
-            if(params[i].id == item.id) result = true;
+            if(params[i].id === item.id) result = true;
         }
         return result;
     }
     handleChangeFilterParams = (checked, specialityParam, activeIs) => {
-        if(specialityParam.name == 'All Specialities' && checked)
+        if(specialityParam.name === 'All Specialities' && checked === true)
         {
             this.setState({
                 filterParams: []
@@ -148,10 +148,10 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                 }
             } else {
                 if(this.isExist(_activeFilterParams,specialityParam)){
-                    _activeFilterParams = _activeFilterParams.filter(filter_item => filter_item.id != specialityParam.id)
+                    _activeFilterParams = _activeFilterParams.filter(filter_item => filter_item.id !== specialityParam.id)
                 }
                 if(this.isExist(_filterParams,specialityParam)){
-                    _filterParams = _filterParams.filter(filter_item => filter_item.id != specialityParam.id)
+                    _filterParams = _filterParams.filter(filter_item => filter_item.id !== specialityParam.id)
                 }
             }
         } else {
@@ -162,7 +162,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                 }
             } else {
                 if(this.isExist(_filterParams,specialityParam)){
-                    _filterParams = _filterParams.filter(filter_item => filter_item.id != specialityParam.id)
+                    _filterParams = _filterParams.filter(filter_item => filter_item.id !== specialityParam.id)
                 }
             }
         }
@@ -173,7 +173,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
         ()=>{
             if(activeIs)
             {
-                this.handleChangePage(0);
+                this.handleChangePage(null, 0);
             }
         })
        
@@ -191,10 +191,10 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
           <React.Fragment>
             {
               list.map((item,index)=>(
-                <Box key = {index} className={item==this.state.currentPage ? "pagenation-item-selected" : "pagenation-item"}
+                <Box key = {index} className={item===this.state.currentPage ? "pagenation-item-selected" : "pagenation-item"}
                   onClick = {()=>{
-                     if(this.state.currentPage == item) return;
-                     this.handleChangePage(item)
+                     if(this.state.currentPage === item) return;
+                     this.handleChangePage(null,item)
                   }}
                 >
                    {item + 1}
@@ -205,6 +205,8 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
         )
       }
     public render() {
+        const {currentPage, rowsPerPage} = this.state;
+        const totalElements  = this.props.projects ? this.props.projects.totalElements : 0;
         return (
             <Box  className="project-list-view">
                 <Box className = "filter-view">
@@ -217,7 +219,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                                     activeFilterParams: [...this.state.filterParams]
                                 },
                                 ()=>{
-                                    this.handleChangePage(0);
+                                    this.handleChangePage(null, 0);
                                 })
                             }}
                         ><AutoRenewIcon/><small>Apply filters</small></Button>
@@ -228,7 +230,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                                     activeFilterParams: []
                                 },
                                 ()=>{
-                                    this.handleChangePage(0);
+                                    this.handleChangePage(null, 0);
                                 })
                              }}
                         ><ClearIcon/><small>Clear filters</small></Button>
@@ -256,17 +258,17 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                     <Typography className = "sub-title">Specialties</Typography>
                     <Box className = "specialty-select-view">
                         {
-                            this.state.isBusy == true ? (
+                            this.state.isBusy === true ? (
                                 <CircularProgress disableShrink />
                             ) : (null)
                         }
                          <FormControlLabel
                             style = {{display:"block"}}
-                            className = {this.state.filterParams.length == 0 ? "select-item selected" : "select-item"}
+                            className = {this.state.filterParams.length === 0 ? "select-item selected" : "select-item"}
                             control={
                             <Checkbox
                                 className = "checkbox-icon"
-                                checked = {this.state.filterParams.length == 0  ? true : false}
+                                checked = {this.state.filterParams.length === 0  ? true : false}
                                 onChange = {(e) => {this.handleChangeFilterParams(e.target.checked, {name:"All Specialities", id:""}, false)}}
                             />
                             }
@@ -281,7 +283,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                                     control={
                                     <Checkbox
                                        className = "checkbox-icon"
-                                       checked = {this.state.filterParams.length == 0 && item.specialty.name == "All Specialities" ? true : this.isExist(this.state.filterParams, {"name":item.specialty.name, "id":item.specialty.id})}
+                                       checked = {this.state.filterParams.length === 0 && item.specialty.name === "All Specialities" ? true : this.isExist(this.state.filterParams, {"name":item.specialty.name, "id":item.specialty.id})}
                                        onChange = {(e) => {this.handleChangeFilterParams(e.target.checked, {"name":item.specialty.name, "id":item.specialty.id}, false)}}
                                     />
                                     }
@@ -295,7 +297,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                 <Box className = "projects-view">
                     <Box className = "active-filter-view">
                         {
-                            this.state.isBusyForLoadingProjects == true ? (
+                            this.state.isBusyForLoadingProjects === true ? (
                                  <CircularProgress  />
                             ) : ( null )
                         }
@@ -334,9 +336,9 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                                     style={{ overflow: 'auto' }}
                                     rowsPerPageOptions={[5, 10, 20]}
                                     component="div"
-                                    count={this.props.projects.totalElements}
-                                    rowsPerPage={this.state.rowsPerPage}
-                                    page={this.state.currentPage}
+                                    count={totalElements}
+                                    rowsPerPage={rowsPerPage}
+                                    page={currentPage}
                                     backIconButtonProps={{ 'aria-label': 'Previous Page' }}
                                     nextIconButtonProps={{ 'aria-label': 'Next Page' }}
                                     onChangePage={this.handleChangePage}
@@ -345,7 +347,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                             ) : (null)
                         }
                         {
-                            !this.state.isBusyForLoadingProjects && (!this.props.projects || (this.props.projects && this.props.projects.content && this.props.projects.content.length == 0)) ? (
+                            !this.state.isBusyForLoadingProjects && (!this.props.projects || (this.props.projects && this.props.projects.content && this.props.projects.content.length === 0)) ? (
                                 "0 results"
                             ) : (null)
                         }

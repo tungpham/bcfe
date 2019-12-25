@@ -32,7 +32,7 @@ class ProjectItemCard extends React.Component<ProjectItemProps, ProjectItemState
         }
     }
     render_des = (_des) => {
-        if(_des == null || _des == undefined || _des == "") return ""
+        if(_des === null || _des === undefined || _des === "") return ""
         if(_des.length > DES_LIMIT_COUNT) {
             if(!this.state.isExpandedDes){
                 return (
@@ -66,7 +66,7 @@ class ProjectItemCard extends React.Component<ProjectItemProps, ProjectItemState
         }
     }
     render_date = (_due) => {
-        if(_due == null || _due == undefined || _due == "") return "";
+        if(_due === null || _due === undefined || _due === "") return "";
         var due_date = new Date(_due);
         return MONTH_NAMES[due_date.getMonth()].substr(0,3) + " " + due_date.getDay() + ", " + due_date.getFullYear();
     }

@@ -64,6 +64,7 @@ interface IAskReviewProps {
     contId: string;
     company: string;
     askReview: (emails: string[]) => Promise<boolean>;
+    showMessage: (suc: boolean, msg: string) => void;
 }
 
 const AskReview: React.FunctionComponent<IAskReviewProps> = (props) => {
@@ -84,6 +85,10 @@ const AskReview: React.FunctionComponent<IAskReviewProps> = (props) => {
 
     const getLink = () => {
         console.log('Get shareable link: ');
+        var link_str = process.env.REACT_APP_PROJECT_API + "reviews/" + props.contId + "/write";
+        navigator.clipboard.writeText(link_str).then(()=>{
+            props.showMessage(true, "Successfully copied !")
+        })
     }
 
     const deleteMail = (index: number) => {

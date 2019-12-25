@@ -119,7 +119,7 @@ class AllContractorsView extends React.Component<IAllContractorsViewProps, IAllC
         this.setState({ contractors: contractors });
     }
 
-    changePage = async (page) => {
+    changePage = async (event, page) => {
         this.setState({ currentPage: page, isBusy: true });
         try {
             await this.props.getContractors(page, this.state.rowsPerPage);
@@ -134,7 +134,6 @@ class AllContractorsView extends React.Component<IAllContractorsViewProps, IAllC
             });
         }
     }
-
     changeRowsPerPage = async event => {
         const { contractors } = this.props;
         const rowsPerPage = event.target.value;

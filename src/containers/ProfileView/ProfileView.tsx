@@ -545,6 +545,7 @@ class ProfileView extends React.Component<IProfileViewProps, IProfileViewState> 
                     show={showReview}
                     hide={this.hideReview}
                     askReview={this.reqReview}
+                    showMessage = {this.props.showMessage}
                 />
                 {isBusy && <CircularProgress className={classes.center} />}
             </Box >

@@ -9,6 +9,7 @@ import SpecialtyView from '../containers/SpecialtyView';
 import ContractorView from '../containers/ContractorView';
 import ProjectsView from '../containers/ProjectsView';
 import HomeView from '../containers/HomeView';
+import ReviewWritingView from '../containers/reviewWritingView'
 import ProfileView from '../containers/ProfileView';
 import SearchContractorView from '../containers/SearchContractorView';
 import SearchCityView from '../containers/SearchCityView';
@@ -86,6 +87,7 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
 						<Container className={classes.container} maxWidth={false}>
 							<Switch>
 								<Route exact path="/" component={HomeView} />
+								<Route exact path="/reviews/:id/write" component={ReviewWritingView} />
 								<Route path="/contractorList" component={ContractorList} />
 								<Route path="/contractordetails/:Id" component={ContractorDetails}  history={history}/>
 								<SecuredRoute
@@ -105,6 +107,8 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
 								<Route exact path="/search-complete" component={SearchThankYouView} />
 								<Route exact path="/search-contractor" component={SearchContractorView} />
 								<Route exact path="/callback" component={Callback} />
+								
+
 								<Redirect to="/" />
 							</Switch>
 						</Container>

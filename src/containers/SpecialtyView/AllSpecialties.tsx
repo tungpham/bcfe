@@ -163,7 +163,6 @@ class AllSpecialties extends Component<IAllSpecialtiesProps, IAllSpecialtiesStat
 	};
 
 	handleChangePage = async (event, page) => {
-		console.log(page)
 		const { specialties } = this.props;
 		const { pageSize } = this.state;
 		if (specialties) {
