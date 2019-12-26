@@ -87,7 +87,7 @@ class AppRouterConnect extends React.Component<AppRouterProps, AppRouterState> {
 						<Container className={classes.container} maxWidth={false}>
 							<Switch>
 								<Route exact path="/" component={HomeView} />
-								<Route exact path="/reviews/:id/write" component={ReviewWritingView} />
+								<Route exact path="/reviews/:id/write" component={ReviewWritingView}/>
 								<Route path="/contractorList" component={ContractorList} />
 								<Route path="/contractordetails/:Id" component={ContractorDetails}  history={history}/>
 								<SecuredRoute

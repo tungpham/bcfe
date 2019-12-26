@@ -4,7 +4,6 @@ import { compose } from "redux";
 import { RouteComponentProps } from 'react-router-dom';
 //import Material ui components;
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -19,6 +18,7 @@ import AutoRenewIcon from '@material-ui/icons/Autorenew';
 import ClearIcon from '@material-ui/icons/Clear';
 //import Custom components;
 import ProjectCardItem from './components/projectItemCard';
+import Button from 'components/CustomButtons/Button';
 //import Actions;
 import {  getProjectsBySpecialty } from 'store/actions/gen-actions';
 import { selectContractor } from 'store/actions/cont-actions';
@@ -212,7 +212,8 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                 <Box className = "filter-view">
                     <Typography className = "main-title">Filters:</Typography>
                     <Typography>
-                        <Button  variant = "contained" size="small" color = "primary"
+                        <Button  color = "primary"
+                            style = {{padding: "8px 8px"}}
                             onClick = {()=>{
 
                                 this.setState({
@@ -223,7 +224,8 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                                 })
                             }}
                         ><AutoRenewIcon/><small>Apply filters</small></Button>
-                        <Button  color="primary" size="small" style = {{color:"#366cd9"}}
+                        <Button 
+                            style = {{padding: "8px 8px", marginLeft:"20px"}}
                             onClick = {() => { 
                                 this.setState({
                                     filterParams: [],

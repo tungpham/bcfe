@@ -16,6 +16,7 @@ import {
 
 import PropApi from 'services/proposal';
 import ProjApi from 'services/project';
+import ReviewApi from 'services/reviews';
 import { clearProposals } from './sub-actions';
 
 export const {
@@ -80,3 +81,6 @@ export const addFileToPropMessage = (msg_id, files, cb) => dispatch => {
 	return PropApi.addFileToMessage(msg_id, files);
 }
 
+export const submiteReview = ( params) => dispatch => ReviewApi.submit(params).then(data => {
+	console.log("Submitted")
+});

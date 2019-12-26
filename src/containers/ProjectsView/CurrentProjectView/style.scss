@@ -11,7 +11,8 @@
         padding: 10px;
         .main-title{
             font-weight: 500;
-            font-size: 1.3rem;
+            font-size: 1rem;
+            font-weight: bold;
             margin-bottom: 15px;
         }
         .sub-title{
@@ -30,9 +31,16 @@
         }
         .specialty-select-view{
             max-width: 300px;
+            label.MuiFormControlLabel-root{
+                margin-left: 0px !important;
+                .PrivateSwitchBase-root-310{
+                    padding: 4px !important;
+                }
+            }
             .select-item{
                 .checkbox-icon{
                     color: $projectListViewThemeColor;
+                    padding: 3px !important;
                 }
             }
             .select-item.selected{

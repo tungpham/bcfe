@@ -7,23 +7,27 @@
         .posted-date-and-bids{
             color: #a1a1a1;
             display: inline-block;
+            font-size: 0.875rem;
         }
         .name-text{
             color: $projectListViewThemeColor;
             display: inline-block;
             margin: 0px 10px;
+            font-size: 0.875rem;
         }
         .location-text{
             color: black;
             flex: 1;
             display: inline-block;
             margin: 0px 10px;
+            font-size: 0.875rem;
             .location-icon{
                 font-size: 1rem !important;
             }
         }
         .bids-due-view{
             display: inline-block;
+            font-size: 0.875rem;
         }
     }
     .project-item-card-body{
@@ -49,6 +53,9 @@
         }
         .view-details{
             justify-content: center;
+            button{
+                width: 100px;
+            }
         }
     }
     .project-item-card-footer{

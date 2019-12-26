@@ -2,9 +2,9 @@ import React from 'react';
 //import Material ui components;
 import Box from '@material-ui/core/Box';
 import Typography  from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import LocationIcon from '@material-ui/icons/LocationOn';
+import Button from 'components/CustomButtons/Button';
 import { ProjectWithSpecialty } from '../../../../types/project';
 import './style.scss';
 export interface ProjectItemProps{
@@ -104,7 +104,8 @@ class ProjectItemCard extends React.Component<ProjectItemProps, ProjectItemState
                         </Typography>
                     </Box>
                     <Box className = "view-details">
-                        <Button variant = "contained" color = "primary"
+                        <Button  color = "primary"
+                            style = {{padding: "6px 8px"}}
                             onClick = {()=>{
                                 this.props.history.push('/projects/project_detail/' + this.props.project.project.id);
                             }}
