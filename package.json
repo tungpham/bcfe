@@ -52,7 +52,7 @@
   },
   "homepage": "",
   "scripts": {
-    "deploy": "aws --profile bc s3 sync dist/ s3://bcfe",
+    "deploy": "aws --profile bc s3 sync build/ s3://bcfe",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
