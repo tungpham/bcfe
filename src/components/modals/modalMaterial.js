@@ -25,7 +25,7 @@ function ModalMaterial(props) {
         <Grid container spacing={2}>
             <Grid className="service-modal-col" item xs={10}>
                 <Typography className="city-head-text font-weight text-left" variant="h5">
-                    Will you Provide the flooring for this project?</Typography>
+                    Do you provide the material?</Typography>
                 <List className="service-modal-list">
                     <RadioGroup aria-label="gender" name="gender1" onChange={handleChange}>
                         <ListItem className="list-border" role={undefined} dense button  >
