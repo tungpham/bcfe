@@ -205,10 +205,10 @@ export type ProfileReview = {
 }
 export type ReviewSubmitInfo = {
 	con_id: String;
-	rating: number[];
+	rating: number;
 	qualities: String[];
 	review: String;
-	firstName: String;
-	lastName: String;
-	email: String;
+	reviewerFirstName: String;
+	reviewerLastName: String;
+	reviewerEmail: String;
 }
