@@ -81,6 +81,6 @@ export const addFileToPropMessage = (msg_id, files, cb) => dispatch => {
 	return PropApi.addFileToMessage(msg_id, files);
 }
 
-export const submiteReview = ( params) => dispatch => ReviewApi.submit(params).then(data => {
+export const submiteReview = (id, params) => dispatch => ReviewApi.submit(id, params).then(data => {
 	console.log("Submitted")
 });
