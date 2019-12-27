@@ -17,12 +17,12 @@ import Rating from '@material-ui/lab/Rating';
 import DeleteIcon from "@material-ui/icons/Delete";
 import CameraIcon from '@material-ui/icons/CameraAlt';
 import CircularProgress from '@material-ui/core/CircularProgress';
-//import assets;
-import Img1 from 'assets/images/slider1.jpeg';
 import './style.scss';
 //import actions;
 import {selectContractor} from 'store/actions/cont-actions';
 import { submiteReview } from 'store/actions/global-actions';
+//import apis;
+import  ContApis from 'services/contractor';
 //import types;
 import { ContractorInfo } from 'types/contractor'
 import {   UserProfile, ReviewSubmitInfo } from 'types/global';
@@ -30,7 +30,7 @@ import {   UserProfile, ReviewSubmitInfo } from 'types/global';
 import LoginForSubmit from './loginBeforeSubmit';
 interface ReviewWriteViewProps {
 	selectContractor: (id: String) => Promise<void>;    
-	submiteReview: ( params : ReviewSubmitInfo) => Promise<void>;    
+	submiteReview: (id:String, params : ReviewSubmitInfo) => Promise<void>;    
 	selectedContractor: ContractorInfo;
 	userProfile: UserProfile;
 }
@@ -122,7 +122,6 @@ class ReviewWritingView extends React.Component<any, ReviewWriteViewState> {
 							} else {
 								var submitData = {};
 								submitData = {
-									con_id : this.props.match.params.id,
 									email : this.props.userProfile.email,
 									firstName : this.props.userProfile.user_metadata.firstname,
 									lastName : this.props.userProfile.user_metadata.lastname,
@@ -130,7 +129,7 @@ class ReviewWritingView extends React.Component<any, ReviewWriteViewState> {
 									qualities : this.props.qualities,
 									review : values.review
 								}
-								this.props.submiteReview( submitData);
+								this.props.submiteReview(this.props.match.params.id,  submitData);
 							}
                         }}
                         validationSchema={Yup.object().shape({
@@ -143,7 +142,6 @@ class ReviewWritingView extends React.Component<any, ReviewWriteViewState> {
                             values,
                             touched,
                             errors,
-                            isSubmitting,
                             handleChange,
                             handleBlur,
                             handleSubmit
@@ -152,7 +150,7 @@ class ReviewWritingView extends React.Component<any, ReviewWriteViewState> {
                             <form onSubmit={handleSubmit} className = "content">
                                <Paper className = "reviewContainer">
 									<Box className = "review-score">
-										<img src = {Img1} alt = "" className = "review-image"/>
+										<img src = {ContApis.getAvatar(this.props.match.params.id) ? ContApis.getAvatar(this.props.match.params.id) : null} alt = "" className = "review-image"/>
 										<Typography className = "review-title">How would you rate your overall experience with {this.state.selectedContractor && this.state.selectedContractor.address  ? this.state.selectedContractor.address.name : ""}?</Typography>
 										<Box className = "rating-view">
 											<Typography className = "rating-info-view">{Rating_Strs[this.state.rating]}</Typography>
@@ -246,7 +244,7 @@ class ReviewWritingView extends React.Component<any, ReviewWriteViewState> {
 										</Box>
 										<Box className = "submit-view">
 											<Typography className = "policy-statement">
-												By clicking Submit you agree to use 
+												By clicking Submit you agree to 
 												<span className = "linked-text"> Terms of Use </span>
 												and 
 												<span className = "linked-text"> Privacy Policy </span>

@@ -17,7 +17,7 @@ import {ReviewSubmitInfo} from 'types/global';
 interface LoginModalProps {
     show: boolean;
     hide: () => void;
-    submiteReview: ( params : ReviewSubmitInfo) => Promise<void>;    
+    submiteReview: (id:String, params : ReviewSubmitInfo) => Promise<void>;    
     con_id: String;
     rating: number;
     qualities: String[];
@@ -47,7 +47,6 @@ class LoginForSubmit extends React.Component<LoginModalProps, LoginModalState>{
                         onSubmit={(values, { setSubmitting }) => {
                             var submitData;
                             submitData = {
-                                con_id : this.props.con_id,
                                 email : values.email,
                                 firstName : values.firstName,
                                 lastName : values.lastName,
@@ -56,7 +55,7 @@ class LoginForSubmit extends React.Component<LoginModalProps, LoginModalState>{
                                 review : this.props.review
                             }
                            
-                            this.props.submiteReview( submitData);
+                            this.props.submiteReview( this.props.con_id, submitData);
                             this.close();
                         }}
                         validationSchema={Yup.object().shape({
@@ -72,7 +71,6 @@ class LoginForSubmit extends React.Component<LoginModalProps, LoginModalState>{
                             values,
                             touched,
                             errors,
-                            isSubmitting,
                             handleChange,
                             handleBlur,
                             handleSubmit
@@ -122,7 +120,7 @@ class LoginForSubmit extends React.Component<LoginModalProps, LoginModalState>{
                                     <Typography className="input-feedback">{errors.email}</Typography>
                                 )}
                                <Box className = "submit-button-view-1">
-                                        <Button color = "primary" type = "submit" disabled = {isSubmitting}>
+                                        <Button color = "primary" type = "submit">
                                             Submit
                                         </Button>
                                </Box>

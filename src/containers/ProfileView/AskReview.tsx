@@ -66,7 +66,6 @@ interface IAskReviewProps {
     askReview: (emails: string[]) => Promise<boolean>;
     showMessage: (suc: boolean, msg: string) => void;
 }
-
 const AskReview: React.FunctionComponent<IAskReviewProps> = (props) => {
 
     const { contId, company, show, hide, askReview } = props;
@@ -82,13 +81,26 @@ const AskReview: React.FunctionComponent<IAskReviewProps> = (props) => {
         const res = await askReview(reals);
         if (res) setMails(['']);
     }
-
+    const writeText =(str) => {
+        return new Promise((resolve, reject) => {
+          var success = false;
+          function listener(e) {
+            e.clipboardData.setData("text/plain", str);
+            e.preventDefault();
+            success = true;
+            props.showMessage(true, "Successfully copied")
+          }
+          document.addEventListener("copy", listener);
+          document.execCommand("copy");
+          document.removeEventListener("copy", listener);
+          success ? resolve(): reject();
+        });
+      };
     const getLink = () => {
-        console.log('Get shareable link: ');
-        var link_str = process.env.REACT_APP_PROJECT_API + "reviews/" + props.contId + "/write";
-        navigator.clipboard.writeText(link_str).then(()=>{
-            props.showMessage(true, "Successfully copied !")
-        })
+        console.log(window.location.host)
+        // var link_str = process.env.REACT_APP_PROJECT_API + "reviews/" + props.contId + "/write";
+        var link_str = "http://"+window.location.host + "/reviews/" + props.contId + "/write";
+        writeText(link_str)
     }
 
     const deleteMail = (index: number) => {
