@@ -97,7 +97,6 @@ const AskReview: React.FunctionComponent<IAskReviewProps> = (props) => {
         });
       };
     const getLink = () => {
-        console.log(window.location.host)
         // var link_str = process.env.REACT_APP_PROJECT_API + "reviews/" + props.contId + "/write";
         var link_str = "http://"+window.location.host + "/reviews/" + props.contId + "/write";
         writeText(link_str)

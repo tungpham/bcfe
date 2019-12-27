@@ -125,8 +125,8 @@ class ReviewWritingView extends React.Component<any, ReviewWriteViewState> {
 									email : this.props.userProfile.email,
 									firstName : this.props.userProfile.user_metadata.firstname,
 									lastName : this.props.userProfile.user_metadata.lastname,
-									rating : [Number(values.rating)],
-									qualities : this.props.qualities,
+									rating : Number(values.rating),
+									qualities : this.state.qualities,
 									review : values.review
 								}
 								this.props.submiteReview(this.props.match.params.id,  submitData);

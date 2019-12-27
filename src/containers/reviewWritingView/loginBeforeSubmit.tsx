@@ -50,7 +50,7 @@ class LoginForSubmit extends React.Component<LoginModalProps, LoginModalState>{
                                 email : values.email,
                                 firstName : values.firstName,
                                 lastName : values.lastName,
-                                rating : [this.props.rating],
+                                rating : this.props.rating,
                                 qualities : this.props.qualities,
                                 review : this.props.review
                             }
