@@ -47,9 +47,9 @@ class LoginForSubmit extends React.Component<LoginModalProps, LoginModalState>{
                         onSubmit={(values, { setSubmitting }) => {
                             var submitData;
                             submitData = {
-                                email : values.email,
-                                firstName : values.firstName,
-                                lastName : values.lastName,
+                                reviewerEmail : values.email,
+                                reviewFirstName : values.firstName,
+                                reviewerLastName : values.lastName,
                                 rating : this.props.rating,
                                 qualities : this.props.qualities,
                                 review : this.props.review
