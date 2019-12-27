@@ -30,7 +30,7 @@ import {   UserProfile, ReviewSubmitInfo } from 'types/global';
 import LoginForSubmit from './loginBeforeSubmit';
 interface ReviewWriteViewProps {
 	selectContractor: (id: String) => Promise<void>;    
-	submiteReview: (id:String, params : ReviewSubmitInfo) => Promise<void>;    
+	submiteReview: (id:String, params : any) => Promise<void>;    
 	selectedContractor: ContractorInfo;
 	userProfile: UserProfile;
 }
@@ -38,7 +38,7 @@ interface ReviewWriteViewState {
 	rating: number;
 	qualities: String[];
 	review: String;
-	images: string[];
+	images: any[];
 	isBusyForGettingContractorDetails: boolean;
 	selectedContractor: ContractorInfo;
 	loginShow: boolean;
@@ -75,7 +75,7 @@ class ReviewWritingView extends React.Component<any, ReviewWriteViewState> {
 	}
 	handleChangeImages = (event) => {
 		var _images = this.state.images;
-		_images.push(URL.createObjectURL(event.target.files[0]));
+		_images.push(event.target.files[0]);
 		this.fileUploader.value = null;
 		this.setState({
 			images: _images
@@ -120,16 +120,17 @@ class ReviewWritingView extends React.Component<any, ReviewWriteViewState> {
 									loginShow : true
 								})
 							} else {
-								var submitData = {};
-								submitData = {
-									reviewerEmail : this.props.userProfile.email,
-									reviewerFirstName : this.props.userProfile.user_metadata.firstname,
-									reviewerLastName : this.props.userProfile.user_metadata.lastname,
-									rating : Number(values.rating),
-									qualities : this.state.qualities,
-									review : values.review
-								}
-								this.props.submiteReview(this.props.match.params.id,  submitData);
+								let data = new FormData();
+								this.state.images.forEach((img, index) => {
+									data.append('file[' + index + ']', img, img.name)
+								})
+								data.set('reviewerEmail',this.props.userProfile.email);
+								data.set('reviewerFirstName',this.props.userProfile.user_metadata.firstname);
+								data.set('reviewerLastName',this.props.userProfile.user_metadata.lastname);
+								data.set('rating', values.rating);
+								data.set('qualities',this.state.qualities.toString());
+								data.set('review',values.review);
+								this.props.submiteReview(this.props.match.params.id,  data);
 							}
                         }}
                         validationSchema={Yup.object().shape({
@@ -200,7 +201,7 @@ class ReviewWritingView extends React.Component<any, ReviewWriteViewState> {
 														<CardMedia
 														className = "card-media"
 														image={
-															img
+															URL.createObjectURL(img)
 														}
 														>
 														<DeleteIcon className = "delete-icon"
@@ -255,19 +256,22 @@ class ReviewWritingView extends React.Component<any, ReviewWriteViewState> {
 										</Box>
 									</Box>
 								</Paper>
+								<LoginForSubmit
+									show = {this.state.loginShow}
+									hide = {this.hideLoginModal}
+									rating = {values.rating}
+									qualities = {this.state.qualities}
+									review = {values.review}
+									con_id = {this.props.match.params.id}
+									images = {this.state.images}
+								/>
                             </form>
                         );
                         }}
+							
                     </Formik>
-						</Box>
-				<LoginForSubmit
-					show = {this.state.loginShow}
-					hide = {this.hideLoginModal}
-					rating = {this.state.rating}
-					qualities = {this.state.qualities}
-					review = {this.state.review}
-					con_id = {this.props.match.params.id}
-				/>
+				</Box>
+			
 			</Box>
 		);
 	}

@@ -17,11 +17,12 @@ import {ReviewSubmitInfo} from 'types/global';
 interface LoginModalProps {
     show: boolean;
     hide: () => void;
-    submiteReview: (id:String, params : ReviewSubmitInfo) => Promise<void>;    
+    submiteReview: (id:String, params : any) => Promise<void>;    
     con_id: String;
-    rating: number;
+    rating: string;
     qualities: String[];
-    review: String;
+    review: string;
+    images: any[];
 }
 interface LoginModalState {
     firstName: string;
@@ -45,17 +46,17 @@ class LoginForSubmit extends React.Component<LoginModalProps, LoginModalState>{
                       <Formik
                         initialValues={{ firstName:"", lastName:"",email: ""}}
                         onSubmit={(values, { setSubmitting }) => {
-                            var submitData;
-                            submitData = {
-                                reviewerEmail : values.email,
-                                reviewerFirstName : values.firstName,
-                                reviewerLastName : values.lastName,
-                                rating : this.props.rating,
-                                qualities : this.props.qualities,
-                                review : this.props.review
-                            }
-                           
-                            this.props.submiteReview( this.props.con_id, submitData);
+                            let data = new FormData();
+								this.props.images.forEach((img, index) => {
+									data.append('file[' + index + ']', img, img.name)
+								})
+								data.set('reviewerEmail',values.email);
+								data.set('reviewerFirstName',values.firstName);
+								data.set('reviewerLastName',values.lastName);
+								data.set('rating', this.props.rating);
+								data.set('qualities',this.props.qualities.toString());
+								data.set('review', this.props.review);
+                            this.props.submiteReview( this.props.con_id, data);
                             this.close();
                         }}
                         validationSchema={Yup.object().shape({
