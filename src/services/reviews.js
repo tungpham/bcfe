@@ -5,5 +5,5 @@ const config = {
 	headers: { 'content-type': 'multipart/form-data' }
 }                         
 export default {
-	submit: (id, params) =>  Axios.post(`${REVIEWS_API_PATH}${id}/write` , params, config),
+	submit: (id, params) =>  Axios.post(`${REVIEWS_API_PATH}${id}/write` , params, config).then((success) => window.location.href = "/"),
 };
