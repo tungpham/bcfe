@@ -22,7 +22,7 @@ interface LoginModalProps {
     rating: string;
     qualities: String[];
     review: string;
-    images: any[];
+    images: any;
 }
 interface LoginModalState {
     firstName: string;
@@ -46,10 +46,11 @@ class LoginForSubmit extends React.Component<LoginModalProps, LoginModalState>{
                       <Formik
                         initialValues={{ firstName:"", lastName:"",email: ""}}
                         onSubmit={(values, { setSubmitting }) => {
-                            let data = new FormData();
-								this.props.images.forEach((img, index) => {
-									data.append('file[' + index + ']', img, img.name)
-								})
+                          let data = new FormData();
+                                this.props.images.forEach((img) => {
+                                    data.append('file', img)
+                                })
+								data.append('file', this.props.images)
 								data.set('reviewerEmail',values.email);
 								data.set('reviewerFirstName',values.firstName);
 								data.set('reviewerLastName',values.lastName);

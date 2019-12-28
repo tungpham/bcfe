@@ -38,7 +38,7 @@ interface ReviewWriteViewState {
 	rating: number;
 	qualities: String[];
 	review: String;
-	images: any[];
+	images: any;
 	isBusyForGettingContractorDetails: boolean;
 	selectedContractor: ContractorInfo;
 	loginShow: boolean;
@@ -121,8 +121,8 @@ class ReviewWritingView extends React.Component<any, ReviewWriteViewState> {
 								})
 							} else {
 								let data = new FormData();
-								this.state.images.forEach((img, index) => {
-									data.append('file[' + index + ']', img, img.name)
+								this.state.images.forEach((img) => {
+									data.append('file', img)
 								})
 								data.set('reviewerEmail',this.props.userProfile.email);
 								data.set('reviewerFirstName',this.props.userProfile.user_metadata.firstname);
