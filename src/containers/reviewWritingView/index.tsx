@@ -25,7 +25,7 @@ import { submiteReview } from 'store/actions/global-actions';
 import  ContApis from 'services/contractor';
 //import types;
 import { ContractorInfo } from 'types/contractor'
-import {   UserProfile, ReviewSubmitInfo } from 'types/global';
+import {   UserProfile } from 'types/global';
 //custom components;
 import LoginForSubmit from './loginBeforeSubmit';
 interface ReviewWriteViewProps {

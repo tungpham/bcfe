@@ -277,7 +277,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                             label = "All Specialities"
                         />
                         {
-                            this.state.specialties && this.state.specialties.length && this.state.specialties.map((item, index) => (
+                            this.state.specialties && this.state.specialties.length > 0 ?  this.state.specialties.map((item, index) => (
                                 <FormControlLabel
                                     key = {index}
                                     style = {{display:"block"}}
@@ -291,7 +291,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                                     }
                                     label = {item.specialty.name}
                                 />
-                            ))
+                            )) : (null)
                         }
                         
                     </Box>

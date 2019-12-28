@@ -12,8 +12,6 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 //import actions;
 import {submiteReview} from 'store/actions/global-actions';
-//import types;
-import {ReviewSubmitInfo} from 'types/global';
 interface LoginModalProps {
     show: boolean;
     hide: () => void;
