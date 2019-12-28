@@ -22,6 +22,7 @@
     "clsx": "^1.0.4",
     "date-fns": "^2.0.0-beta.2",
     "eslint-plugin-react": "^7.16.0",
+    "formik": "^2.0.8",
     "material-ui-dropzone": "^2.4.0",
     "material-ui-rating": "^4.2.0",
     "material-ui-treeview": "^3.4.0",
@@ -48,7 +49,8 @@
     "redux-thunk": "^2.3.0",
     "remove-markdown": "^0.3.0",
     "typescript": "^3.5.2",
-    "webfontloader": "^1.6.28"
+    "webfontloader": "^1.6.28",
+    "yup": "^0.28.0"
   },
   "homepage": "",
   "scripts": {

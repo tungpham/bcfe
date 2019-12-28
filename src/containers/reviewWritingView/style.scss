@@ -1,0 +1,152 @@
+.review-view-root{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    min-height: calc(100vh - 100px);;
+    flex: 1;
+    overflow: auto;
+    margin-top: 20px;
+    .contents{
+        width: 640px;
+        height: 90%;
+        .reviewContainer {
+            margin: 15px;
+            padding: 15px;
+            .review-score{
+                .review-title{
+                    font-size: 1.5rem;
+                    font-size: bold;
+                    padding: 15px 0px;
+                    
+                }
+                .review-image{
+                    width: 120px;
+                    height: 120px;
+                    border-radius: 50%;
+                    box-shadow: 10px 10px 10px rgba(0,0,0,.1);
+                }
+                .rating-view{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                }
+            }
+            .review-main-details{
+                .review-experience-title{
+                    font-size: 1.5rem;
+                    font-size: bold;
+                    padding: 15px 0px;
+                }
+                .review-experience-details{
+                    margin: 10px 0px;
+                    display: inline;
+                    .item{
+                        display: inline-block;
+                        padding: 10px;
+                        border-radius: 25px;
+                        margin: 5px;
+                    }
+                    .item.select{
+                        background-color: blueviolet;
+                    }
+                }
+                .submit-text-area{
+                    padding: 15px 0px;
+                    width: 100%;
+                }
+                .image-preview-area{
+                    margin: 15px 0px;
+                    .card{
+                        display: inline-block;
+                        width: 255px;
+                        margin: 0 15px;
+                        transition: 0.3s;
+                        box-shadow: 0px 8px 40px -12px rgba(0,0,0,0.3);
+                        .card-media{
+                            padding-top: 56.25%;
+                            position: relative;
+                            .delete-icon{
+                                display: none;
+                                position: absolute;
+                                background-color: white;
+                                box-shadow: 0px 5px 10px rgba(0,0,0,0.1);
+                                border-radius: 50%;
+                                padding: 5px;
+                                top: 15px;
+                                right: 15px;
+                                &:hover{
+                                    cursor: pointer;
+                                    box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
+                                }
+                            }
+                        }
+                        .content{
+                            text-align: left;
+                            padding: 3px !important;
+                        }
+                        &:hover{
+                            box-shadow: 0px 16px 70px -12.125px rgba(0,0,0,0.3);
+                            .card-media{
+                                .delete-icon{
+                                    display: block;
+                                }
+                            }
+                        }
+                    }                    
+                }
+                .add-image-view{
+                    padding: 10px;
+                    border: 1px dotted black;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    &:hover{
+                        cursor: pointer;
+                    }
+                }
+                .submit-view{
+                    .policy-statement{
+                        padding: 10px 0px;
+                        font-size: 0.875rem;
+                        .linked-text{
+                            color: indigo;
+                            text-decoration: underline;
+                            &:hover{
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                    .submit-button-view{
+                        display: flex;
+                        justify-content: flex-end;
+                        align-items: center;
+                    }
+                }
+            }
+        }
+      
+    }
+}
+.login-modal{
+    .title{
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+    .content{
+        width: 500px;
+        padding: 20px;
+    }
+    .submit-button-view-1{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+.input-feedback {
+    color: rgb(235, 54, 54);
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  

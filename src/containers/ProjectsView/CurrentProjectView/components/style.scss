@@ -1,0 +1,69 @@
+@import '../styleVariables.scss';
+.project-item-card-view{
+    border: 1px solid gray;
+    padding: 10px 20px;
+    .project-item-card-header{
+        display: flex;
+        .posted-date-and-bids{
+            color: #a1a1a1;
+            display: inline-block;
+            font-size: 0.875rem;
+        }
+        .name-text{
+            color: $projectListViewThemeColor;
+            display: inline-block;
+            margin: 0px 10px;
+            font-size: 0.875rem;
+        }
+        .location-text{
+            color: black;
+            flex: 1;
+            display: inline-block;
+            margin: 0px 10px;
+            font-size: 0.875rem;
+            .location-icon{
+                font-size: 1rem !important;
+            }
+        }
+        .bids-due-view{
+            display: inline-block;
+            font-size: 0.875rem;
+        }
+    }
+    .project-item-card-body{
+        display: flex;
+        .details-view{
+            flex: 1;
+            .project-title{
+                color: $projectListViewThemeColor;
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+            .project-des{
+                display: block;
+                padding: 10px 0px;
+                .show-more-des{
+                    color: $projectListViewThemeColor;
+                    &:hover{
+                        cursor: pointer;
+                    }
+                }
+                
+            }
+        }
+        .view-details{
+            justify-content: center;
+            button{
+                width: 100px;
+            }
+        }
+    }
+    .project-item-card-footer{
+        .show-more-spe{
+            color: $projectListViewThemeColor;
+            &:hover{
+                cursor: pointer;
+            }
+        }
+    }
+}

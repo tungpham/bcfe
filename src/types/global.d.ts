@@ -203,3 +203,12 @@ export type ProfileReview = {
 	fiveStarRating: number;
 	reviews: number;
 }
+export type ReviewSubmitInfo = {
+	con_id: String;
+	rating: number;
+	qualities: String[];
+	review: String;
+	reviewerFirstName: String;
+	reviewerLastName: String;
+	reviewerEmail: String;
+}

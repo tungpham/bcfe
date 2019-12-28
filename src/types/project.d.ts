@@ -30,6 +30,10 @@ export interface ProjectInfo extends ProjectBaseInfo {
     updatedAt: string;
     updatedBy: string;
     status: string;
+    city: string;
+    startDate: string;
+    endDate: string;
+    submittedDate: string;
     genContractor: ContractorInfo;
     projectFiles: Array<FileInfo>;
     projectTemplates: Array<TemplateInfo>;
@@ -70,4 +74,12 @@ export interface Projects extends Pageable {
     content: Array<ProjectInfo>;
     allprojects: Array<object> | null;
     templates: Array<object> | null;
+}
+export interface ProjectWithSpecialty {
+    project: ProjectInfo | null,
+    numberOfBids: number,
+    contractor: String
+}
+export interface ProjectsWithSpecialties extends Pageable {
+    content: Array<ProjectWithSpecialty> | null,
 }
