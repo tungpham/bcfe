@@ -24,9 +24,7 @@ import ModalCity from '../modals/modalCity';
 import ModalProperty from '../modals/modalProperty';
 import ModalMaterial from '../modals/modalMaterial';
 import auth0Client from 'services/auth0/auth';
-import HttpUrlConstant from 'apis/global';
-import Axios from 'axios';
-
+import {xapi} from 'services/utils';
 const useStyles = makeStyles({
     card: {
         maxWidth: 179,
@@ -126,6 +124,7 @@ function HomePageMid() {
     }
 
     const handleNext = () => {
+        console.log("sdfsdf")
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
             || (activeStep === 1 && getcheck1 === '' && getcheck2 === '')
             || (activeStep === 2 && getredio === '')
@@ -157,18 +156,18 @@ function HomePageMid() {
         localStorage.setItem("modalData", JSON.stringify(popupModalArray));
         if (activeStep === 7) {
             auth0Client.signIn();
-            var apiPath = `/contractors/${localStorage.getItem("contractor_ID")}/projects`;
+            var apiPath = `contractors/${localStorage.getItem("contractor_ID")}/projects`;
             const payload = {
                 "title": title,
                 "description": getdisc,
+                "city": getvalue,
                 "budget": getbudjetvalue,
                 "due": new Date(),
                 "budgetFrom": getbudjet.split('-')[0],
                 "budgetTo": getbudjet.split('-')[1]
             };
             if (payload) {
-                Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
-                    payload, { headers: HttpUrlConstant.headers }).then(response => {
+                xapi().post( apiPath, payload).then(response => {
                         Newdata.push(response.data);
                     })
             }
@@ -433,8 +432,9 @@ function HomePageMid() {
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
                     open={open}
-                    onClose={handleClose}>
-                    <div className="service-modal" >
+                    onClose={handleClose}
+                >
+                    <div className="service-modal" style = {{width:"454px"}}>
                         <CloseIcon onClick={handleClose} className="modal-close" />
                         <Grid className="modal-page-col" item xs={10}>
                             <Typography variant="subtitle2" color="textSecondary">

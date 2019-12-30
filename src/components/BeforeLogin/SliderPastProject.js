@@ -7,13 +7,12 @@ import Divider from '@material-ui/core/Divider';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
 import { autoPlay } from 'react-swipeable-views-utils';
-import Axios from 'axios';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import SwipeableViews from 'react-swipeable-views';
 import HttpUrlConstant from 'apis/global';
 import CloseIcon from '@material-ui/icons/Close';
-
+import {xapi} from 'services/utils';
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 function SliderPastProject(props) {
@@ -42,7 +41,7 @@ function SliderPastProject(props) {
     };
 
     useEffect(() => {
-        Axios.get(`${HttpUrlConstant.BASE_URL}/contractors/${Id}/projects/past`).then((data) => {
+        xapi().get(`contractors/${Id}/projects/past`).then((data) => {
             setdetailsData(data.data.content);
         })
         //eslint-disable-next-line

@@ -35,9 +35,8 @@ import { loadRoots } from 'store/actions/tem-actions';
 
 import { UserProfile } from 'types/global';
 import { ProjectLevel, ProjectPostInfo, ProjectLevelCategory } from 'types/project';
-import Axios from 'axios';
-
-const CONT_API_PATH = process.env.REACT_APP_PROJECT_API + 'contractors/';
+import {xapi} from 'services/utils';
+const CONT_API_PATH = 'contractors/';
 
 const styles = theme => createStyles({
     root: {
@@ -136,7 +135,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
     async componentDidMount() {
         await this.props.clearLevels();
         // await this.props.loadRoots();
-        Axios.get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`)
+        xapi().get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`)
 
             .then(data => {
                 this.setState({ compltedArray: data.data.content })
@@ -222,7 +221,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         try {
             if (page >= this.state.totalLength) page = this.state.totalLength - 1;
 
-            Axios.get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}&status=ONGOING`)
+            xapi().get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}&status=ONGOING`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -246,7 +245,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
         this.setState({ rowsPerPage, currentPage, isBusy: true });
         try {
-            Axios.get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}&status=ONGOING`).then(data => {
+            xapi().get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}&status=ONGOING`).then(data => {
                 this.setState({
                     compltedArray: data.data.content,
                     isBusy: false,

@@ -15,7 +15,6 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 
 import Badge from '@material-ui/core/Badge';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -28,8 +27,9 @@ import { Menu, MenuItem } from '@material-ui/core';
 import { MenuProps } from '@material-ui/core/Menu';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Avatar from '@material-ui/core/Avatar';
 
+import  ContApis from 'services/contractor';
 const StyledMenu = withStyles({
 	paper: {
 		border: '1px solid #d3d4d5',
@@ -134,11 +134,10 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 		const { anchorEl, open } = this.state;
 		const { classes } = this.props;
 		const isMenuOpen = Boolean(anchorEl);
-
 		const rightApp = auth0Client.isAuthenticated() ? (
 			<div className="rightmenu">
 				<div className={classes.sectionDesktop}>
-					<IconButton color="inherit">
+					<IconButton color="inherit" style = {{marginRight:"20px"}}>
 						<Badge badgeContent={17} color="secondary">
 							<NotificationsIcon className="notification" />
 						</Badge>
@@ -150,28 +149,32 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 						open={Boolean(anchorEl)}
 						onClose={this.handleClose}
 					>
-						<MenuItem component={Link} to={"/profile"}>
+						<MenuItem component={Link} to={"/profile"}
+							onClick = {this.handleClose}
+						>
 							<ListItemIcon>
 								<SendIcon />
 							</ListItemIcon>
 							<ListItemText primary="Profile" />
 						</MenuItem>
-						<MenuItem component={Link} to={"/settings"}>
+						<MenuItem component={Link} to={"/settings"}
+						     onClick = {this.handleClose}
+						>
 							<ListItemIcon>
 								<SettingsIcon />
 							</ListItemIcon>
 							<ListItemText primary="Settings" />
 						</MenuItem>
-						<MenuItem onClick={this.handleUserLogOut}>
+						<MenuItem onClick={()=>{this.handleUserLogOut(); this.handleClose();}}>
 							<ListItemIcon>
 								<ExitToAppIcon />
 							</ListItemIcon>
 							<ListItemText primary="Logout" />
 						</MenuItem>
 					</StyledMenu>
-					<AccountCircle className="userprofile" />
+
 					<Typography className="righttitle" variant="h6" noWrap>
-						Account
+						{this.props.profile.email}
 					</Typography>
 					<IconButton
 						aria-owns={isMenuOpen ? 'material-appbar' : undefined}
@@ -179,15 +182,10 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 						aria-controls="simple-menu"
 						onClick={this.handleProfileMenuOpen}
 						color="inherit"
+						style = {{boxShadow:'0px 0px 10px rgba(0,0,0,0.2)', marginLeft:'10px'}}
 					>
-
-						<ExpandMoreIcon className="profiledropdown" />
-						{/* <CustomAvatar
-							src={ContApi.getAvatar(this.props.profile.user_metadata.contractor_id)}
-							size={24}
-						>
-							<AccountCircle />
-						</CustomAvatar> */}
+					<Avatar alt="user-avatar" src={ContApis.getAvatar(this.props.profile.user_metadata.contractor_id)}
+					/>
 					</IconButton>
 				</div>
 				<div className={classes.sectionMobile}>

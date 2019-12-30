@@ -1,10 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import '../../assets/css/conflictRemove.css';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
-
+import {xapi} from 'services/utils';
 export default class AutoComplete extends React.Component {
 
     constructor(props) {
@@ -20,7 +19,7 @@ export default class AutoComplete extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(process.env.REACT_APP_PROJECT_API + '/specialties/').then((content) => {
+        xapi().get('specialties/').then((content) => {
             this.setState({ searchArray: content.data.content })
         })
     }

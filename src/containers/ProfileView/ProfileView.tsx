@@ -25,6 +25,7 @@ import ProfilePhotosView from './ProfilePhotos';
 import ProfileSocialView from './ProfileSocial';
 import ProfileSpecView from './ProfileSpecialty';
 import ProfileReviewReview from './ProfileReview';
+import ProfileIntroudctionView from './ProfileIntroductionView';
 import AskReview from './AskReview';
 
 
@@ -36,15 +37,15 @@ const styles = (theme: Theme) => createStyles({
         padding: theme.spacing(1, 0),
     },
     contents: {
-        width: '400px',
+        width: '678px',
         margin: 'auto',
         display: 'flex',
         flexDirection: 'column',
         padding: theme.spacing(2),
         borderRadius: 0,
-        [theme.breakpoints.up('xs')]: {
-            width: '640px',
-        },
+        // [theme.breakpoints.up('xs')]: {
+        //     width: '640px',
+        // },
     },
     center: {
         left: 'calc(50% - 20px)',
@@ -508,6 +509,7 @@ class ProfileView extends React.Component<IProfileViewProps, IProfileViewState> 
                         handleSubmit={this.uploadLicense}
                         delete={this.deleteLicense}
                     />
+                    <ProfileIntroudctionView/>
                     <ProfileProjectsView
                         addProject={this.uploadProject}
                         deleteProject={this.deleteProject}

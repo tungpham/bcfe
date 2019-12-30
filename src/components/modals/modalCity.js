@@ -1,47 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {connect} from 'react-redux';
 import { Grid, Typography } from '@material-ui/core';
 import '../../assets/css/modal.css';
-
-import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
-
+import {xapi} from 'services/utils';
 function ModalCity(props) {
-    const [value, setvalue] = useState('');
-
-    const handelchange = (e) => {
-        const newvalue = e.target.value; //get text field value
-        setvalue(newvalue); //set value 
-    }
-
-    const getInputValue = () => {
-        var inputVal = document.getElementById("outlined-bare").value;
-        props.parentCallback(inputVal); // For Passing the value to modal series(child to parent).
-    }
-
+    const [city, setCitiesData] = useState([]);
+    const [cityName, setCityName] = useState('');
+      async function fetchCities() {
+        const result = await xapi().get("specialties/cities");
+          setCitiesData(result.data);
+      }
+      function getContractorData(){
+          var _id = localStorage.getItem("contractor_ID");
+          if(_id)
+          {
+              xapi().get(`contractors/${_id}`).then((res) => {
+                  if(res.data && res.data.address && res.data.address.city)
+                  {
+                      setCityName(res.data.address.city);
+                      props.parentCallback(res.data.address.city)
+                  }
+              })
+          }
+      }
+      function onCityChange(event) {
+        setCityName(event.target.value)
+        props.parentCallback(event.target.value)
+      }
+    
+      useEffect(() => {
+        fetchCities();
+        getContractorData();
+      },[]);
+   
     return (
         <Grid className="service-modal-col" item xs={10} >
             <Typography className="city-head-text" variant="h5">
                 Answer a few question to get matched professionals near you
                  </Typography>
             <Typography className="city-sub-text" variant="body1">
-                Please confirm your project zipcode
+                 Please confirm your city
                 </Typography>
             <FormControl className="width100">
-                <TextField
-                    id="outlined-bare"
-                    value={value}
-                    onChange={handelchange}
-                    onBlur={getInputValue}
-                    margin="normal"
-                    variant="outlined"
-                    autoComplete="off"
-                    inputProps={{ 'aria-label': 'bare' }}
-                    required
-                />
-                {value.length === 0 ? <p className='red'>{props.errorMessage}</p> : ''}
+               <select className="city" onChange={(event) => onCityChange(event)} style = {{width:'100%'}} value = {cityName ? cityName : " "}>
+                  <option value=" ">City</option>
+                  {city.map(city => {
+                    return <option key={city} value={city}>{city}</option>
+                  })}
+                </select>
+                {cityName.length === 0 ? <p className='red'>{props.errorMessage}</p> : ''}
                 <div></div>
             </FormControl>
         </Grid>
     );
 }
-export default ModalCity;
+const mapStateToProps = state => ({
+    contractor: state.cont_data.selectedContractor,
+});
+
+export default connect(mapStateToProps, null)(ModalCity);

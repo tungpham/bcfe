@@ -12,12 +12,11 @@ import Divider from '@material-ui/core/Divider';
 import '../../assets/css/img.css';
 import '../../assets/css/contractorList.css';
 import HttpUrlConstant from '../../apis/global.js';
-import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import {xapi} from '../../services/utils';
 function ContractorList(props) {
-    var apiPath = '/contractors/search';
+    var apiPath = 'contractors/search';
     const [contractorData, setContractorData] = useState([]);
     const [date] = useState(new Date().getFullYear());
 
@@ -32,8 +31,7 @@ function ContractorList(props) {
             "specialty": props.location.state.specialty
         };
         if (payload) {
-            await Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
-                payload, { headers: HttpUrlConstant.headers }).then(response => {
+            await xapi().post( apiPath, payload).then(response => {
                     setContractorData(response.data);
                 })
         }

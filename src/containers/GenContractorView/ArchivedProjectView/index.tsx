@@ -24,10 +24,10 @@ import { deleteProject } from 'store/actions/gen-actions';
 import { UserProfile } from 'types/global';
 import { Projects } from 'types/project';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import Axios from 'axios';
+import {xapi} from 'services/utils';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 
-const CONT_API_PATH = process.env.REACT_APP_PROJECT_API + 'contractors/';
+const CONT_API_PATH = 'contractors/';
 
 const style = (theme: Theme) => createStyles({
     root: {
@@ -112,7 +112,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         const { userProfile } = this.props;
 
         this.setState({ isBusy: true });
-        Axios.get( `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`).then(data => {
+        xapi().get( `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`).then(data => {
             this.setState({ compltedArray: data.data.content });
             this.setState({ totalLength: data.data.totalElements })
         })
@@ -124,7 +124,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         const { rowsPerPage } = this.state;
         try {
             if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-            Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}&status=ARCHIVED`)
+            xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}&status=ARCHIVED`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -147,7 +147,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
         const { userProfile } = this.props;
         try {
-            Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}&status=ARCHIVED`)
+            xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}&status=ARCHIVED`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
