@@ -8,8 +8,7 @@ import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-import Axios from 'axios';
-
+import {xapi} from '../../services/utils';
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 function Gallery(props) {
@@ -69,7 +68,7 @@ function Gallery(props) {
     };
 
     function getimagelist() {
-        Axios.get(process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId).then((data) => {
+        xapi().get( 'contractors/' + galleryId).then((data) => {
             setImagelist(data.data.contractorFiles);
             data.data.contractorFiles.map((i) => {
               return i.type === "PICTURE" ? Image.push(i.name) : null;

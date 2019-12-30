@@ -20,7 +20,7 @@ import Ellipsis from 'components/Typography/Ellipsis';
 import { UserProfile } from 'types/global';
 import { deleteProposal, getProposals } from 'store/actions/sub-actions';
 import { Proposals } from 'types/proposal';
-import Axios from 'axios';
+import {xapi} from 'services/utils';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 const styles = createStyles((theme: Theme) => ({
@@ -70,7 +70,7 @@ interface ISubmittedProViewState extends ISnackbarProps {
 	totalLength: number;
 	submitData: [];
 }
-const CONT_API_PATH = process.env.REACT_APP_PROJECT_API + 'contractors/';
+const CONT_API_PATH =  'contractors/';
 
 class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmittedProViewState> {
 
@@ -95,7 +95,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 	}
 	componentDidMount() {
 		const { userProfile } = this.props;
-		Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=SUBMITTED`).then(res => {
+		xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=SUBMITTED`).then(res => {
 			this.setState({ submitData: res.data.content })
 			this.setState({ totalLength: res.data.totalElements })
 		});
@@ -108,7 +108,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=SUBMITTED`)
+			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=SUBMITTED`)
 				.then(data => {
 					this.setState({
 						submitData: data.data.content,
@@ -130,7 +130,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
 		try {
-			Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=SUBMITTED`).then(res => {
+			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=SUBMITTED`).then(res => {
 				this.setState({
 					submitData: res.data.content,
 					isBusy: false,

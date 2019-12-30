@@ -70,7 +70,6 @@ const AskReview: React.FunctionComponent<IAskReviewProps> = (props) => {
 
     const { contId, company, show, hide, askReview } = props;
     const avatar = ContApi.getAvatar(contId);
-
     const [mails, setMails] = React.useState<string[]>(['']);
     const [mailRate, setMailRate] = React.useState(5.0);
     const [msg, setMsg] = React.useState(`Thanks for being a valued customer. I just signed up on find more excellent customers like you, and reviews are a big part of my profile. Can you take a moment to write a couple of sentences about working with me? I'd love if my future customers could hear about your experience firsthand. \r\nThanks, ${company}`);

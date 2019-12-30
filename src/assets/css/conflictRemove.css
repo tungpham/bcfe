@@ -146,7 +146,7 @@ ul.MuiList-root.service-modal-list.MuiList-padding {
   width: 100%;
   height: 400px;
   margin-left: auto;
-  margin-bottom: 8% !important;
+  /* margin-bottom: 8% !important; ikram */
   margin-right: auto;
 }
 
@@ -332,6 +332,7 @@ div#none {
 
 .home-mid-bg {
   background-color: #eeeeee26;
+  padding: 0px 6% !important;
 }
 .MuiPaper-root.MuiPaper-elevation0.MuiMobileStepper-root.MuiMobileStepper-positionStatic.stepper-divider {
   background-color: black;

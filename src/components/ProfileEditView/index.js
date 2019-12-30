@@ -3,7 +3,6 @@ import Card from '@material-ui/core/Card';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -11,7 +10,7 @@ import { setUserProfile } from 'store/actions/global-actions';
 import auth0Client from 'services/auth0/auth';
 import Button from '../CustomButtons/Button';
 import TSnackbarContent from '../SnackBarContent';
-
+import {xapi} from 'services/utils';
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -126,9 +125,8 @@ class ProfileView extends Component {
       phone: '',
     };
 
-    await axios
+    await xapi()
       .get(
-        process.env.REACT_APP_PROJECT_API +
         'contractors/' +
         userProfile.user_metadata.contractor_id,
       )
@@ -177,8 +175,8 @@ class ProfileView extends Component {
     });
 
     let cont_id = userProfile.user_metadata.contractor_id;
-    await axios
-      .get(process.env.REACT_APP_PROJECT_API + 'contractors/' + cont_id)
+    await xapi()
+      .get('contractors/' + cont_id)
       .then(response => {
       })
       .catch(error => {
@@ -192,8 +190,8 @@ class ProfileView extends Component {
       phone: this.state.phone,
     };
 
-    await axios.post(
-      process.env.REACT_APP_PROJECT_API + 'contractors/' + cont_id,
+    await xapi().post(
+     'contractors/' + cont_id,
       {
         email: userProfile.user_metadata.email,
         updatedBy: userProfile.user_metadata.email,

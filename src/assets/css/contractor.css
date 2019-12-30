@@ -136,7 +136,8 @@ html {
 
 .contractor-details {
   float: left;
-  width: 50% !important;
+  /* width: 50% !important; ikram*/
+  width: 680px;
   margin: 35px !important;
 }
 
@@ -774,15 +775,15 @@ button.MuiButtonBase-root.MuiIconButton-root.Rating-iconButton.Rating-readOnly {
 }
 button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.msg-box-btn.MuiButton-containedPrimary {
   font-weight: 900;
-  padding: 10px 50px !important;
-  margin-top: 100px;
-  margin-top: 100px;
-  margin-left: 55px;
-  margin-bottom: 30px;
+  /* padding: 10px 50px !important; */
+  margin-top: 30px;
+  /* margin-top: 100px; */
+  /* margin-left: 55px; */
+  /* margin-bottom: 30px; */ 
 }
 .message-box {
-  float: left;
-  width: 25%;
+  float: right;
+  width: auto;
   margin-left: auto;
   margin-right: auto;
 }

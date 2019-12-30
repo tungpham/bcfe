@@ -18,8 +18,8 @@ import Ellipsis from 'components/Typography/Ellipsis';
 import { deleteProposal, getProposals } from 'store/actions/sub-actions';
 import { UserProfile } from 'types/global';
 import { Proposals } from 'types/proposal';
-import Axios from 'axios';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+import { xapi } from 'services/utils';
 
 const styles = createStyles(theme => ({
 	root: {
@@ -45,7 +45,7 @@ const styles = createStyles(theme => ({
 	},
 }));
 
-const CONT_API_PATH = process.env.REACT_APP_PROJECT_API + 'contractors/';
+const CONT_API_PATH =  'contractors/';
 
 interface IWonProjectViewProps extends RouteComponentProps {
 	classes: ClassNameMap<string>;
@@ -85,7 +85,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 
 	componentDidMount() {
 		const { userProfile } = this.props;
-		Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
+		xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
 			this.setState({ awardData: res.data.content })
 		});
 		// this.props.getProposals(
@@ -98,7 +98,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			Axios.get(`${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=INACTIVE`)
+			xapi().get(`${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=INACTIVE`)
 				.then(data => {
 					console.log(data);
 					this.setState({
@@ -123,7 +123,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
 		try {
-			Axios.get(`${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=INACTIVE`).then(res => {
+			xapi().get(`${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=INACTIVE`).then(res => {
 				this.setState({
 					awardData: res.data.content,
 					isBusy: false,

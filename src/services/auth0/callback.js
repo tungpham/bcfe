@@ -4,9 +4,7 @@ import auth0Client from './auth';
 
 import { connect } from 'react-redux';
 import { setUserProfile } from 'store/actions/global-actions';
-import HttpUrlConstant from 'apis/global';
-import Axios from 'axios';
-
+import {xapi} from 'services/utils';
 class connectedCallback extends Component {
 
 	async componentDidMount() {
@@ -19,7 +17,7 @@ class connectedCallback extends Component {
 
 		if (localStorage.getItem("modalData")) {
 			JSON.parse(localStorage.getItem("modalData")).forEach(element => {
-				var apiPath = `/contractors/${data.user_metadata.contractor_id}/projects`;
+				var apiPath = `contractors/${data.user_metadata.contractor_id}/projects`;
 				const payload = {
 					"title": element.modalTitle,
 					"description": element.description,
@@ -29,8 +27,7 @@ class connectedCallback extends Component {
 					"budgetTo":element.budgetTo
 				};
 				if (payload) {
-					Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
-						payload, { headers: HttpUrlConstant.headers }).then(response => {
+					xapi().post( apiPath,	payload).then(response => {
 							this.props.history.replace('/gen-contractor');
 						})
 				}

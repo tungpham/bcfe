@@ -32,8 +32,7 @@ import ModalDisc from '../../components/modals/modalDesc';
 import ModalCity from '../../components/modals/modalCity';
 import ModalProperty from '../../components/modals/modalProperty';
 import ModalMaterial from '../../components/modals/modalMaterial';
-import Axios from 'axios';
-import HttpUrlConstant from 'apis/global';
+import {xapi} from 'services/utils';
 
 interface IGenContractorViewProps extends RouteComponentProps {
     userProfile: UserProfile;
@@ -131,7 +130,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     };
 
     const handleClose = () => {
-        var apiPath = `/contractors/${Id}/projects`;
+        var apiPath = `contractors/${Id}/projects`;
         if (activeStep === 7) {
             const payload = {
                 "title": "A project",
@@ -142,8 +141,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                 "budgetTo": getbudjet.split('-')[1]
             };
             if (payload) {
-                Axios.post(process.env.REACT_APP_PROJECT_API + apiPath,
-                    payload, { headers: HttpUrlConstant.headers }).then(response => {
+                xapi(1).post( apiPath, payload).then(response => {
                         Newdata.push(response.data);
                     })
             }
@@ -236,7 +234,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                     aria-describedby="simple-modal-description"
                     open={open}
                     onClose={handleClose}>
-                    <div className="service-modal" >
+                    <div className="service-modal" style = {{width:"454px"}} >
                         <CloseIcon onClick={handleClose} className="modal-close" />
                         <Grid className="modal-page-col" item xs={10}>
                             <Typography variant="subtitle2" color="textSecondary">

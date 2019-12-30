@@ -151,81 +151,90 @@ class ProfileSpecView extends React.Component<ProfileSpecViewProps, ProfileSpecV
         return (
             <>
                 <Card className={classes.container}>
-                    <Table className={classes.relative}>
-                        <WhiteTableHead>
-                            <TableRow>
-                                <TableHeadCell align="center">Name</TableHeadCell>
-                                <TableHeadCell align="center">Value</TableHeadCell>
-                                <TableHeadCell align="center">Description</TableHeadCell>
-                                <TableHeadCell align="center">Action</TableHeadCell>
-                            </TableRow>
-                        </WhiteTableHead>
-                        <TableBody>
-                            {contractor.contractorSpecialties.map(row => (
-                                <TableRow className={classes.row} key={row.id} hover>
-                                    <TableCell component="th" scope="row" align="center">
-                                        {row.specialty.name}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {row.specialty.value}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {row.specialty.description}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <IconButton
-                                            className={classes.button}
-                                            aria-label="Delete"
-                                            color="primary"
-                                            onClick={() => this.handleDelete(row.specialty.id)}
-                                        >
-                                            <DeleteIcon fontSize='small' />
-                                        </IconButton>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
                     <List>
                         <ListItem>
-                            <Typography className={classes.title}>
-                                Select your specialties
+                            <Typography className = {classes.title}>
+                                Specialties
                             </Typography>
                         </ListItem>
-                        <ListItem>
-                            <Box style={{ display: 'flex', width: '100%' }}>
-                                <Box style={{ flex: 1, marginRight: 16 }}>
-                                    <MultiSelect
-                                        className={classes.select}
-                                        placeholder="Select multiple specialties"
-                                        suggestions={suggestions}
-                                        values={specs}
-                                        selectChange={this.selectChange}
-                                    />
+                        <ListItem style = {{display:'block'}}>
+                            <Table className={classes.relative}>
+                                <WhiteTableHead>
+                                    <TableRow>
+                                        <TableHeadCell align="center">Name</TableHeadCell>
+                                        <TableHeadCell align="center">Value</TableHeadCell>
+                                        <TableHeadCell align="center">Description</TableHeadCell>
+                                        <TableHeadCell align="center">Action</TableHeadCell>
+                                    </TableRow>
+                                </WhiteTableHead>
+                                <TableBody>
+                                    {contractor.contractorSpecialties.map(row => (
+                                        <TableRow className={classes.row} key={row.id} hover>
+                                            <TableCell component="th" scope="row" align="center">
+                                                {row.specialty.name}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {row.specialty.value}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {row.specialty.description}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <IconButton
+                                                    className={classes.button}
+                                                    aria-label="Delete"
+                                                    color="primary"
+                                                    onClick={() => this.handleDelete(row.specialty.id)}
+                                                >
+                                                    <DeleteIcon fontSize='small' />
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                            <List>
+                            <ListItem>
+                                <Typography className={classes.title}>
+                                    Select your specialties
+                                </Typography>
+                            </ListItem>
+                            <ListItem>
+                                <Box style={{ display: 'flex', width: '100%' }}>
+                                    <Box style={{ flex: 1, marginRight: 16 }}>
+                                        <MultiSelect
+                                            className={classes.select}
+                                            placeholder="Select multiple specialties"
+                                            suggestions={suggestions}
+                                            values={specs}
+                                            selectChange={this.selectChange}
+                                        />
+                                    </Box>
+                                    <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            className={classes.button}
+                                            onClick={this.saveSpecialty}
+                                        >
+                                            Save
+                                        </Button>
+                                    </Box>
                                 </Box>
-                                <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.button}
-                                        onClick={this.saveSpecialty}
-                                    >
-                                        Save
-                                    </Button>
+                            </ListItem>
+                            <ListItem>
+                                <Box style={{ display: 'flex' }}>
+                                    {specs.map((spec, index) => (
+                                        <Chip
+                                            key={index}
+                                            label={spec}
+                                            className={classes.chip}
+                                            onDelete={() => this.deleteSelect(spec)}
+                                        />
+                                    ))}
                                 </Box>
-                            </Box>
-                        </ListItem>
-                        <ListItem>
-                            <Box style={{ display: 'flex' }}>
-                                {specs.map((spec, index) => (
-                                    <Chip
-                                        key={index}
-                                        label={spec}
-                                        className={classes.chip}
-                                        onDelete={() => this.deleteSelect(spec)}
-                                    />
-                                ))}
-                            </Box>
+                            </ListItem>
+                        </List>
                         </ListItem>
                     </List>
                 </Card>

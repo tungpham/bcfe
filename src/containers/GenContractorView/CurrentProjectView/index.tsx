@@ -25,10 +25,10 @@ import { archiveProject } from 'store/actions/gen-actions';
 import { UserProfile } from 'types/global';
 import { Projects } from 'types/project';
 import style from './CurrentProject.style';
-import Axios from 'axios';
+import {xapi} from 'services/utils';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 
-const CONT_API_PATH = process.env.REACT_APP_PROJECT_API + 'contractors/';
+const CONT_API_PATH = 'contractors/';
 
 interface CurrentProjectProps extends RouteComponentProps {
     classes: ClassNameMap<string>;
@@ -75,7 +75,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         const { userProfile } = this.props;
         this.setState({ isBusy: true });
         try {
-            Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}`).then(data => {
+            xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}`).then(data => {
                 this.setState({ compltedArray: data.data.content })
                 this.setState({ totalLength: data.data.totalElements })
             })
@@ -91,7 +91,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
 
         try {
             if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-            Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}`)
+            xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -114,7 +114,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
 
         const { userProfile } = this.props;
         try {
-            Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}`)
+            xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,

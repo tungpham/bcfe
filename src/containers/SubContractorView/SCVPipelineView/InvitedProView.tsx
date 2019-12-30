@@ -26,10 +26,10 @@ import { Projects } from 'types/project';
 import { UserProfile } from 'types/global';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import Ellipsis from 'components/Typography/Ellipsis';
-import Axios from 'axios';
+import {xapi} from 'services/utils';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 
-const CONT_API_PATH = process.env.REACT_APP_PROJECT_API + 'contractors/';
+const CONT_API_PATH =  'contractors/';
 
 const styles = createStyles((theme: Theme) => ({
 	root: {
@@ -92,7 +92,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 
 	componentDidMount() {
 		const { userProfile } = this.props;
-		Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
+		xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
 			this.setState({ inviteData: res.data.content })
 			this.setState({ totalLength: res.data.totalElements })
 		});
@@ -106,7 +106,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=AWARDED`)
+			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=AWARDED`)
 				.then(data => {
 					console.log(data);
 					this.setState({
@@ -129,7 +129,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
 		try {
-			Axios.get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=AWARDED`).then(res => {
+			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=AWARDED`).then(res => {
 				this.setState({
 					inviteData: res.data.content,
 					isBusy: false,

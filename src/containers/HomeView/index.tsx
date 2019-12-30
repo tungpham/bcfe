@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import axios from 'axios';
+import {xapi} from 'services/utils';
 import { Link } from 'react-router-dom';
 import AutoCompleteText from '../../components/common/AutoCompleteText.js';
 import '../../assets/css/conflictRemove.css';
@@ -15,7 +15,7 @@ function HomeView(props) {
   const [cityName, setCityName] = useState('');
 
   async function fetchCities() {
-    const result = await axios(process.env.REACT_APP_PROJECT_API  + "specialties/cities");
+    const result = await xapi().get("specialties/cities");
       setCitiesData(result.data);
   }
 
