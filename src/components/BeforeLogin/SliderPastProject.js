@@ -10,7 +10,6 @@ import { autoPlay } from 'react-swipeable-views-utils';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import SwipeableViews from 'react-swipeable-views';
-import HttpUrlConstant from 'apis/global';
 import CloseIcon from '@material-ui/icons/Close';
 import {xapi} from 'services/utils';
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
@@ -91,7 +90,7 @@ function SliderPastProject(props) {
                     <div key={index1} style={{ display: 'flex' }}>
                         <div className="pastproject">
                             <div className="pastprojectimg">{item.projectFiles.map((image, index) => {
-                                return <img key={index} id={index1} className={index === 0 ? "pastprojectimg" : 'none'} src={`${HttpUrlConstant.BASE_URL}/projects/${item.id}/files/${image.name}`} onClick={handleOpen} alt="pastimage"></img>
+                                return <img key={index} id={index1} className={index === 0 ? "pastprojectimg" : 'none'} src={`${process.env.REACT_APP_PROJECT_API}/projects/${item.id}/files/${image.name}`} onClick={handleOpen} alt="pastimage"></img>
                             })}
                             </div>
                             <div className="pastprojectdetails">
@@ -119,7 +118,7 @@ function SliderPastProject(props) {
                             detailsData[modalId].projectFiles.map((step, index) => (
                                 <div style={{ overflow: 'hidden' }} className="post-height" key={index}>
                                     {Math.abs(activeStep - index) <= 2 ? (
-                                        <img className="post-slider-img" src={`${HttpUrlConstant.BASE_URL}/projects/${detailsData[modalId].id}/files/${step.name}`} alt={step.label} />
+                                        <img className="post-slider-img" src={`${process.env.REACT_APP_PROJECT_API}/projects/${detailsData[modalId].id}/files/${step.name}`} alt={step.label} />
                                     ) : null}
                                 </div>
                             )) : ''}
