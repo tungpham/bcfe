@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import '../../assets/css/img.css';
 import '../../assets/css/contractorList.css';
-import HttpUrlConstant from '../../apis/global.js';
 import { Link } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {xapi} from '../../services/utils';
@@ -52,11 +51,11 @@ function ContractorList(props) {
                                                     return (
                                                         <div key={index}>
                                                             {item.type === 'AVATAR' ?
-                                                                <img className="myAvatar" alt={item.name} src={`${HttpUrlConstant.BASE_URL}/contractors/${cntDetail.contractor.id}/files/${item.name}`} /> : ' '}
+                                                                <img className="myAvatar" alt={item.name} src={`${process.env.REACT_APP_PROJECT_API}/contractors/${cntDetail.contractor.id}/files/${item.name}`} /> : ' '}
                                                         </div>
                                                     )
                                                 })}
-                                                {cntDetail.contractor['contractorFiles'].length === 0 ? <img alt="companyImage" className="displayNone" src={`${HttpUrlConstant.Image_URL}/api/?name=${cntDetail.contractor.address.company}`} /> : ''}
+                                                {cntDetail.contractor['contractorFiles'].length === 0 ? <img alt="companyImage" className="displayNone" src={`https://ui-avatars.com/api/api/?name=${cntDetail.contractor.address.company}`} /> : ''}
                                             </Grid>
                                             <Grid item xs={12} lg={10}>
                                                 <Grid className="row">

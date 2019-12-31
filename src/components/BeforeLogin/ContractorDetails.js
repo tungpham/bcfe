@@ -32,7 +32,6 @@ import ModalCity from '../modals/modalCity';
 import ModalProperty from '../modals/modalProperty';
 import ModalMaterial from '../modals/modalMaterial';
 import { useStyles } from '@material-ui/pickers/views/Month/MonthView';
-import HttpUrlConstant from 'apis/global';
 import { withRouter } from 'react-router-dom';
 import auth0Client from 'services/auth0/auth';
 import {xapi} from '../../services/utils';
@@ -122,7 +121,7 @@ function ContractorDetails(props) {
     function FetchImage() {
         xapi().get(`contractors/${Id}/avatar`).then((data) => {
             if (data.status === 200) {
-                setAvtarurl(`${HttpUrlConstant.BASE_URL}/contractors/${Id}/avatar`);
+                setAvtarurl(process.env.REACT_APP_PROJECT_API + `/contractors/${Id}/avatar`);
             }
         })
     }
@@ -142,8 +141,7 @@ function ContractorDetails(props) {
                 "budgetTo": getbudjet.split('-')[1]
             };
             if (payload) {
-                xapi().post( apiPath,
-                    payload, { headers: HttpUrlConstant.headers }).then(response => {
+                xapi().post( apiPath, payload).then(response => {
                         Newdata.push(response.data);
                     })
             }
@@ -268,78 +266,8 @@ function ContractorDetails(props) {
 
     return (
         <div style = {{display:'flex', justifyContent:'center', alignItems:'center'}}>
-            <div className="full-width">
-                <div className="message-box">
-                    <Paper className="msg-box-align">
-                        <Button variant="contained" onClick={HandleOpen} color="primary" className="msg-box-btn">
-                            <ChatBubbleOutlineOutlinedIcon className="message-box-icon" /> Message Pro</Button>
-                    </Paper>
-
-                    <Modal
-                        aria-labelledby="simple-modal-title"
-                        aria-describedby="simple-modal-description"
-                        open={open}
-                        onClose={HandleClose}
-                    >
-                        <div className="service-modal" style = {{width:"454px"}} >
-                            <CloseIcon onClick={HandleClose} className="modal-close" />
-                            <Grid className="modal-page-col" item xs={10}>
-                                <span variant="subtitle2" color="textSecondary">
-                                    {activeStep === 0 ? 1
-                                        : activeStep === 1 ? 2
-                                            : activeStep === 2 ? 3
-                                                : activeStep === 3 ? 4
-                                                    : activeStep === 4 ? 5
-                                                        : activeStep === 5 ? 6
-                                                            : activeStep === 6 ? 7
-                                                                : ''} of 7
-                                </span>
-                            </Grid>
-                            <Grid container spacing={2}>
-                                {/* Receiving the value from Child */}
-                                {activeStep === 0 ? <ModalCity parentCallback={Callback} errorMessage={validation} />
-                                    : activeStep === 1 ? <ModalService data={data} serviceCallbackvalue1={ServiceCallValue1} serviceCallbackvalue2={ServiceCallValue2} errorMessage={validation} />
-                                        : activeStep === 2 ? <ModalProperty data={data} propertyCallback={PropertyCall} errorMessage={validation} />
-                                            : activeStep === 3 ? <ModalArea data={data} areaCallback={AreaCall} errorMessage={validation} />
-                                                : activeStep === 4 ? <ModalBudjet
-                                                    data={data} budjetCallbackvalue={BudjetCallValue}
-                                                    budjetCallback={BudjetCall}
-                                                    errorMessage={validation} />
-                                                    : activeStep === 5 ? < ModalMaterial data={data}
-                                                        MaterialCallback={MaterialCall}
-                                                        errorMessage={validation} />
-                                                        : activeStep === 6 ? <ModalDisc
-                                                            discCallback={DiscCall}
-                                                            errorMessage={validation} /> : HandleClose()}
-                            </Grid>
-                            <MobileStepper
-                                variant="progress"
-                                steps={7}
-                                position="static"
-                                activeStep={activeStep}
-                                className={classes.root}
-                            />
-                            <Grid container spacing={0}>
-                                <Grid item xs={12} style={{ textAlign: 'center', margin: '20px 0px' }}>
-                                    <Button variant="contained" className="service-modal-prev"
-                                        onClick={HandleBack} disabled={activeStep === 0}
-                                    >
-                                        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-                                        Prev
-                                    </Button>
-                                    <Button variant="contained" className="service-modal-next"
-                                        onClick={HandleNext} disabled={activeStep === 7}
-                                    >
-                                        {activeStep === 6 ? 'Submit' : 'Next'}
-                                        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </div>
-                    </Modal>
-                </div>
-                <div className="loader">{Detailsdata.length === 0 ? <CircularProgress /> : ''}</div>
+            <div className="full-width" style = {{display:'flex'}}>
+             <div className="loader">{Detailsdata.length === 0 ? <CircularProgress /> : ''}</div>
                 {Detailsdata.map((detailsdata) => {
                     return <div key={detailsdata.address.id}
                         className="contractor-details">
@@ -364,7 +292,7 @@ function ContractorDetails(props) {
                                         {<img alt="image1" className="displayNone" src={process.env.REACT_APP_PROJECT_API + "contractors/" + Id + "/avatar"} />}
                                     </div> :
                                         <div key={detailsdata.id}>
-                                            {<img alt="image22" className="displayNone" src={`${HttpUrlConstant.Image_URL}/api/?name=${detailsdata.address.company}`} />}
+                                            {<img alt="image22" className="displayNone" src={`https://ui-avatars.com/api/api/?name=${detailsdata.address.company}`} />}
                                         </div>}
                                 </ListItemAvatar>
                             </Grid>
@@ -626,6 +554,77 @@ function ContractorDetails(props) {
                         </div>
                     </div>
                 })}
+             <div className="message-box">
+                    <Paper className="msg-box-align">
+                        <Button variant="contained" onClick={HandleOpen} color="primary" className="msg-box-btn">
+                            <ChatBubbleOutlineOutlinedIcon className="message-box-icon" /> Message Pro</Button>
+                    </Paper>
+
+                    <Modal
+                        aria-labelledby="simple-modal-title"
+                        aria-describedby="simple-modal-description"
+                        open={open}
+                        onClose={HandleClose}
+                    >
+                        <div className="service-modal" style = {{width:"454px"}} >
+                            <CloseIcon onClick={HandleClose} className="modal-close" />
+                            <Grid className="modal-page-col" item xs={10}>
+                                <span variant="subtitle2" color="textSecondary">
+                                    {activeStep === 0 ? 1
+                                        : activeStep === 1 ? 2
+                                            : activeStep === 2 ? 3
+                                                : activeStep === 3 ? 4
+                                                    : activeStep === 4 ? 5
+                                                        : activeStep === 5 ? 6
+                                                            : activeStep === 6 ? 7
+                                                                : ''} of 7
+                                </span>
+                            </Grid>
+                            <Grid container spacing={2}>
+                                {/* Receiving the value from Child */}
+                                {activeStep === 0 ? <ModalCity parentCallback={Callback} errorMessage={validation} />
+                                    : activeStep === 1 ? <ModalService data={data} serviceCallbackvalue1={ServiceCallValue1} serviceCallbackvalue2={ServiceCallValue2} errorMessage={validation} />
+                                        : activeStep === 2 ? <ModalProperty data={data} propertyCallback={PropertyCall} errorMessage={validation} />
+                                            : activeStep === 3 ? <ModalArea data={data} areaCallback={AreaCall} errorMessage={validation} />
+                                                : activeStep === 4 ? <ModalBudjet
+                                                    data={data} budjetCallbackvalue={BudjetCallValue}
+                                                    budjetCallback={BudjetCall}
+                                                    errorMessage={validation} />
+                                                    : activeStep === 5 ? < ModalMaterial data={data}
+                                                        MaterialCallback={MaterialCall}
+                                                        errorMessage={validation} />
+                                                        : activeStep === 6 ? <ModalDisc
+                                                            discCallback={DiscCall}
+                                                            errorMessage={validation} /> : HandleClose()}
+                            </Grid>
+                            <MobileStepper
+                                variant="progress"
+                                steps={7}
+                                position="static"
+                                activeStep={activeStep}
+                                className={classes.root}
+                            />
+                            <Grid container spacing={0}>
+                                <Grid item xs={12} style={{ textAlign: 'center', margin: '20px 0px' }}>
+                                    <Button variant="contained" className="service-modal-prev"
+                                        onClick={HandleBack} disabled={activeStep === 0}
+                                    >
+                                        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+                                        Prev
+                                    </Button>
+                                    <Button variant="contained" className="service-modal-next"
+                                        onClick={HandleNext} disabled={activeStep === 7}
+                                    >
+                                        {activeStep === 6 ? 'Submit' : 'Next'}
+                                        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </div>
+                    </Modal>
+                </div>
+                
             </div>
         </div>
     )
