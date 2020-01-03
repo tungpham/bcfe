@@ -9,7 +9,7 @@ import SpecialtyView from '../containers/SpecialtyView';
 import ContractorView from '../containers/ContractorView';
 import ProjectsView from '../containers/ProjectsView';
 import HomeView from '../containers/HomeView';
-import ReviewWritingView from '../containers/reviewWritingView'
+import ReviewWritingView from '../containers/ReviewWritingNew/index'
 import ProfileView from '../containers/ProfileView';
 import SearchContractorView from '../containers/SearchContractorView';
 import SearchCityView from '../containers/SearchCityView';

@@ -206,7 +206,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     render() {
         const { classes } = this.props;
 
-        if (this.state.isBusy || this.state.compltedArray.length === 0) {
+        if (this.state.isBusy ) {
             return <CircularProgress className={classes.busy} />
         }
 

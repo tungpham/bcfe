@@ -59,6 +59,7 @@ interface HeaderState {
 	anchorEl: null | HTMLElement;
 	mobileMoreAnchorEl: React.ReactNode;
 	open: boolean;
+	avartaImg: string;
 }
 
 class Header extends React.Component<HeaderProps, HeaderState> {
@@ -68,6 +69,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 			anchorEl: null,
 			mobileMoreAnchorEl: null,
 			open: true,
+			avartaImg: ""
 		};
 	}
 
@@ -83,7 +85,12 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 		this.setState({ open });
 		window.addEventListener('resize', this.resizedWindow);
 	}
-
+    componentDidUpdate(prevProps:HeaderProps){
+			if(prevProps.profile.user_metadata.contractor_id !== this.props.profile.user_metadata.contractor_id)
+			{
+				console.log("updated")
+			}
+	}
 	UNSAFE_UNSAFE_componentWillMount() {
 		window.removeEventListener('resize', this.resizedWindow);
 	}
@@ -129,11 +136,37 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 		this.setState({
 			anchorEl: null,
 		});
-
+	imageExists1 = (url) => {
+		if(this.state.avartaImg === "" && this.props.profile.user_metadata.contractor_id){
+			var img = new Image();
+			img.src = url;
+			var _that = this;
+			img.onload = function() { 
+				if(_that.state.avartaImg !== url)
+				{
+					_that.setState({
+						avartaImg: url
+					})
+				}
+			};
+			img.onerror = function() { 
+				var imgUrl = "https://ui-avatars.com/api/?name=" + _that.props.profile.email.split("@")[0];
+				if(_that.state.avartaImg !== imgUrl)
+				{
+					_that.setState({
+						avartaImg: imgUrl
+					})
+				}
+			};
+		}
+		
+	}
 	render() {
 		const { anchorEl, open } = this.state;
 		const { classes } = this.props;
 		const isMenuOpen = Boolean(anchorEl);
+		const avatarImg = ContApis.getAvatar(this.props.profile.user_metadata.contractor_id);
+		this.imageExists1(avatarImg)
 		const rightApp = auth0Client.isAuthenticated() ? (
 			<div className="rightmenu">
 				<div className={classes.sectionDesktop}>
@@ -184,8 +217,12 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 						color="inherit"
 						style = {{boxShadow:'0px 0px 10px rgba(0,0,0,0.2)', marginLeft:'10px'}}
 					>
-					<Avatar alt="user-avatar" src={ContApis.getAvatar(this.props.profile.user_metadata.contractor_id)}
-					/>
+						{
+							this.state.avartaImg !== "" ? (
+								<Avatar alt="user-avatar" src={this.state.avartaImg}/>
+							) : ( null)
+						}
+					
 					</IconButton>
 				</div>
 				<div className={classes.sectionMobile}>

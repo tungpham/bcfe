@@ -220,7 +220,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		const { classes } = this.props;
 		const { showMessage, variant, message } = this.state;
 
-        if (this.state.inviteData.length === 0) {
+        if (this.state.isBusy) {
             return <CircularProgress className={classes.waitingSpin} />;
         }
 		return (

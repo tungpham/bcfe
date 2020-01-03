@@ -224,7 +224,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 	render() {
 		const { classes } = this.props;
 
-        if (this.state.submitData.length === 0) {
+        if (this.state.isBusy) {
             return <CircularProgress className={classes.waitingSpin} />;
         }
 		return (

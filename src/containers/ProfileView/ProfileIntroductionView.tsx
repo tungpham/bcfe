@@ -31,7 +31,6 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface IntroductionProps {
-    introduction: String;
     contractor: any;
     classes: any;
     getContractorDetailById: (id: String) => Promise<void>; 
@@ -67,7 +66,7 @@ class ProfileIntroductionView extends React.Component<IntroductionProps, Introdu
     }
     componentDidMount(){
         this.setState({
-            introduction: this.props.introduction
+            introduction: this.props.contractor && this.props.contractor.address && this.props.contractor.address.introduction ? this.props.contractor.address.introduction : ""
         })
     }
     save = () => {
@@ -182,7 +181,6 @@ class ProfileIntroductionView extends React.Component<IntroductionProps, Introdu
     }
 }
 const mapStateToProps = state => ({
-    introduction: state.cont_data.selectedContractor.address.introduction,
     contractor: state.cont_data.selectedContractor,
 });
 const mapDispatchToProps = {

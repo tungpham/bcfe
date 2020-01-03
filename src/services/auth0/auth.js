@@ -70,7 +70,6 @@ class Auth {
 	};
 
 	signOut = () => {
-		console.log("Sign-out")
 		this.auth0.logout({
 			returnTo:
 				process.env.NODE_ENV === 'development'
@@ -81,7 +80,6 @@ class Auth {
 	};
 
 	setSession = authResult => {
-		console.log("setSession")
 		this.accessToken = authResult.accessToken;
 		this.idToken = authResult.idToken;
 		this.profile = authResult.idTokenPayload;
@@ -90,7 +88,6 @@ class Auth {
 	};
 
 	handleAuthentication = () => {
-		console.log("handleauthentication")
 		return new Promise((resolve, reject) => {
 			this.auth0.parseHash((err, authResult) => {
 				if (err) return reject(err);
