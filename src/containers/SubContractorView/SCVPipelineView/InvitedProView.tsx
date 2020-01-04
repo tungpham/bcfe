@@ -222,7 +222,6 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 	render() {
 		const { classes } = this.props;
 		const { showMessage, variant, message } = this.state;
-
         if (this.state.isBusy) {
             return <CircularProgress className={classes.waitingSpin} />;
         }
@@ -256,7 +255,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{this.state.inviteData.map((row: any) => (
+						{this.state.inviteData.length > 0 ? this.state.inviteData.map((row: any) => (
 							<TableRow className={classes.row} key={row.id} hover>
 								<CustomTableCell
 									component="th"
@@ -269,7 +268,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 									align="center"
 									onClick={() => this.handleSelectProject(row.id)}
 								>
-									{row.subContractor.address.name}
+									{row.subContractor.address && row.subContractor.address.name ? row.subContractor.address.name: ""}
 								</CustomTableCell>
 								<CustomTableCell
 									align="center"
@@ -313,7 +312,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 									</Ellipsis>
 								</CustomTableCell>
 							</TableRow>
-						))}
+						)):(null)}
 					</TableBody>
 				</Table>
 				<TablePagination
