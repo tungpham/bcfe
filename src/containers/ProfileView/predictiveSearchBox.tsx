@@ -56,6 +56,7 @@ export class PredictiveSearchBox extends Component<any,any> {
     const { activeOption, filteredOptions } = this.state;
 
     if (e.keyCode === 13) {
+      if(filteredOptions[activeOption] === undefined || filteredOptions[activeOption] === null) return;
       this.setState({
         activeOption: 0,
         showOptions: false,

@@ -108,7 +108,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=SUBMITTED`)
+			await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=SUBMITTED`)
 				.then(data => {
 					this.setState({
 						submitData: data.data.content,

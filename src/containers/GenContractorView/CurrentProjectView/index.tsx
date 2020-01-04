@@ -75,7 +75,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         const { userProfile } = this.props;
         this.setState({ isBusy: true });
         try {
-            xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}`).then(data => {
+            await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}`).then(data => {
                 this.setState({ compltedArray: data.data.content })
                 this.setState({ totalLength: data.data.totalElements })
             })
