@@ -1,10 +1,4 @@
 import React from 'react';
-
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import IconButton from '@material-ui/core/IconButton';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
@@ -16,22 +10,20 @@ import Card from '@material-ui/core/Card';
 import Chip from '@material-ui/core/Chip';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import TableCell from '@material-ui/core/TableCell';
 import { withStyles, Theme, createStyles, StyledComponentProps } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
-
-import MultiSelect, { SelectObject } from 'components/Select/MultiSelect';
+import   { SelectObject } from 'components/Select/MultiSelect';
 
 import { Specialties } from 'types/global';
 import Button from 'components/CustomButtons/Button';
-
+import PredictiveSearchBox from './predictiveSearchBox';
 
 const styles = (theme: Theme) => createStyles({
-    container: {
+    containerSpe: {
         width: '100%',
         padding: theme.spacing(2),
         marginBottom: theme.spacing(2),
         borderRadius: '0',
+        minHeight:'340px'
     },
     subContents: {
         width: '100%',
@@ -71,20 +63,6 @@ interface ProfileSpecViewState {
     specs: string[];
     suggestions: SelectObject[];
 }
-
-const WhiteTableHead = withStyles({
-    root: {
-        backgroundColor: 'white'
-    }
-})(TableHead);
-const TableHeadCell = withStyles({
-    root: {
-        fontSize: '0.875rem',
-        color: 'rgba(0,0,0,0.87)',
-        fontWeight: 500
-    }
-})(TableCell);
-
 class ProfileSpecView extends React.Component<ProfileSpecViewProps, ProfileSpecViewState> {
     constructor(props: Readonly<ProfileSpecViewProps>) {
         super(props);
@@ -95,10 +73,18 @@ class ProfileSpecView extends React.Component<ProfileSpecViewProps, ProfileSpecV
             onYes: this.deleteSpecialty,
             idToDel: '',
             specs: props.contractor.contractorSpecialties.map(item => (item.specialty.name)),
-            suggestions: props.specialties.content.map(spec => ({ id: spec.id, name: spec.name }))
+            suggestions: props.specialties.content.map(spec => ({ id: spec.id, name: spec.name })).filter(sugg => !props.contractor.contractorSpecialties.map(item => (item.specialty.name)).includes(sugg.name))
         };
     }
-
+    componentDidUpdate(prevProps:ProfileSpecViewProps, prevState:ProfileSpecViewState){
+        if(prevState.specs && this.state.specs && prevState.specs !== this.state.specs)
+        {
+            var _suggestions = this.props.specialties.content.map(spec => ({ id: spec.id, name: spec.name })).filter(sugg => !this.state.specs.includes(sugg.name));
+            this.setState({
+                suggestions: _suggestions
+            })
+        }
+    }
     closeConfirmDialog = () => {
         this.setState({ showConfirmDlg: false });
     };
@@ -127,7 +113,11 @@ class ProfileSpecView extends React.Component<ProfileSpecViewProps, ProfileSpecV
         let idx: number = specs.indexOf(name);
         if (idx >= 0) {
             specs.splice(idx, 1);
-            this.setState({ specs: [...specs] });
+            this.setState({ 
+                specs: [...specs]
+            },()=>{
+                this.saveSpecialty();
+            });
         }
     }
 
@@ -145,12 +135,11 @@ class ProfileSpecView extends React.Component<ProfileSpecViewProps, ProfileSpecV
     }
 
     render() {
-        const { classes, contractor } = this.props;
+        const { classes } = this.props;
         const { suggestions, specs, confirmMessage, showConfirmDlg } = this.state;
-
         return (
             <>
-                <Card className={classes.container}>
+                <Card className={classes.containerSpe}>
                     <List>
                         <ListItem>
                             <Typography className = {classes.title}>
@@ -158,78 +147,20 @@ class ProfileSpecView extends React.Component<ProfileSpecViewProps, ProfileSpecV
                             </Typography>
                         </ListItem>
                         <ListItem style = {{display:'block'}}>
-                            <Table className={classes.relative}>
-                                <WhiteTableHead>
-                                    <TableRow>
-                                        <TableHeadCell align="center">Name</TableHeadCell>
-                                        <TableHeadCell align="center">Value</TableHeadCell>
-                                        <TableHeadCell align="center">Description</TableHeadCell>
-                                        <TableHeadCell align="center">Action</TableHeadCell>
-                                    </TableRow>
-                                </WhiteTableHead>
-                                <TableBody>
-                                    {contractor.contractorSpecialties.map(row => (
-                                        <TableRow className={classes.row} key={row.id} hover>
-                                            <TableCell component="th" scope="row" align="center">
-                                                {row.specialty.name}
-                                            </TableCell>
-                                            <TableCell align="center">
-                                                {row.specialty.value}
-                                            </TableCell>
-                                            <TableCell align="center">
-                                                {row.specialty.description}
-                                            </TableCell>
-                                            <TableCell align="center">
-                                                <IconButton
-                                                    className={classes.button}
-                                                    aria-label="Delete"
-                                                    color="primary"
-                                                    onClick={() => this.handleDelete(row.specialty.id)}
-                                                >
-                                                    <DeleteIcon fontSize='small' />
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                            <PredictiveSearchBox
+                                parentIns = {this}
+                                options = {suggestions}
+                            />
                             <List>
                             <ListItem>
-                                <Typography className={classes.title}>
-                                    Select your specialties
-                                </Typography>
-                            </ListItem>
-                            <ListItem>
-                                <Box style={{ display: 'flex', width: '100%' }}>
-                                    <Box style={{ flex: 1, marginRight: 16 }}>
-                                        <MultiSelect
-                                            className={classes.select}
-                                            placeholder="Select multiple specialties"
-                                            suggestions={suggestions}
-                                            values={specs}
-                                            selectChange={this.selectChange}
-                                        />
-                                    </Box>
-                                    <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            className={classes.button}
-                                            onClick={this.saveSpecialty}
-                                        >
-                                            Save
-                                        </Button>
-                                    </Box>
-                                </Box>
-                            </ListItem>
-                            <ListItem>
-                                <Box style={{ display: 'flex' }}>
+                                <Box style={{ display: 'inlineBlock' }}>
                                     {specs.map((spec, index) => (
                                         <Chip
                                             key={index}
                                             label={spec}
                                             className={classes.chip}
                                             onDelete={() => this.deleteSelect(spec)}
+                                            style = {{display:"inlineBlock", margin:"3px 5px"}}
                                         />
                                     ))}
                                 </Box>
