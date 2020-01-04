@@ -135,7 +135,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
     async componentDidMount() {
         await this.props.clearLevels();
         // await this.props.loadRoots();
-        xapi().get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`)
+        this.setState({ isBusy: true });
+        await xapi().get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`)
 
             .then(data => {
                 this.setState({ compltedArray: data.data.content })

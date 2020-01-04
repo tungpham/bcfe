@@ -90,9 +90,10 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		};
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		const { userProfile } = this.props;
-		xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
+		this.setState({ isBusy: true });
+		await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
 			this.setState({ inviteData: res.data.content })
 			this.setState({ totalLength: res.data.totalElements })
 		});
@@ -100,13 +101,15 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		// 	userProfile.user_metadata.contractor_id,
 		// 	0, 0
 		// );
+		this.setState({ isBusy: false });
 	}
 	handleChangePage = async (event, page) => {
 		const { userProfile } = this.props;
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=AWARDED`)
+			this.setState({ isBusy: false });
+			await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=AWARDED`)
 				.then(data => {
 					console.log(data);
 					this.setState({
@@ -115,7 +118,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 						currentPage: page,
 					});
 				})
-			this.setState({ isBusy: false });
+			
 		} catch (error) {
 			console.log('CurrentProjectView.handleChangePage', error);
 		}

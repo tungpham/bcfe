@@ -112,7 +112,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         const { userProfile } = this.props;
 
         this.setState({ isBusy: true });
-        xapi().get( `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`).then(data => {
+        await xapi().get( `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`).then(data => {
             this.setState({ compltedArray: data.data.content });
             this.setState({ totalLength: data.data.totalElements })
         })
@@ -124,7 +124,8 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         const { rowsPerPage } = this.state;
         try {
             if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-            xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}&status=ARCHIVED`)
+            this.setState({ isBusy: true });
+            await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}&status=ARCHIVED`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -146,8 +147,9 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         const newPage = Math.floor(curIndex / newPageSize);
 
         const { userProfile } = this.props;
+        this.setState({isBusy: true})
         try {
-            xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}&status=ARCHIVED`)
+            await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}&status=ARCHIVED`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,

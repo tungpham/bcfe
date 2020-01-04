@@ -57,6 +57,11 @@ export class PredictiveSearchBox extends Component<any,any> {
 
     if (e.keyCode === 13) {
       if(filteredOptions[activeOption] === undefined || filteredOptions[activeOption] === null) return;
+      if(this.state.addBtnShow == true)
+      {
+        this.addSpe();         
+        return;
+      }
       this.setState({
         activeOption: 0,
         showOptions: false,
