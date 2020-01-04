@@ -34,6 +34,7 @@ export interface ICurrentProjectViewProps extends RouteComponentProps {
     projects: ProjectsWithSpecialties;
     userProfile: UserProfile;
     selectedContractor : ContractorInfo;
+    projectLoading: boolean;
 }
 export interface FilterParam {
     name : String;
@@ -66,39 +67,36 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
         }
         this.handleChangeFilterParams = this.handleChangeFilterParams.bind(this);
     }
-
-    async componentDidMount() {
-        if ( !this.state.specialties) {
-			this.setState({ isBusy: true });
-            await this.props.selectContractor(this.props.userProfile.user_metadata.contractor_id);
-			this.setState({ 
-                isBusy: false, 
+    componentDidUpdate(prevProps:ICurrentProjectViewProps){
+        if(this.props.selectedContractor && this.props.selectedContractor.contractorSpecialties && this.state.specialties !== this.props.selectedContractor.contractorSpecialties)
+        {
+            this.setState({
                 specialties: this.props.selectedContractor.contractorSpecialties
-            });
+            })
         }
-        this.setState({
-            isBusyForLoadingProjects: true
-        })
-        await this.props.getProjectsBySpecialty(0, this.state.rowsPerPage,'');
-        this.setState({
-            rowsPerPage: this.props.projects ? this.props.projects.pageable.pageSize : this.state.rowsPerPage,
-            currentPage: this.props.projects ? this.props.projects.pageable.pageNumber : this.state.currentPage,
-            isBusyForLoadingProjects: false,
-        })
+        if(prevProps.projectLoading === true && this.props.projectLoading === false)
+        {
+            this.setState({
+                rowsPerPage: this.props.projects ? this.props.projects.pageable.pageSize : this.state.rowsPerPage,
+                currentPage: this.props.projects ? this.props.projects.pageable.pageNumber : this.state.currentPage,
+            })
+        }
+    }
+    componentDidMount() {
+        if ( !this.state.specialties) {
+            this.props.selectContractor(this.props.userProfile.user_metadata.contractor_id);
+        }
+        this.props.getProjectsBySpecialty(0, this.state.rowsPerPage,'');
     }
 
-    handleChangePage =   async (event, page) => {
+    handleChangePage =    (event, page) => {
         var spe_params_string = "";
         this.state.activeFilterParams.forEach((_spe, index)=>{
             spe_params_string += "specialty=" + _spe.id ;
             if(this.state.activeFilterParams.length - 1 > index) spe_params_string += "&";
         })
-        this.setState({ 
-            isBusyForLoadingProjects: true,
-        });
-        await this.props.getProjectsBySpecialty(page, this.state.rowsPerPage, spe_params_string);
+        this.props.getProjectsBySpecialty(page, this.state.rowsPerPage, spe_params_string);
         this.setState({
-            isBusyForLoadingProjects: false,
             currentPage: page,
         })
     }
@@ -116,8 +114,6 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
         ()=>{
             this.handleChangePage(null, 0);
         });
-
-        // this.props.getAllProjects(currentPage, rowsPerPage);
     };
     isExist = (params, item) => {
         var result = false;
@@ -299,17 +295,17 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                 <Box className = "projects-view">
                     <Box className = "active-filter-view">
                         {
-                            this.state.isBusyForLoadingProjects === true ? (
+                            this.props.projectLoading === true ? (
                                  <CircularProgress  />
                             ) : ( null )
                         }
                         {
-                            this.state.activeFilterParams.length && !this.state.isBusyForLoadingProjects ? (
+                            this.state.activeFilterParams.length && !this.props.projectLoading ? (
                                 <Typography className = "active-filter-title"><strong>Active Filters: </strong></Typography>
                             ): (null)
                         }
                         {
-                            !this.state.isBusyForLoadingProjects && this.state.activeFilterParams.map((item, index) => (
+                            !this.props.projectLoading && this.state.activeFilterParams.map((item, index) => (
                                 <Chip
                                     key = {index}
                                     variant="outlined"
@@ -324,7 +320,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                     </Box>
                     <Box>
                         {
-                           !this.state.isBusyForLoadingProjects && this.props.projects && this.props.projects.content && this.props.projects.content.map((item, index) => {
+                           !this.props.projectLoading && this.props.projects && this.props.projects.content && this.props.projects.content.map((item, index) => {
                                 return(
                                      <ProjectCardItem project = {item} key = {item.project.id} {...this.props}/>
                                 )
@@ -333,7 +329,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                     </Box>
                     <Box className = "page-info-view">
                         {
-                            !this.state.isBusyForLoadingProjects && this.props.projects && this.props.projects.content && this.props.projects.content.length > 0? (
+                            !this.props.projectLoading && this.props.projects && this.props.projects.content && this.props.projects.content.length > 0? (
                                 <TablePagination
                                     style={{ overflow: 'auto' }}
                                     rowsPerPageOptions={[5, 10, 20]}
@@ -349,7 +345,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                             ) : (null)
                         }
                         {
-                            !this.state.isBusyForLoadingProjects && (!this.props.projects || (this.props.projects && this.props.projects.content && this.props.projects.content.length === 0)) ? (
+                            !this.props.projectLoading && (!this.props.projects || (this.props.projects && this.props.projects.content && this.props.projects.content.length === 0)) ? (
                                 "0 results"
                             ) : (null)
                         }
@@ -369,6 +365,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     projects: state.gen_data.projectsWithSpecialties,
+    projectLoading: state.gen_data.projectLoading,
     dirty: state.spec_data.dirty,
     selectedContractor: state.cont_data.selectedContractor,
     userProfile: state.global_data.userProfile

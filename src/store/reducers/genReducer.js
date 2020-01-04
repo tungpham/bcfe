@@ -9,6 +9,7 @@ import {
 	PROJECT_INVITED_LOADED,
 	LEVELS_LOADED,
 	PROJECTS_LOAD_BY_SPE,
+	LOADING_PROJECT,
 } from '../constants/gen-action-types';
 import { handleActions } from 'redux-actions';
 
@@ -19,7 +20,8 @@ const initialState = {
 	templates: null,
 	invited: null,
 	levels: null,
-	projectsWithSpecialties: null
+	projectsWithSpecialties: null,
+	projectLoading: false,
 };
 
 const genReducer = handleActions(
@@ -31,6 +33,7 @@ const genReducer = handleActions(
 		[PROJECTS_LOAD_BY_SPE]: (state, action) => ({
 			...state,
 			projectsWithSpecialties: action.payload,
+			projectLoading: false
 		}),
 		[CLEAR_ALL_PROJECTS]: (state, action) => ({
 			...state,
@@ -39,6 +42,7 @@ const genReducer = handleActions(
 		[PROJECT_LOADED]: (state, action) => ({
 			...state,
 			projects: action.payload,
+			projectLoading: false
 		}),
 		[TEMPLATES_LOADED]: (state, action) => ({
 			...state,
@@ -47,6 +51,7 @@ const genReducer = handleActions(
 		[CLEAR_PROJECTS]: (state, action) => ({
 			...state,
 			projects: action.payload,
+			projectLoading: false
 		}),
 		[CLEAR_TEMPLATES]: (state, action) => ({
 			...state,
@@ -60,6 +65,10 @@ const genReducer = handleActions(
 		[LEVELS_LOADED]: (state, action) => ({
 			...state,
 			levels: action.payload
+		}),
+		[LOADING_PROJECT]: (state, action) => ({
+			...state,
+			projectLoading: true
 		})
 	},
 	initialState

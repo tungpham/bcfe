@@ -7,7 +7,8 @@ import {
 	CLEAR_TEMPLATES,
 	PROJECT_LOADED,
 	PROJECT_INVITED_LOADED,
-	LEVELS_LOADED
+	LEVELS_LOADED,
+	LOADING_PROJECT
 } from '../constants/gen-action-types';
 import ProjApi from 'services/project';
 import ContApi from 'services/contractor';
@@ -27,12 +28,14 @@ const {
 	clearAllProjects,
 	projectLoaded,
 	levelsLoaded,
+	loadingProject,
 } = createActions({
 	[ALL_PROJECT_LOADED]: projects => projects,
 	[PROJECTS_LOAD_BY_SPE]: projects => projects,
 	[CLEAR_ALL_PROJECTS]: () => null,
 	[PROJECT_LOADED]: projects => projects,
-	[LEVELS_LOADED]: levels => levels
+	[LEVELS_LOADED]: levels => levels,
+	[LOADING_PROJECT]: () => null,
 })
 
 const invitedLoaded = invited => ({
@@ -56,6 +59,7 @@ export const getAllProjects = (page, size) => dispatch => {
 };
 export const getProjectsBySpecialty = (page, size, specialties) => dispatch => {
 	dispatch(clearAllProjects());
+	dispatch(loadingProject());
 	return ProjApi.getAllBySpecialties(page, size,specialties).then(data => {
 		dispatch(projectsLoadBySpe(data));
 	});

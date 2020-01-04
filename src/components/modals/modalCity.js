@@ -7,11 +7,13 @@ import {xapi} from 'services/utils';
 function ModalCity(props) {
     const [city, setCitiesData] = useState([]);
     const [cityName, setCityName] = useState('');
+    const [firstRender, setFirstRender] = useState(false);
       async function fetchCities() {
         const result = await xapi().get("specialties/cities");
           setCitiesData(result.data);
       }
       function getContractorData(){
+        if(firstRender === true) return;
           var _id = localStorage.getItem("contractor_ID");
           if(_id)
           {
@@ -22,16 +24,16 @@ function ModalCity(props) {
                       props.parentCallback(res.data.address.city)
                   }
               })
+              setFirstRender(true);
           }
       }
       function onCityChange(event) {
         setCityName(event.target.value)
         props.parentCallback(event.target.value)
       }
-    
+      getContractorData();
       useEffect(() => {
         fetchCities();
-        getContractorData();
       },[]);
    
     return (

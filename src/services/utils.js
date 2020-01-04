@@ -1,10 +1,5 @@
 import axios from 'axios';
 import auth0Client from './auth0/auth';
-const CONTENT_TYPE = [
-    '',
-    'application/json',
-    'multipart/form-data'
-]
 export const xapi = (_content_type = 0) => {
   let token = null;
   if (auth0Client.getAccessToken()) {
@@ -12,14 +7,19 @@ export const xapi = (_content_type = 0) => {
   }
   let headers = {
     'X-Requested-With': 'XMLHttpRequest',
-    charset: 'UTF-8'
+    charset: 'UTF-8',
   };
-  if(_content_type !== 0)
+  if(_content_type < 2)
   {
       headers = {
           ...headers,
-          'Content-Type': CONTENT_TYPE[_content_type]
+          'Content-Type':'application/x-www-form-urlencoded'
       }
+  } else {
+    headers = {
+      ...headers,
+      'Content-Type':'multipart/form-data'
+    }
   }
   if (token) {
     headers = {

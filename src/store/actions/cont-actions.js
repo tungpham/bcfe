@@ -14,7 +14,8 @@ import {
 	PROFILE_LINKS_LOADED,
 	PROFILE_PHOTOS_LOADED,
 	PROFILE_REVIEW_LOADED,
-	PROFILE_LICENSE_LOADED
+	PROFILE_LICENSE_LOADED,
+	SELECT_CONTRACTOR_BY_ID,
 } from '../constants/cont-action-types';
 
 import ContApi from 'services/contractor';
@@ -30,6 +31,7 @@ export const {
 	setSelectedContractor,
 	specialtiesLoaded,
 	pastProjectsLoaded,
+	selectContractorById,
 } = createActions({
 	[ALL_CONTRACTORS_LOADED]: contractors => contractors,
 	[CLEAR_ALL_CONTRACTORS]: () => null,
@@ -40,6 +42,7 @@ export const {
 	[SET_SELECTED_CONTRACTOR]: contractor => contractor,
 	[SPECIALTIES_LOADED]: specialties => specialties,
 	[PAST_PROJECTS_LOADED]: data => data,
+	[SELECT_CONTRACTOR_BY_ID] : id => id,
 });
 
 export const photosLoaded = data => ({

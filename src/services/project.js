@@ -26,7 +26,7 @@ export default {
 			size: size
 		},
 	}).then(res => res.data),
-	getAllBySpecialties: (page, size,specialties) => xapi().get(PROJ_API_PATH + '/available?' + specialties, {
+	getAllBySpecialties: async (page, size,specialties) => xapi().get(PROJ_API_PATH + '/available?' + specialties, {
 		params: {
 			page: page,
 			size: size

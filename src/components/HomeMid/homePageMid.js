@@ -124,7 +124,6 @@ function HomePageMid() {
     }
 
     const handleNext = () => {
-        console.log("sdfsdf")
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
             || (activeStep === 1 && getcheck1 === '' && getcheck2 === '')
             || (activeStep === 2 && getredio === '')
