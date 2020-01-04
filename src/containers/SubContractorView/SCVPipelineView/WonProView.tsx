@@ -85,8 +85,19 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 
 	componentDidMount() {
 		const { userProfile } = this.props;
+		this.setState({
+			isBusy:true
+		})
 		xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
-			this.setState({ awardData: res.data.content })
+			this.setState({ 
+				awardData: res.data.content ,
+				isBusy: false
+			})
+		}).catch(()=>{
+			this.setState({
+				awardData: [],
+				isBusy: false
+			})
 		});
 		// this.props.getProposals(
 		// 	userProfile.user_metadata.contractor_id,
@@ -202,8 +213,10 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 	render() {
 		const { classes } = this.props;
 		const { showMessage, variant, message } = this.state;
-
-	if (this.state.awardData.length === 0) {
+        if (this.state.isBusy ) {
+            return <CircularProgress className={classes.busy} />
+        }
+	    if (this.state.awardData.length === 0) {
             return <div className="nodata">No Data Available!</div>;
         }
 		console.log("awa", this.state.awardData);

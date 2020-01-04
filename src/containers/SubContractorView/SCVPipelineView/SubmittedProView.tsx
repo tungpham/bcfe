@@ -95,9 +95,21 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 	}
 	componentDidMount() {
 		const { userProfile } = this.props;
+		this.setState({
+			isBusy: true
+		})
 		xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=SUBMITTED`).then(res => {
-			this.setState({ submitData: res.data.content })
-			this.setState({ totalLength: res.data.totalElements })
+			this.setState({ 
+				submitData: res.data.content ,
+				totalLength: res.data.totalElements,
+				isBusy: false
+			})
+		}).catch(()=>{
+			this.setState({
+				submitData: [] ,
+				totalLength: 0,
+				isBusy: false
+			})
 		});
 		// this.props.getProposals(userProfile.user_metadata.contractor_id,
 		// 	0, 0, 'SUBMITTED');
