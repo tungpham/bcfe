@@ -1,8 +1,8 @@
 import {xapi} from './utils';
-const PROJ_API_PATH       = 'projects/';
-const LEVEL_API_PATH      = 'levels/';
-const ROOM_API_PATH       = 'rooms/';
-const SELECTION_API_PATH  = 'selections/';
+const PROJ_API_PATH       = 'projects';
+const LEVEL_API_PATH      = 'levels';
+const ROOM_API_PATH       = 'rooms';
+const SELECTION_API_PATH  = 'selections';
 
 export default {
 	addFiles: (id, files) => {
@@ -26,11 +26,12 @@ export default {
 			size: size
 		},
 	}).then(res => res.data),
-	getAllBySpecialties: (page, size,specialties) => xapi().get(PROJ_API_PATH + '/available?' + specialties, {
+	getAllBySpecialties: (page, size,specialties) => xapi().get(`${PROJ_API_PATH}/available?${specialties}`  , {
 		params: {
 			page: page,
 			size: size
 		},
+		
 	}).then(res => res.data).catch(error => null),
 	invite: (id, contid) =>  xapi().post(PROJ_API_PATH + id + '/invite/' + contid).then(res => res.data),
 	getInvites: (id, page, size) =>  xapi().get(PROJ_API_PATH + id + '/invites', {
