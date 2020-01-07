@@ -1,5 +1,5 @@
 import {xapi} from './utils';
-const CONT_API_PATH = 'contractors';
+const CONT_API_PATH = '/contractors';
 
 export default {
 	// create, select, delete contractor
@@ -57,7 +57,7 @@ export default {
 		formData.append('file', file);
 		return xapi(2).post(CONT_API_PATH + id + '/files/upload/avatar', formData).then(res => res.data);
 	},
-	getAvatar: id => process.env.REACT_APP_PROJECT_API +  CONT_API_PATH + "/" + id + '/avatar',
+	getAvatar: id => process.env.REACT_APP_PROJECT_API  + "contractors/" + id + '/avatar',
 	uploadPhoto: (id, file) => {
 		const formData = new FormData();
 		formData.append('file', file);

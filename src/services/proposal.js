@@ -1,6 +1,6 @@
 import {xapi} from './utils';
-const PROP_API_PATH = 'proposals';
-const MSG_API_PATH  = 'messages';
+const PROP_API_PATH = '/proposals';
+const MSG_API_PATH  = '/messages';
 
 export default {
 	award: id => xapi().put(PROP_API_PATH + id, {

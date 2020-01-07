@@ -59,7 +59,7 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
             rowsPerPage: 10,
             currentPage: 0,
             filterParams: [],
-            activeFilterParams: [],
+            activeFilterParams: null,
             isBusy: false,
             isBusyForLoadingProjects: false,
             specialties: null,
@@ -300,12 +300,12 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                             ) : ( null )
                         }
                         {
-                            this.state.activeFilterParams.length && !this.props.projectLoading ? (
+                            this.state.activeFilterParams &&  this.state.activeFilterParams.length && !this.props.projectLoading ? (
                                 <Typography className = "active-filter-title"><strong>Active Filters: </strong></Typography>
                             ): (null)
                         }
                         {
-                            !this.props.projectLoading && this.state.activeFilterParams.map((item, index) => (
+                            !this.props.projectLoading && this.state.activeFilterParams &&  this.state.activeFilterParams.map((item, index) => (
                                 <Chip
                                     key = {index}
                                     variant="outlined"
