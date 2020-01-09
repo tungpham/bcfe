@@ -1,5 +1,5 @@
 import {xapi} from './utils';
-const SPEC_API_PATH = 'specialties';
+const SPEC_API_PATH = '/specialties';
 
 export default {
 	loadPage: (page, size) => {

@@ -1,5 +1,5 @@
 import {xapi} from './utils';
-const CONT_API_PATH = 'contractors';
+const CONT_API_PATH = '/contractors';
 
 export default {
 	// create, select, delete contractor
