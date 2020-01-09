@@ -3,7 +3,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { withStyles } from '@material-ui/core/styles';
-import HelpIcon from '@material-ui/icons/Help';
 import HomeIcon from '@material-ui/icons/Home';
 import PagesIcon from '@material-ui/icons/Pages';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -116,32 +115,6 @@ class MenuList extends React.Component<ConnectedMenuListProps> {
               </ListItemIcon>
               <ListItemText
                 primary="Sub Contractor"
-                className={classes.listItemText}
-              />
-            </ListItem>
-          )}
-        {(roles.includes('Gen') ||
-          roles.includes('GenSub') ||
-          roles.includes('SuperAdmin')) && (
-            <ListItem
-              button
-              component={Link}
-              to="/b_list"
-              className={clx({
-                [classes.selectedStyle]: pathname.includes('/b_list'),
-              })}
-            >
-              <ListItemIcon>
-                <HelpIcon
-                  color="secondary"
-                  className={clx({
-                    [classes.activeIcon]: pathname.includes('/b_list'),
-                    [classes.nonactiveIcon]: !pathname.includes('/b_list'),
-                  })}
-                />
-              </ListItemIcon>
-              <ListItemText
-                primary="Bidder Listing"
                 className={classes.listItemText}
               />
             </ListItem>

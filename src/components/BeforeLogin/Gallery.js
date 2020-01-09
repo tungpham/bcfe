@@ -97,7 +97,7 @@ function Gallery(props) {
                     return image.type === "PICTURE" ? <div key={image.name}>
                         <div className="">
                             <div className="slider-gallery-img" onClick={handleOpen}>
-                                <img src={process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId + '/files/' + image.name} alt="past-project"></img>
+                                <img src={process.env.REACT_APP_PROJECT_API + '/contractors/' + galleryId + '/files/' + image.name} alt="past-project"></img>
                             </div>
                         </div>
                     </div> : image.type === "LINK" ? <iframe
@@ -124,7 +124,7 @@ function Gallery(props) {
                     <div className="rootclass">
                         <img
                             className="imageclass"
-                            src={process.env.REACT_APP_PROJECT_API + 'contractors/' + galleryId + '/files/' + Image[activeStep]} alt="image1"/>
+                            src={process.env.REACT_APP_PROJECT_API + '/contractors/' + galleryId + '/files/' + Image[activeStep]} alt="image1"/>
                         <AutoPlaySwipeableViews
                             axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                             index={activeStep}

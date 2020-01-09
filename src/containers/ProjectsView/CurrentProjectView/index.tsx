@@ -4,7 +4,6 @@ import { compose } from "redux";
 import { RouteComponentProps } from 'react-router-dom';
 //import Material ui components;
 import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -25,6 +24,7 @@ import { selectContractor } from 'store/actions/cont-actions';
 import {  ProjectsWithSpecialties } from 'types/project';
 import {   UserProfile, SpecialtyInfo } from 'types/global';
 import { ContractorInfo } from 'types/contractor';
+import { xapi } from 'services/utils';
 import './style.scss';
 
 export interface ICurrentProjectViewProps extends RouteComponentProps {
@@ -49,6 +49,7 @@ export interface ICurrentProjectViewState {
     isBusyForLoadingProjects: boolean;
     specialties: SpecialtyInfo[];
     sort_value: number;
+    cities: string[];
 }
 
 class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurrentProjectViewState> {
@@ -63,9 +64,17 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
             isBusy: false,
             isBusyForLoadingProjects: false,
             specialties: null,
-            sort_value: 1
+            sort_value: 1,
+            cities: [],
         }
         this.handleChangeFilterParams = this.handleChangeFilterParams.bind(this);
+    }
+    fetchCities = () => {
+        xapi().get("specialties/cities").then((data) => {
+            this.setState({
+                cities: data.data
+            })
+        })
     }
     componentDidUpdate(prevProps:ICurrentProjectViewProps){
         if(this.props.selectedContractor && this.props.selectedContractor.contractorSpecialties && this.state.specialties !== this.props.selectedContractor.contractorSpecialties)
@@ -87,11 +96,12 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
             this.props.selectContractor(this.props.userProfile.user_metadata.contractor_id);
         }
         this.props.getProjectsBySpecialty(0, this.state.rowsPerPage,'');
+        this.fetchCities();
     }
 
     handleChangePage =    (event, page) => {
         var spe_params_string = "";
-        this.state.activeFilterParams.forEach((_spe, index)=>{
+        this.state.activeFilterParams && this.state.activeFilterParams.forEach((_spe, index)=>{
             spe_params_string += "specialty=" + _spe.id ;
             if(this.state.activeFilterParams.length - 1 > index) spe_params_string += "&";
         })
@@ -234,14 +244,12 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
                         ><ClearIcon/><small>Clear filters</small></Button>
                     </Typography>
                     <Typography className = "sub-title">City</Typography>
-                    <TextField
-						label=""
-						defaultValue=""
-						margin="normal"
-						variant="outlined"
-                        fullWidth
-                        className = "city-input"
-					/>
+                    <select className="city" >
+                        <option value=" ">City</option>
+                        {this.state.cities.map(city => {
+                            return <option key={city} value={city}>{city}</option>
+                        })}
+                    </select>
                     <Typography className = "sub-title">Sort By</Typography>
                     <Select
                         id="demo-customized-select"

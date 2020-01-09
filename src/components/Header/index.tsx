@@ -215,11 +215,11 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 						aria-controls="simple-menu"
 						onClick={this.handleProfileMenuOpen}
 						color="inherit"
-						style = {{boxShadow:'0px 0px 10px rgba(0,0,0,0.2)', marginLeft:'10px'}}
+						style = {{boxShadow:'0px 0px 10px rgba(0,0,0,0.2)', marginLeft:'10px', width:"32px", height:"32px", padding:"0"}}
 					>
 						{
 							this.state.avartaImg !== "" ? (
-								<Avatar alt="user-avatar" src={this.state.avartaImg}/>
+								<Avatar alt="user-avatar" src={this.state.avartaImg} className = {classes.avatar}/>
 							) : ( null)
 						}
 					

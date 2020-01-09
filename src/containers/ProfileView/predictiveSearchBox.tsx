@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {  withStyles, StyledComponentProps } from '@material-ui/core/styles';
+import styles from './predictiveSearchBox.styles';
 import Button from 'components/CustomButtons/Button';
-import './predictiveSearchBox.scss';
-export class PredictiveSearchBox extends Component<any,any> {
+interface PredictiveSearchBoxProps extends StyledComponentProps{
+  parentIns: any;
+  options:any[];
+}
+export class PredictiveSearchBox extends Component<PredictiveSearchBoxProps,any> {
   static propTypes = {
     options: PropTypes.instanceOf(Array).isRequired
   };
@@ -52,6 +57,11 @@ export class PredictiveSearchBox extends Component<any,any> {
        this.checkAddButton()
     });
   };
+  autoScrollView = () => {
+    var activeElement = document.getElementById(`item${this.state.activeOption}`);
+    var optionListView = document.getElementById("option-list");
+    optionListView.scrollTop = activeElement.offsetTop;
+  }
   onKeyDown = (e) => {
     const { activeOption, filteredOptions } = this.state;
 
@@ -70,15 +80,19 @@ export class PredictiveSearchBox extends Component<any,any> {
          this.checkAddButton()
       });
     } else if (e.keyCode === 38) {
+      e.preventDefault();
       if (activeOption === 0) {
         return;
       }
       this.setState({ activeOption: activeOption - 1 });
+      this.autoScrollView();
     } else if (e.keyCode === 40) {
+      e.preventDefault();
       if (activeOption === filteredOptions.length - 1) {
         return;
       }
       this.setState({ activeOption: activeOption + 1 });
+      this.autoScrollView();
     }
   };
   addSpe = () => {
@@ -102,17 +116,18 @@ export class PredictiveSearchBox extends Component<any,any> {
       state: { activeOption, filteredOptions, showOptions, userInput }
     } = this;
     let optionList;
+    const {classes} = this.props;
     if (showOptions && userInput) {
       if (filteredOptions.length) {
         optionList = (
-          <ul className="options">
+          <ul className={classes.options} id = "option-list">
             {filteredOptions.map((option, index) => {
               let className;
               if (index === activeOption) {
-                className = 'option-active';
+                className = classes.optionActive;
               }
               return (
-                <li className={className} key={option.name} onClick={onClick}>
+                <li className={className} key={option.name} onClick={onClick} id = {`item${index}`}>
                   {option.name}
                 </li>
               );
@@ -126,18 +141,18 @@ export class PredictiveSearchBox extends Component<any,any> {
       }
     }
     return (
-      <div style = {{display:"flex", justifyContent:"center", alignContent:"center"}}>
-        <div className = "predictive-search-area">
-            <div className="search">
+      <div style = {{display:"flex", alignContent:"center"}}>
+        <div className = {classes.predictiveSearchArea}>
+            <div className={classes.search}>
             <input
                 type="text"
-                className="search-box"
+                className={classes.searchBox}
                 onChange={onChange}
                 onKeyDown={onKeyDown}
                 value={userInput}
                 placeholder = "Select your specialties"
             />
-            <input type="submit" value="" className="search-btn" />
+            <input type="submit" value="" className={classes.searchBtn} />
             </div>
             {optionList}
         </div>
@@ -153,4 +168,4 @@ export class PredictiveSearchBox extends Component<any,any> {
   }
 }
 
-export default PredictiveSearchBox;
+export default withStyles(styles)( PredictiveSearchBox );

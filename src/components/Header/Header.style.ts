@@ -9,6 +9,10 @@ export default (theme: Theme) =>
 			fontWeight: 600,
 			fontSize: '2.1rem',
 		},
+		avatar: {
+			width: theme.spacing(4),
+			height: theme.spacing(4),
+		},
 		title: {
 			display: 'none',
 			padding: theme.spacing(0, 2),

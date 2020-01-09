@@ -161,7 +161,7 @@ class ConnectedProposalFiles extends React.Component<IProposalFilesProps, IPropo
 											download={row.name}
 											href={
 												process.env.REACT_APP_PROJECT_API +
-												'proposals/' +
+												'/proposals/' +
 												proposal.proposal.id +
 												'/files/' +
 												row.name
