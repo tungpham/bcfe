@@ -1,8 +1,8 @@
 import {xapi} from './utils';
-const PROJ_API_PATH       = '/projects';
-const LEVEL_API_PATH      = '/levels';
-const ROOM_API_PATH       = '/rooms';
-const SELECTION_API_PATH  = '/selections';
+const PROJ_API_PATH       = 'projects';
+const LEVEL_API_PATH      = 'levels';
+const ROOM_API_PATH       = 'rooms';
+const SELECTION_API_PATH  = 'selections';
 
 export default {
 	addFiles: (id, files) => {

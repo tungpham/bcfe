@@ -1,9 +1,7 @@
 import React from 'react';
 import '../../assets/css/conflictRemove.css';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
-import IconButton from '@material-ui/core/IconButton';
 import {xapi} from 'services/utils';
+import PredictiveSearchBox from 'components/predictiveSearchBox/predictiveSearchBox';
 export default class AutoComplete extends React.Component {
 
     constructor(props) {
@@ -80,21 +78,9 @@ export default class AutoComplete extends React.Component {
     render() {
         return (
             <div className="suggestion-search">
-                <div className='search-bar'>
-                    <IconButton aria-label="search">
-                        <SearchIcon />
-                    </IconButton>
-                    <InputBase
-                        id="input"
-                        className="search"
-                        placeholder="Search reviews"
-                        onChange={this.onTextChanges}
-                        onKeyPress={this.onKeyPress}
-                        autoComplete="off" />
-                </div>
-                <div className="suggestions" id='sug'>
-                    {this.renderSuggestions()}
-                </div>
+              <PredictiveSearchBox
+                options = {this.state.searchArray}
+              />
             </div>
         )
     }

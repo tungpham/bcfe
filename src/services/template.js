@@ -1,7 +1,7 @@
 import {xapi} from './utils';
-const TEMPL_API_PATH    =  '/templates';
-const CATEGORY_API_PATH =  '/categories';
-const OPTION_API_PATH   =  '/options';
+const TEMPL_API_PATH    =  'templates';
+const CATEGORY_API_PATH =  'categories';
+const OPTION_API_PATH   =  'options';
 export default {
 	get: (page, size) => xapi().get(TEMPL_API_PATH, {
 		params: { page: page, size: size },

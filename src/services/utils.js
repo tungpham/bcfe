@@ -13,7 +13,7 @@ export const xapi = (_content_type = 0) => {
   {
       headers = {
           ...headers,
-          'Content-Type':'application/x-www-form-urlencoded'
+          'Content-Type':'application/json'
       }
   } else {
     headers = {
