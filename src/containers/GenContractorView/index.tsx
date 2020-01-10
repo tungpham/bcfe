@@ -141,7 +141,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                 "budgetTo": getbudjet.split('-')[1]
             };
             if (payload) {
-                xapi(1).post( apiPath, payload).then(response => {
+                xapi().post( apiPath, payload).then(response => {
                         Newdata.push(response.data);
                     })
             }

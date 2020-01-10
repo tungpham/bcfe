@@ -11,7 +11,7 @@ export default {
 		desc
 	).then(res => res.data),
 	delete: id             => xapi().delete(`${PROP_API_PATH}/${id}`).then(res => res.data),
-	update: (id, proposal) => xapi(1).put(  `${PROP_API_PATH}/${id}`, proposal).then(res => res.data),
+	update: (id, proposal) => xapi().put(  `${PROP_API_PATH}/${id}`, proposal).then(res => res.data),
 
 	getDetail: id          => xapi().get(   `${PROP_API_PATH}/${id}/temCatOptionDetail`).then(res => res.data),
 	getInfo:   id          => xapi().get(   `${PROP_API_PATH}/${id}`).then(res => res.data),
@@ -22,7 +22,7 @@ export default {
 			formData.append('file', file);
 		});
 
-		return xapi(2).post(`${PROP_API_PATH}/${id}/files/upload/multiple`, formData).then(response => response.data);
+		return xapi(1).post(`${PROP_API_PATH}/${id}/files/upload/multiple`, formData).then(response => response.data);
 	},
 	deleteFile:   (id, name)          => xapi().delete(`${PROP_API_PATH}/${id}/files/${name}`).then(res => res.data),
 
@@ -43,6 +43,6 @@ export default {
 			await formData.append('file', file);
 		});
 
-		return xapi(2).post(`${MSG_API_PATH}/${msgId}/files/upload/multiple`,	formData).then(res => res.data);
+		return xapi(1).post(`${MSG_API_PATH}/${msgId}/files/upload/multiple`,	formData).then(res => res.data);
 	}
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState} from 'react';
 
 import Avatar from '@material-ui/core/Avatar';
 import Rating from '@material-ui/lab/Rating';
@@ -97,7 +97,7 @@ const ProfileOverview: React.FC<ProfileOverviewProps> = props => {
 
     const classes = useStyles({});
     const { profile, review, gotoEditView, gotoReview } = props;
-
+    const [avatarUrl, setAvatarUrl] = useState("");
     const handleEdit = () => {
         gotoEditView();
     }
@@ -113,6 +113,21 @@ const ProfileOverview: React.FC<ProfileOverviewProps> = props => {
     if (review.reviews > 0) {
         rating = (rates.reduce((pre, cur, idx) => pre + cur * (5 - idx), 0)) / review.reviews;
     }
+    const avatarUrlFun = (url) => {
+        if(avatarUrl !== "") return;
+			var img = new Image();
+			img.src = url;
+			var result = "";
+			img.onload = function() { 
+				setAvatarUrl(url);
+			};
+			img.onerror = function() { 
+				var imgUrl = "https://ui-avatars.com/api/?name=" + props.profile.email.split("@")[0];
+				setAvatarUrl(imgUrl);
+            };
+            return result;
+    }
+    avatarUrlFun(profile.picture);
     return (
         <Card className={classes.container}>
             <List>
@@ -120,7 +135,7 @@ const ProfileOverview: React.FC<ProfileOverviewProps> = props => {
                     <Box className={classes.row}>
                         <Avatar
                             alt="Avatar"
-                            src={profile.picture}
+                            src={avatarUrl}
                             className={classes.avatar}
                         />
                         <Box className={classes.company}>

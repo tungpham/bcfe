@@ -37,7 +37,7 @@ export default {
 		const formData = new FormData();
 		formData.append('file', file);
 		formData.append('note', `${city}__${type}__${number}`);
-		return xapi(2).post(`${CONT_API_PATH}/${id}/files/upload/document`, formData).then(res => res.data);
+		return xapi(1).post(`${CONT_API_PATH}/${id}/files/upload/document`, formData).then(res => res.data);
 	},
 	getLicenses: id => xapi().get(`${CONT_API_PATH}/${id}/files/document`).then(res => res.data),
 	uploadPastProject: (id, title, desc, price, year, duration, specId) => xapi().post(
@@ -55,13 +55,13 @@ export default {
 	uploadAvatar: (id, file) => {
 		const formData = new FormData();
 		formData.append('file', file);
-		return xapi(2).post(`${CONT_API_PATH}/${id}/files/upload/avatar`, formData).then(res => res.data);
+		return xapi(1).post(`${CONT_API_PATH}/${id}/files/upload/avatar`, formData).then(res => res.data);
 	},
 	getAvatar: id => `${process.env.REACT_APP_PROJECT_API}/contractors/${id}/avatar`,
 	uploadPhoto: (id, file) => {
 		const formData = new FormData();
 		formData.append('file', file);
-		return xapi(2).post(`${CONT_API_PATH}/${id}/files/upload/photo`, formData).then(res => res.data);
+		return xapi(1).post(`${CONT_API_PATH}/${id}/files/upload/photo`, formData).then(res => res.data);
 	},
 	updateTitle: (fileId, title) => xapi().post(`${CONT_API_PATH}/files/${fileId}/note`, {
 		note: title
@@ -81,7 +81,7 @@ export default {
 		files.forEach(async file => {
 			formData.append('file', file);
 		});
-		return xapi(2).post(`${CONT_API_PATH}/${id}/files/upload/multiple`, formData).then(res => res.data);
+		return xapi(1).post(`${CONT_API_PATH}/${id}/files/upload/multiple`, formData).then(res => res.data);
 	},
 	deleteFile:      (id, name)   => xapi().delete(`${CONT_API_PATH}/${id}/files/${name}`),
 

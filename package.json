@@ -37,6 +37,7 @@
     "react-infinite-scroller": "^1.2.4",
     "react-markdown": "^4.0.8",
     "react-multi-carousel": "^2.4.0",
+    "react-player": "^1.14.2",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",

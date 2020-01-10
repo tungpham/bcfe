@@ -65,7 +65,7 @@ class Auth {
 
 	signIn = () => {
 		this.auth0.authorize();
-		this.auth0.crossOriginAuthenticationCallback();
+		// this.auth0.crossOriginAuthenticationCallback();
 	};
 
 	signOut = () => {

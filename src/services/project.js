@@ -10,7 +10,7 @@ export default {
 		files.forEach(file => {
 			formData.append('file', file);
 		});
-		return xapi(2).post(`${PROJ_API_PATH}/${id}/files/upload/multiple`, formData).then(response => response.data);
+		return xapi(1).post(`${PROJ_API_PATH}/${id}/files/upload/multiple`, formData).then(response => response.data);
 	},
 	deleteFile: (id, name) => xapi().delete(`${PROJ_API_PATH}/${id}/files/${name}`).then(res => res.data),
 	getFiles:   (id)     => xapi().get(`${PROJ_API_PATH}/${id}/files/`).then(res => res.data),
