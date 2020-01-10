@@ -110,7 +110,19 @@ const ProfileEditView: React.FC<ProfileEditViewProps> = props => {
 	const { classes, profile, handleChange } = props;
 	const address = profile.address;
 	const [rand, setRand] = React.useState(0);
-
+	const [avatarUrl, setAvatarUrl] = React.useState("");
+	const setAvatar = (url) => {
+		if(avatarUrl !== "") return;
+		var img = new Image();
+		img.src = url;
+		img.onload = function() { 
+			setAvatarUrl(url);
+		};
+		img.onerror = function() { 
+			var imgUrl = "https://ui-avatars.com/api/?name=" + props.profile.email.split("@")[0];
+			setAvatarUrl(imgUrl);
+		};
+	}
 	const handleSave = () => {
 		props.handleSave();
 	}
@@ -124,6 +136,7 @@ const ProfileEditView: React.FC<ProfileEditViewProps> = props => {
 		const path = await props.uploadPicture(files[0]);
 		if (!!path) {
 			setRand(Date.now());
+			setAvatarUrl(`${profile.picture}?${rand}`)
 		}
 	}
 
@@ -175,8 +188,7 @@ const ProfileEditView: React.FC<ProfileEditViewProps> = props => {
 			employees: e.target.value
 		});
 	}
-
-
+    setAvatar(`${profile.picture}?${rand}`);
 	return (
 		<>
 			<form noValidate autoComplete="off" style={{ overflow: 'auto' }}>
@@ -196,7 +208,7 @@ const ProfileEditView: React.FC<ProfileEditViewProps> = props => {
 					<Box className={classes.row} style={{ flexDirection: 'column', justifyContent: 'center' }}>
 						<Avatar
 							alt="Avatar"
-							src={`${profile.picture}?${rand}`}
+							src={avatarUrl}
 							className={classes.avatar}
 						/>
 						<Box style={{ textAlign: 'center' }}>

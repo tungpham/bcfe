@@ -27,6 +27,10 @@ export default (theme: Theme) =>
 		menuButtonHidden: {
 			display: 'none',
 		},
+		menuItem :{
+			padding:"0px 10px !important",
+			minHeight:"0px"
+		},
 		toolbar: {
 			paddingRight: 24, // keep right padding when drawer closed
 		},

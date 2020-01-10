@@ -179,28 +179,33 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 						id="simple-menu"
 						anchorEl={anchorEl}
 						keepMounted
+					
 						open={Boolean(anchorEl)}
 						onClose={this.handleClose}
 					>
 						<MenuItem component={Link} to={"/profile"}
 							onClick = {this.handleClose}
+							className = {classes.menuItem}
 						>
 							<ListItemIcon>
-								<SendIcon />
+								<SendIcon fontSize="small"/>
 							</ListItemIcon>
 							<ListItemText primary="Profile" />
 						</MenuItem>
 						<MenuItem component={Link} to={"/settings"}
-						     onClick = {this.handleClose}
+							 onClick = {this.handleClose}
+							 className = {classes.menuItem}
 						>
 							<ListItemIcon>
-								<SettingsIcon />
+								<SettingsIcon fontSize="small"/>
 							</ListItemIcon>
 							<ListItemText primary="Settings" />
 						</MenuItem>
-						<MenuItem onClick={()=>{this.handleUserLogOut(); this.handleClose();}}>
+						<MenuItem onClick={()=>{this.handleUserLogOut(); this.handleClose();}}
+							className = {classes.menuItem}
+						>
 							<ListItemIcon>
-								<ExitToAppIcon />
+								<ExitToAppIcon fontSize="small"/>
 							</ListItemIcon>
 							<ListItemText primary="Logout" />
 						</MenuItem>

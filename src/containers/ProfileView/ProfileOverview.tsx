@@ -117,7 +117,6 @@ const ProfileOverview: React.FC<ProfileOverviewProps> = props => {
         if(avatarUrl !== "") return;
 			var img = new Image();
 			img.src = url;
-			var result = "";
 			img.onload = function() { 
 				setAvatarUrl(url);
 			};
@@ -125,7 +124,6 @@ const ProfileOverview: React.FC<ProfileOverviewProps> = props => {
 				var imgUrl = "https://ui-avatars.com/api/?name=" + props.profile.email.split("@")[0];
 				setAvatarUrl(imgUrl);
             };
-            return result;
     }
     avatarUrlFun(profile.picture);
     return (
