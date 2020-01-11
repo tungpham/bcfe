@@ -289,7 +289,7 @@ function ContractorDetails(props) {
                             <Grid item xs={12} md={2} lg={2} className="details-info" >
                                 <ListItemAvatar className="details-photo">
                                     {Avtarurl ? <div key={detailsdata.id}>
-                                        {<img alt="image1" className="displayNone" src={process.env.REACT_APP_PROJECT_API + "contractors/" + Id + "/avatar"} />}
+                                        {<img alt="image1" className="displayNone" src={process.env.REACT_APP_PROJECT_API + "/contractors/" + Id + "/avatar"} />}
                                     </div> :
                                         <div key={detailsdata.id}>
                                             {<img alt="image22" className="displayNone" src={`https://ui-avatars.com/api/api/?name=${detailsdata.address.company}`} />}
