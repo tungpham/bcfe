@@ -31,6 +31,14 @@ export default (theme: Theme) =>
 			padding:"0px 10px !important",
 			minHeight:"0px"
 		},
+		menuItemIcon:{
+			color:"black",
+			minWidth:"30px",
+			"& svg":{
+				width:"0.7em",
+				height:"0.7em"
+			}
+		},
 		toolbar: {
 			paddingRight: 24, // keep right padding when drawer closed
 		},

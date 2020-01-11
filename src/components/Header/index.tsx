@@ -187,7 +187,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 							onClick = {this.handleClose}
 							className = {classes.menuItem}
 						>
-							<ListItemIcon>
+							<ListItemIcon className = {classes.menuItemIcon}>
 								<SendIcon fontSize="small"/>
 							</ListItemIcon>
 							<ListItemText primary="Profile" />
@@ -196,7 +196,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 							 onClick = {this.handleClose}
 							 className = {classes.menuItem}
 						>
-							<ListItemIcon>
+							<ListItemIcon  className = {classes.menuItemIcon}>
 								<SettingsIcon fontSize="small"/>
 							</ListItemIcon>
 							<ListItemText primary="Settings" />
@@ -204,7 +204,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 						<MenuItem onClick={()=>{this.handleUserLogOut(); this.handleClose();}}
 							className = {classes.menuItem}
 						>
-							<ListItemIcon>
+							<ListItemIcon  className = {classes.menuItemIcon}>
 								<ExitToAppIcon fontSize="small"/>
 							</ListItemIcon>
 							<ListItemText primary="Logout" />

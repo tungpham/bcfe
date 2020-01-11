@@ -40,7 +40,7 @@ const styles = () => createStyles({
         position: "absolute",
         backgroundColor: "white",
         zIndex: 9999,
-        height: "200px",
+        maxHeight: "430px",
         overflowY: "auto",
         padding: "0px",
         boxShadow:"0px 10px 10px rgba(0,0,0,.1)",
