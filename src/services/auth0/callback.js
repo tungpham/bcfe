@@ -16,29 +16,23 @@ class connectedCallback extends Component {
 		localStorage.setItem("contractor_ID", data.user_metadata.contractor_id);
 
 		if (localStorage.getItem("modalData")) {
-			JSON.parse(localStorage.getItem("modalData")).forEach(element => {
-				var apiPath = `contractors/${data.user_metadata.contractor_id}/projects`;
-				const payload = {
-					"title": element.modalTitle,
-					"description": element.description,
-					"budget": Number(element.getbudjetvalue) | Number(element.budgetCustomValue),
-					"due": new Date(),
-					"budgetFrom": element.budgetFrom,
-					"budgetTo":element.budgetTo
-				};
-				if (payload) {
-					xapi().post( apiPath,	payload).then(response => {
-							this.props.history.replace('/gen-contractor');
-						})
-				}
-			});
+			var payload = JSON.parse(localStorage.getItem("modalData"));
+			var apiPath = `contractors/${data.user_metadata.contractor_id}/projects`;
+			if (payload) {
+				xapi().post( apiPath,	payload).then(response => {
+						localStorage.setItem("modalData", null);
+						this.props.history.replace('/gen-contractor');
+				}).catch(error => {
+					localStorage.setItem("modalData", null);
+					this.props.history.replace('/');
+				})
+			}
 		} else {
 			this.props.history.replace('/');
 		}
 	}
 
 	render() {
-		// return(<div><CircularProgress color="secondary" /></div>);
 		return (
 			<div className="lds-ring"><div></div><div></div><div></div><div></div></div>
 		)

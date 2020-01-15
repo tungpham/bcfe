@@ -59,6 +59,7 @@ const style = (theme: Theme) => createStyles({
 
 interface ArchivedProjectProps extends RouteComponentProps {
     userProfile: UserProfile | null;
+    searchTerm : String;
     getArchivedProjectsByGenId: Function;
     projects: Projects | null;
     deleteProject: (id: string) => Promise<void>;
@@ -110,22 +111,36 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
 
     async componentDidMount() {
         const { userProfile } = this.props;
-
         this.setState({ isBusy: true });
         await xapi().get( `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`).then(data => {
-            this.setState({ compltedArray: data.data.content });
-            this.setState({ totalLength: data.data.totalElements })
+            this.setState({ 
+                compltedArray: data.data.content,
+                totalLength: data.data.totalElements
+             });
         })
         this.setState({ isBusy: false });
     }
-
+    async componentDidUpdate(prevProps:ArchivedProjectProps ){
+        if(prevProps.searchTerm !== this.props.searchTerm )
+        {
+            const { userProfile } = this.props;
+            this.setState({ isBusy: true });
+            await xapi().get( `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`).then(data => {
+                this.setState({ 
+                    compltedArray: data.data.content,
+                    totalLength: data.data.totalElements
+                 });
+            })
+            this.setState({ isBusy: false });
+        }
+    }
     handleChangePage = async (event, page) => {
         const { userProfile } = this.props;
         const { rowsPerPage } = this.state;
         try {
             if (page >= this.state.totalLength) page = this.state.totalLength - 1;
             this.setState({ isBusy: true });
-            await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}&status=ARCHIVED`)
+            await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=ARCHIVED`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -149,7 +164,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         const { userProfile } = this.props;
         this.setState({isBusy: true})
         try {
-            await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}&status=ARCHIVED`)
+            await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${currentPage}&size=${newPageSize}&status=ARCHIVED`)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -284,14 +299,14 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
                                     align="center"
                                     className="margintopbottom"
                                 >
-                                    {data.contractor.address.name}
+                                    {data.contractor && data.contractor.address ? data.contractor.address.name : ""}
                                 </CustomTableCell>
 
                                 <CustomTableCell
                                     align="center"
                                     className="margintopbottom"
                                 >
-                                    {data.contractor.address.city}
+                                    {data.contractor && data.contractor.address ? data.contractor.address.city : ""}
                                 </CustomTableCell>
 
                                 <CustomTableCell

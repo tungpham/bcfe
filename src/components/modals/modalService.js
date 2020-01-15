@@ -36,8 +36,8 @@ function ModalService(props) {
                     <FormGroup aria-label="position" row>
                         <ListItem className="list-border" dense button  >
                             <FormControlLabel
-                                checked={props.data[5] === "Design Service" ? true : false}
-                                value="Design Service"
+                                checked={props.data[5] === "Design" ? true : false}
+                                value="Design"
                                 control={<Checkbox style={{
                                     color: "green",
                                 }} />}
@@ -47,8 +47,8 @@ function ModalService(props) {
                         </ListItem>
                         <ListItem className="list-border" dense button  >
                             <FormControlLabel
-                                checked={props.data[6] === "Construction Service" ? true :false}
-                                value="Construction Service"
+                                checked={props.data[6] === "Construction" ? true :false}
+                                value="Construction"
                                 control={<Checkbox style={{
                                     color: "green",
                                 }} />}

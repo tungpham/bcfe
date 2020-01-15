@@ -56,6 +56,7 @@ const styles = createStyles((theme: Theme) => ({
 interface ISubmittedProViewProps extends RouteComponentProps {
 	userProfile: UserProfile;
 	classes: ClassNameMap<string>;
+	searchTerm: String;
 	proposals: Proposals;
 	getProposals: (id: string, page: number, size: number, status: string) => Promise<void>;
 	deleteProposal: (id: string) => Promise<void>;
@@ -98,7 +99,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		this.setState({
 			isBusy: true
 		})
-		xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=SUBMITTED`).then(res => {
+		xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&status=SUBMITTED`).then(res => {
 			this.setState({ 
 				submitData: res.data.content ,
 				totalLength: res.data.totalElements,
@@ -114,13 +115,34 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		// this.props.getProposals(userProfile.user_metadata.contractor_id,
 		// 	0, 0, 'SUBMITTED');
 	}
-
+	componentDidUpdate(prevProps:ISubmittedProViewProps){
+		if(prevProps.searchTerm !== this.props.searchTerm)
+		{
+			const { userProfile } = this.props;
+			this.setState({
+				isBusy: true
+			})
+			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&status=SUBMITTED`).then(res => {
+				this.setState({ 
+					submitData: res.data.content ,
+					totalLength: res.data.totalElements,
+					isBusy: false
+				})
+			}).catch(()=>{
+				this.setState({
+					submitData: [] ,
+					totalLength: 0,
+					isBusy: false
+				})
+			});
+		}
+	}
 	handleChangePage = async (event, page) => {
 		const { userProfile } = this.props;
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=SUBMITTED`)
+			await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=SUBMITTED`)
 				.then(data => {
 					this.setState({
 						submitData: data.data.content,
@@ -142,7 +164,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
 		try {
-			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=SUBMITTED`).then(res => {
+			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=SUBMITTED`).then(res => {
 				this.setState({
 					submitData: res.data.content,
 					isBusy: false,

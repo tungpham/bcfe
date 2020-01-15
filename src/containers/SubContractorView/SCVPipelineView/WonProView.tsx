@@ -51,6 +51,7 @@ interface IWonProjectViewProps extends RouteComponentProps {
 	classes: ClassNameMap<string>;
 	userProfile: UserProfile;
 	proposals: Proposals;
+	searchTerm: String;
 	getProposals: (id: string, page: number, size: number, filter: string) => Promise<void>;
 	deleteProposal: (id: string) => Promise<void>;
 }
@@ -88,7 +89,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		this.setState({
 			isBusy:true
 		})
-		xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
+		xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
 			this.setState({ 
 				awardData: res.data.content ,
 				isBusy: false
@@ -104,12 +105,33 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		// 	0, 0, 'AWARDED'
 		// );
 	}
+	componentDidUpdate(prevProps: IWonProjectViewProps){
+		if(prevProps.searchTerm !== this.props.searchTerm)
+		{
+			const { userProfile } = this.props;
+			this.setState({
+				isBusy:true,
+				currentPage: 0
+			})
+			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
+				this.setState({ 
+					awardData: res.data.content ,
+					isBusy: false
+				})
+			}).catch(()=>{
+				this.setState({
+					awardData: [],
+					isBusy: false
+				})
+			});
+		}
+	}
 	handleChangePage = async (event, page) => {
 		const { userProfile } = this.props;
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			xapi().get(`${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=INACTIVE`)
+			xapi().get(`${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=INACTIVE`)
 				.then(data => {
 					console.log(data);
 					this.setState({
@@ -134,7 +156,7 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
 		try {
-			xapi().get(`${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals?page=${currentPage}&size=${newPageSize}&status=INACTIVE`).then(res => {
+			xapi().get(`${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=INACTIVE`).then(res => {
 				this.setState({
 					awardData: res.data.content,
 					isBusy: false,

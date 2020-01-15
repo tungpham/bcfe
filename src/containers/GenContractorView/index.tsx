@@ -57,7 +57,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     const theme = useTheme();
     const [open, setOpen] = React.useState(false); 
     const [activeStep, setActiveStep] = React.useState(0);
-
+    const [searchTerm, setSearchTerm] = useState("");
     const callback = (value) => {
         setgetvalue(value); // For Getting the value from modal(parent to child).
     } 
@@ -149,7 +149,11 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
         setActiveStep(0);
         setOpen(false);
     };
-
+    const onSearchFun = (e) => {
+        if (e.keyCode === 13) {
+            setSearchTerm(e.target.value);
+        }
+    }
     const { userProfile, match, location } = props;
     if (
         !userProfile.user_metadata.roles.includes('Gen') &&
@@ -194,6 +198,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                         InputProps={{
                             startAdornment: <InputAdornment style={{ height: 40 }} position="start"><SearchIcon className="searchicon" /></InputAdornment>,
                         }}
+                        onKeyDown = {onSearchFun}
                         variant="outlined"
                     />
                     <Button onClick={handleOpen} color="default" variant="contained"  ><AddIcon className="Addicon" />Add Project</Button>
@@ -203,15 +208,15 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                 <Switch >
                     <SecuredRoute
                         path={`${match.url}/current_pros`}
-                        component={CurrentProjectView}
+                        render={props => <CurrentProjectView {...props} searchTerm = {searchTerm}/>}
                     />
                     <SecuredRoute
                         path={`${match.url}/add_project`}
-                        component={AddProjectView}
+                        render={props => <AddProjectView {...props} searchTerm = {searchTerm}/>}
                     />
                     <SecuredRoute
                         path={`${match.url}/archived`}
-                        component={ArchivedProject}
+                        render={props => <ArchivedProject {...props} searchTerm = {searchTerm}/>}
                     />
                     <SecuredRoute
                         path={`${match.url}/proposal_detail/:id`}
@@ -234,7 +239,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                     aria-describedby="simple-modal-description"
                     open={open}
                     onClose={handleClose}>
-                    <div className="service-modal" style = {{width:"454px"}} >
+                    <div className="service-modal" style = {{width:"492px"}} >
                         <CloseIcon onClick={handleClose} className="modal-close" />
                         <Grid className="modal-page-col" item xs={10}>
                             <Typography variant="subtitle2" color="textSecondary">

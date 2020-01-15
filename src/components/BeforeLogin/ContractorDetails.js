@@ -1,5 +1,6 @@
 /*eslint-enable*/
 import React, { useState, useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import '../../assets/css/contractor.css';
 import { List, ListItem, Grid, ListItemAvatar, Divider, Button, Paper, CircularProgress } from '@material-ui/core';
@@ -24,6 +25,7 @@ import Modal from '@material-ui/core/Modal';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import TextField from '@material-ui/core/TextField';
 import ModalArea from '../modals/modalArea';
 import ModalService from '../modals/modalService';
 import ModalBudjet from '../modals/modalBudjet';
@@ -31,10 +33,12 @@ import ModalDisc from '../modals/modalDesc';
 import ModalCity from '../modals/modalCity';
 import ModalProperty from '../modals/modalProperty';
 import ModalMaterial from '../modals/modalMaterial';
+import ModalSpecialty from '../modals/modalSpecialty';
 import { useStyles } from '@material-ui/pickers/views/Month/MonthView';
 import { withRouter } from 'react-router-dom';
 import auth0Client from 'services/auth0/auth';
 import {xapi} from '../../services/utils';
+import * as ContActions from 'store/actions/cont-actions';
 console.clear();
 
 function ContractorDetails(props) {
@@ -42,6 +46,7 @@ function ContractorDetails(props) {
     const [apiPath] = useState('contractors/');
     const [Id] = useState(props.match.params.Id);
     const [Detailsdata, setDetailsdata] = useState([]);
+    const [introduction, setIntroduction] = useState(null);
     const [PersonReviewList, setPersonReviewList] = useState([]);
     const [Rate, setRate] = useState('');
     const [FaqList, setFaqList] = useState([]);
@@ -58,6 +63,7 @@ function ContractorDetails(props) {
     const [getbudjetvalue, setgetbudjetvalue] = useState('');
     const [getmaterial, setgetmaterial] = useState('');
     const [getdisc, setgetdisc] = useState('');
+    const [specialities, setSpecialties] = useState([]);
     const [validation, setvalidation] = useState("");
     const [radioButton] = useState("");
     const [aCall] = useState("");
@@ -68,7 +74,9 @@ function ContractorDetails(props) {
     const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1, getcheck2];
     const classes = useStyles();
     const [Newdata] = useState([]);
-
+    const [isEditFaq, setEditFaq] = useState(false);
+    const [editingFaqList, setEditingFaqList] = useState([]);
+    const [saveFAQLoading, setSaveFAQLoading] = useState(false);
     const HandleOpen = () => {
         setOpen(true);// For Getting the value from modal(parent to child).
     };
@@ -127,28 +135,50 @@ function ContractorDetails(props) {
     }
 
     const HandleClose = () => {
-        var popupModalArray = [{ "modalTitle": 'A Project', "getbudjet": getbudjet, "getbudjetvalue": getbudjetvalue, "description": getdisc, "budgetFrom": getbudjet.split('-')[0], "budgetTo": getbudjet.split('-')[1] }];
-        localStorage.setItem("modalData", JSON.stringify(popupModalArray));
-        if (activeStep === 7) {
+        if (activeStep === 8) {
             auth0Client.signIn();
-            var apiPath = `contractors/${localStorage.getItem("contractor_ID")}/projects`;
+            var project_name = "";
+            var services = [];
+            var specialtyIds = [];
+            specialities.forEach((item, index)=>{
+                project_name += item.name;
+                specialtyIds.push(item.id);
+                if(index < specialities.length - 1) project_name += ","
+            })
+            if(getcheck1 !== "") services.push(getcheck1);
+            if(getcheck2 !== "") services.push(getcheck2);
             const payload = {
-                "title": 'A Project',
-                "description": getdisc,
-                "budget": getbudjetvalue,
-                "due": new Date(),
-                "budgetFrom": getbudjet.split('-')[0],
-                "budgetTo": getbudjet.split('-')[1]
+                "project":{
+                    "title": project_name + " project",
+                    "description": getdisc,
+                    "city": getvalue,
+                    "budget": getbudjetvalue,
+                    "due": new Date(),
+                    "budgetFrom": getbudjet.split('-')[0],
+                    "budgetTo": getbudjet.split('-')[1],
+                    "propertyType": getredio,
+                    "services": services,
+                    "estimatedArea": [],
+                    "provideMaterial": getmaterial
+                },
+                "specialtyIds":specialtyIds
             };
-            if (payload) {
-                xapi().post( apiPath, payload).then(response => {
-                        Newdata.push(response.data);
-                    })
-            }
+            localStorage.setItem("modalData", JSON.stringify(payload));
         }
         setActiveStep(0);
+        setgetvalue("");
+        setgetcheck1("");
+        setgetcheck2("");
+        setgetredio("");
+        setgetarearedio("");
+        setgetbudjet("");
+        setgetbudjetvalue("");
+        setgetdisc("");
+        setgetmaterial("");
+        setSpecialties([]);        
         setOpen(false);
     };
+
 
     const HandleNext = () => {
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
@@ -156,18 +186,18 @@ function ContractorDetails(props) {
             || (activeStep === 2 && getredio === '')
             || (activeStep === 3 && getarearedio === '')
             || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
-            || (activeStep === 6 && getdisc.length < 40)) {
+            || (activeStep === 6 && specialities.length === 0)
+            || (activeStep === 7 && getdisc.length < 40)) {
             setvalidation('Please fill the field');
         }
         else {
             setvalidation('');
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
-        if ((activeStep === 7 && getdisc === '') || getdisc === null) {
+        if ((activeStep === 8 && getdisc === '') || getdisc === null) {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
             HandleClose();
         }
-
     };
 
     const HandleBack = () => {
@@ -217,9 +247,31 @@ function ContractorDetails(props) {
     function FetchFAQ() {
         xapi().get( apiPath + Id + '/faq').then((data) => {
             setFaqList(data.data);
+            setEditingFaqList(data.data);
         })
     }
-
+    function saveFQA() {
+        setSaveFAQLoading(true);
+        var submitdata = [];
+        editingFaqList.forEach((item) => {
+            submitdata.push({
+                question: item.question,
+                answer: item.answer
+            })
+        })
+        xapi().post( apiPath + Id + '/faq', submitdata).then((data) => {
+            setSaveFAQLoading(false);
+            setEditFaq(false);
+        }).catch(error => {
+            setSaveFAQLoading(false);
+            setEditFaq(false);
+        })
+    }
+    function getIntroduction(){
+        xapi().get(apiPath + Id).then((data)=>{
+            setIntroduction(data.address && data.address.introduction ? data.address.introduction : "")
+        })
+    }
     function HandleClick(event) {
         setcurrentPage(Number(event.target.id))
         setactive(true);
@@ -237,9 +289,9 @@ function ContractorDetails(props) {
         FetchRating();
         FetchFAQ();
         FetchImage();
+        getIntroduction();
         // eslint-disable-next-line
     }, [])
-
     // Implimentation of Pagination.
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(PersonReviewList.length / ReviewPerPage); i++) {
@@ -308,8 +360,11 @@ function ContractorDetails(props) {
                             </Grid>
                         </Grid>
                         <div className="introduction" ref={AboutRef}>
-                            <p className="intro"> <strong> Introduction: </strong> Ben Erickson, Ownar, has haan practicing Landscape Architecture in the Twin Cities for over'. years, first learning the ropes at the office of CLOSE Landscape Architecture until opening lose landscape designs in MU. We do commercial aswellas residential projects and as of 20, Ea. landscape designs offers installation as part of scope of services, so give us a call and let us know how wa can help outwith your nert Project. </p>
-                            <p className="intro">Most did a great job at installing a Jack shaft "opener" on my garage door. I appreciate his hard work."I had a garage door installed with very convinient Wi-Fi capabilities! John was very punctual and professional. He...</p>
+                            <p className="intro"> <strong> Introduction: </strong> 
+                            {
+                                introduction
+                            }
+                            </p>
                         </div>
                         <div className="business-details">
                             <Grid container spacing={3}>
@@ -533,18 +588,59 @@ function ContractorDetails(props) {
                         <Divider />
                         <div className="FAQs" ref={FaqRef}>
                             <Grid container className="que-ans" >
-                                <Grid item lg={12} xs={12}>
-                                    <h3 className="reviews">FAQs</h3>
+                                <Grid item lg={12} xs={12} style = {{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                                    <h3 className="reviews">
+                                        {
+                                            isEditFaq === true ? "Frequently asked questions" : "FAQs"
+                                        }
+                                    </h3>
+                                    {
+                                        isEditFaq === true ? (
+                                            <React.Fragment>
+                                                <div className = "faq-action-btn"
+                                                    onClick = {()=>saveFQA()}
+                                                    disabled = {saveFAQLoading}
+                                                >
+                                                {
+                                                    saveFAQLoading === true ? (<CircularProgress/>) : "Save"
+                                                }
+                                                </div>
+                                                <div className = "faq-action-btn action-cancel"
+                                                    onClick = {()=>setEditFaq(false)}
+                                                >Cancel</div>
+                                            </React.Fragment>
+                                        ) : (
+                                            <div className = "faq-action-btn" onClick = {()=>setEditFaq(true)}>Edit</div>
+                                        )
+                                    }
                                 </Grid>
-                                {FaqList.map((Faq) => {
-                                    return <Grid key={Faq.question} item lg={12} xs={12}>
+                                {FaqList.map((Faq, index) => {
+                                    return <Grid key={`faq-question${index}`} item lg={12} xs={12}>
                                         <h3 className="question">
                                             {Faq.question}
                                         </h3>
-                                        <p className="ans">
-                                            {Faq.answer}
-                                        </p>
-                                        <Divider />
+                                        {
+                                            isEditFaq === false ? (
+                                            <p className="ans">{Faq.answer === "" || Faq.answer === null ? "Not Answered" : Faq.answer}</p>
+                                            ) : (null)
+                                        }
+                                        {
+                                            isEditFaq === true ? (
+                                                <TextField
+                                                    fullWidth
+                                                    multiline
+                                                    rows = "5"
+                                                    variant="outlined"
+                                                    value = {editingFaqList[index].answer !== null && editingFaqList[index].answer !== "" ? editingFaqList[index].answer : ""}
+                                                    onChange = {(e)=>{
+                                                        var _temp = editingFaqList;
+                                                        _temp[index].answer = e.target.value
+                                                        setEditingFaqList([..._temp])
+                                                    }}
+                                                />
+                                            ) : (null)
+                                        }
+                                        <Divider/>
                                     </Grid>
                                 })}
                             </Grid>
@@ -566,7 +662,7 @@ function ContractorDetails(props) {
                         open={open}
                         onClose={HandleClose}
                     >
-                        <div className="service-modal" style = {{width:"454px"}} >
+                        <div className="service-modal" style = {{width:"492px"}} >
                             <CloseIcon onClick={HandleClose} className="modal-close" />
                             <Grid className="modal-page-col" item xs={10}>
                                 <span variant="subtitle2" color="textSecondary">
@@ -593,13 +689,14 @@ function ContractorDetails(props) {
                                                     : activeStep === 5 ? < ModalMaterial data={data}
                                                         MaterialCallback={MaterialCall}
                                                         errorMessage={validation} />
-                                                        : activeStep === 6 ? <ModalDisc
-                                                            discCallback={DiscCall}
-                                                            errorMessage={validation} /> : HandleClose()}
+                                                        : activeStep === 6 ?  <ModalSpecialty specialities = {specialities} setSpecialties = {setSpecialties}/>  
+                                                            : activeStep === 7 ? <ModalDisc
+                                                               discCallback={DiscCall} errorMessage={validation} /> :  HandleClose()
+                                    }
                             </Grid>
                             <MobileStepper
                                 variant="progress"
-                                steps={7}
+                                steps={8}
                                 position="static"
                                 activeStep={activeStep}
                                 className={classes.root}
@@ -613,9 +710,9 @@ function ContractorDetails(props) {
                                         Prev
                                     </Button>
                                     <Button variant="contained" className="service-modal-next"
-                                        onClick={HandleNext} disabled={activeStep === 7}
+                                        onClick={HandleNext} disabled={activeStep === 8}
                                     >
-                                        {activeStep === 6 ? 'Submit' : 'Next'}
+                                        {activeStep === 7 ? 'Submit' : 'Next'}
                                         {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
 
                                     </Button>
@@ -629,5 +726,11 @@ function ContractorDetails(props) {
         </div>
     )
 }
+const mapDispatchToProps = {
+	selectContractor: ContActions.selectContractor,
+};
 
-export default withRouter(ContractorDetails)
+const mapStateToProps = state => ({
+	contractor: state.cont_data.selectedContractor,
+});
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ContractorDetails))

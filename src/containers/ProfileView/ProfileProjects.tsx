@@ -26,7 +26,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import UploadButton from 'components/CustomUpload/UploadButton';
 import { Grid } from '@material-ui/core';
-import { Specialties } from 'types/global';
+import {  SpecialtyInfo} from 'types/global';
 import { Projects } from 'types/project';
 
 
@@ -110,7 +110,7 @@ const styles = (theme: Theme) => createStyles({
 });
 
 export interface IProfileProjectsProps extends StyledComponentProps {
-    specialties: Specialties;
+    specialties: SpecialtyInfo[];
     pastProjects: Projects;
     contId: string;
     addProject: (title: string, price: number, location: string, service: string, duration: number, unit: string, year: number, desc: string, files: File[]) => Promise<void>;
@@ -150,7 +150,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
     constructor(props: Readonly<IProfileProjectsProps>) {
         super(props);
 
-        const serv = props.specialties && props.specialties.content && props.specialties.content[0] && props.specialties.content[0].name;
+        const serv = props.specialties  && props.specialties[0] ? props.specialties[0].specialty.name : "";
         this.state = {
             dialog: false,
             title: '',
@@ -184,7 +184,7 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
             location: '',
             duration: 5,
             unit: units[0],
-            service: specialties.content.length > 0 ? specialties.content[0].id : '',
+            service: specialties.length > 0 ? specialties[0].specialty.id : '',
             year: thisYear,
             desc: '',
         });
@@ -366,9 +366,9 @@ class ProfileProjects extends React.Component<IProfileProjectsProps, IProfilePro
                                         onChange={e => this.setState({ service: e.target.value as string })}
                                         name="services"
                                     >
-                                        {specialties && specialties.content && specialties.content.map(serv => (
-                                            <MenuItem value={serv.id} key={serv.id}>
-                                                {serv.name}
+                                        {specialties  && specialties.map(serv => (
+                                            <MenuItem value={serv.specialty.id} key={serv.specialty.id}>
+                                                {serv.specialty.name}
                                             </MenuItem>
                                         ))}
                                     </Select>

@@ -34,6 +34,7 @@ interface CurrentProjectProps extends RouteComponentProps {
     classes: ClassNameMap<string>;
     userProfile: UserProfile | null;
     projects: Projects | null;
+    searchTerm: String;
     getProjectsByGenId: (id: string, page: number, size: number) => void;
     deleteProject: (id: string) => void;
     setCurrentProject: (id: string) => void;
@@ -74,36 +75,63 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
     async componentDidMount() {
         const { userProfile } = this.props;
         this.setState({ isBusy: true });
+        var searchProjectsApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}`;
+        var getProjectsApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects`;
         try {
-            await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}`).then(data => {
-                this.setState({ compltedArray: data.data.content })
-                this.setState({ totalLength: data.data.totalElements })
-            })
+                await xapi().get(this.props.searchTerm !== null && this.props.searchTerm !== "" ? searchProjectsApi : getProjectsApi).then(data => {
+                    this.setState({ 
+                        compltedArray: data.data.content,
+                        totalLength: data.data.totalElements,
+                        isBusy: false
+                    })
+                }) 
         } catch (error) {
             console.log(error);
+            this.setState({ isBusy: false });
         }
-        this.setState({ isBusy: false });
     }
-
+    async componentDidUpdate(prevProps:CurrentProjectProps){
+        if(prevProps.searchTerm !== this.props.searchTerm)
+        {
+            const { userProfile } = this.props;
+            this.setState({ isBusy: true });
+            var searchProjectsApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}`;
+            var getProjectsApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects`;
+            try {
+                    await xapi().get(this.props.searchTerm !== null && this.props.searchTerm !== "" ? searchProjectsApi : getProjectsApi).then(data => {
+                        this.setState({ 
+                            compltedArray: data.data.content,
+                            totalLength: data.data.totalElements,
+                            isBusy: false
+                        })
+                    }) 
+            } catch (error) {
+                console.log(error);
+                this.setState({ isBusy: false });
+            }
+        }
+    }
     handleChangePage = async (event, page) => {
         const { userProfile } = this.props;
         const { rowsPerPage } = this.state;
-
+        if (page >= this.state.totalLength) page = this.state.totalLength - 1;
+        var getProjectsApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}`;
+        var searchProjectsApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}`;
+        this.setState({isBusy: true});
         try {
-            if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-            xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}`)
+            xapi().get(this.props.searchTerm !== "" && this.props.searchTerm !== null ? searchProjectsApi : getProjectsApi)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
                         isBusy: false,
                         currentPage: page,
+                        totalLength: data.data.totalElements
                     });
                 })
-            this.setState({ isBusy: false });
         } catch (error) {
+            this.setState({ isBusy: false });
             console.log('CurrentProjectView.handleChangePage', error);
         }
-        this.setState({ isBusy: false });
     };
 
     handleChangeRowsPerPage = async event => {
@@ -113,14 +141,18 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         const newPage = Math.floor(curIndex / newPageSize);
 
         const { userProfile } = this.props;
+        var getProjectsApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}`;
+        var searchProjectsApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${currentPage}&size=${newPageSize}`;
+        this.setState({isBusy: true});
         try {
-            xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}`)
+            xapi().get(this.props.searchTerm !== "" && this.props.searchTerm !== null ? searchProjectsApi : getProjectsApi)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
                         isBusy: false,
                         currentPage: newPage,
                         rowsPerPage: newPageSize,
+                        totalLength: data.data.totalElements
                     });
                 })
         } catch (error) {
@@ -132,7 +164,6 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                 variant: 'error'
             });
         }
-        this.setState({ isBusy: false });
     };
 
     handleDeleteProject = async () => {

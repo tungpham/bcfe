@@ -115,6 +115,7 @@ h5.MuiTypography-root.city-head-text.MuiTypography-h5 {
 p.MuiTypography-root.city-sub-text.MuiTypography-body1 {
   text-align: left;
   font-weight: normal !important;
+  font-size: 1rem;
 }
 
 h5.MuiTypography-root.heading-service.MuiTypography-h5 {

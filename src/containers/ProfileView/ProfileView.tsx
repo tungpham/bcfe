@@ -517,7 +517,7 @@ class ProfileView extends React.Component<IProfileViewProps, IProfileViewState> 
                         addFile={this.addFileToProject}
                         deleteFile={this.deleteFileFromProject}
                         refresh={this.refreshProject}
-                        specialties={specialties}
+                        specialties={contractor.contractorSpecialties}
                         pastProjects={pastProjects}
                         contId={contId}
                     />

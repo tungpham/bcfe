@@ -71,6 +71,7 @@ const styles = theme => createStyles({
 interface IAddProjectViewProps extends RouteComponentProps {
     classes: ClassNameMap<string>;
     userProfile: UserProfile;
+    searchTerm: String;
     addFilesToProject: (projId: string, files: Array<File>) => void;
     addProject: (contId: string, data: ProjectPostInfo) => Promise<string>;
     createLevel: (id: string, level: { number: number, name: string, description: string }) => Promise<any>;
@@ -136,8 +137,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         await this.props.clearLevels();
         // await this.props.loadRoots();
         this.setState({ isBusy: true });
-        await xapi().get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`)
-
+        var searchOngoingProjectApi = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`;
+        await xapi().get(searchOngoingProjectApi)
             .then(data => {
                 this.setState({ compltedArray: data.data.content })
                 this.setState({ totalLength: data.data.totalElements })
@@ -148,7 +149,23 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
             })
         this.setState({ isBusy: false });
     }
-
+   async componentDidUpdate(prevProps: IAddProjectViewProps){
+        if(prevProps.searchTerm !== this.props.searchTerm)
+        {
+            this.setState({ isBusy: true });
+            var searchOngoingProjectApi = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`;
+            await xapi().get(searchOngoingProjectApi)
+            .then(data => {
+                this.setState({ compltedArray: data.data.content })
+                this.setState({ totalLength: data.data.totalElements })
+                data.data.content.map(d => {
+                    var diff = Math.floor((Date.parse(d.project.endDate) - Date.parse(d.project.startDate)) / 86400000);
+                    return this.setState({ days: diff })
+                });
+            })
+        this.setState({ isBusy: false });
+        }
+    }
     closeMessage = () => {
         this.setState({ showMessage: false });
     }
@@ -219,10 +236,11 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
     };
     handleChangePage = async (event, page) => {
         const { rowsPerPage } = this.state;
+        if (page >= this.state.totalLength) page = this.state.totalLength - 1;
+        var searchOngoingProjectApi = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=ONGOING`;
+        this.setState({isBusy: true});
         try {
-            if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-
-            xapi().get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${rowsPerPage}&status=ONGOING`)
+            xapi().get(searchOngoingProjectApi)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -230,11 +248,10 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                         currentPage: page,
                     });
                 })
-            this.setState({ isBusy: false });
         } catch (error) {
             console.log('CurrentProjectView.handleChangePage', error);
+            this.setState({ isBusy: false });
         }
-        this.setState({ isBusy: false });
     };
 
     handleChangeRowsPerPage = async event => {
@@ -245,8 +262,10 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         const newPage = Math.floor(curIndex / newPageSize);
 
         this.setState({ rowsPerPage, currentPage, isBusy: true });
+        var searchOngoingProjectApi = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${currentPage}&size=${newPageSize}&status=ONGOING`;
+        
         try {
-            xapi().get(`${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${currentPage}&size=${newPageSize}&status=ONGOING`).then(data => {
+            xapi().get(searchOngoingProjectApi).then(data => {
                 this.setState({
                     compltedArray: data.data.content,
                     isBusy: false,
@@ -529,13 +548,13 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
                                     <CustomTableCell
                                         align="center"
                                     >
-                                        {data.contractor.address.name}
+                                        {data.contractor && data.contractor.address ? data.contractor.address.name : ""}
                                     </CustomTableCell>
 
                                     <CustomTableCell
                                         align="center"
                                     >
-                                        {data.contractor.address.city}
+                                        {data.contractor && data.contractor.address ? data.contractor.address.city : ""}
                                     </CustomTableCell>
 
                                     <CustomTableCell

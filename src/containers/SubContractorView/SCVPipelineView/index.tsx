@@ -21,8 +21,20 @@ const styles = createStyles((theme: Theme) => ({
 interface ISCVPipelineViewProps extends RouteComponentProps {
     classes: ClassNameMap<string>;
 }
-
-class SCVPipelineView extends React.Component<ISCVPipelineViewProps> {
+interface ISCVPipelineViewState{
+    searchTerm: String;
+}
+class SCVPipelineView extends React.Component<ISCVPipelineViewProps, ISCVPipelineViewState> {
+    state = {
+        searchTerm: ""
+    };
+    setSearchTerm = (e) => {
+        if (e.keyCode === 13) {
+            this.setState({
+                searchTerm : e.target.value
+            })
+        }
+    }
     render() {
         const { match, location } = this.props;
         const tabPaths = [
@@ -59,21 +71,22 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps> {
                         InputProps={{
                             startAdornment: <InputAdornment position="start"><SearchIcon className="searchicon" /></InputAdornment>,
                         }}
+                        onKeyDown = {this.setSearchTerm}
                         variant="outlined"
                     />
                 </div>
                 <Switch>
                     <SecuredRoute
                         path={tabPaths[0]}
-                        component={SubmittedProView}
+                        render={props => <SubmittedProView {...props} searchTerm = {this.state.searchTerm}/>}
                     />
                     <SecuredRoute
                         path={tabPaths[1]}
-                        component={InvitedProView}
+                        render={props => <InvitedProView {...props} searchTerm = {this.state.searchTerm}/>}
                     />
                     <SecuredRoute
                         path={tabPaths[2]}
-                        component={WonProView}
+                        render={props => <WonProView {...props} searchTerm = {this.state.searchTerm}/>}
                     />
                     <Redirect path={`${match.url}`} to={tabPaths[0]} />
                 </Switch>

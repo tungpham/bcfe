@@ -466,8 +466,20 @@ button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right.phot
 h3.reviews {
   color: #414346;
   margin-bottom: 3px;
+  flex: 1;
 }
-
+.faq-action-btn{
+  display: inline-block;
+  margin-left:  10px;
+  color: #02a3da;
+  font-weight: 500;
+}
+.faq-action-btn:hover{
+  cursor: pointer;
+}
+.faq-action-btn.action-cancel{
+  color: red;
+}
 span.main-review {
   color: #424345;
   font-size: 15px;

@@ -32,7 +32,7 @@ function ModalDisc(props) {
                     value={value}
                     onChange={handelchange}
                     onBlur={getInputValue}
-                    style={{ minHeight: '150px', color: ' #bbb' }}
+                    style={{ minHeight: '150px', color: ' #bbb', fontSize:"1.4rem" }}
                     rowsMax={10}
                     aria-label="maximum height"
                     placeholder="Minimum 10 rows"
@@ -44,10 +44,10 @@ function ModalDisc(props) {
                 <Typography color="textSecondary" variant="inherit">
                     Charecters:{char}
                 </Typography>
-                <Typography className="city-sub-text" variant="h6">
+                <Typography className="city-sub-text" >
                     <DoneIcon className="right-icon" /> write at least 40 Charecters,
                                  </Typography>
-                <Typography className="city-sub-text" variant="h6">
+                <Typography className="city-sub-text" >
                     <DoneIcon className="right-icon" /> Include spacific challenges or requirments.
                 </Typography>
 
