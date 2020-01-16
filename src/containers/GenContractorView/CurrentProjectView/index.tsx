@@ -119,7 +119,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         var searchProjectsApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}`;
         this.setState({isBusy: true});
         try {
-            xapi().get(this.props.searchTerm !== "" && this.props.searchTerm !== null ? searchProjectsApi : getProjectsApi)
+            await xapi().get(this.props.searchTerm !== "" && this.props.searchTerm !== null ? searchProjectsApi : getProjectsApi)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -145,7 +145,7 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
         var searchProjectsApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${currentPage}&size=${newPageSize}`;
         this.setState({isBusy: true});
         try {
-            xapi().get(this.props.searchTerm !== "" && this.props.searchTerm !== null ? searchProjectsApi : getProjectsApi)
+            await xapi().get(this.props.searchTerm !== "" && this.props.searchTerm !== null ? searchProjectsApi : getProjectsApi)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,

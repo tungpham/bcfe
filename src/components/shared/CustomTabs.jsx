@@ -38,8 +38,11 @@ const CustomTabs = ({ classes, tabs, init = 0, onClickFun = null}) => {
 						label={tab.label}
 						icon={tab.icon && <tab.icon className={classes.rootIcon} />}
 						onClick = {()=>{
-							onClickFun[0]("");
-							onClickFun[1]("");
+							if(onClickFun)
+							{
+								onClickFun[0]("");
+							    onClickFun[1]("");
+							}
 						}}
 					/>
 				))}

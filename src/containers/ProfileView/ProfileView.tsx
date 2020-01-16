@@ -26,6 +26,7 @@ import ProfileSocialView from './ProfileSocial';
 import ProfileSpecView from './ProfileSpecialty';
 import ProfileReviewReview from './ProfileReview';
 import ProfileIntroudctionView from './ProfileIntroductionView';
+import ProfileFAQView from './profileFaq';
 import AskReview from './AskReview';
 
 
@@ -510,6 +511,7 @@ class ProfileView extends React.Component<IProfileViewProps, IProfileViewState> 
                         delete={this.deleteLicense}
                     />
                     <ProfileIntroudctionView/>
+                    <ProfileFAQView/>
                     <ProfileProjectsView
                         addProject={this.uploadProject}
                         deleteProject={this.deleteProject}

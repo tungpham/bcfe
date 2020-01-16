@@ -94,14 +94,14 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		};
 
 	}
-	componentDidMount() {
+	async componentDidMount() {
 		const { userProfile } = this.props;
 		this.setState({
 			isBusy: true
 		})
 		var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&status=SUBMITTED`;
 		var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?status=SUBMITTED`;
-		xapi().get(this.props.searchTerm !== "" ? searchApi : getApi ).then(res => {
+		await xapi().get(this.props.searchTerm !== "" ? searchApi : getApi ).then(res => {
 			this.setState({ 
 				submitData: res.data.content ,
 				totalLength: res.data.totalElements,
@@ -117,7 +117,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		// this.props.getProposals(userProfile.user_metadata.contractor_id,
 		// 	0, 0, 'SUBMITTED');
 	}
-	componentDidUpdate(prevProps:ISubmittedProViewProps){
+	async componentDidUpdate(prevProps:ISubmittedProViewProps){
 		if(prevProps.searchTerm !== this.props.searchTerm)
 		{
 			const { userProfile } = this.props;
@@ -126,7 +126,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 			})
 			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&status=SUBMITTED`;
 			var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?status=SUBMITTED`;
-			xapi().get(this.props.searchTerm !== "" ? searchApi : getApi ).then(res => {
+			await xapi().get(this.props.searchTerm !== "" ? searchApi : getApi ).then(res => {
 				this.setState({ 
 					submitData: res.data.content ,
 					totalLength: res.data.totalElements,
@@ -163,7 +163,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		this.setState({ isBusy: false });
 	};
 
-	handleChangeRowsPerPage = event => {
+	handleChangeRowsPerPage = async event => {
 		const { currentPage, rowsPerPage } = this.state;
 		const curIndex = currentPage * rowsPerPage;
 		const newPageSize = event.target.value;
@@ -172,7 +172,7 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		try {
 			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=SUBMITTED`;
 			var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=0&size=${newPageSize}&status=SUBMITTED`;
-			xapi().get(this.props.searchTerm !== "" ? searchApi : getApi ).then(res => {
+			await xapi().get(this.props.searchTerm !== "" ? searchApi : getApi ).then(res => {
 				this.setState({
 					submitData: res.data.content,
 					isBusy: false,

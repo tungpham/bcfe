@@ -25,7 +25,6 @@ import Modal from '@material-ui/core/Modal';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import TextField from '@material-ui/core/TextField';
 import ModalArea from '../modals/modalArea';
 import ModalService from '../modals/modalService';
 import ModalBudjet from '../modals/modalBudjet';
@@ -73,9 +72,6 @@ function ContractorDetails(props) {
     const [Galleryarr, setGalleryarr] = useState([]);
     const data = [getvalue, getredio, getarearadio, getbudjet, getmaterial, getcheck1, getcheck2];
     const classes = useStyles();
-    const [isEditFaq, setEditFaq] = useState(false);
-    const [editingFaqList, setEditingFaqList] = useState([]);
-    const [saveFAQLoading, setSaveFAQLoading] = useState(false);
     const HandleOpen = () => {
         setOpen(true);// For Getting the value from modal(parent to child).
     };
@@ -249,24 +245,6 @@ function ContractorDetails(props) {
     function FetchFAQ() {
         xapi().get( apiPath + Id + '/faq').then((data) => {
             setFaqList(data.data);
-            setEditingFaqList(data.data);
-        })
-    }
-    function saveFQA() {
-        setSaveFAQLoading(true);
-        var submitdata = [];
-        editingFaqList.forEach((item) => {
-            submitdata.push({
-                question: item.question,
-                answer: item.answer
-            })
-        })
-        xapi().post( apiPath + Id + '/faq', submitdata).then((data) => {
-            setSaveFAQLoading(false);
-            setEditFaq(false);
-        }).catch(error => {
-            setSaveFAQLoading(false);
-            setEditFaq(false);
         })
     }
     function getIntroduction(){
@@ -592,56 +570,15 @@ function ContractorDetails(props) {
                             <Grid container className="que-ans" >
                                 <Grid item lg={12} xs={12} style = {{display:"flex", justifyContent:"center", alignItems:"center"}}>
                                     <h3 className="reviews">
-                                        {
-                                            isEditFaq === true ? "Frequently asked questions" : "FAQs"
-                                        }
+                                       FAQs
                                     </h3>
-                                    {
-                                        isEditFaq === true ? (
-                                            <React.Fragment>
-                                                <div className = "faq-action-btn"
-                                                    onClick = {()=>saveFQA()}
-                                                    disabled = {saveFAQLoading}
-                                                >
-                                                {
-                                                    saveFAQLoading === true ? (<CircularProgress/>) : "Save"
-                                                }
-                                                </div>
-                                                <div className = "faq-action-btn action-cancel"
-                                                    onClick = {()=>setEditFaq(false)}
-                                                >Cancel</div>
-                                            </React.Fragment>
-                                        ) : (
-                                            <div className = "faq-action-btn" onClick = {()=>setEditFaq(true)}>Edit</div>
-                                        )
-                                    }
                                 </Grid>
                                 {FaqList.map((Faq, index) => {
                                     return <Grid key={`faq-question${index}`} item lg={12} xs={12}>
                                         <h3 className="question">
                                             {Faq.question}
                                         </h3>
-                                        {
-                                            isEditFaq === false ? (
-                                            <p className="ans">{Faq.answer === "" || Faq.answer === null ? "Not Answered" : Faq.answer}</p>
-                                            ) : (null)
-                                        }
-                                        {
-                                            isEditFaq === true ? (
-                                                <TextField
-                                                    fullWidth
-                                                    multiline
-                                                    rows = "5"
-                                                    variant="outlined"
-                                                    value = {editingFaqList[index].answer !== null && editingFaqList[index].answer !== "" ? editingFaqList[index].answer : ""}
-                                                    onChange = {(e)=>{
-                                                        var _temp = editingFaqList;
-                                                        _temp[index].answer = e.target.value
-                                                        setEditingFaqList([..._temp])
-                                                    }}
-                                                />
-                                            ) : (null)
-                                        }
+                                        <p className="ans">{Faq.answer === "" || Faq.answer === null ? "Not Answered" : Faq.answer}</p>
                                         <Divider/>
                                     </Grid>
                                 })}

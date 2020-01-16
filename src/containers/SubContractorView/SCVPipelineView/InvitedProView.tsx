@@ -148,7 +148,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		this.setState({ isBusy: false });
 	};
 
-	handleChangeRowsPerPage = event => {
+	handleChangeRowsPerPage = async  event => {
 		const { currentPage, rowsPerPage } = this.state;
 		const curIndex = currentPage * rowsPerPage;
 		const newPageSize = event.target.value;
@@ -161,7 +161,7 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		try {
 			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=AWARDED`;
 			var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=0&size=${newPageSize}&status=AWARDED`;
-			xapi().get( this.props.searchTerm !== "" ? searchApi:getApi ).then(res => {
+			await xapi().get( this.props.searchTerm !== "" ? searchApi:getApi ).then(res => {
 				this.setState({
 					inviteData: res.data.content,
 					isBusy: false,
