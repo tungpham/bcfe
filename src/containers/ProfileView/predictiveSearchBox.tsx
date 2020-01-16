@@ -85,15 +85,19 @@ export class PredictiveSearchBox extends Component<PredictiveSearchBoxProps,any>
       if (activeOption === 0) {
         return;
       }
-      this.setState({ activeOption: activeOption - 1 });
-      this.autoScrollView();
+      this.setState({ activeOption: activeOption - 1 },()=>{
+         this.autoScrollView();
+      });
+     
     } else if (e.keyCode === 40) {
       e.preventDefault();
       if (activeOption === filteredOptions.length - 1) {
         return;
       }
-      this.setState({ activeOption: activeOption + 1 });
-      this.autoScrollView();
+      this.setState({ activeOption: activeOption + 1 }, ()=>{
+         this.autoScrollView();
+      });
+     
     }
   };
   addSpe = () => {
