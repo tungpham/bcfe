@@ -32,7 +32,8 @@ import ModalDisc from '../../components/modals/modalDesc';
 import ModalCity from '../../components/modals/modalCity';
 import ModalProperty from '../../components/modals/modalProperty';
 import ModalMaterial from '../../components/modals/modalMaterial';
-import {xapi} from 'services/utils';
+import ModalSpecialty from '../../components/modals/modalSpecialty';
+import auth0Client from 'services/auth0/auth';
 
 interface IGenContractorViewProps extends RouteComponentProps {
     userProfile: UserProfile;
@@ -41,23 +42,23 @@ interface IGenContractorViewProps extends RouteComponentProps {
 
 const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultProps) => {
 
-    const [Id] = useState(props.userProfile.user_metadata.contractor_id);
     const [getvalue, setgetvalue] = useState('');
     const [getcheck1, setgetcheck1] = useState('');
     const [getcheck2, setgetcheck2] = useState('');
-    const [getredio, setgetredio] = useState('');
-    const [getarearedio, setgetarearedio] = useState('');
+    const [getradio, setgetradio] = useState('');
+    const [getarearadio, setgetarearadio] = useState('');
     const [getbudjet, setgetbudjet] = useState('');
     const [getbudjetvalue, setgetbudjetvalue] = useState('');
     const [getmaterial, setgetmaterial] = useState('');
     const [getdisc, setgetdisc] = useState('');
+    const [specialities, setSpecialties] = useState([]);
     const [validation, setvalidation] = useState("");
-    const [Newdata] = useState([]);
-    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1, getcheck2];
+    const data = [getvalue, getradio, getarearadio, getbudjet, getmaterial, getcheck1, getcheck2];
     const theme = useTheme();
     const [open, setOpen] = React.useState(false); 
     const [activeStep, setActiveStep] = React.useState(0);
     const [searchTerm, setSearchTerm] = useState("");
+    const [_searchTerm, _setSearchTerm] = useState("");
     const callback = (value) => {
         setgetvalue(value); // For Getting the value from modal(parent to child).
     } 
@@ -71,13 +72,13 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     }
 
     const propertyCall = (value) => {
-        setgetredio(value);
+        setgetradio(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
     }
     const areaCall = (value) => {
-        setgetarearedio(value);
+        setgetarearadio(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
@@ -87,7 +88,6 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
         setgetbudjetvalue(value);
     }
     const budjetCall = (value) => {
-        console.log(value.split('-'))
         setgetbudjet(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -104,22 +104,22 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     }
     const handleNext = () => {
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
-            || (activeStep === 1 && getcheck1 === '' && getcheck2 === '')
-            || (activeStep === 2 && getredio === '')
-            || (activeStep === 3 && getarearedio === '')
-            || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
-            || (activeStep === 6 && getdisc.length < 40)) {
-            setvalidation('Please fill the field');
+        || (activeStep === 1 && getcheck1 === '' && getcheck2 === '')
+        || (activeStep === 2 && getradio === '')
+        || (activeStep === 3 && getarearadio === '')
+        || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
+        || (activeStep === 6 && specialities.length === 0)
+        || (activeStep === 7 && getdisc.length < 40)) {
+        setvalidation('Please fill the field');
         }
         else {
             setvalidation('');
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
-        if ((activeStep === 7 && getdisc === '') || getdisc === null) {
+        if ((activeStep === 8 && getdisc === '') || getdisc === null) {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
             handleClose();
         }
-
     };
     const handleBack = () => {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
@@ -130,23 +130,50 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     };
 
     const handleClose = () => {
-        var apiPath = `contractors/${Id}/projects`;
-        if (activeStep === 7) {
+        if (activeStep === 8) {
+            auth0Client.signIn();
+            var project_name = "";
+            var services = [];
+            var specialtyIds = [];
+            var estimateArea = getarearadio.split("-");
+            if(estimateArea[0] === "0") estimateArea[0] = "";
+            if(estimateArea[1] === "inf") estimateArea[1] = "";
+            specialities.forEach((item, index)=>{
+                project_name += item.name;
+                specialtyIds.push(item.id);
+                if(index < specialities.length - 1) project_name += ","
+            })
+            if(getcheck1 !== "") services.push(getcheck1);
+            if(getcheck2 !== "") services.push(getcheck2);
             const payload = {
-                "title": "A project",
-                "description": getdisc,
-                "budget": getbudjetvalue,
-                "due": new Date(),
-                "budgetFrom": getbudjet.split('-')[0],
-                "budgetTo": getbudjet.split('-')[1]
+                "project":{
+                    "title": project_name + " project",
+                    "description": getdisc,
+                    "city": getvalue,
+                    "budget": getbudjetvalue,
+                    "due": new Date(),
+                    "budgetFrom": getbudjet.split('-')[0],
+                    "budgetTo": getbudjet.split('-')[1],
+                    "propertyType": getradio,
+                    "services": services,
+                    "estimatedArea": estimateArea,
+                    "provideMaterial": getmaterial
+                },
+                "specialtyIds":specialtyIds
             };
-            if (payload) {
-                xapi().post( apiPath, payload).then(response => {
-                        Newdata.push(response.data);
-                    })
-            }
+            localStorage.setItem("modalData", JSON.stringify(payload));
         }
         setActiveStep(0);
+        setgetvalue("");
+        setgetcheck1("");
+        setgetcheck2("");
+        setgetradio("");
+        setgetarearadio("");
+        setgetbudjet("");
+        setgetbudjetvalue("");
+        setgetdisc("");
+        setgetmaterial("");
+        setSpecialties([]);        
         setOpen(false);
     };
     const onSearchFun = (e) => {
@@ -154,6 +181,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
             setSearchTerm(e.target.value);
         }
     }
+
     const { userProfile, match, location } = props;
     if (
         !userProfile.user_metadata.roles.includes('Gen') &&
@@ -188,6 +216,10 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                 }
                 ]}
                 init={tab}
+                onClickFun = {[
+                    setSearchTerm,
+                    _setSearchTerm
+                ]}
             />
             <div style={{ position: 'fixed', backgroundColor: 'white', width: '98%', zIndex: 10 }}>
                 <div className="gen-contractor-add-btn" style={{ display: 'flex', justifyContent: 'space-between', padding: '0px 30px ', margin: '20px 0px', position: 'fixed' }}>
@@ -199,7 +231,9 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                             startAdornment: <InputAdornment style={{ height: 40 }} position="start"><SearchIcon className="searchicon" /></InputAdornment>,
                         }}
                         onKeyDown = {onSearchFun}
-                        variant="outlined"
+                        onChange = {(e)=>_setSearchTerm(e.target.value)}
+                        value    = {_searchTerm}
+                        variant = "outlined"
                     />
                     <Button onClick={handleOpen} color="default" variant="contained"  ><AddIcon className="Addicon" />Add Project</Button>
                 </div>
@@ -239,7 +273,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                     aria-describedby="simple-modal-description"
                     open={open}
                     onClose={handleClose}>
-                    <div className="service-modal" style = {{width:"492px"}} >
+                    <div className="service-modal" style = {{width:"600px"}} >
                         <CloseIcon onClick={handleClose} className="modal-close" />
                         <Grid className="modal-page-col" item xs={10}>
                             <Typography variant="subtitle2" color="textSecondary">
@@ -250,7 +284,8 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                                                 : activeStep === 4 ? 5
                                                     : activeStep === 5 ? 6
                                                         : activeStep === 6 ? 7
-                                                            : ''} of 7
+                                                            : activeStep === 7 ? 8
+                                                                : ''} of 8
                             </Typography>
                         </Grid>
                         <React.Fragment>
@@ -271,8 +306,11 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                                                             errorMessage={validation} />
                                                             : activeStep === 5 ? < ModalMaterial
                                                                 data={data} MaterialCallback={MaterialCall} errorMessage={validation} />
-                                                                : activeStep === 6 ? <ModalDisc
-                                                                    discCallback={discCall} errorMessage={validation} /> : handleClose()}</div>
+                                                                : activeStep === 6 ?  <ModalSpecialty specialities = {specialities} setSpecialties = {setSpecialties}/>  
+                                                                    : activeStep === 7 ? <ModalDisc
+                                                                    discCallback={discCall} errorMessage={validation} /> :  handleClose()
+                                                }
+                                        </div>
                                     }
                                 </Grid>
                             </Grid>
@@ -280,7 +318,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                             <MobileStepper
                                 {...defaultProps}
                                 variant="progress"
-                                steps={7}
+                                steps={8}
                                 position="static"
                                 activeStep={activeStep}
                             />
@@ -296,7 +334,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
                                 <Button variant="contained" className="service-modal-next"
                                     onClick={handleNext}
                                 >
-                                    {activeStep === 6 ? 'Submit' : 'Next'}
+                                    {activeStep === 7 ? 'Submit' : 'Next'}
                                     {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                                 </Button>
                             </Grid>

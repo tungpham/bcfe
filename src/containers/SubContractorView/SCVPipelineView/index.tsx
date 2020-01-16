@@ -23,10 +23,12 @@ interface ISCVPipelineViewProps extends RouteComponentProps {
 }
 interface ISCVPipelineViewState{
     searchTerm: String;
+    _searchTerm: String;
 }
 class SCVPipelineView extends React.Component<ISCVPipelineViewProps, ISCVPipelineViewState> {
     state = {
-        searchTerm: ""
+        searchTerm: "",
+        _searchTerm: ""
     };
     setSearchTerm = (e) => {
         if (e.keyCode === 13) {
@@ -34,6 +36,16 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps, ISCVPipelin
                 searchTerm : e.target.value
             })
         }
+    }
+    setSearchItem1 = (item) => {
+        this.setState({
+            searchTerm: item
+        })
+    }
+    setSearchItem2 = (item) => {
+        this.setState({
+            _searchTerm: item
+        })
     }
     render() {
         const { match, location } = this.props;
@@ -63,6 +75,10 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps, ISCVPipelin
                                 label: 'Completed',
                             }
                         ]}
+                        onClickFun = {[
+                            this.setSearchItem1,
+                            this.setSearchItem2
+                        ]}
                     />
                     <TextField
                         id="outlined-start-adornment"
@@ -73,6 +89,8 @@ class SCVPipelineView extends React.Component<ISCVPipelineViewProps, ISCVPipelin
                         }}
                         onKeyDown = {this.setSearchTerm}
                         variant="outlined"
+                        onChange = {(e)=>this.setState({_searchTerm: e.target.value})}
+                        value = {this.state._searchTerm}
                     />
                 </div>
                 <Switch>

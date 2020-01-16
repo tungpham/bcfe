@@ -68,7 +68,7 @@ function HomePageMid() {
     const [getvalue, setgetvalue] = useState('');
     const [getcheck1, setgetcheck1] = useState('');
     const [getcheck2, setgetcheck2] = useState('');
-    const [getredio, setgetredio] = useState('');
+    const [getradio, setgetradio] = useState('');
     const [getarearadio, setgetarearadio] = useState('');
     const [getbudjet, setgetbudjet] = useState('');
     const [getbudjetvalue, setgetbudjetvalue] = useState('');
@@ -80,7 +80,7 @@ function HomePageMid() {
     const [open, setOpen] = React.useState(false);
     const [carouselItems, setCarouselItems] = useState([]);
     const classes = useStyles();
-    const data = [getvalue, getredio, getarearadio, getbudjet, getmaterial, getcheck1, getcheck2];
+    const data = [getvalue, getradio, getarearadio, getbudjet, getmaterial, getcheck1, getcheck2];
     const callback = (value) => {
         setgetvalue(value); // For Getting the value from modal(parent to child).
     }
@@ -94,7 +94,7 @@ function HomePageMid() {
     }
 
     const propertyCall = (value) => {
-        setgetredio(value);
+        setgetradio(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
@@ -132,7 +132,7 @@ function HomePageMid() {
     const handleNext = () => {
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
             || (activeStep === 1 && getcheck1 === '' && getcheck2 === '')
-            || (activeStep === 2 && getredio === '')
+            || (activeStep === 2 && getradio === '')
             || (activeStep === 3 && getarearadio === '')
             || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
             || (activeStep === 6 && specialities.length === 0)
@@ -187,7 +187,7 @@ function HomePageMid() {
                     "due": new Date(),
                     "budgetFrom": getbudjet.split('-')[0],
                     "budgetTo": getbudjet.split('-')[1],
-                    "propertyType": getredio,
+                    "propertyType": getradio,
                     "services": services,
                     "estimatedArea": estimateArea,
                     "provideMaterial": getmaterial
@@ -200,7 +200,7 @@ function HomePageMid() {
         setgetvalue("");
         setgetcheck1("");
         setgetcheck2("");
-        setgetredio("");
+        setgetradio("");
         setgetarearadio("");
         setgetbudjet("");
         setgetbudjetvalue("");
@@ -396,7 +396,7 @@ function HomePageMid() {
                     open={open}
                     onClose={handleClose}
                 >
-                    <div className="service-modal" style = {{width:"492px"}}>
+                    <div className="service-modal" style = {{width:"600px"}}>
                         <CloseIcon onClick={handleClose} className="modal-close" />
                         <Grid className="modal-page-col" item xs={10}>
                             <Typography variant="subtitle2" color="textSecondary">

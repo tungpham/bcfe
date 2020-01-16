@@ -17,7 +17,7 @@ const style = (theme) => ({
 	}
 });
 
-const CustomTabs = ({ classes, tabs, init = 0 }) => {
+const CustomTabs = ({ classes, tabs, init = 0, onClickFun = null}) => {
 	// const [value, setValue] = useState(init);
 	const value = init;
 
@@ -37,6 +37,10 @@ const CustomTabs = ({ classes, tabs, init = 0 }) => {
 						to={tab.href}
 						label={tab.label}
 						icon={tab.icon && <tab.icon className={classes.rootIcon} />}
+						onClick = {()=>{
+							onClickFun[0]("");
+							onClickFun[1]("");
+						}}
 					/>
 				))}
 			</Tabs>

@@ -89,7 +89,9 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		this.setState({
 			isBusy:true
 		})
-		xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
+		var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=INACTIVE`;
+		var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=0&size=${this.state.rowsPerPage}&status=INACTIVE`;
+		xapi().get(this.props.searchTerm !== "" ? searchApi : getApi).then(res => {
 			this.setState({ 
 				awardData: res.data.content ,
 				isBusy: false
@@ -113,7 +115,9 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 				isBusy:true,
 				currentPage: 0
 			})
-			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=INACTIVE`).then(res => {
+			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=INACTIVE`;
+			var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=0&size=${this.state.rowsPerPage}&status=INACTIVE`;
+			xapi().get(this.props.searchTerm !== "" ? searchApi : getApi).then(res => {
 				this.setState({ 
 					awardData: res.data.content ,
 					isBusy: false
@@ -131,9 +135,10 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			xapi().get(`${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=INACTIVE`)
+			var searchApi = `${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=INACTIVE`;
+			var getApi    = `${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=INACTIVE`;
+			xapi().get(this.props.searchTerm !== "" ? searchApi : getApi )
 				.then(data => {
-					console.log(data);
 					this.setState({
 						awardData: data.data.content,
 						isBusy: false,
@@ -156,7 +161,9 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
 		try {
-			xapi().get(`${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=INACTIVE`).then(res => {
+			var searchApi = `${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=INACTIVE`;
+			var getApi    = `${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals?page=0&size=${newPageSize}&status=INACTIVE`;
+			xapi().get(this.props.searchTerm !== "" ?  searchApi : getApi ).then(res => {
 				this.setState({
 					awardData: res.data.content,
 					isBusy: false,

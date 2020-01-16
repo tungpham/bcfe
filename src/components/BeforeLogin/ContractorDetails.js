@@ -271,7 +271,7 @@ function ContractorDetails(props) {
     }
     function getIntroduction(){
         xapi().get(apiPath + Id).then((data)=>{
-            setIntroduction(data.address && data.address.introduction ? data.address.introduction : "")
+            setIntroduction(data.data.address && data.data.address.introduction ? data.data.address.introduction : "")
         })
     }
     function HandleClick(event) {
@@ -664,7 +664,7 @@ function ContractorDetails(props) {
                         open={open}
                         onClose={HandleClose}
                     >
-                        <div className="service-modal" style = {{width:"492px"}} >
+                        <div className="service-modal" style = {{width:"600px"}} >
                             <CloseIcon onClick={HandleClose} className="modal-close" />
                             <Grid className="modal-page-col" item xs={10}>
                                 <span variant="subtitle2" color="textSecondary">

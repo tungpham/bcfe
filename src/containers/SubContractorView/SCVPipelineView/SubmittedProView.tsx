@@ -99,7 +99,9 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		this.setState({
 			isBusy: true
 		})
-		xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&status=SUBMITTED`).then(res => {
+		var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&status=SUBMITTED`;
+		var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?status=SUBMITTED`;
+		xapi().get(this.props.searchTerm !== "" ? searchApi : getApi ).then(res => {
 			this.setState({ 
 				submitData: res.data.content ,
 				totalLength: res.data.totalElements,
@@ -122,7 +124,9 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 			this.setState({
 				isBusy: true
 			})
-			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&status=SUBMITTED`).then(res => {
+			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&status=SUBMITTED`;
+			var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?status=SUBMITTED`;
+			xapi().get(this.props.searchTerm !== "" ? searchApi : getApi ).then(res => {
 				this.setState({ 
 					submitData: res.data.content ,
 					totalLength: res.data.totalElements,
@@ -142,7 +146,9 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=SUBMITTED`)
+			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=SUBMITTED`;
+			var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=SUBMITTED`;
+			await xapi().get( this.props.searchTerm !== "" ? searchApi : getApi )
 				.then(data => {
 					this.setState({
 						submitData: data.data.content,
@@ -164,7 +170,9 @@ class SubmittedProView extends React.Component<ISubmittedProViewProps, ISubmitte
 		const newPage = Math.floor(curIndex / newPageSize);
 		const { userProfile } = this.props;
 		try {
-			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=SUBMITTED`).then(res => {
+			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=SUBMITTED`;
+			var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=0&size=${newPageSize}&status=SUBMITTED`;
+			xapi().get(this.props.searchTerm !== "" ? searchApi : getApi ).then(res => {
 				this.setState({
 					submitData: res.data.content,
 					isBusy: false,

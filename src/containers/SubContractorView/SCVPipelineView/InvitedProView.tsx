@@ -94,7 +94,9 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 	async componentDidMount() {
 		const { userProfile } = this.props;
 		this.setState({ isBusy: true });
-		await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
+		var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=AWARDED`;
+		var getApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals?page=0&size=${this.state.rowsPerPage}&status=AWARDED`;
+		await xapi().get(this.props.searchTerm !== "" ? searchApi : getApi).then(res => {
 			this.setState({ inviteData: res.data.content })
 			this.setState({ totalLength: res.data.totalElements })
 		});
@@ -110,7 +112,9 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		{
 			const { userProfile } = this.props;
 			this.setState({ isBusy: true, currentPage: 0 });
-			await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=AWARDED`).then(res => {
+			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=AWARDED`;
+			var getApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals?page=0&size=${this.state.rowsPerPage}&status=AWARDED`;
+			await xapi().get(this.props.searchTerm !== "" ? searchApi : getApi).then(res => {
 				this.setState({ inviteData: res.data.content })
 				this.setState({ totalLength: res.data.totalElements })
 			});
@@ -127,9 +131,10 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
 			this.setState({ isBusy: false });
-			await xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=AWARDED`)
+			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=AWARDED`;
+			var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=AWARDED`;
+			await xapi().get( this.props.searchTerm !== "" ? searchApi : getApi )
 				.then(data => {
-					console.log(data);
 					this.setState({
 						inviteData: data.data.content,
 						isBusy: false,
@@ -154,7 +159,9 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 			currentPage: 0
 		})
 		try {
-			xapi().get(`${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}page=0&size=${newPageSize}&status=AWARDED`).then(res => {
+			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=AWARDED`;
+			var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=0&size=${newPageSize}&status=AWARDED`;
+			xapi().get( this.props.searchTerm !== "" ? searchApi:getApi ).then(res => {
 				this.setState({
 					inviteData: res.data.content,
 					isBusy: false,

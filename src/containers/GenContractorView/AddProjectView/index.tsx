@@ -138,7 +138,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         // await this.props.loadRoots();
         this.setState({ isBusy: true });
         var searchOngoingProjectApi = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`;
-        await xapi().get(searchOngoingProjectApi)
+        var getOngoingProjectApi    = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`;
+        await xapi().get(this.props.searchTerm !== "" ? searchOngoingProjectApi : getOngoingProjectApi)
             .then(data => {
                 this.setState({ compltedArray: data.data.content })
                 this.setState({ totalLength: data.data.totalElements })
@@ -154,7 +155,8 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         {
             this.setState({ isBusy: true });
             var searchOngoingProjectApi = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`;
-            await xapi().get(searchOngoingProjectApi)
+            var getOngoingProjectApi    = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`;
+            await xapi().get(this.props.searchTerm !== "" ? searchOngoingProjectApi : getOngoingProjectApi)
             .then(data => {
                 this.setState({ compltedArray: data.data.content })
                 this.setState({ totalLength: data.data.totalElements })
@@ -238,9 +240,10 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         const { rowsPerPage } = this.state;
         if (page >= this.state.totalLength) page = this.state.totalLength - 1;
         var searchOngoingProjectApi = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=ONGOING`;
+        var getOngoingProjectApi    = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`;
         this.setState({isBusy: true});
         try {
-            xapi().get(searchOngoingProjectApi)
+            xapi().get(this.props.searchTerm !== "" ? searchOngoingProjectApi : getOngoingProjectApi)
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -262,10 +265,10 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         const newPage = Math.floor(curIndex / newPageSize);
 
         this.setState({ rowsPerPage, currentPage, isBusy: true });
-        var searchOngoingProjectApi = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${currentPage}&size=${newPageSize}&status=ONGOING`;
-        
+        var searchOngoingProjectApi = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=ONGOING`;
+        var getOngoingProjectApi    = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=ONGOING`;
         try {
-            xapi().get(searchOngoingProjectApi).then(data => {
+            xapi().get(this.props.searchTerm !== "" ? searchOngoingProjectApi : getOngoingProjectApi).then(data => {
                 this.setState({
                     compltedArray: data.data.content,
                     isBusy: false,
