@@ -26,14 +26,15 @@ function ModalDisc(props) {
                 Anything else the pro should know to provide the best service/quote for you?
            </Typography>
 
-            <FormControl className="width100" style={{height:'215px'}}>
+            <FormControl className="width100" style={{height:'270px'}}>
                 <TextareaAutosize
                     id="filled-full-width"
                     value={value}
                     onChange={handelchange}
                     onBlur={getInputValue}
-                    style={{ minHeight: '150px', color: ' #bbb', fontSize:"14px" }}
-                    rowsMax={10}
+                    style={{ minHeight: '170px', color: ' #bbb', fontSize:"14px" }}
+                    rowsMax={14}
+                    rows = {14}
                     aria-label="maximum height"
                     placeholder="Minimum 10 rows"
 

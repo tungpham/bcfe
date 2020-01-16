@@ -16,11 +16,12 @@ const styles = (theme: Theme) => createStyles({
     title: {
         fontSize: '1.2rem',
         fontWeight: 600,
-        flex: 1
+        flex: 1,
+        color:"black"
     },
     link: {
         fontSize: '0.875rem',
-        fontWeight: 600,
+        fontWeight: "bold",
         color: 'blue',
         cursor: 'pointer',
         marginLeft: '15px'
@@ -124,7 +125,7 @@ class ProfileFAQView extends React.Component<ProfileFAQProps, ProfileFAQState> {
                             <div className="FAQs" >
                                     <Grid container className="que-ans" >
                                         <Grid item lg={12} xs={12} style = {{display:"flex", justifyContent:"center", alignItems:"center"}}>
-                                            <h3 className="reviews">
+                                            <h3 className={classes.title}>
                                                 {
                                                     this.state.isEditFaq === true ? "Frequently asked questions" : "FAQs"
                                                 }
@@ -132,14 +133,15 @@ class ProfileFAQView extends React.Component<ProfileFAQProps, ProfileFAQState> {
                                             {
                                                 this.state.isEditFaq === true ? (
                                                     <React.Fragment>
-                                                        <div className = "faq-action-btn"
+                                                        <div className = {classes.link}
                                                             onClick = {()=>this.state.saveFAQLoading === false ? this.saveFQA() : null}
                                                         >
                                                         {
                                                             this.state.saveFAQLoading === true ? (<CircularProgress/>) : "Save"
                                                         }
                                                         </div>
-                                                        <div className = "faq-action-btn action-cancel"
+                                                        <div className = {classes.link}
+                                                            style = {{color:"red"}}
                                                             onClick = {()=>this.setState({isEditFaq: false})}
                                                         >Cancel</div>
                                                     </React.Fragment>
