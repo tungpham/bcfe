@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {  withStyles, StyledComponentProps } from '@material-ui/core/styles';
 import styles from './predictiveSearchBox.styles';
-import Button from 'components/CustomButtons/Button';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 interface PredictiveSearchBoxProps extends StyledComponentProps{
   parentIns: any;
   options:any[];
@@ -141,7 +142,7 @@ export class PredictiveSearchBox extends Component<PredictiveSearchBoxProps,any>
       }
     }
     return (
-      <div style = {{display:"flex", alignContent:"center"}}>
+      <div style = {{display:"flex", alignItems:"center"}}>
         <div className = {classes.predictiveSearchArea}>
             <div className={classes.search}>
             <input
@@ -158,9 +159,15 @@ export class PredictiveSearchBox extends Component<PredictiveSearchBoxProps,any>
         </div>
         {
             this.state.addBtnShow === true ? (
-                <Button color = "primary" variant = "contained"
-                    onClick = {this.addSpe}
-                >Add</Button>
+              <Fab 
+                color="primary" 
+                aria-label="add"
+                size="small"
+                onClick = {this.addSpe}
+                style = {{marginLeft:"10px"}}
+              >
+                <AddIcon />
+              </Fab>
             ) : (null)
         }
       </div>

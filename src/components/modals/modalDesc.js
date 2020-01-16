@@ -32,7 +32,7 @@ function ModalDisc(props) {
                     value={value}
                     onChange={handelchange}
                     onBlur={getInputValue}
-                    style={{ minHeight: '150px', color: ' #bbb', fontSize:"1.4rem" }}
+                    style={{ minHeight: '150px', color: ' #bbb', fontSize:"14px" }}
                     rowsMax={10}
                     aria-label="maximum height"
                     placeholder="Minimum 10 rows"
