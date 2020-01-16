@@ -2,6 +2,8 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import {  Grid,   CircularProgress } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
 import {xapi} from 'services/utils';
 const styles = (theme: Theme) => createStyles({
@@ -117,72 +119,74 @@ class ProfileFAQView extends React.Component<ProfileFAQProps, ProfileFAQState> {
         const  { classes } = this.props;
         return (
                 <Card className={classes.contents}>
-                      <div className="FAQs" >
-                            <Grid container className="que-ans" >
-                                <Grid item lg={12} xs={12} style = {{display:"flex", justifyContent:"center", alignItems:"center"}}>
-                                    <h3 className="reviews">
-                                        {
-                                            this.state.isEditFaq === true ? "Frequently asked questions" : "FAQs"
-                                        }
-                                    </h3>
-                                    {
-                                        this.state.isEditFaq === true ? (
-                                            <React.Fragment>
-                                                <div className = "faq-action-btn"
-                                                    onClick = {()=>this.state.saveFAQLoading === false ? this.saveFQA() : null}
-                                                >
+                    <List>
+                        <ListItem>
+                            <div className="FAQs" >
+                                    <Grid container className="que-ans" >
+                                        <Grid item lg={12} xs={12} style = {{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                                            <h3 className="reviews">
                                                 {
-                                                    this.state.saveFAQLoading === true ? (<CircularProgress/>) : "Save"
+                                                    this.state.isEditFaq === true ? "Frequently asked questions" : "FAQs"
                                                 }
-                                                </div>
-                                                <div className = "faq-action-btn action-cancel"
-                                                    onClick = {()=>this.setState({isEditFaq: false})}
-                                                >Cancel</div>
-                                            </React.Fragment>
-                                        ) : (
-                                            <div className = "faq-action-btn" onClick = {()=>this.setState({isEditFaq: true})}>Edit</div>
-                                        )
-                                    }
-                                </Grid>
-                                { FAQs.map((Faq, index) => {
-                                    return <Grid key={`faq-question${index}`} item lg={12} xs={12}>
-                                        {
-                                            (this.state.editingFaqList.length > index && this.state.editingFaqList[index].answer !== "" && this.state.isEditFaq === false) || this.state.isEditFaq === true ? (
-                                                <h3 className="question">
-                                                    { Faq }
-                                                </h3>
-                                            ) : (null)
-                                        }
-                                       
-                                        {
-                                            this.state.isEditFaq === false && this.state.editingFaqList.length > index ? (
-                                            <p className="ans">{this.state.editingFaqList[index].answer === "" || this.state.editingFaqList[index].answer === undefined ||this.state.editingFaqList[index].answer === null ? "Not Answered" : this.state.editingFaqList[index].answer}</p>
-                                            ) : (null)
-                                        }
-                                        {
-                                            this.state.isEditFaq === true ? (
-                                                <TextField
-                                                    fullWidth
-                                                    multiline
-                                                    rows = "5"
-                                                    variant="outlined"
-                                                    value = {this.state.editingFaqList[index].answer !== null && this.state.editingFaqList[index].answer !== "" ? this.state.editingFaqList[index].answer : ""}
-                                                    onChange = {(e)=>{
-                                                        var _temp = this.state.editingFaqList;
-                                                        _temp[index].answer = e.target.value
-                                                        this.setState({
-                                                            editingFaqList: _temp
-                                                        })
-                                                    }}
-                                                />
-                                            ) : (null)
-                                        }
+                                            </h3>
+                                            {
+                                                this.state.isEditFaq === true ? (
+                                                    <React.Fragment>
+                                                        <div className = "faq-action-btn"
+                                                            onClick = {()=>this.state.saveFAQLoading === false ? this.saveFQA() : null}
+                                                        >
+                                                        {
+                                                            this.state.saveFAQLoading === true ? (<CircularProgress/>) : "Save"
+                                                        }
+                                                        </div>
+                                                        <div className = "faq-action-btn action-cancel"
+                                                            onClick = {()=>this.setState({isEditFaq: false})}
+                                                        >Cancel</div>
+                                                    </React.Fragment>
+                                                ) : (
+                                                    <div className = {classes.link} onClick = {()=>this.setState({isEditFaq: true})}>Edit</div>
+                                                )
+                                            }
+                                        </Grid>
+                                        { FAQs.map((Faq, index) => {
+                                            return <Grid key={`faq-question${index}`} item lg={12} xs={12}>
+                                                {
+                                                    (this.state.editingFaqList.length > index && this.state.editingFaqList[index].answer !== "" && this.state.isEditFaq === false) || this.state.isEditFaq === true ? (
+                                                        <h3 className="question">
+                                                            { Faq }
+                                                        </h3>
+                                                    ) : (null)
+                                                }
+                                            
+                                                {
+                                                    this.state.isEditFaq === false && this.state.editingFaqList.length > index ? (
+                                                    <p className="ans">{this.state.editingFaqList[index].answer === "" || this.state.editingFaqList[index].answer === undefined ||this.state.editingFaqList[index].answer === null ? "Not Answered" : this.state.editingFaqList[index].answer}</p>
+                                                    ) : (null)
+                                                }
+                                                {
+                                                    this.state.isEditFaq === true ? (
+                                                        <TextField
+                                                            fullWidth
+                                                            multiline
+                                                            rows = "5"
+                                                            variant="outlined"
+                                                            value = {this.state.editingFaqList[index].answer !== null && this.state.editingFaqList[index].answer !== "" ? this.state.editingFaqList[index].answer : ""}
+                                                            onChange = {(e)=>{
+                                                                var _temp = this.state.editingFaqList;
+                                                                _temp[index].answer = e.target.value
+                                                                this.setState({
+                                                                    editingFaqList: _temp
+                                                                })
+                                                            }}
+                                                        />
+                                                    ) : (null)
+                                                }
+                                            </Grid>
+                                        })}
                                     </Grid>
-                                })}
-                            </Grid>
-                          
-                        </div>
-                  
+                                </div>
+                            </ListItem>
+                        </List>
                 </Card>
         );
     }
