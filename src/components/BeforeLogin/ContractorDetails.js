@@ -58,7 +58,7 @@ function ContractorDetails(props) {
     const [getcheck1, setgetcheck1] = useState('');
     const [getcheck2, setgetcheck2] = useState('');
     const [getredio, setgetredio] = useState('');
-    const [getarearedio, setgetarearedio] = useState('');
+    const [getarearadio, setgetarearadio] = useState('');
     const [getbudjet, setgetbudjet] = useState('');
     const [getbudjetvalue, setgetbudjetvalue] = useState('');
     const [getmaterial, setgetmaterial] = useState('');
@@ -71,9 +71,8 @@ function ContractorDetails(props) {
     const [activeStep, setActiveStep] = React.useState(0);
     const [Avtarurl, setAvtarurl] = useState('');
     const [Galleryarr, setGalleryarr] = useState([]);
-    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1, getcheck2];
+    const data = [getvalue, getredio, getarearadio, getbudjet, getmaterial, getcheck1, getcheck2];
     const classes = useStyles();
-    const [Newdata] = useState([]);
     const [isEditFaq, setEditFaq] = useState(false);
     const [editingFaqList, setEditingFaqList] = useState([]);
     const [saveFAQLoading, setSaveFAQLoading] = useState(false);
@@ -101,7 +100,7 @@ function ContractorDetails(props) {
         }
     }
     const AreaCall = (value) => {
-        setgetarearedio(value);
+        setgetarearadio(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
@@ -140,6 +139,9 @@ function ContractorDetails(props) {
             var project_name = "";
             var services = [];
             var specialtyIds = [];
+            var estimateArea = getarearadio.split("-");
+            if(estimateArea[0] === "0") estimateArea[0] = "";
+            if(estimateArea[1] === "inf") estimateArea[1] = "";
             specialities.forEach((item, index)=>{
                 project_name += item.name;
                 specialtyIds.push(item.id);
@@ -158,7 +160,7 @@ function ContractorDetails(props) {
                     "budgetTo": getbudjet.split('-')[1],
                     "propertyType": getredio,
                     "services": services,
-                    "estimatedArea": [],
+                    "estimatedArea": estimateArea,
                     "provideMaterial": getmaterial
                 },
                 "specialtyIds":specialtyIds
@@ -170,7 +172,7 @@ function ContractorDetails(props) {
         setgetcheck1("");
         setgetcheck2("");
         setgetredio("");
-        setgetarearedio("");
+        setgetarearadio("");
         setgetbudjet("");
         setgetbudjetvalue("");
         setgetdisc("");
@@ -184,7 +186,7 @@ function ContractorDetails(props) {
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
             || (activeStep === 1 && getcheck1 === '' && getcheck2 === '')
             || (activeStep === 2 && getredio === '')
-            || (activeStep === 3 && getarearedio === '')
+            || (activeStep === 3 && getarearadio === '')
             || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
             || (activeStep === 6 && specialities.length === 0)
             || (activeStep === 7 && getdisc.length < 40)) {

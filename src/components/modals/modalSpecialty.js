@@ -38,7 +38,7 @@ function ModalSepcialty(props) {
             setSearchArray(_searchArray);
         }
         
-    },[props.specialities])
+    },[props.specialities, searchArrayConfig])
     return (
         <React.Fragment>
             <Grid className="service-modal-col city-head-text font-weight" item xs={10}>

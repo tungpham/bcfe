@@ -49,7 +49,7 @@ const styles = () => createStyles({
             background: "white",
             margin: "10px auto",
             padding: "10px",
-            fontSize: "1.2rem",
+            fontSize: "1rem",
             width: "100%",
             borderRadius: "2px",
             textAlign:"left",

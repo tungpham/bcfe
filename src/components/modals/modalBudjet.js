@@ -35,7 +35,6 @@ function ModalBudjet(props) {
         var inputVal = document.getElementById("filled-full-width").value; //get value
         props.budjetCallbackvalue(inputVal); // For Passing the value to modal series(child to parent)
     }
-
     return (
         <Grid className="service-modal-col" item xs={10}>
             <Typography className="city-head-text font-weight text-left" variant="h5">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../assets/css/modal.css';
 import { makeStyles, useTheme } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -33,6 +33,12 @@ const useStyles = makeStyles({
     media: {
         height: 130,
     },
+    content:{
+        height:"50px",
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center"
+    },
     root: {
         maxWidth: 1200,
         flexGrow: 1,
@@ -59,12 +65,11 @@ const responsive = {
 
 function HomePageMid() {
     const theme = useTheme();
-    const [title, settitle] = useState('');
     const [getvalue, setgetvalue] = useState('');
     const [getcheck1, setgetcheck1] = useState('');
     const [getcheck2, setgetcheck2] = useState('');
     const [getredio, setgetredio] = useState('');
-    const [getarearedio, setgetarearedio] = useState('');
+    const [getarearadio, setgetarearadio] = useState('');
     const [getbudjet, setgetbudjet] = useState('');
     const [getbudjetvalue, setgetbudjetvalue] = useState('');
     const [getmaterial, setgetmaterial] = useState('');
@@ -73,8 +78,9 @@ function HomePageMid() {
     const [validation, setvalidation] = useState("");
     const [activeStep, setActiveStep] = React.useState(0);
     const [open, setOpen] = React.useState(false);
+    const [carouselItems, setCarouselItems] = useState([]);
     const classes = useStyles();
-    const data = [getvalue, getredio, getarearedio, getbudjet, getmaterial, getcheck1, getcheck2];
+    const data = [getvalue, getredio, getarearadio, getbudjet, getmaterial, getcheck1, getcheck2];
     const callback = (value) => {
         setgetvalue(value); // For Getting the value from modal(parent to child).
     }
@@ -95,7 +101,7 @@ function HomePageMid() {
     }
 
     const areaCall = (value) => {
-        setgetarearedio(value);
+        setgetarearadio(value);
         if (value !== '') {
             setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
@@ -127,7 +133,7 @@ function HomePageMid() {
         if (((activeStep === 0 && getvalue === '') || getvalue === null)
             || (activeStep === 1 && getcheck1 === '' && getcheck2 === '')
             || (activeStep === 2 && getredio === '')
-            || (activeStep === 3 && getarearedio === '')
+            || (activeStep === 3 && getarearadio === '')
             || (activeStep === 4 && getbudjet === '' && (getbudjetvalue === '' || getbudjetvalue === null)) || (activeStep === 5 && getmaterial === '')
             || (activeStep === 6 && specialities.length === 0)
             || (activeStep === 7 && getdisc.length < 40)) {
@@ -147,7 +153,12 @@ function HomePageMid() {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     };
 
-    const handleOpen = () => {
+    const handleOpen = (e) => {
+        var _specialty = {
+            name: e.target.title,
+            id: e.target.id
+        }
+        setSpecialties([_specialty]);
         setOpen(true);
     };
 
@@ -157,6 +168,9 @@ function HomePageMid() {
             var project_name = "";
             var services = [];
             var specialtyIds = [];
+            var estimateArea = getarearadio.split("-");
+            if(estimateArea[0] === "0") estimateArea[0] = "";
+            if(estimateArea[1] === "inf") estimateArea[1] = "";
             specialities.forEach((item, index)=>{
                 project_name += item.name;
                 specialtyIds.push(item.id);
@@ -175,7 +189,7 @@ function HomePageMid() {
                     "budgetTo": getbudjet.split('-')[1],
                     "propertyType": getredio,
                     "services": services,
-                    "estimatedArea": [],
+                    "estimatedArea": estimateArea,
                     "provideMaterial": getmaterial
                 },
                 "specialtyIds":specialtyIds
@@ -187,7 +201,7 @@ function HomePageMid() {
         setgetcheck1("");
         setgetcheck2("");
         setgetredio("");
-        setgetarearedio("");
+        setgetarearadio("");
         setgetbudjet("");
         setgetbudjetvalue("");
         setgetdisc("");
@@ -196,133 +210,61 @@ function HomePageMid() {
         setOpen(false);
     };
 
-    const gettitle = (e) => {
-        settitle(e.target.title);
+    async function getCarouselItems(){
+        var data = await xapi().get('/specialties/carousel');
+        if(data.data)
+        {
+            setCarouselItems(data.data);
+        }
     }
-
+    useEffect(()=>{
+        getCarouselItems();
+    },[])
     return (<div className="container home-mid-bg">
         <h2 className="font-color">Contact  Local Professional</h2>
-        <Carousel
-            swipeable={false}
-            draggable={false}
-            showDots={true}
-            responsive={responsive}
-            ssr={true} // means to render carousel on server-side.
-            infinite={true}
-            autoPlaySpeed={5000}
-            keyBoardControl={true}
-            customTransition="all .5"
-            transitionDuration={100}
-            containerClass="carousel-container"
-            removeArrowOnDeviceType={["tablet", "mobile"]}
-            dotListClass="custom-dot-list-style"
-            itemClass="carousel-item-padding-40-px">
-            <div>
-                <Card className={classes.card} onClick={gettitle} >
-                    <div className="popUpModal" onClick={handleOpen}>
-                        <CardActionArea>
-                            <CardMedia
-                                className={classes.media}
-                                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_1AtyXV3mqWkTsUBxWTS82EPp8t0Jb4fPgkiauR6Sx4Ba4tBo3g"
-                                title="Bathroom Remodeling" />
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2" id="title">
-                                    Bathroom Remodeling
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                    </div>
-                </Card>
-            </div>
-            <div>
-                <Card className={classes.card} onClick={gettitle}>
-                    <div className="popUpModal" onClick={handleOpen}>
-                        <CardActionArea>
-                            <CardMedia
-                                className={classes.media}
-                                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_1AtyXV3mqWkTsUBxWTS82EPp8t0Jb4fPgkiauR6Sx4Ba4tBo3g"
-                                title="Home Remodeling" />
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    Home Remodeling
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                    </div>
-                </Card>
-            </div>
-            <div>
-                <Card className={classes.card} onClick={gettitle}>
-                    <div className="popUpModal" onClick={handleOpen}>
-                        <CardActionArea>
-                            <CardMedia
-                                className={classes.media}
-                                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_1AtyXV3mqWkTsUBxWTS82EPp8t0Jb4fPgkiauR6Sx4Ba4tBo3g"
-                                title="Kitchen Remodeling" />
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    Kitchen Remodeling
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                    </div>
-                </Card>
-            </div>
-            <div>
-                <Card className={classes.card} onClick={gettitle}>
-                    <div className="popUpModal" onClick={handleOpen}>
-                        <CardActionArea>
-                            <CardMedia
-                                className={classes.media}
-                                image="https://freshome.com/wp-content/uploads/2015/07/online-virtual-room-programs-5d-render.jpg"
-                                title="General Contracting" />
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    General Contracting
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                    </div>
-                </Card>
-            </div>
-            <div>
-                <Card className={classes.card} onClick={gettitle}>
-                    <div className="popUpModal" onClick={handleOpen}>
-                        <CardActionArea>
-                            <CardMedia
-                                className={classes.media}
-                                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6r-nFGkJjRU_X2dd-Lk4W7H-XetUL6PorttraCkS11brJsDfP"
-                                title="New Home Construction" />
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    New Home Construction
-                                </Typography>
-
-                            </CardContent>
-                        </CardActionArea>
-
-                    </div>
-                </Card>
-            </div>
-            <div>
-                <Card className={classes.card} onClick={gettitle}>
-                    <div className="popUpModal" onClick={handleOpen}>
-                        <CardActionArea>
-                            <CardMedia
-                                className={classes.media}
-                                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM6k45BnwpjpY7DOBmu5dAYUbRG2e7GpXx7f2mBlkpCTQwRrtvqw"
-                                title="Interior Design" />
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    Interior Design
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-
-                    </div>
-                </Card>
-            </div>
-        </Carousel >
+        {
+            carouselItems.length > 0 ? (
+                <Carousel
+                swipeable={false}
+                draggable={false}
+                showDots={true}
+                responsive={responsive}
+                ssr={true} // means to render carousel on server-side.
+                infinite={true}
+                autoPlaySpeed={5000}
+                keyBoardControl={true}
+                customTransition="all .5"
+                transitionDuration={100}
+                containerClass="carousel-container"
+                removeArrowOnDeviceType={["tablet", "mobile"]}
+                dotListClass="custom-dot-list-style"
+                itemClass="carousel-item-padding-40-px">
+                {
+                    carouselItems.map((item, index)=>{
+                        return(
+                            <Card className={classes.card}  key = {`carousel-item-${item.id}`} data-index={index} >
+                                <div className="popUpModal" onClick={handleOpen} >
+                                    <CardActionArea>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_1AtyXV3mqWkTsUBxWTS82EPp8t0Jb4fPgkiauR6Sx4Ba4tBo3g"
+                                            title={item.name}
+                                            id = {item.id} />
+                                        <CardContent className = {classes.content}>
+                                            <Typography gutterBottom variant="h5" component="h2" id="title">
+                                                {item.name}
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </div>
+                            </Card> 
+                        )
+                    })
+                }
+                </Carousel >
+            ):(null)
+        }
+       
         <h2 className="font-color">Browse Ideas by Room</h2>
         <Carousel
             swipeable={false}
@@ -335,12 +277,12 @@ function HomePageMid() {
             keyBoardControl={true}
             customTransition="all .5"
             transitionDuration={500}
-            containerClass="carousel-container"
+            // containerClass="carousel-container"
             removeArrowOnDeviceType={["tablet", "mobile"]}
             dotListClass="custom-dot-list-style"
             itemClass="carousel-item-padding-40-px" >
             <div>
-                <Card className={classes.card} onClick={gettitle}>
+                <Card className={classes.card} >
                     <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
@@ -357,7 +299,7 @@ function HomePageMid() {
                 </Card>
             </div>
             <div>
-                <Card className={classes.card} onClick={gettitle}>
+                <Card className={classes.card} >
                     <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
@@ -375,7 +317,7 @@ function HomePageMid() {
                 </Card>
             </div>
             <div>
-                <Card className={classes.card} onClick={gettitle}>
+                <Card className={classes.card} >
                     <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
@@ -393,7 +335,7 @@ function HomePageMid() {
                 </Card>
             </div>
             <div>
-                <Card className={classes.card} onClick={gettitle}>
+                <Card className={classes.card} >
                     <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
@@ -410,7 +352,7 @@ function HomePageMid() {
                 </Card>
             </div>
             <div>
-                <Card className={classes.card} onClick={gettitle}>
+                <Card className={classes.card} >
                     <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia
@@ -427,7 +369,7 @@ function HomePageMid() {
                 </Card>
             </div>
             <div>
-                <Card className={classes.card} onClick={gettitle}>
+                <Card className={classes.card} >
                     <div className="popUpModal" onClick={handleOpen}>
                         <CardActionArea>
                             <CardMedia

@@ -30,8 +30,8 @@ function ModalArea(props) {
             <List className="service-modal-list" onChange={handleChange}>
                 <RadioGroup aria-label="gender" name="gender1" >
                     <ListItem className="list-border" role={undefined} dense button  >
-                        <FormControlLabel checked={props.data[2] === 'Less then 500'}
-                            value="Less then 500"
+                        <FormControlLabel checked={props.data[2] === '0-500'}
+                            value="0-500"
                             control={<GreenRadio />}
                             label="Less then 500"
                             name="radio-button-demo"
@@ -65,8 +65,8 @@ function ModalArea(props) {
                         />
                     </ListItem>
                     <ListItem className="list-border" role={undefined} dense button  >
-                        <FormControlLabel checked={props.data[2] === 'More then 3000'}
-                            value="More then 3000"
+                        <FormControlLabel checked={props.data[2] === '3000-inf'}
+                            value="3000-inf"
                             control={<GreenRadio />}
                             label="More then 3000"
                             name="radio-button-demo"
