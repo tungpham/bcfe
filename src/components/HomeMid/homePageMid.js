@@ -247,7 +247,7 @@ function HomePageMid() {
                                     <CardActionArea>
                                         <CardMedia
                                             className={classes.media}
-                                            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_1AtyXV3mqWkTsUBxWTS82EPp8t0Jb4fPgkiauR6Sx4Ba4tBo3g"
+                                            image={window.location.origin + "/interial-images/" + item.id+".jpeg"}
                                             title={item.name}
                                             id = {item.id} />
                                         <CardContent className = {classes.content}>
