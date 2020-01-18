@@ -7,7 +7,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import TextField from '@material-ui/core/TextField';
 import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
-import {xapi} from 'services/utils';
+import ConApi from 'services/contractor';
 import {getContractorDetailById} from 'store/actions/cont-actions';
 const styles = (theme: Theme) => createStyles({
     contents: {
@@ -69,24 +69,17 @@ class ProfileIntroductionView extends React.Component<IntroductionProps, Introdu
             introduction: this.props.contractor && this.props.contractor.address && this.props.contractor.address.introduction ? this.props.contractor.address.introduction : ""
         })
     }
-    save = () => {
+    save = async () => {
         var submitData = {
             address: {
                 introduction:this.state.editingIntroduction
             }
         }
-        xapi().post(`contractors/${this.props.contractor.id}`, submitData).then((data:any) => {
-        //    if(data.data.address.introduction !== '' && data.data.address.introduction !== null)
-        //    {
+        await ConApi.approve(this.props.contractor.id, submitData).then((data:any) => {
                var intro = data.data.address.introduction;
                this.setState({
                   introduction: intro
-               },
-               ()=>{
                })
-        //    }
-        // }).catch((error) => {
-           
         })
         this.endEdit();
     }

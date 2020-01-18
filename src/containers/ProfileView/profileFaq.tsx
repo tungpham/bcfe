@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
-import {xapi} from 'services/utils';
+import ConApi from 'services/contractor';
 const styles = (theme: Theme) => createStyles({
     contents: {
         width: '100%',
@@ -55,9 +55,9 @@ class ProfileFAQView extends React.Component<ProfileFAQProps, ProfileFAQState> {
             isBusy: false,
         }
     }
-    FetchFAQ = () => {
+    FetchFAQ = async () => {
         this.setState({isBusy: true})
-        xapi().get( 'contractors/' + localStorage.getItem("contractor_ID") + '/faq').then((data) => {
+        await ConApi.getFaqs(localStorage.getItem("contractor_ID")).then((data) => {
             var _temp = [
                 {
                     question: FAQs[0],
@@ -92,7 +92,7 @@ class ProfileFAQView extends React.Component<ProfileFAQProps, ProfileFAQState> {
     componentDidMount(){
         this.FetchFAQ();
     }
-    saveFQA = () => {
+    saveFQA = async () => {
         this.setState({
             saveFAQLoading: true
         })
@@ -103,7 +103,7 @@ class ProfileFAQView extends React.Component<ProfileFAQProps, ProfileFAQState> {
                 answer: item.answer
             })
         })
-        xapi().post(  'contractors/' + localStorage.getItem("contractor_ID") + '/faq', submitdata).then((data) => {
+        await ConApi.updateFaqs( localStorage.getItem("contractor_ID"), submitdata).then((data) => {
             this.FetchFAQ();
             this.setState({
                 saveFAQLoading: false,

@@ -9,8 +9,6 @@ export default {
 
 	// approve/reject contractor
 	approve:          (id, data) => xapi().post(`${CONT_API_PATH}/${id}`, data),
-
-
 	// get contractor information
 	getContractors: (page, size) => xapi().get(CONT_API_PATH, {
 		params: {
@@ -113,4 +111,7 @@ export default {
 			size
 		}
 	}).then(res => res.data),
+	// FAQs
+	getFaqs: (id) => xapi().get(`${CONT_API_PATH}/${id}/faq`),
+	updateFaqs: (id, data) => xapi().post(`${CONT_API_PATH}/${id}/faq`, data),
 };

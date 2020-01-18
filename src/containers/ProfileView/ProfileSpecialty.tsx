@@ -12,7 +12,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import { withStyles, Theme, createStyles, StyledComponentProps } from '@material-ui/core/styles';
 import   { SelectObject } from 'components/Select/MultiSelect';
-
 import { Specialties } from 'types/global';
 import Button from 'components/CustomButtons/Button';
 import PredictiveSearchBox from './predictiveSearchBox';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {  withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import styles from './predictiveSearchBox.styles';
+import styles from './PredictiveSearchBox.styles';
 export class PredictiveSearchBox extends Component<any,any> {
   static propTypes = {
     options: PropTypes.instanceOf(Array).isRequired

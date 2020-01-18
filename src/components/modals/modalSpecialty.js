@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import { Grid, Typography,  Box, Chip } from '@material-ui/core';
 import SearchSpecialties from './specialtySearchBox';
-import { xapi } from 'services/utils';
+import SpecApis from 'services/spec';
 import '../../assets/css/conflictRemove.css';
 
 function ModalSepcialty(props) {
     const [searchArray, setSearchArray] = useState([]);
     const [searchArrayConfig, setSearchArrayConfig] = useState([]);
-    function getSpecialties(){
-        xapi().get('specialties/').then((data) => {
+    async function  getSpecialties(){
+        await SpecApis.getAllSpecialties().then((data) => {
             setSearchArrayConfig(data.data.content.map(item=>({id:item.id, name:item.name})))
             setSearchArray(data.data.content.map(item=>({id:item.id, name:item.name})))
         })

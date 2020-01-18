@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../assets/css/conflictRemove.css';
-import {xapi} from 'services/utils';
-import PredictiveSearchBox from 'components/predictiveSearchBox/predictiveSearchBox';
+import PredictiveSearchBox from 'components/PredictiveSearchBox/PredictiveSearchBox';
+import SpecApis from 'services/spec';
 export default class AutoComplete extends React.Component {
 
     constructor(props) {
@@ -15,13 +15,11 @@ export default class AutoComplete extends React.Component {
         };
         this.getItem = this.getItem.bind(this);
     }
-
-    componentDidMount() {
-        xapi().get('specialties/').then((content) => {
+    async componentDidMount() {
+        await SpecApis.getAllSpecialties().then((content) => {
             this.setState({ searchArray: content.data.content })
         })
     }
-
     // For get user selected Item/value from dropdown.
     getItem(e) {
         let value = e.target.textContent;
