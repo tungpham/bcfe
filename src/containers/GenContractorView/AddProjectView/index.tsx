@@ -35,9 +35,7 @@ import { loadRoots } from 'store/actions/tem-actions';
 
 import { UserProfile } from 'types/global';
 import { ProjectLevel, ProjectPostInfo, ProjectLevelCategory } from 'types/project';
-import {xapi} from 'services/utils';
-const CONT_API_PATH = 'contractors/';
-
+import ContApis from 'services/contractor';
 const styles = theme => createStyles({
     root: {
         position: 'relative',
@@ -137,9 +135,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         await this.props.clearLevels();
         // await this.props.loadRoots();
         this.setState({ isBusy: true });
-        var searchOngoingProjectApi = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`;
-        var getOngoingProjectApi    = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`;
-        await xapi().get(this.props.searchTerm !== "" ? searchOngoingProjectApi : getOngoingProjectApi)
+        await ContApis.getContractorsWithSearchTerm("gen", this.props.userProfile.user_metadata.contractor_id, this.state.currentPage, this.state.rowsPerPage, this.props.searchTerm, "ONGOING")
             .then(data => {
                 this.setState({ compltedArray: data.data.content })
                 this.setState({ totalLength: data.data.totalElements })
@@ -154,9 +150,7 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         if(prevProps.searchTerm !== this.props.searchTerm)
         {
             this.setState({ isBusy: true });
-            var searchOngoingProjectApi = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`;
-            var getOngoingProjectApi    = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`;
-            await xapi().get(this.props.searchTerm !== "" ? searchOngoingProjectApi : getOngoingProjectApi)
+            await ContApis.getContractorsWithSearchTerm("gen", this.props.userProfile.user_metadata.contractor_id, this.state.currentPage, this.state.rowsPerPage, this.props.searchTerm, "ONGOING")
             .then(data => {
                 this.setState({ compltedArray: data.data.content })
                 this.setState({ totalLength: data.data.totalElements })
@@ -237,13 +231,10 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         this.setState({ files: [...files] });
     };
     handleChangePage = async (event, page) => {
-        const { rowsPerPage } = this.state;
         if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-        var searchOngoingProjectApi = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=ONGOING`;
-        var getOngoingProjectApi    = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ONGOING`;
         this.setState({isBusy: true});
         try {
-            await xapi().get(this.props.searchTerm !== "" ? searchOngoingProjectApi : getOngoingProjectApi)
+            await ContApis.getContractorsWithSearchTerm("gen", this.props.userProfile.user_metadata.contractor_id, page, this.state.rowsPerPage, this.props.searchTerm, "ONGOING")
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -263,12 +254,9 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
         const curIndex = currentPage * rowsPerPage;
         const newPageSize = event.target.value;
         const newPage = Math.floor(curIndex / newPageSize);
-
         this.setState({ rowsPerPage, currentPage, isBusy: true });
-        var searchOngoingProjectApi = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=ONGOING`;
-        var getOngoingProjectApi    = `${CONT_API_PATH + this.props.userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=ONGOING`;
         try {
-            await xapi().get(this.props.searchTerm !== "" ? searchOngoingProjectApi : getOngoingProjectApi).then(data => {
+            await ContApis.getContractorsWithSearchTerm("gen", this.props.userProfile.user_metadata.contractor_id, newPage, newPageSize, this.props.searchTerm, "ONGOING").then(data=>{
                 this.setState({
                     compltedArray: data.data.content,
                     isBusy: false,

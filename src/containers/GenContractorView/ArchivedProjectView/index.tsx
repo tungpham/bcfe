@@ -24,10 +24,8 @@ import { deleteProject } from 'store/actions/gen-actions';
 import { UserProfile } from 'types/global';
 import { Projects } from 'types/project';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import {xapi} from 'services/utils';
+import ContApis from 'services/contractor';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-
-const CONT_API_PATH = 'contractors/';
 
 const style = (theme: Theme) => createStyles({
     root: {
@@ -110,12 +108,8 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
     }
 
     async componentDidMount() {
-        const { userProfile } = this.props;
         this.setState({ isBusy: true });
-        var searchProjectsApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`;
-        var getProjectsApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`;
-        
-        await xapi().get( this.props.searchTerm !== "" ? searchProjectsApi : getProjectsApi ).then(data => {
+        await ContApis.getContractorsWithSearchTerm("gen", this.props.userProfile.user_metadata.contractor_id, 0, this.state.rowsPerPage, this.props.searchTerm, "ARCHIVED").then(data => {
             this.setState({ 
                 compltedArray: data.data.content,
                 totalLength: data.data.totalElements
@@ -126,12 +120,8 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
     async componentDidUpdate(prevProps:ArchivedProjectProps ){
         if(prevProps.searchTerm !== this.props.searchTerm )
         {
-            const { userProfile } = this.props;
             this.setState({ isBusy: true });
-            var searchProjectsApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`;
-            var getProjectsApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${this.state.currentPage}&size=${this.state.rowsPerPage}&status=ARCHIVED`;
-            
-            await xapi().get( this.props.searchTerm !== "" ? searchProjectsApi : getProjectsApi).then(data => {
+            await ContApis.getContractorsWithSearchTerm("gen", this.props.userProfile.user_metadata.contractor_id, 0, this.state.rowsPerPage, this.props.searchTerm, "ARCHIVED").then(data => {
                 this.setState({ 
                     compltedArray: data.data.content,
                     totalLength: data.data.totalElements
@@ -141,14 +131,10 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         }
     }
     handleChangePage = async (event, page) => {
-        const { userProfile } = this.props;
         try {
             if (page >= this.state.totalLength) page = this.state.totalLength - 1;
             this.setState({ isBusy: true });
-            var searchProjectsApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=${page}&size=${this.state.rowsPerPage}&status=ARCHIVED`;
-            var getProjectsApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=${page}&size=${this.state.rowsPerPage}&status=ARCHIVED`;
-            
-            await xapi().get(this.props.searchTerm !== "" ? searchProjectsApi : getProjectsApi)
+            await ContApis.getContractorsWithSearchTerm("gen", this.props.userProfile.user_metadata.contractor_id, page, this.state.rowsPerPage, this.props.searchTerm, "ARCHIVED")
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,
@@ -168,13 +154,9 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         const curIndex = currentPage * rowsPerPage;
         const newPageSize = event.target.value;
         const newPage = Math.floor(curIndex / newPageSize);
-
-        const { userProfile } = this.props;
         this.setState({isBusy: true})
-        var searchProjectsApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=ARCHIVED`;
-        var getProjectsApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/projects?page=0&size=${this.state.rowsPerPage}&status=ARCHIVED`;
         try {
-            await xapi().get(this.props.searchTerm !== "" ? searchProjectsApi : getProjectsApi)
+            await ContApis.getContractorsWithSearchTerm("gen", this.props.userProfile.user_metadata.contractor_id, newPage, newPageSize, this.props.searchTerm, "ARCHIVED")
                 .then(data => {
                     this.setState({
                         compltedArray: data.data.content,

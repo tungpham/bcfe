@@ -96,7 +96,20 @@ export default {
 			status
 		},
 	}).then(res => res.data),
-
+    getContractorsWithSearchTerm: (contractorType, id, page, size, searchTerm, status) => {
+		var _api = `${CONT_API_PATH}/${id}/`;
+		if(contractorType === "gen") _api += "projects";
+		else _api += "proposals";
+		if(searchTerm !== "" && searchTerm !== null && searchTerm !== undefined) 
+		{
+			_api =  _api + `/search?term=${searchTerm}&page=${page}&size=${size}`;
+		}
+		else {
+			_api += `?page=${page}&size=${size}`
+		}
+		if(status !== "" && status !== null && status !== undefined) _api += `&status=${status}`;
+		return xapi().get(_api)
+	},
 	// sub contractor
 	getProposals: (id, page, size, status) => xapi().get(`${CONT_API_PATH}/${id}/proposals`, {
 		params: {

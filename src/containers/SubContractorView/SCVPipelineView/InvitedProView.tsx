@@ -26,11 +26,8 @@ import { Projects } from 'types/project';
 import { UserProfile } from 'types/global';
 import CustomSnackbar, { ISnackbarProps } from 'components/shared/CustomSnackbar';
 import Ellipsis from 'components/Typography/Ellipsis';
-import {xapi} from 'services/utils';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-
-const CONT_API_PATH =  'contractors/';
-
+import ContApis from 'services/contractor';
 const styles = createStyles((theme: Theme) => ({
 	root: {
 		position: 'relative',
@@ -92,11 +89,8 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 	}
 
 	async componentDidMount() {
-		const { userProfile } = this.props;
 		this.setState({ isBusy: true });
-		var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=AWARDED`;
-		var getApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals?page=0&size=${this.state.rowsPerPage}&status=AWARDED`;
-		await xapi().get(this.props.searchTerm !== "" ? searchApi : getApi).then(res => {
+		await ContApis.getContractorsWithSearchTerm("sub", this.props.userProfile.user_metadata.contractor_id, 0, this.state.rowsPerPage, this.props.searchTerm, "AWARDED").then(res => {
 			this.setState({ inviteData: res.data.content })
 			this.setState({ totalLength: res.data.totalElements })
 		});
@@ -110,11 +104,8 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 	{
 		if(prevProps.searchTerm !== this.props.searchTerm)
 		{
-			const { userProfile } = this.props;
 			this.setState({ isBusy: true, currentPage: 0 });
-			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=AWARDED`;
-			var getApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id }/proposals?page=0&size=${this.state.rowsPerPage}&status=AWARDED`;
-			await xapi().get(this.props.searchTerm !== "" ? searchApi : getApi).then(res => {
+			await ContApis.getContractorsWithSearchTerm("sub", this.props.userProfile.user_metadata.contractor_id, 0, this.state.rowsPerPage, this.props.searchTerm, "AWARDED").then(res => {
 				this.setState({ inviteData: res.data.content })
 				this.setState({ totalLength: res.data.totalElements })
 			});
@@ -126,14 +117,10 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		}
 	}
 	handleChangePage = async (event, page) => {
-		const { userProfile } = this.props;
-		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
 			this.setState({ isBusy: false });
-			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=AWARDED`;
-			var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=AWARDED`;
-			await xapi().get( this.props.searchTerm !== "" ? searchApi : getApi )
+			await ContApis.getContractorsWithSearchTerm("sub", this.props.userProfile.user_metadata.contractor_id, page, this.state.rowsPerPage, this.props.searchTerm, "AWARDED")
 				.then(data => {
 					this.setState({
 						inviteData: data.data.content,
@@ -153,15 +140,13 @@ class InvitedProView extends React.Component<InvitedProViewProps, InvitedProView
 		const curIndex = currentPage * rowsPerPage;
 		const newPageSize = event.target.value;
 		const newPage = Math.floor(curIndex / newPageSize);
-		const { userProfile } = this.props;
 		this.setState({
 			isBusy: true,
 			currentPage: 0
 		})
 		try {
-			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=AWARDED`;
-			var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=0&size=${newPageSize}&status=AWARDED`;
-			await xapi().get( this.props.searchTerm !== "" ? searchApi:getApi ).then(res => {
+			await ContApis.getContractorsWithSearchTerm("sub", this.props.userProfile.user_metadata.contractor_id, newPage, newPageSize, this.props.searchTerm, "AWARDED")
+			.then(res => {
 				this.setState({
 					inviteData: res.data.content,
 					isBusy: false,

@@ -19,7 +19,7 @@ import { deleteProposal, getProposals } from 'store/actions/sub-actions';
 import { UserProfile } from 'types/global';
 import { Proposals } from 'types/proposal';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import { xapi } from 'services/utils';
+import ContApis from 'services/contractor';
 
 const styles = createStyles(theme => ({
 	root: {
@@ -45,7 +45,6 @@ const styles = createStyles(theme => ({
 	},
 }));
 
-const CONT_API_PATH =  'contractors/';
 
 interface IWonProjectViewProps extends RouteComponentProps {
 	classes: ClassNameMap<string>;
@@ -85,13 +84,11 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 	}
 
 	async componentDidMount() {
-		const { userProfile } = this.props;
 		this.setState({
 			isBusy:true
 		})
-		var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=INACTIVE`;
-		var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=0&size=${this.state.rowsPerPage}&status=INACTIVE`;
-		await xapi().get(this.props.searchTerm !== "" ? searchApi : getApi).then(res => {
+		await ContApis.getContractorsWithSearchTerm("sub", this.props.userProfile.user_metadata.contractor_id, 0, this.state.rowsPerPage, this.props.searchTerm, "INACTIVE")
+		.then(res => {
 			this.setState({ 
 				awardData: res.data.content ,
 				isBusy: false
@@ -102,42 +99,34 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 				isBusy: false
 			})
 		});
-		// this.props.getProposals(
-		// 	userProfile.user_metadata.contractor_id,
-		// 	0, 0, 'AWARDED'
-		// );
 	}
 	async componentDidUpdate(prevProps: IWonProjectViewProps){
 		if(prevProps.searchTerm !== this.props.searchTerm)
 		{
-			const { userProfile } = this.props;
 			this.setState({
 				isBusy:true,
 				currentPage: 0
 			})
-			var searchApi = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${this.state.rowsPerPage}&status=INACTIVE`;
-			var getApi    = `${CONT_API_PATH + userProfile.user_metadata.contractor_id}/proposals?page=0&size=${this.state.rowsPerPage}&status=INACTIVE`;
-			await xapi().get(this.props.searchTerm !== "" ? searchApi : getApi).then(res => {
+			await ContApis.getContractorsWithSearchTerm("sub", this.props.userProfile.user_metadata.contractor_id, 0, this.state.rowsPerPage, this.props.searchTerm, "INACTIVE")
+			.then(res => {
 				this.setState({ 
 					awardData: res.data.content ,
-					isBusy: false
+					isBusy: false,
+					currentPage: 0
 				})
 			}).catch(()=>{
 				this.setState({
 					awardData: [],
-					isBusy: false
+					isBusy: false,
+					currentPage: 0
 				})
 			});
 		}
 	}
 	handleChangePage = async (event, page) => {
-		const { userProfile } = this.props;
-		const { rowsPerPage } = this.state;
 		try {
 			if (page >= this.state.totalLength) page = this.state.totalLength - 1;
-			var searchApi = `${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=${page}&size=${rowsPerPage}&status=INACTIVE`;
-			var getApi    = `${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals?page=${page}&size=${rowsPerPage}&status=INACTIVE`;
-			await xapi().get(this.props.searchTerm !== "" ? searchApi : getApi )
+			await ContApis.getContractorsWithSearchTerm("sub", this.props.userProfile.user_metadata.contractor_id, page, this.state.rowsPerPage, this.props.searchTerm, "INACTIVE")
 				.then(data => {
 					this.setState({
 						awardData: data.data.content,
@@ -159,11 +148,9 @@ class WonProjectView extends React.Component<IWonProjectViewProps, IWonProjectVi
 		const curIndex = currentPage * rowsPerPage;
 		const newPageSize = event.target.value;
 		const newPage = Math.floor(curIndex / newPageSize);
-		const { userProfile } = this.props;
 		try {
-			var searchApi = `${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals/search?term=${this.props.searchTerm}&page=0&size=${newPageSize}&status=INACTIVE`;
-			var getApi    = `${CONT_API_PATH+userProfile.user_metadata.contractor_id}/proposals?page=0&size=${newPageSize}&status=INACTIVE`;
-			await xapi().get(this.props.searchTerm !== "" ?  searchApi : getApi ).then(res => {
+			await ContApis.getContractorsWithSearchTerm("sub", this.props.userProfile.user_metadata.contractor_id, newPage, newPageSize, this.props.searchTerm, "INACTIVE")
+			.then(res => {
 				this.setState({
 					awardData: res.data.content,
 					isBusy: false,
