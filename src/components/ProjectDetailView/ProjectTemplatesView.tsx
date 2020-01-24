@@ -78,6 +78,30 @@ class ProjectTemplatesView extends React.Component<ProjectTemplatesViewProps,Pro
             this.setState({isBusy:false});
         }
     }
+    componentDidMount(){
+        const level = this.props.levels.filter(_level => _level.id === this.props.selectedLevelId);
+        if(level.length === 0) return;
+        const room = level[0].rooms.filter(_room => _room.id === this.props.selectedRoomId);
+        if(room.length === 0) return;
+        var _categoryList = [];
+        for(var i = 0 ;i < this.props.roots.length; i++)
+        {
+            var flag = false;
+            for(var j = 0; j < this.props.roots[i].children.length; j++)
+            {
+                if(room[0].selectionList.filter(_selection => _selection.category.id === this.props.roots[i].children[j].id).length > 0)
+                {
+                    flag = true;
+                    break;
+                }
+            }
+            if(!flag) _categoryList.push(this.props.roots[i])
+            
+        }
+        this.setState({
+            categoryList:_categoryList
+        })
+    }
     componentDidUpdate(prevProps : ProjectTemplatesViewProps){
         if( (prevProps.selectedRoomId !== this.props.selectedRoomId && this.props.selectedRoomId !== null && this.props.selectedRoomId !== undefined && this.props.selectedRoomId !== "" && this.props.roots && this.props.roots.length > 0 ) || prevProps.levels !== this.props.levels)
         {   

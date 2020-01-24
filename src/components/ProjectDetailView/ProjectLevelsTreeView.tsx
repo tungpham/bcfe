@@ -35,7 +35,7 @@ const styles = createStyles(theme => ({
        width:"300px",
        padding:"20px",
        borderRight:"1px solid #e6e8ea",
-       height:"100%",
+       minHeight:"100vh",
        position: 'relative'
     },
     busy: {
@@ -175,6 +175,15 @@ interface ProjectLevelsTreeViewProps{
 		h: number,
 		l: number
     }) => Promise<any>;
+    updateRoom: (id: string, cat: {
+		number: number,
+		name: string,
+		type: string,
+		description: string,
+		w: number,
+		h: number,
+		l: number
+    }) => Promise<any>;
     deleteRoom: (id: string) => Promise<void>;
     setLevelId: (id: string) => void;
     setRoomId: (id: string) => void;
@@ -200,6 +209,8 @@ interface ProjectLevelsTreeViewState {
     width: any;
     height: any;
     length: any;
+
+    editRoomId: string;
     //select-view;
     selectList: any[];
 }
@@ -253,6 +264,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                 errMsg: undefined
             },
             type: "BATHROOM",
+            editRoomId: null,
             selectList: [],
         }
     }
@@ -423,6 +435,38 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             showModal: true
         })
     }
+    showEditRoomDialog = (room) => {
+        this.setState({
+            number_room: {
+                value:room.number,
+                errMsg: undefined
+            },
+            type: room.type,
+            name_room: {
+                value:room.name,
+                errMsg: undefined
+            },
+            desc_room: {
+                value:room.description,
+                errMsg: undefined
+            },
+            width: {
+                value:room.w,
+                errMsg: undefined
+            },
+            height:{
+                value: room.h,
+                errMsg: undefined
+            },
+            length: {
+                value: room.l,
+                errMsg: undefined
+            },
+            editRoomId: room.id,
+            addRoomModalShow: true
+        })
+
+    }
     addCategory = async (id: string, cat: ProjectLevelCategory) => {
         if (!this.props.project) return;
         this.setState({isBusy: true});
@@ -443,6 +487,28 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
 			console.log('ProjectLevelWrapper.AddRoom: ', error);
 			this.setState({isBusy: false});
 			this.props.showMessage(false, 'Create Room failed');
+		}
+    }
+    updateCategory = async (id: string, cat: ProjectLevelCategory) => {
+        if (!this.props.project) return;
+        this.setState({isBusy: true});
+		try {
+			await this.props.updateRoom(id, {
+				number: cat.number,
+				name: cat.name,
+				type: cat.type,
+				description: cat.description,
+				w: cat.w,
+				l: cat.l,
+				h: cat.h
+			});
+			await this.props.getLevels(this.props.project.id);
+            this.setState({isBusy: false});
+			this.props.showMessage(true, 'Change Room success');
+		} catch (error) {
+			console.log('ProjectLevelWrapper.AddRoom: ', error);
+			this.setState({isBusy: false});
+			this.props.showMessage(false, 'Change Room failed');
 		}
     }
     removeRoom =  (id: string) => {
@@ -468,11 +534,21 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
     handleAddRoom = () => {
         const roomNo = parseInt(this.state.number_room.value);
         const level = this.props.levels.filter(levelItem => levelItem.id === this.state.selectedLevelId)[0];
-        if (level.rooms && level.rooms.some(item => item.number === roomNo)) {
+        if (level.rooms && level.rooms.some(item => item.number === roomNo) && !(this.state.editRoomId !== null && this.state.editRoomId !== '' && this.state.editRoomId !== undefined)) {
             this.setState({
                 number_room:{
                     value: this.state.number_room.value,
                     errMsg: 'This room number is already taken'
+                }
+            })
+            return;
+        }
+        if( this.state.number_room.value.length === 0 )
+        {
+            this.setState({
+                number_room:{
+                    value: this.state.number_room.value,
+                    errMsg: 'Number is required'
                 }
             })
             return;
@@ -524,8 +600,12 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             h: parseFloat(this.state.height.value),
             l: parseFloat(this.state.length.value)
         };
-
-        this.addCategory(level.id, cat);
+        if(this.state.editRoomId !== ''  && this.state.editRoomId !== null && this.state.editRoomId !== undefined)
+        {
+            this.updateCategory(this.state.editRoomId, cat)
+        } else {
+            this.addCategory(level.id, cat);
+        }
         this.setState({
             addRoomModalShow: false,
             name_room: {
@@ -547,8 +627,8 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             length:{
                 value: '0',
                 errMsg: undefined
-            }
-            
+            },
+            editRoomId: null
         })
     }
     setRoom = (room) => {
@@ -557,7 +637,8 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
         {
             for(var j = 0 ; j < this.props.roots[i].children.length; j++)
             {
-                if(room.selectionList.filter(_select => _select.category.id === this.props.roots[i].children[j].id).length > 0){
+                var _temp = room.selectionList.filter(_select => _select.category.id === this.props.roots[i].children[j].id);
+                if(_temp.length > 0){
                     _selectList.push(this.props.roots[i])
                     break;
                 }
@@ -582,7 +663,8 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             {
                 for(var j = 0 ; j < this.props.roots[i].children.length; j++)
                 {
-                    if(_currentRoom[0].selectionList.filter(_select => _select.category.id === this.props.roots[i].children[j].id).length > 0){
+                    var _temp = _currentRoom[0].selectionList.filter(_select => _select.category.id === this.props.roots[i].children[j].id);
+                    if(_temp.length > 0){
                         _selectList.push(this.props.roots[i])
                         break;
                     }
@@ -684,6 +766,15 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                                         {
                                                             this.state.selectedRoomId === room.id && this.state.levelExpanded === true ? (
                                                                 <div style = {{display:"flex"}}>
+                                                                     <span className = {classes.actionIcon}>
+                                                                        <EditIcon fontVariant = "small" 
+                                                                            onClick = {e =>{
+                                                                                this.showEditRoomDialog(room);
+                                                                                e.preventDefault();
+                                                                                e.stopPropagation();
+                                                                            }}
+                                                                        />
+                                                                    </span>
                                                                     <span className = {classes.actionIcon}>
                                                                         <DeleteIcon fontVariant = "small" style = {{color:"#a94442"}}
                                                                             onClick = {e =>{
@@ -792,7 +883,11 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                     onClose={() => this.setState({ addRoomModalShow: false })}
                     aria-labelledby="form-dialog-title"
                 >
-                    <DialogTitle id="form-dialog-title">Add a Room</DialogTitle>
+                    <DialogTitle id="form-dialog-title">
+                        {
+                            this.state.editRoomId === '' || this.state.editRoomId === null || this.state.editRoomId === undefined ? "Add a Room" : "Change Room"
+                        }
+                    </DialogTitle>
                     <DialogContent>
                         <Grid container>
                             <Grid item xs={12} md={6} style={{ padding: '8px 0px' }}>
@@ -956,7 +1051,9 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                             color="primary"
                             defaultChecked
                         >
-                            Add
+                            {
+                                this.state.editRoomId === '' || this.state.editRoomId === null || this.state.editRoomId === undefined ? "Add" : "Save"
+                            }
                         </Button>
                     </DialogActions>
                 </Dialog>

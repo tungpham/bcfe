@@ -55,7 +55,7 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,any>{
     }
     render(){
         return(
-            <div>
+            <div style = {{color:"black"}}>
                  <AppBar position="static" color="default">
                     <Tabs
                         value={this.state.value}

@@ -6,6 +6,7 @@ import {  withStyles, StyledComponentProps } from '@material-ui/core/styles';
 import styles from './ProjectTemplateSearchBox.styles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import ProjApi from 'services/project';
 import * as GenActions from 'store/actions/gen-actions';
 import { ProjectInfo } from 'types/project';
@@ -25,9 +26,10 @@ export class PredictiveSearchBox extends Component<PredictiveSearchBoxProps & wi
     showOptions: false,
     userInput: '',
     addBtnShow: false,
+    isBusy: false
   };
   checkAddButton = () => {
-     if(this.props.options.filter(opt=>opt.name === this.state.userInput).length === 1){
+     if(this.props.options.filter(opt=>opt.name === this.state.userInput).length === 1 && this.state.userInput !== ''){
         this.setState({
             addBtnShow: true
         })
@@ -74,7 +76,7 @@ export class PredictiveSearchBox extends Component<PredictiveSearchBoxProps & wi
     const { activeOption, filteredOptions } = this.state;
 
     if (e.keyCode === 13) {
-      if(filteredOptions[activeOption] === undefined || filteredOptions[activeOption] === null) return;
+      if(filteredOptions[activeOption] === undefined || filteredOptions[activeOption] === null || this.state.userInput === '') return;
       if(this.state.addBtnShow === true)
       {
         this.addSpe();         
@@ -113,8 +115,17 @@ export class PredictiveSearchBox extends Component<PredictiveSearchBoxProps & wi
      if(currentRoot[0].children.length === 0) return;
      var nodeId      = currentRoot[0].children[0].id;
      try{
+        this.setState({
+          userInput: '',
+          isBusy: true
+        }, ()=>{
+          this.checkAddButton();
+        })
         await ProjApi.createSelection(this.props.roomId, nodeId, nodeId, {}, []);
         this.props.getLevels(this.props.project.id);
+        this.setState({
+          isBusy: false
+        })
      } catch(error){
 
      }
@@ -153,34 +164,43 @@ export class PredictiveSearchBox extends Component<PredictiveSearchBoxProps & wi
       }
     }
     return (
-      <div style = {{display:"flex", alignItems:"center", width:"450px", marginLeft:"50px"}}>
-        <div className = {classes.predictiveSearchArea}>
-            <div className={classes.search}>
-            <input
-                type="text"
-                className={classes.searchBox}
-                onChange={onChange}
-                onKeyDown={onKeyDown}
-                value={userInput}
-                placeholder = "Search"
-            />
-            <input type="submit" value="" className={classes.searchBtn} />
-            </div>
-            {optionList}
+      <div style = {{position:"relative"}}>
+        <div style = {{display:"flex", alignItems:"center", width:"450px", marginLeft:"50px"}}>
+          <div className = {classes.predictiveSearchArea}>
+              <div className={classes.search}>
+              <input
+                  type="text"
+                  className={classes.searchBox}
+                  onChange={onChange}
+                  onKeyDown={onKeyDown}
+                  value={userInput}
+                  placeholder = "Search"
+              />
+              <input type="submit" value="" className={classes.searchBtn} />
+              </div>
+              {optionList}
+          </div>
+          {
+              this.state.addBtnShow === true ? (
+                <Fab 
+                  color="primary" 
+                  aria-label="add"
+                  size="small"
+                  onClick = {this.addSpe}
+                  style = {{marginLeft:"10px"}}
+                >
+                  <AddIcon />
+                </Fab>
+              ) : (null)
+          }
         </div>
-        {
-            this.state.addBtnShow === true ? (
-              <Fab 
-                color="primary" 
-                aria-label="add"
-                size="small"
-                onClick = {this.addSpe}
-                style = {{marginLeft:"10px"}}
-              >
-                <AddIcon />
-              </Fab>
+          {
+            this.state.isBusy === true ? (
+              <div style = {{position:"absolute", left:"50%"}}>
+                <CircularProgress/>
+              </div>
             ) : (null)
-        }
+          }
       </div>
     );
   }
