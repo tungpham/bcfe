@@ -1,55 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps, Redirect, Switch, Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { compose } from 'redux';
-
-import { IconButton } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
+//import Material UI components;
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
-import SecuredRoute from 'routers/SecuredRoute';
-import ProjectBidders from './ProjectBidders';
-import ProjectFiles from './ProjectFiles';
-import ProjectOverView from './ProjectOverView';
-import ProjectProposals from './ProjectProposals';
-import ProjectTemplates from './ProjectTemplates';
-import ProposalsCompare from './ProposalsCompare';
-import ProjectLevelsWrapper from './ProjectLevelsWrapper';
-import ProjectSelect from './ProjectSelect';
+//import Actions;
 import { getProjectData } from 'store/actions/global-actions';
 import { getLevels } from 'store/actions/gen-actions';
 import { loadRoots } from 'store/actions/tem-actions';
+//---------------
+//import Types;
 import { ProjectInfo } from 'types/project';
 import { NodeInfo } from 'types/global';
-
-
+//---------------
+//import Form Components;
+import ProjectLevelsTreeView from './ProjectLevelsTreeView';
+import ProjectOverView from './ProjectOverView';
+import ProjectDetailsView from './ProjectDetailsView';
 const styles = createStyles(theme => ({
-    root: {
-        flexGrow: 1,
-        position: 'relative'
+    projectDetailView: {
+       display:"flex",
+       height:"100%"
     },
-    container: {
-        paddingTop: theme.spacing(1),
+    treeViewWrapper:{
+
     },
-    backBtn: {
-        color: theme.palette.primary.dark,
+    projectDetailViewWrapper:{
+        flex:1,
+        display:"flex",
+        flexDirection:"column",
     },
-    toolbarstyle: {
-        backgroundColor: theme.palette.background.paper,
-        color: theme.palette.primary.dark,
-        flexGrow: 1,
-    },
-    waitingSpin: {
-        position: 'relative',
-        left: 'calc(50% - 10px)',
-        top: 'calc(40vh)',
-    }
+    
 }));
 
 export interface IProjectDetailViewProps extends RouteComponentProps<{ id: string }> {
@@ -60,9 +44,29 @@ export interface IProjectDetailViewProps extends RouteComponentProps<{ id: strin
     loadRoots: () => Promise<void>;
     classes: ClassNameMap<string>;
 }
-
-class ProjectDetailView extends React.Component<IProjectDetailViewProps> {
-
+interface IProjectDetailViewState{
+    selectedLevelId: string;
+    selectedRoomId:  string;
+}
+class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjectDetailViewState> {
+    constructor(props)
+    {
+        super(props);
+        this.state = {
+            selectedLevelId: null,
+            selectedRoomId:  null
+        }
+    }
+    setLevelId = (_levelId) => {
+        this.setState({
+            selectedLevelId: _levelId
+        })
+    }
+    setRoomId = (_roomId) => {
+        this.setState({
+            selectedRoomId: _roomId
+        })
+    }
     async componentDidMount() {
         const { match } = this.props;
         await this.props.getProjectData(match.params.id);
@@ -76,133 +80,25 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps> {
     };
 
     public render() {
-
-        const { classes, match, project, location, roots } = this.props;
+        const { classes, project, roots } = this.props;
         if (!project || !roots) return <CircularProgress className={classes.waitingSpin} />;
-
-        const owner = match.url.includes('/gen-contractor');
-
-        const tabPaths = [
-            match.url + '/overview',
-            match.url + '/levels',
-            match.url + '/select',
-            match.url + '/files',
-            match.url + '/templates',
-            match.url + '/proposals',
-            match.url + '/bidders',
-            match.url + '/compare',
-        ];
-
-        let curTabPos = 0;
-        for (let i = 0; i < tabPaths.length; i++) {
-            if (tabPaths[i] === location.pathname) {
-                curTabPos = i;
-                break;
-            }
-        }
-
-        if (location.pathname === match.url) curTabPos = 0;
-
         return (
-            <Box className={classes.root} style={{marginTop:'50px'}}>
-                <Paper square style={{ height: '100%', overflow: 'auto' }}>
-                    <Box style={{ display: 'flex' }}>
-                        <IconButton className={classes.backBtn} onClick={this.handleBack}>
-                            <ArrowBackIcon />
-                        </IconButton>
-                        <Tabs
-                            value={curTabPos}
-                            variant="scrollable"
-                            indicatorColor="primary"
-                            textColor="primary"
-                            scrollButtons="off"
-                            style={{borderBottom: "1px solid rgb(247, 247, 247"}}
-                            className={classes.toolbarstyle}
-                        >
-                            <Tab
-                                component={Link}
-                                to={tabPaths[0]}
-                                label="Overview"
-                            />
-                            <Tab
-                                component={Link}
-                                to={tabPaths[1]}
-                                label="Levels"
-                            />
-                            <Tab
-                                component={Link}
-                                to={tabPaths[2]}
-                                label="Select"
-                            />
-                            <Tab
-                                component={Link}
-                                to={tabPaths[3]}
-                                label="Files"
-                            />
-                            <Tab
-                                component={Link}
-                                to={tabPaths[4]}
-                                label="Templates"
-                            />
-                            <Tab
-                                component={Link}
-                                to={tabPaths[5]}
-                                label="Proposals"
-                            />
-                            <Tab
-                                component={Link}
-                                to={tabPaths[6]}
-                                label="Bidders"
-                            />
-                            {owner && (
-                                <Tab
-                                    component={Link}
-                                    to={tabPaths[7]}
-                                    label="Compare"
-                                />
-                            )}
-                        </Tabs>
-                    </Box>
-                    <Box className={classes.container}>
-                        <Switch>
-                            <SecuredRoute
-                                path={`${match.url}/overview`}
-                                component={ProjectOverView}
-                            />
-                            <SecuredRoute
-                                path={`${match.url}/levels`}
-                                component={ProjectLevelsWrapper}
-                            />
-                            <SecuredRoute
-                                path={`${match.url}/select`}
-                                component={ProjectSelect}
-                            />
-                            <SecuredRoute
-                                path={`${match.url}/files`}
-                                component={ProjectFiles}
-                            />
-                            <SecuredRoute
-                                path={`${match.url}/templates`}
-                                component={ProjectTemplates}
-                            />
-                            <SecuredRoute
-                                path={`${match.url}/proposals`}
-                                component={ProjectProposals}
-                            />
-                            <SecuredRoute
-                                path={`${match.url}/bidders`}
-                                component={ProjectBidders}
-                            />
-                            {owner && (
-                                <SecuredRoute
-                                    path={`${match.url}/compare`}
-                                    component={ProposalsCompare}
-                                />
-                            )}
-                            <Redirect path={`${match.url}`} to={`${match.url}/overview`} />
-                        </Switch>
-                    </Box>
-                </Paper>
+            <Box className={classes.projectDetailView} >
+                <Box className = {classes.treeViewWrapper}>
+                    <ProjectLevelsTreeView
+                        setLevelId = {this.setLevelId}
+                        setRoomId = {this.setRoomId}
+                    />
+                </Box>
+                <Box className = {classes.projectDetailViewWrapper}>
+                    <ProjectOverView/>
+                    <ProjectDetailsView
+                        selectedLevelId = {this.state.selectedLevelId}
+                        selectedRoomId = {this.state.selectedRoomId}
+                        setLevelId = {this.setLevelId}
+                        setRoomId = {this.setRoomId}
+                    />
+                </Box>
             </Box>
         );
     }

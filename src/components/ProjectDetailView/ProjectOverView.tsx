@@ -1,202 +1,103 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { RouteComponentProps } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
-import GenContractor from '../Contractor';
+import LocationIcon from '@material-ui/icons/LocationOn';
+import {  ProjectInfo } from 'types/project';
 
-import ProjectView from './ProjectView';
-import ProjectEditView from './ProjectEditView';
-import { updateProject } from 'store/actions/gen-actions';
-import { getProjectData } from 'store/actions/global-actions';
-import CustomSnackbar from 'components/shared/CustomSnackbar';
-import { ProjectPostInfo, ProjectInfo } from 'types/project';
-import { ISnackbarProps } from 'types/components';
-
-
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const DES_LIMIT_COUNT = 256;
 const styles = createStyles(theme => ({
-    root: {
-        position: 'relative'
+    overViewWrapper: {
+        position: 'relative',
+        border:"1px solid #e6e8ea",
+        padding:"10px 30px !important",
+        color : "black"
     },
-    title: {
-        fontSize: '20px',
-        fontWeight: '600',
-        color: '#333',
+    title:{
+        fontSize:"1.2rem",
+        fontWeight:600,
+        color:"black"
     },
-    status: {
-        fontSize: '16px',
-        textAlign: 'left',
-        fontWeight: '600',
-        color: theme.palette.primary.light,
-        textDecoration: 'none',
-    },
-    busy: {
-        position: 'absolute',
-        left: 'calc(50% - 20px)',
-        top: 'calc(50% - 20px)',
-    },
+    locationIcon:{
+            fontSize:"1rem !important"
+    }
+    
 }));
 
 
-export interface IProjectOverviewProps extends RouteComponentProps {
-    updateProject: (id: string, data: ProjectPostInfo) => Promise<void>;
-    getProjectData: (id: string) => Promise<void>;
+export interface IProjectOverviewProps {
     project: ProjectInfo;
     classes: ClassNameMap<string>;
 }
-
-export interface IProjectOverviewState extends ISnackbarProps {
-    editing: boolean;
-    title: string;
-    price: number;
-    dueDate: Date;
-    description: string;
-    isBusy: boolean;
+interface IProjectOverviewState{
+    isExpandedDes: boolean;
 }
-
 class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOverviewState> {
 
     constructor(props) {
         super(props);
-
         this.state = {
-            editing: false,
-            title: '',
-            price: 0,
-            dueDate: new Date(),
-            description: '',
-            showMessage: false,
-            variant: 'success',
-            message: '',
-            handleClose: this.closeMessage,
-            isBusy: false
-        };
+            isExpandedDes: false
+        }
     }
-
-    closeMessage = () => {
-        this.setState({ showMessage: false });
+    render_date = (_due) => {
+        if(_due === null || _due === undefined || _due === "") return "";
+        var due_date = new Date(_due);
+        return MONTH_NAMES[due_date.getMonth()].substr(0,3) + " " + due_date.getDay() + ", " + due_date.getFullYear();
     }
-
-    setEdit = async (editing, save = true) => {
-        if (editing) {
-            this.setState({
-                editing,
-                title: this.props.project.title,
-                price: this.props.project.budget,
-                dueDate: new Date(this.props.project.due),
-                description: this.props.project.description
-            });
-        } else {
-            if (save) {
-                this.setState({ isBusy: true });
-                try {
-                    const proj = {
-                        title: this.state.title,
-                        budget: this.state.price,
-                        due: this.state.dueDate,
-                        description: this.state.description
-                    };
-
-                    await this.props.updateProject(this.props.project.id, proj);
-                    await this.props.getProjectData(this.props.project.id);
-                    this.setState({
-                        editing: false,
-                        showMessage: true,
-                        variant: 'success',
-                        message: 'Update Project Success',
-                        isBusy: false
-                    });
-                } catch (error) {
-                    this.setState({
-                        showMessage: true,
-                        variant: 'error',
-                        message: 'Update Project failed',
-                        isBusy: false
-                    });
-                    console.log(error);
-                }
+    render_des = (_des) => {
+        if(_des === null || _des === undefined || _des === "") return ""
+        if(_des.length > DES_LIMIT_COUNT) {
+            if(this.state.isExpandedDes !== true){
+                return (
+                    <React.Fragment>
+                            <React.Fragment>{_des.substr(0,DES_LIMIT_COUNT) }</React.Fragment>
+                            <span className = "show-more-des"
+                                onClick = {() => {
+                                    this.setState({
+                                        isExpandedDes: true
+                                    })
+                                }}
+                            >&nbsp;...more</span>
+                    </React.Fragment>
+                )
             } else {
-                this.setState({ editing: false });
+                return (
+                    <React.Fragment>
+                            <React.Fragment>{_des}</React.Fragment>
+                            <span className = "show-more-des"
+                                onClick = {() => {
+                                    this.setState({
+                                        isExpandedDes: false
+                                    })
+                                }}
+                            >&nbsp; less</span>
+                    </React.Fragment>
+                )
             }
+        } else {
+            return _des
         }
     }
-
-    handleDateChange = (date) => {
-        this.setState({ dueDate: date });
-    };
-
-    handleDescChange = value => {
-        this.setState({ description: value });
-    };
-
-    handleTitleChange = value => {
-        this.setState({ title: value });
-    }
-
-    handlePriceChange = value => {
-        this.setState({ price: value });
-    }
-
-    gotoContractor = (id) => {
-        const { match } = this.props;
-        if (match.url.includes('gen-contractor/')) {
-            this.props.history.push(`/gen-contractor/contractor_detail/${id}`);
-        }
-        if (match.url.includes('s_cont/')) {
-            this.props.history.push(`/s_cont/contractor_detail/${id}`);
-        }
-        if (match.url.includes('projects/')) {
-            this.props.history.push(`/projects/contractor_detail/${id}`);
-        }
-    }
-
     render() {
-        const { classes, project, match } = this.props;
-        const { editing, showMessage, variant, message } = this.state;
-        if (!project) {
-            return <Box>No project is selected</Box>;
-        }
-
-        const editFn = match.url.includes('gen-contractor') ? this.setEdit : undefined;
-        return (
-            <Box className={classes.root}>
-                <Grid container>
-                    <Grid item xs={12} md={9}>
-                        {!editing && <ProjectView project={project} setEdit={editFn} showFiles={false} />}
-                        {editing &&
-                            <ProjectEditView
-                                title={this.state.title}
-                                price={this.state.price}
-                                dueDate={this.state.dueDate}
-                                description={this.state.description}
-                                handleDone={(save) => this.setEdit(false, save)}
-                                handleTitleChange={this.handleTitleChange}
-                                handlePriceChange={this.handlePriceChange}
-                                handleDateChange={this.handleDateChange}
-                                handleDescChange={this.handleDescChange}
-                            />
-                        }
-                    </Grid>
-                    <Grid item xs={12} md={3}>
-                        <GenContractor
-                            contractor={project.genContractor}
-                            onClick={() => this.gotoContractor(project.genContractor.id)}
-                        />
-                    </Grid>
-                </Grid>
-                <CustomSnackbar
-                    open={showMessage}
-                    variant={variant}
-                    message={message}
-                    handleClose={this.state.handleClose}
-                />
-                {this.state.isBusy && <CircularProgress className={classes.busy} />}
+        const {classes} = this.props;
+        return(
+            <Box className = {classes.overViewWrapper}>
+                 <div  className = {classes.title}>{this.props.project.title}</div>
+                 <div style = {{display:"flex", margin:"10px 0px", alignItems:"center"}}>
+                     <strong>Project Date: </strong>
+                     <span>&nbsp;{this.render_date(this.props.project.due)}&nbsp;</span>
+                     <span style = {{color:"#4f7fde"}}>{this.props.project.genContractor.address && this.props.project.genContractor.address.name ? this.props.project.genContractor.address.name : ""}</span>
+                     <LocationIcon  className = {classes.locationIcon}/>&nbsp;{this.props.project.city}
+                 </div>
+                 <div>
+                     {this.render_des(this.props.project.description)}
+                 </div>
             </Box>
-        );
+        )
     }
 }
 
@@ -204,12 +105,8 @@ const mapStateToProps = state => ({
     project: state.global_data.project,
 })
 
-const mapDispatchToProps = {
-    updateProject,
-    getProjectData
-}
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(mapStateToProps)
 )(ProjectOverview);

@@ -193,52 +193,60 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     let tab = 0;
     if (location.pathname.includes('add_project')) tab = 1;
     if (location.pathname.includes('archived')) tab = 2;
-
+    let tabViewStatus = true;
+    if( location.pathname.includes("project_detail") ) tabViewStatus = false;
     return (
         <Box style={{ flexGrow: 1, backgroundColor: 'white', color: '#68e191', height: 'calc((111vh - 64px) - 56px)' }}>
-            <CustomTabs
-                tabs={[{
-                    className: 'icon-size',
-                    label: 'New',
-                    href: `${match.url}/current_pros`,
-                    icon: ViewComfyIcon
-                }, {
-                    className: 'icon-size',
-                    label: 'Ongoing',
-                    href: `${match.url}/add_project`,
-                    icon: DateRangeIcon
-                },
-                {
-                    className: 'icon-size',
-                    label: 'Completed',
-                    href: `${match.url}/archived`,
-                    icon: AssignmentReturnOutlinedIcon
-                }
-                ]}
-                init={tab}
-                onClickFun = {[
-                    setSearchTerm,
-                    _setSearchTerm
-                ]}
-            />
-            <div style={{ position: 'fixed', backgroundColor: 'white', width: '98%', zIndex: 10 }}>
-                <div className="gen-contractor-add-btn" style={{ display: 'flex', justifyContent: 'space-between', padding: '0px 30px ', margin: '20px 0px', position: 'fixed' }}>
-                    <TextField
-                        id="outlined-start-adornment"
-                        placeholder="Search"
-                        className="gensearch"
-                        InputProps={{
-                            startAdornment: <InputAdornment style={{ height: 40 }} position="start"><SearchIcon className="searchicon" /></InputAdornment>,
-                        }}
-                        onKeyDown = {onSearchFun}
-                        onChange = {(e)=>_setSearchTerm(e.target.value)}
-                        value    = {_searchTerm}
-                        variant = "outlined"
-                    />
-                    <Button onClick={handleOpen} color="default" variant="contained"  ><AddIcon className="Addicon" />Add Project</Button>
-                </div>
-            </div>
-            <Box style={{ paddingTop: '75px', overflow: 'auto' }}>
+            {
+                tabViewStatus === true ? (
+                    <React.Fragment>
+                        <CustomTabs
+                            tabs={[{
+                                className: 'icon-size',
+                                label: 'New',
+                                href: `${match.url}/current_pros`,
+                                icon: ViewComfyIcon
+                            }, {
+                                className: 'icon-size',
+                                label: 'Ongoing',
+                                href: `${match.url}/add_project`,
+                                icon: DateRangeIcon
+                            },
+                            {
+                                className: 'icon-size',
+                                label: 'Completed',
+                                href: `${match.url}/archived`,
+                                icon: AssignmentReturnOutlinedIcon
+                            }
+                            ]}
+                            init={tab}
+                            onClickFun = {[
+                                setSearchTerm,
+                                _setSearchTerm
+                            ]}
+                        />
+                        <div style={{ position: 'fixed', backgroundColor: 'white', width: '98%', zIndex: 10 }}>
+                            <div className="gen-contractor-add-btn" style={{ display: 'flex', justifyContent: 'space-between', padding: '0px 30px ', margin: '20px 0px', position: 'fixed' }}>
+                                <TextField
+                                    id="outlined-start-adornment"
+                                    placeholder="Search"
+                                    className="gensearch"
+                                    InputProps={{
+                                        startAdornment: <InputAdornment style={{ height: 40 }} position="start"><SearchIcon className="searchicon" /></InputAdornment>,
+                                    }}
+                                    onKeyDown = {onSearchFun}
+                                    onChange = {(e)=>_setSearchTerm(e.target.value)}
+                                    value    = {_searchTerm}
+                                    variant = "outlined"
+                                />
+                                <Button onClick={handleOpen} color="default" variant="contained"  ><AddIcon className="Addicon" />Add Project</Button>
+                            </div>
+                        </div>
+                    </React.Fragment>
+                ):(null)
+            }
+           
+            <Box style={{ paddingTop: tabViewStatus=== true?'75px':'0px', overflow: 'auto', height:"100%"}}>
                 <Switch >
                     <SecuredRoute
                         path={`${match.url}/current_pros`}
