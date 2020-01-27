@@ -26,7 +26,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
-import Checkbox from '@material-ui/core/Checkbox';
 import Box from '@material-ui/core/Box';
 import * as GenActions from 'store/actions/gen-actions';
 const styles = createStyles(theme => ({
@@ -185,6 +184,7 @@ interface ProjectLevelsTreeViewProps{
 		l: number
     }) => Promise<any>;
     deleteRoom: (id: string) => Promise<void>;
+    deleteTemplate: (projectId:string, templateId:string) => Promise<void>;
     setLevelId: (id: string) => void;
     setRoomId: (id: string) => void;
     setTemplateId: (id: string) => void;
@@ -375,6 +375,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                 this.setState({isBusy: false});
                 this.props.setRoomId(null);
                 this.props.setLevelId(null);
+                this.props.setTemplateId(null);
                 this.props.showMessage(true, 'Delete Level success');
             } catch (error) {
                 console.log('ProjectLevelWrapper.RemoveLevel: ', error);
@@ -395,6 +396,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             selectList: []
         }, ()=>{
             this.props.setRoomId(null);
+            this.props.setTemplateId(null);
             if(this.state.levelExpanded === true)
             {
                 this.props.setLevelId(this.state.selectedLevelId)
@@ -532,8 +534,28 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                 this.props.showMessage(false, 'Delete Room failed');
             }
         }, true);
-		
-	}
+    }
+    removeTemplate = (id:string) => {
+            this.props.showConfirm('Confirm', 'Do you really want to delete this template?', async () => {
+                this.props.hideConfirm();
+                if (!this.props.project) return;
+                this.setState({isBusy: true})
+                try {
+                    await this.props.deleteTemplate(this.props.project.id, id);
+                    await this.props.getLevels(this.props.project.id);
+                    this.setState({
+                        isBusy: false,
+                        selectedTemplateId: null
+                    });
+                    this.props.setTemplateId(null)
+                    this.props.showMessage(true, 'Delete template success');
+                } catch (error) {
+                    console.log('ProjectLevelWrapper.RemoveRoom: ', error);
+                    this.setState({isBusy: false});
+                    this.props.showMessage(false, 'Delete template failed');
+                }
+            }, true);
+    }
     handleAddRoom = () => {
         const roomNo = parseInt(this.state.number_room.value);
         const level = this.props.levels.filter(levelItem => levelItem.id === this.state.selectedLevelId)[0];
@@ -640,8 +662,16 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
         {
             for(var j = 0 ; j < this.props.roots[i].children.length; j++)
             {
-                var _temp = room.selectionList.filter(_select => _select.category.id === this.props.roots[i].children[j].id);
-                if(_temp.length > 0){
+                // var _temp = room.selectionList.filter(_select => _select.category.id === this.props.roots[i].children[j].id);
+                var flag = false;
+                for(var k = 0 ; k < room.selectionList.length; k++ )
+                {
+                    if(room.selectionList[k].category.id === this.props.roots[i].children[j].id){
+                        flag = true;
+                        break;
+                    }
+                }
+                if(flag){
                     _selectList.push(this.props.roots[i])
                     break;
                 }
@@ -653,6 +683,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             selectedTemplateId: null
         }, ()=>{
             this.props.setRoomId(this.state.selectedRoomId);
+            this.props.setTemplateId(null);
         })
     }
     setTemplate = (template) => {
@@ -672,8 +703,15 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             {
                 for(var j = 0 ; j < this.props.roots[i].children.length; j++)
                 {
-                    var _temp = _currentRoom[0].selectionList.filter(_select => _select.category.id === this.props.roots[i].children[j].id);
-                    if(_temp.length > 0){
+                    var flag = false;
+                    for( var k = 0 ; k < _currentRoom[0].selectionList.length; k++ )
+                    {
+                        if(_currentRoom[0].selectionList[k].category.id === this.props.roots[i].children[j].id){
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if( flag ){
                         _selectList.push(this.props.roots[i])
                         break;
                     }
@@ -807,12 +845,26 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                                              <FormControlLabel 
                                                                 checked={this.state.selectedTemplateId === select.id }
                                                                 value={select.name}
-                                                                control={<Radio/>}
+                                                                control={<Radio size = "small"/>}
                                                                 label={select.name}
                                                                 name="radio-button-demo"
                                                                 className = {classes.templateItemTitle}
                                                                
                                                             />
+                                                            {
+                                                                this.state.selectedTemplateId === select.id ? (
+                                                                    <span className = {classes.actionIcon}>
+                                                                        <DeleteIcon fontVariant = "small" style = {{color:"#a94442"}}
+                                                                            onClick = {e =>{
+                                                                                this.removeTemplate(select.id);
+                                                                                e.preventDefault();
+                                                                                e.stopPropagation();
+                                                                            }}
+                                                                        />
+                                                                    </span>
+                                                                ) : (null)
+                                                            }
+                                                             
                                                         </Box>
                                                     )):(null)
                                                 }
@@ -1093,7 +1145,8 @@ const mapDispatchToProps = dispatch => ({
 	updateRoom: (id, cat) => dispatch(GenActions.updateRoom(id, cat)),
 	deleteLvl: id => dispatch(GenActions.deleteLevel(id)),
 	deleteRoom: id => dispatch(GenActions.deleteRoom(id)),
-	getLevels: id => dispatch(GenActions.getLevels(id)),
+    getLevels: id => dispatch(GenActions.getLevels(id)),
+    deleteTemplate: (projectId, templateId) => dispatch(GenActions.deleteTemplate(projectId, templateId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)( withSnackbar<ProjectLevelsTreeViewProps>(withConfirm<ProjectLevelsTreeViewProps>(ProjectLevelsTreeView)) ));

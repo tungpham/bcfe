@@ -67,8 +67,15 @@ class ProjectTemplatesView extends React.Component<ProjectTemplatesViewProps,Pro
         try{
             for(var i = 0 ;i < this.state.selectedCategories.length; i++)
             {
-                const _root = this.props.roots.filter(root => root.id === this.state.selectedCategories[i])[0];
-                if(_root.children.length === 0) continue;
+                var _root = null;
+                for( var j = 0 ; j <  this.props.roots.length; j++ )
+                {
+                    if( this.props.roots[j].id === this.state.selectedCategories[i] ){
+                        _root = this.props.roots[j];
+                        break;
+                    }
+                }
+                if(_root === null ) continue;
                 await ProjApi.createSelection(this.props.selectedRoomId, _root.children[0].id,  _root.children[0].id, {}, []);
             }
             this.props.getLevels(this.props.project.id);
@@ -89,10 +96,13 @@ class ProjectTemplatesView extends React.Component<ProjectTemplatesViewProps,Pro
             var flag = false;
             for(var j = 0; j < this.props.roots[i].children.length; j++)
             {
-                if(room[0].selectionList.filter(_selection => _selection.category.id === this.props.roots[i].children[j].id).length > 0)
+                for(var k = 0 ; k < room[0].selectionList.length; k++ )
                 {
-                    flag = true;
-                    break;
+                    if(room[0].selectionList[k].category.id === this.props.roots[i].children[j].id)
+                    {
+                        flag = true;
+                        break;
+                    }
                 }
             }
             if(!flag) _categoryList.push(this.props.roots[i])
@@ -115,10 +125,13 @@ class ProjectTemplatesView extends React.Component<ProjectTemplatesViewProps,Pro
                 var flag = false;
                 for(var j = 0; j < this.props.roots[i].children.length; j++)
                 {
-                    if(room[0].selectionList.filter(_selection => _selection.category.id === this.props.roots[i].children[j].id).length > 0)
+                    for( var k = 0; k <  room[0].selectionList.length; k++ )
                     {
-                        flag = true;
-                        break;
+                        if(room[0].selectionList[k].category.id === this.props.roots[i].children[j].id)
+                        {
+                            flag = true;
+                            break;
+                        }
                     }
                 }
                 if(!flag) _categoryList.push(this.props.roots[i])

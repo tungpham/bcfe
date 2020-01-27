@@ -165,7 +165,7 @@ export class PredictiveSearchBox extends Component<PredictiveSearchBoxProps & wi
     }
     return (
       <div style = {{position:"relative"}}>
-        <div style = {{display:"flex", alignItems:"center", width:"450px", marginLeft:"50px"}}>
+        <div style = {{display:"flex", alignItems:"center", width:"450px"}}>
           <div className = {classes.predictiveSearchArea}>
               <div className={classes.search}>
               <input

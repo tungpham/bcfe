@@ -8,7 +8,7 @@ import LocationIcon from '@material-ui/icons/LocationOn';
 import {  ProjectInfo } from 'types/project';
 
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const DES_LIMIT_COUNT = 256;
+const DES_LIMIT_COUNT = 156;
 const styles = createStyles(theme => ({
     overViewWrapper: {
         position: 'relative',
@@ -23,6 +23,12 @@ const styles = createStyles(theme => ({
     },
     locationIcon:{
             fontSize:"1rem !important"
+    },
+    showMoreLess:{
+        color:"blue",
+        "&:hover":{
+            cursor: "pointer"
+        }
     }
     
 }));
@@ -48,14 +54,14 @@ class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOve
         var due_date = new Date(_due);
         return MONTH_NAMES[due_date.getMonth()].substr(0,3) + " " + due_date.getDay() + ", " + due_date.getFullYear();
     }
-    render_des = (_des) => {
+    render_des = (_des, classes) => {
         if(_des === null || _des === undefined || _des === "") return ""
         if(_des.length > DES_LIMIT_COUNT) {
             if(this.state.isExpandedDes !== true){
                 return (
                     <React.Fragment>
                             <React.Fragment>{_des.substr(0,DES_LIMIT_COUNT) }</React.Fragment>
-                            <span className = "show-more-des"
+                            <span className = {classes.showMoreLess}
                                 onClick = {() => {
                                     this.setState({
                                         isExpandedDes: true
@@ -68,7 +74,7 @@ class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOve
                 return (
                     <React.Fragment>
                             <React.Fragment>{_des}</React.Fragment>
-                            <span className = "show-more-des"
+                            <span className = {classes.showMoreLess}
                                 onClick = {() => {
                                     this.setState({
                                         isExpandedDes: false
@@ -94,7 +100,7 @@ class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOve
                      <LocationIcon  className = {classes.locationIcon}/>&nbsp;{this.props.project.city}
                  </div>
                  <div>
-                     {this.render_des(this.props.project.description)}
+                     {this.render_des(this.props.project.description, classes)}
                  </div>
             </Box>
         )
