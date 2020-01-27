@@ -31,8 +31,10 @@ function TabPanel(props: TabPanelProps) {
 interface ProjectDetailsViewProps {
     setLevelId: (id: string) => void;
     setRoomId: (id: string) => void;
+    setTemplateId: (id: string) => void;
     selectedLevelId : string;
     selectedRoomId : string;
+    selectedTemplateId: string;
 }
 class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,any>{
     constructor(props)

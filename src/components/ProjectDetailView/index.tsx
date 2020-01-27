@@ -47,6 +47,7 @@ export interface IProjectDetailViewProps extends RouteComponentProps<{ id: strin
 interface IProjectDetailViewState{
     selectedLevelId: string;
     selectedRoomId:  string;
+    selectedTemplateId: string;
 }
 class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjectDetailViewState> {
     constructor(props)
@@ -54,7 +55,8 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
         super(props);
         this.state = {
             selectedLevelId: null,
-            selectedRoomId:  null
+            selectedRoomId:  null,
+            selectedTemplateId: null,
         }
     }
     setLevelId = (_levelId) => {
@@ -65,6 +67,11 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
     setRoomId = (_roomId) => {
         this.setState({
             selectedRoomId: _roomId
+        })
+    }
+    setTemplateId = (_templateId) => {
+        this.setState({
+            selectedTemplateId: _templateId
         })
     }
     async componentDidMount() {
@@ -88,6 +95,7 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
                     <ProjectLevelsTreeView
                         setLevelId = {this.setLevelId}
                         setRoomId = {this.setRoomId}
+                        setTemplateId = {this.setTemplateId}
                     />
                 </div>
                 <Box className = {classes.projectDetailViewWrapper}>
@@ -95,8 +103,10 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
                     <ProjectDetailsView
                         selectedLevelId = {this.state.selectedLevelId}
                         selectedRoomId = {this.state.selectedRoomId}
+                        selectedTemplateId = {this.state.selectedTemplateId}
                         setLevelId = {this.setLevelId}
                         setRoomId = {this.setRoomId}
+                        setTemplateId = {this.setTemplateId}
                     />
                 </Box>
             </Box>

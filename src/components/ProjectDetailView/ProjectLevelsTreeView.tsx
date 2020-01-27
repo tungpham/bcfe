@@ -187,10 +187,12 @@ interface ProjectLevelsTreeViewProps{
     deleteRoom: (id: string) => Promise<void>;
     setLevelId: (id: string) => void;
     setRoomId: (id: string) => void;
+    setTemplateId: (id: string) => void;
 }
 interface ProjectLevelsTreeViewState {
     selectedLevelId: string;
     selectedRoomId:  string;
+    selectedTemplateId : string;
     levelExpanded: boolean;
     roomExpanded: boolean;
     //add - level;
@@ -221,6 +223,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
         this.state = {
             selectedLevelId: null,
             selectedRoomId:  null,
+            selectedTemplateId: null,
             levelExpanded: false,
             roomExpanded: false,
             number : {
@@ -647,8 +650,14 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
         this.setState({
             selectedRoomId: this.state.selectedRoomId===room.id ? null : room.id,
             selectList: _selectList,
+            selectedTemplateId: null
         }, ()=>{
             this.props.setRoomId(this.state.selectedRoomId);
+        })
+    }
+    setTemplate = (template) => {
+        this.setState({
+            selectedTemplateId: template.id
         })
     }
     componentDidUpdate(prevProps:ProjectLevelsTreeViewProps){
@@ -791,15 +800,18 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                                 </Box>
                                                 {
                                                      this.state.selectedRoomId === room.id && this.state.selectList && this.state.selectList.length > 0 ? this.state.selectList.map((select,index)=>(
-                                                        <Box className = {classes.templateItem} key = {`template-item-${index}`}>
+                                                        <Box className = {classes.templateItem} key = {`template-item-${index}`}
+                                                            onClick = {()=>{this.setTemplate(select)}}
+                                                        >
                                                              {/* <div className = {classes.templateItemTitle}>{ select.name }</div> */}
                                                              <FormControlLabel 
-                                                                // checked={this.state.selectedRoomId === room.id }
+                                                                checked={this.state.selectedTemplateId === select.id }
                                                                 value={select.name}
-                                                                control={<Checkbox/>}
+                                                                control={<Radio/>}
                                                                 label={select.name}
                                                                 name="radio-button-demo"
                                                                 className = {classes.templateItemTitle}
+                                                               
                                                             />
                                                         </Box>
                                                     )):(null)

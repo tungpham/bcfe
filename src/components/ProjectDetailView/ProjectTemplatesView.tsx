@@ -136,18 +136,20 @@ class ProjectTemplatesView extends React.Component<ProjectTemplatesViewProps,Pro
         return(
             <React.Fragment>
                 <div style = {{display:"flex"}}>
-                    <Button color = "primary" variant = "contained" size = "small"
-                        onClick = {()=>{
-                            this.setState({
-                                addTemplatesModalShow: true
-                            })
-                        }}
-                    ><ListIcon/>Add Templates</Button>
+
                     <ProjectTemplatesSearchBox
                         options = {this.state.categoryList}
                         roomId = {this.props.selectedRoomId}
                         project = {this.props.project}
                     />
+                     <Button color = "primary" variant = "contained" size = "small"
+                        onClick = {()=>{
+                            this.setState({
+                                addTemplatesModalShow: true
+                            })
+                        }}
+                        style = {{marginLeft:"10px"}}
+                    ><ListIcon/>Show All</Button>
                 </div>
                 <Dialog
                     open={this.state.addTemplatesModalShow}
