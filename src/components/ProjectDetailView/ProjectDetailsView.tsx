@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 //import Componetns;
 import ProjectTemplatesView from './ProjectTemplatesView';
+import ProjectTemplateDetailView from './ProjectTemplateDetailView';
 interface TabPanelProps {
     children?: React.ReactNode;
     index: any;
@@ -76,6 +77,11 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,any>{
                     <ProjectTemplatesView
                         selectedLevelId = {this.props.selectedLevelId}
                         selectedRoomId = {this.props.selectedRoomId}
+                    />
+                    <ProjectTemplateDetailView
+                        selectedLevelId = {this.props.selectedLevelId}
+                        selectedRoomId = {this.props.selectedRoomId}
+                        selectedTemplateId = {this.props.selectedTemplateId}
                     />
                 </TabPanel>
                 <TabPanel value={this.state.value} index={1}>

@@ -133,9 +133,7 @@ const styles = createStyles(theme => ({
     templateItem:{
         display:"flex",
         margin:"5px 0px 5px 30px",
-        // padding:"5px !important",
-        // border:"1px solid gray",
-        // borderRadius:"3px",
+        alignItems:"center",
         "&:hover":{
             cursor:"pointer",
         },
@@ -689,6 +687,8 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
     setTemplate = (template) => {
         this.setState({
             selectedTemplateId: template.id
+        },()=>{
+            this.props.setTemplateId(this.state.selectedTemplateId)
         })
     }
     componentDidUpdate(prevProps:ProjectLevelsTreeViewProps){
