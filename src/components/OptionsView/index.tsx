@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useState} from 'react';
 import { connect } from 'react-redux';
-
+import ReactMarkdown from "react-markdown";
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -57,6 +57,12 @@ const useStyles = makeStyles((theme: Theme) => ({
         "&:hover":{
             cursor: "pointer"
         }
+    },
+    description1:{
+        display:"inline",
+        "& p":{
+            display:"inline"
+        }
     }
 }));
 
@@ -79,7 +85,13 @@ const ProjectOptionEdit: React.SFC<IProjectOptionEditProps & withSnackbarProps> 
             if(isExpandedDes !== true){
                 return (
                     <React.Fragment>
-                            <React.Fragment>{_des.substr(0,DES_LIMIT_COUNT) }</React.Fragment>
+                            <Box  className = {classes.description1}>
+                                <ReactMarkdown
+                                    source={_des.substr(0,DES_LIMIT_COUNT)}
+                                    skipHtml={false}
+                                    escapeHtml={false}
+                                />
+                            </Box>
                             <span className = {classes.showMoreLess}
                                 onClick = {() => {
                                     setIsExpandedDes(true)
@@ -90,7 +102,13 @@ const ProjectOptionEdit: React.SFC<IProjectOptionEditProps & withSnackbarProps> 
             } else {
                 return (
                     <React.Fragment>
-                            <React.Fragment>{_des}</React.Fragment>
+                            <Box  className = {classes.description1}>
+                                <ReactMarkdown
+                                    source={_des}
+                                    skipHtml={false}
+                                    escapeHtml={false}
+                                />
+                            </Box>
                             <span className = {classes.showMoreLess}
                                 onClick = {() => {
                                     setIsExpandedDes(false)

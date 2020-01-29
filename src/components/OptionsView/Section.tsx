@@ -130,6 +130,12 @@ const useStyles = makeStyles((theme: Theme) => ({
         "&:hover":{
             cursor: "pointer"
         }
+    },
+    description1:{
+        display:"inline",
+        "& p":{
+            display:"inline"
+        }
     }
 }));
 
@@ -419,7 +425,13 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
             if(isExpandedDes !== true){
                 return (
                     <React.Fragment>
-                            <React.Fragment>{_des.substr(0,DES_LIMIT_COUNT) }</React.Fragment>
+                            <Box  className = {classes.description1}>
+                                <ReactMarkdown
+                                    source={_des.substr(0,DES_LIMIT_COUNT)}
+                                    skipHtml={false}
+                                    escapeHtml={false}
+                                />
+                            </Box>
                             <span className = {classes.showMoreLess}
                                 onClick = {() => {
                                     setIsExpandedDes(true)
@@ -430,7 +442,13 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
             } else {
                 return (
                     <React.Fragment>
-                            <React.Fragment>{_des}</React.Fragment>
+                            <Box  className = {classes.description1}>
+                                <ReactMarkdown
+                                    source={_des}
+                                    skipHtml={false}
+                                    escapeHtml={false} 
+                                />
+                            </Box>
                             <span className = {classes.showMoreLess}
                                 onClick = {() => {
                                     setIsExpandedDes(false)
@@ -447,13 +465,13 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
         <Box className={classes.root}>
             <List>
                 <ListItem>
-                    <Typography className={classes.title}>
+                    <Box className={classes.title}>
                         {`${component.name} ( `}
                         {
                             render_des(component.description, classes)
                         }
                         {` )`}
-                    </Typography>
+                    </Box>
                 </ListItem>
                 <Divider />
                 <ListItem>
@@ -466,41 +484,43 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                     </Breadcrumbs>
                 </ListItem>
                 <ListItem style = {{alignItems:"none"}}>
-                    <Box>
-                        <Typography className={classes.bold}>
-                            Category
-                        </Typography>
-                        <FormControl variant="outlined" style = {{width:"400px"}}>
-                            <NativeSelect
-                                style={{ minWidth: 180 }}
-                                placeholder={node && node.name}
-                                value={node.id}
-                                onChange={nodeChange}
-                                name="sub-nodes"
-                                className={classes.catBox}
-                                input = {<BootstrapInput/>}
-                            >
-                                <option value={node.id} key={node.id}>
-                                    {(!node.children || node.children.length === 0) ? node.name : `Select option for ${node.name}`}
-                                </option>
-                                {node && node.children && node.children.map(item => (
-                                    <option value={item.id} key={item.id}>
-                                        {`  > ${item.name}`}
+                    <Box style = {{display:"flex"}}>
+                        <Box>
+                            <Typography className={classes.bold}>
+                                Category
+                            </Typography>
+                            <FormControl variant="outlined" style = {{width:"400px"}}>
+                                <NativeSelect
+                                    style={{ minWidth: 180 }}
+                                    placeholder={node && node.name}
+                                    value={node.id}
+                                    onChange={nodeChange}
+                                    name="sub-nodes"
+                                    className={classes.catBox}
+                                    input = {<BootstrapInput/>}
+                                >
+                                    <option value={node.id} key={node.id}>
+                                        {(!node.children || node.children.length === 0) ? node.name : `Select option for ${node.name}`}
                                     </option>
-                                ))}
-                            </NativeSelect>
-                        </FormControl>
-                    </Box>
-                    <Box className={classes.subtitle}>
-                        <Box className = {classes.bold}>
-                            description:
+                                    {node && node.children && node.children.map(item => (
+                                        <option value={item.id} key={item.id}>
+                                            {`  > ${item.name}`}
+                                        </option>
+                                    ))}
+                                </NativeSelect>
+                            </FormControl>
                         </Box>
-                       <Box>
-                            <ReactMarkdown
-                                source={node.description}
-                                skipHtml={false}
-                                escapeHtml={false}
-                            />
+                        <Box className={classes.subtitle}>
+                            <Box className = {classes.bold}>
+                                description:
+                            </Box>
+                        <Box>
+                                <ReactMarkdown
+                                    source={node.description}
+                                    skipHtml={false}
+                                    escapeHtml={false}
+                                />
+                            </Box>
                         </Box>
                     </Box>
                 </ListItem>
