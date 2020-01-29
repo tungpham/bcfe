@@ -7,7 +7,9 @@ import Box from '@material-ui/core/Box';
 //import types;
 import { ProjectLevel, ProjectInfo , ProjectLevelCategory} from 'types/project';
 import { NodeInfo } from 'types/global';
-
+import ProjApi from 'services/project';
+//import components;
+import ProjectOptionView from 'components/OptionsView';
 const styles = createStyles(theme => ({
    roomInfo:{
        border:"1px solid #e6e8ea",
@@ -40,6 +42,7 @@ const styles = createStyles(theme => ({
     },
     showMoreLess:{
         color:"blue",
+        fontWeight: 500,
         "&:hover":{
             cursor: "pointer"
         },
@@ -97,6 +100,13 @@ class ProjectTemplateDetailView extends React.Component<ProjectTemplateDetailPro
                     }
                 }
                 break;
+            }
+        }
+        for(var k = 0 ;k < this.props.roots.length; k++)
+        {
+            if(this.props.roots[k].id === this.props.selectedTemplateId)
+            {
+                _tempTemplate = this.props.roots[k]
             }
         }
         this.setState({
@@ -187,6 +197,14 @@ class ProjectTemplateDetailView extends React.Component<ProjectTemplateDetailPro
     componentDidMount(){
         this.setAllState();
     }
+    roomUpdated = async () => {
+        try {
+            const data = await ProjApi.getRoom(this.state.currentRoom.id);
+            this.setState({ currentRoom: data });
+        } catch (error) {
+            console.log('ProjectSelect.RoomUpdated: ', error);
+        }
+    }
     render(){
         const {classes} = this.props;
         if(this.state.currentLevel === null || this.state.currentRoom === null) return(<div></div>)
@@ -232,9 +250,18 @@ class ProjectTemplateDetailView extends React.Component<ProjectTemplateDetailPro
                         </Box>
                     </Box>
                 </Box>
-                <Box className = {classes.templateDetails}>
-                    
-                </Box>
+                    {
+                        this.state.currentRoom && this.state.currentTemplate && (
+                            <Box className = {classes.templateDetails}>
+                                <ProjectOptionView
+                                    root={this.state.currentTemplate}
+                                    level={this.state.currentLevel}
+                                    room={this.state.currentRoom}
+                                    roomUpdated={this.roomUpdated}
+                                />
+                           </Box>
+                        )
+                    }
             </React.Fragment>
         )
     }

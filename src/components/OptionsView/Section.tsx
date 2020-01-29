@@ -1,5 +1,7 @@
 import * as React from 'react';
-
+import {useState} from 'react';
+import ReactMarkdown from "react-markdown";
+import { createStyles, makeStyles, withStyles, Theme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import ListItem from '@material-ui/core/ListItem';
 import Grid from '@material-ui/core/Grid';
@@ -8,23 +10,59 @@ import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import FormControl from '@material-ui/core/FormControl';
+import InputBase from '@material-ui/core/InputBase';
+import NativeSelect from '@material-ui/core/NativeSelect';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { ProjectLevelCategory, RoomOption } from 'types/project';
+import { ProjectLevelCategory, RoomOption, ProjectInfo } from 'types/project';
 import { Validator, NodeInfo } from 'types/global';
 
 import ProjApi from 'services/project';
 
-
+const DES_LIMIT_COUNT = 120;
+const BootstrapInput = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      'label + &': {
+        marginTop: theme.spacing(3),
+      },
+    },
+    input: {
+      borderRadius: 4,
+      position: 'relative',
+      backgroundColor: theme.palette.background.paper,
+      border: '1px solid #ced4da',
+      fontSize: 16,
+      padding: '10px 26px 10px 12px',
+      transition: theme.transitions.create(['border-color', 'box-shadow']),
+      // Use the system font instead of the default Roboto font.
+      fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+      '&:focus': {
+        borderRadius: 4,
+        borderColor: '#80bdff',
+        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+      },
+    },
+  }),
+)(InputBase);
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
         position: 'relative'
@@ -38,19 +76,22 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontWeight: 600
     },
     subtitle: {
-        fontWeight: 500,
+        // fontWeight: 500,
         fontSize: '1rem',
         paddingRight: theme.spacing(1.5),
         color: '#222',
-        paddingTop: theme.spacing(0.5)
+        // paddingTop: theme.spacing(0.5)
     },
     fab: {
-        width: theme.spacing(4),
-        height: theme.spacing(4),
-        margin: theme.spacing(0, 5),
+        fontWeight:500,
+        color:"#5782e4",
+        "&:hover":{
+            cursor:"pointer",
+            textDecoration:"underline"
+        }
     },
     catBox: {
-        margin: theme.spacing(0, 3)
+        margin:"5px 50px 0px 0px"
     },
     value: {
         fontWeight: 500,
@@ -82,12 +123,21 @@ const useStyles = makeStyles((theme: Theme) => ({
         position: 'absolute',
         left: 'calc(50% - 20px)',
         top: 'calc(50% - 20px)',
+    },
+    showMoreLess:{
+        color:"blue",
+        fontWeight:500,
+        "&:hover":{
+            cursor: "pointer"
+        }
     }
 }));
 
 interface ISectionProps {
     component: NodeInfo;
     room: ProjectLevelCategory;
+    project: ProjectInfo;
+    getLevels: (id: string) => Promise<void>;
     roomUpdated: () => Promise<void>;
     showMessage: (suc: boolean, msg: string) => void;
 }
@@ -96,7 +146,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
 
     const { component, room, roomUpdated, showMessage } = props;
     const classes = useStyles({});
-
+    const [isExpandedDes, setIsExpandedDes] = useState(false);
     const [key, setKey] = React.useState<Validator>({
         value: '',
         errMsg: undefined
@@ -293,6 +343,10 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
             setKey({ value: '', errMsg: undefined });
             setValue({ value: '', errMsg: undefined });
             showMessage(true, 'Saved');
+            if(props.project)
+            {
+                await props.getLevels(props.project.id);
+            }
         } catch (error) {
             setBusy(false);
             showMessage(false, 'Save option failed');
@@ -359,13 +413,46 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
         newOpt[index].value = { value: value, errMsg: undefined };;
         setOption([...newOpt]);
     }
-
+    const render_des = (_des, classes) => {
+        if(_des === null || _des === undefined || _des === "") return ""
+        if(_des.length > DES_LIMIT_COUNT) {
+            if(isExpandedDes !== true){
+                return (
+                    <React.Fragment>
+                            <React.Fragment>{_des.substr(0,DES_LIMIT_COUNT) }</React.Fragment>
+                            <span className = {classes.showMoreLess}
+                                onClick = {() => {
+                                    setIsExpandedDes(true)
+                                }}
+                            >&nbsp;...more</span>
+                    </React.Fragment>
+                )
+            } else {
+                return (
+                    <React.Fragment>
+                            <React.Fragment>{_des}</React.Fragment>
+                            <span className = {classes.showMoreLess}
+                                onClick = {() => {
+                                    setIsExpandedDes(false)
+                                }}
+                            >&nbsp; less</span>
+                    </React.Fragment>
+                )
+            }
+        } else {
+            return _des
+        }
+    }
     return (
         <Box className={classes.root}>
             <List>
                 <ListItem>
                     <Typography className={classes.title}>
-                        {`${component.name} ( ${component.description} )`}
+                        {`${component.name} ( `}
+                        {
+                            render_des(component.description, classes)
+                        }
+                        {` )`}
                     </Typography>
                 </ListItem>
                 <Divider />
@@ -378,50 +465,50 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                         ))}
                     </Breadcrumbs>
                 </ListItem>
-                <ListItem>
-                    <Typography className={classes.bold}>
-                        Category
-                    </Typography>
-                    <Select
-                        style={{ minWidth: 180 }}
-                        placeholder={node && node.name}
-                        value={node.id}
-                        onChange={nodeChange}
-                        name="sub-nodes"
-                        className={classes.catBox}
-                    >
-                        <MenuItem value={node.id} key={node.id}>
-                            {(!node.children || node.children.length === 0) ? node.name : `Select option for ${node.name}`}
-                        </MenuItem>
-                        {node && node.children && node.children.map(item => (
-                            <MenuItem value={item.id} key={item.id}>
-                                {`  > ${item.name}`}
-                            </MenuItem>
-                        ))}
-                        {/* {initSelection && (
-                            <MenuItem value={initSelection.id}>
-                                {initSelection.name}
-                            </MenuItem>
-                        )} */}
-                    </Select>
-                    <Typography className={classes.subtitle}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;{node.description}
-                    </Typography>
+                <ListItem style = {{alignItems:"none"}}>
+                    <Box>
+                        <Typography className={classes.bold}>
+                            Category
+                        </Typography>
+                        <FormControl variant="outlined" style = {{width:"400px"}}>
+                            <NativeSelect
+                                style={{ minWidth: 180 }}
+                                placeholder={node && node.name}
+                                value={node.id}
+                                onChange={nodeChange}
+                                name="sub-nodes"
+                                className={classes.catBox}
+                                input = {<BootstrapInput/>}
+                            >
+                                <option value={node.id} key={node.id}>
+                                    {(!node.children || node.children.length === 0) ? node.name : `Select option for ${node.name}`}
+                                </option>
+                                {node && node.children && node.children.map(item => (
+                                    <option value={item.id} key={item.id}>
+                                        {`  > ${item.name}`}
+                                    </option>
+                                ))}
+                            </NativeSelect>
+                        </FormControl>
+                    </Box>
+                    <Box className={classes.subtitle}>
+                        <Box className = {classes.bold}>
+                            description:
+                        </Box>
+                       <Box>
+                            <ReactMarkdown
+                                source={node.description}
+                                skipHtml={false}
+                                escapeHtml={false}
+                            />
+                        </Box>
+                    </Box>
                 </ListItem>
                 {edit.length === 0 && (
-                    <ListItem>
-                        <Typography className={classes.subtitle}>
-                            Options
-                        </Typography>
-                        <IconButton
-                            color='primary'
-                            // size='small'
-                            aria-label='Add'
-                            className={classes.fab}
-                            onClick={showForm}
-                        >
-                            {(edit.length > 0) ? <EditIcon fontSize='small' /> : <AddIcon fontSize='small' />}
-                        </IconButton>
+                    <ListItem  >
+                        <Box  onClick={showForm} className = {classes.fab}>
+                              + Add More {component.name} Details
+                        </Box>
                     </ListItem>
                 )}
                 {edit.length === 0 && modal && (
@@ -441,6 +528,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                                 helperText={opt.key.errMsg}
                                                 onChange={e => existingKeyChange(index, e.target.value)}
                                                 // disabled={true}
+                                                variant = "outlined"
                                                 required
                                             />
                                         </Grid>
@@ -506,25 +594,21 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                 )}
                 {room.selectionList && room.selectionList.filter(selection => component.id === selection.category.id).map(opt => (
                     <React.Fragment key={opt.id}>
-                        <Divider />
                         <ListItem>
                             <Box style={{ width: '100%' }}>
                                 <Typography className={classes.subtitle}>
                                     {`Current Selection: < ${buildCrumb(buildPath(opt)).join(' / ')} >`}
                                 </Typography>
                                 <Box style={{ display: 'flex' }}>
-                                    <Typography className={classes.subtitle}>
-                                        Options
-                                    </Typography>
                                     {edit.length > 0 && (
-                                        <IconButton
-                                            color='primary'
-                                            aria-label='Add'
+                                        <Box
                                             className={classes.fab}
                                             onClick={showForm}
                                         >
-                                            {(Object.keys(opt.option).length > 0) ? <EditIcon fontSize='small' /> : <AddIcon fontSize='small' />}
-                                        </IconButton>
+                                            {(Object.keys(opt.option).length > 0) ? <EditIcon fontSize='small' /> : (
+                                                <Box> + Add More {component.name} Details</Box>
+                                            )}
+                                        </Box>
                                     )}
                                 </Box>
                                 {opt.option && Object.keys(opt.option).length > 0 && (

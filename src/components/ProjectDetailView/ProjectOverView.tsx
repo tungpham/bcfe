@@ -26,6 +26,7 @@ const styles = createStyles(theme => ({
     },
     showMoreLess:{
         color:"blue",
+        fontWeight: 500,
         "&:hover":{
             cursor: "pointer"
         }

@@ -26,7 +26,6 @@ const styles = createStyles(theme => ({
        height:"100%"
     },
     treeViewWrapper:{
-        height:"100%"
     },
     projectDetailViewWrapper:{
         flex:1,

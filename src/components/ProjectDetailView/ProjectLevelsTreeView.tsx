@@ -809,7 +809,6 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                                         name="radio-button-demo"
                                                         className = {classes.roomItemTitle}
                                                     />
-                                                    <div>
                                                         {
                                                             this.state.selectedRoomId === room.id && this.state.levelExpanded === true ? (
                                                                 <div style = {{display:"flex"}}>
@@ -834,7 +833,6 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                                                 </div>
                                                             ) : (null)
                                                         }
-                                                    </div>
                                                 </Box>
                                                 {
                                                      this.state.selectedRoomId === room.id && this.state.selectList && this.state.selectList.length > 0 ? this.state.selectList.map((select,index)=>(
