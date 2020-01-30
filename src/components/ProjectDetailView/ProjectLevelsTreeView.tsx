@@ -146,7 +146,11 @@ const styles = createStyles(theme => ({
     },
     templateItemTitle:{
         flex:1,
-        fontSize:"0.875rem"
+        fontSize:"0.875rem",
+        "& svg":{
+            width:"0.7em",
+            color:"#43a047"
+        }
     },
     addRoomBtn:{
         marginLeft:"15px"
@@ -843,12 +847,17 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                                              <FormControlLabel 
                                                                 checked={this.state.selectedTemplateId === select.id }
                                                                 value={select.name}
-                                                                control={<Radio size = "small"/>}
+                                                                control={<Radio size = "small" color = "secondary"/>}
                                                                 label={select.name}
                                                                 name="radio-button-demo"
                                                                 className = {classes.templateItemTitle}
-                                                               
                                                             />
+                                                            {/* <Radio
+                                                                  checked={this.state.selectedTemplateId === select.id }
+                                                                  color = "primary"
+                                                                  size = "small"
+                                                                  className = {classes.templateItemTitle}
+                                                            /> */}
                                                             {
                                                                 this.state.selectedTemplateId === select.id ? (
                                                                     <span className = {classes.actionIcon}>

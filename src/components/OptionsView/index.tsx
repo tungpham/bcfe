@@ -3,7 +3,6 @@ import {useState} from 'react';
 import { connect } from 'react-redux';
 import ReactMarkdown from "react-markdown";
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import { makeStyles, Theme } from '@material-ui/core/styles';
@@ -129,10 +128,10 @@ const ProjectOptionEdit: React.SFC<IProjectOptionEditProps & withSnackbarProps> 
         <Box className={classes.root}>
             <List aria-label='project-options' style={{ padding: '16px 0' }}>
                 <ListItem className={classes.titlebar}>
-                    <Typography className={classes.title}>
+                    <Box className={classes.title}>
                         {root.name}&nbsp;&nbsp;&nbsp;
                         <span className={classes.subtitle}>{render_des(root.description, classes)}</span>
-                    </Typography>
+                    </Box>
                 </ListItem>
             </List>
             {root && root.children && root.children.length > 0 && root.children.map(item => (
