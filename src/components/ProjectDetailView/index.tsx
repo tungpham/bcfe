@@ -26,6 +26,7 @@ const styles = createStyles(theme => ({
        height:"100%"
     },
     treeViewWrapper:{
+        height:"100%"
     },
     projectDetailViewWrapper:{
         flex:1,
@@ -98,14 +99,12 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
         if (!project || !roots) return <CircularProgress className={classes.waitingSpin} />;
         return (
             <Box className={classes.projectDetailView} >
-                <div className = {classes.treeViewWrapper}>
                     <ProjectLevelsTreeView
                         setLevelId = {this.setLevelId}
                         setRoomId = {this.setRoomId}
                         setTemplateId = {this.setTemplateId}
                         levelGettingLoading = {this.state.levelGettingLoading}
                     />
-                </div>
                 <Box className = {classes.projectDetailViewWrapper}>
                     <ProjectOverView
                         levelGettingLoading = {this.state.levelGettingLoading}

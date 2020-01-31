@@ -81,6 +81,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontSize: '1rem',
         paddingRight: theme.spacing(1.5),
         color: '#222',
+        // paddingTop: theme.spacing(0.5)
         "& p":{
             margin:"0px"
         }
@@ -92,6 +93,20 @@ const useStyles = makeStyles((theme: Theme) => ({
             cursor:"pointer",
             textDecoration:"underline"
         }
+    },
+    fab1: {
+        fontWeight:500,
+        color:"#5782e4",
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        "&:hover":{
+            cursor:"pointer",
+            textDecoration:"underline"
+        }
+    },
+    editIcon:{
+            width:"0.7em"
     },
     catBox: {
         margin:"5px 50px 0px 0px"
@@ -476,19 +491,18 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                     </Box>
                 </ListItem>
                 <Divider />
-               
+                <ListItem>
+                    <Breadcrumbs>
+                        {path.map(item => (
+                            <Link key={item.id} onClick={() => clickCrumb(item)} style={{ cursor: 'pointer' }}>
+                                {item.name}
+                            </Link>
+                        ))}
+                    </Breadcrumbs>
+                </ListItem>
                 <ListItem style = {{alignItems:"none"}}>
                     <Box style = {{display:"flex"}}>
                         <Box>
-                            <Box>
-                                <Breadcrumbs>
-                                    {path.map(item => (
-                                        <Link key={item.id} onClick={() => clickCrumb(item)} style={{ cursor: 'pointer' }}>
-                                            {item.name}
-                                        </Link>
-                                    ))}
-                                </Breadcrumbs>
-                            </Box>
                             <FormControl variant="outlined" style = {{width:"400px"}}>
                                 <NativeSelect
                                     style={{ minWidth: 180 }}
@@ -512,13 +526,13 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                             <Box style = {{padding:"20px 0px"}}>
                                 {edit.length === 0 && (
                                     <Box>
-                                        <Fab onClick={handleSelect} color="primary" aria-label="select" size = "small"><DoneIcon/></Fab>
+                                        <Fab onClick={handleSelect} style = {{backgroundColor:"#1752a8", color:"white"}} aria-label="select" size = "small"><DoneIcon/></Fab>
                                         <Fab onClick={handleCancel} color="default" aria-label="cancel" size = "small" style = {{marginLeft:"15px"}}><CancelIcon/></Fab>
                                     </Box>
                                 )}
                                 {edit.length > 0 && (
                                     <Box>
-                                        <Fab onClick={handleSelect} color="primary" aria-label="select" size = "small" ><DoneIcon/></Fab>
+                                        <Fab onClick={handleSelect} style = {{backgroundColor:"#1752a8",  color:"white"}} aria-label="select" size = "small" ><DoneIcon/></Fab>
                                         <Fab onClick={handleCancel} color="default" aria-label="cancel" size = "small" style = {{marginLeft:"15px"}}><CancelIcon/></Fab>
                                     </Box>
                                 )}
@@ -534,16 +548,20 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                 <React.Fragment key={opt.id}>
                                     <Box>
                                         <Box style={{ width: '100%' }}>
-                                            <Typography className={classes.subtitle}>
+                                            <Typography className={classes.subtitle} style = {{width:"350px"}}>
                                                 {`Current Selection: < ${buildCrumb(buildPath(opt)).join(' / ')} >`}
                                             </Typography>
                                             <Box style={{ display: 'flex' }}>
                                                 {edit.length > 0 && (
                                                     <Box
-                                                        className={classes.fab}
+                                                        className={classes.fab1}
                                                         onClick={showForm}
                                                     >
-                                                        {(Object.keys(opt.option).length > 0) ? <EditIcon fontSize='small' /> : (
+                                                        {(Object.keys(opt.option).length > 0) ? (
+                                                        <React.Fragment>
+                                                             <EditIcon fontSize='small' className = {classes.editIcon}/>
+                                                             <span> Edit</span>
+                                                        </React.Fragment>) : (
                                                             <Box> + Add More {component.name} Details</Box>
                                                         )}
                                                     </Box>
@@ -559,7 +577,163 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                         </Box>
                                     </Box>
                                 </React.Fragment>
-                            ))}          
+                            ))}
+                           {edit.length === 0 && modal && (
+                                <React.Fragment>
+                                    <Box>
+                                        <Grid container style={{ maxWidth: 400 }}>
+                                            {option.map((opt, index) => (
+                                                <React.Fragment key={index}>
+                                                    <Grid item xs={5} style={{ padding: '4px 8px' }}>
+                                                        
+                                                        <TextField
+                                                            margin="dense"
+                                                            fullWidth={true}
+                                                            value={opt.key.value}
+                                                            error={!!opt.key.errMsg}
+                                                            helperText={opt.key.errMsg}
+                                                            onChange={e => existingKeyChange(index, e.target.value)}
+                                                            // disabled={true}
+                                                            required
+                                                            placeholder = "Key"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={6} style={{ padding: '4px 8px' }}>
+                                                    
+                                                        <TextField
+                                                            margin="dense"
+                                                            fullWidth={true}
+                                                            value={opt.value.value}
+                                                            error={!!opt.value.errMsg}
+                                                            helperText={opt.value.errMsg}
+                                                            onChange={(e) => existingValueChange(index, e.target.value)}
+                                                            // disabled={true}
+                                                            required
+                                                            placeholder = "Value"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                        <IconButton onClick={() => deleteItem(index)} style={{ height: 36 }}>
+                                                            <DeleteIcon fontSize='small' color='error' />
+                                                        </IconButton>
+                                                    </Grid>
+                                                </React.Fragment>
+                                            ))}
+                                            <Grid item xs={5} style={{ padding: '4px 8px' }}>
+                                            
+                                                <TextField
+                                                    margin="dense"
+                                                    fullWidth={true}
+                                                    error={!!key.errMsg}
+                                                    helperText={key.errMsg}
+                                                    value={key.value}
+                                                    onChange={keyChange}
+                                                    placeholder = "Key"
+                                                />
+                                            </Grid>
+                                            <Grid item xs={6} style={{ padding: '4px 8px' }}>
+                                            
+                                                <TextField
+                                                    margin="dense"
+                                                    fullWidth={true}
+                                                    error={!!value.errMsg}
+                                                    helperText={value.errMsg}
+                                                    value={value.value}
+                                                    onChange={event => setValue({
+                                                        value: event.target.value,
+                                                        errMsg: event.target.value.length > 0 ? undefined : 'Value is required'
+                                                    })}
+                                                    placeholder = "Value"
+                                                />
+                                            </Grid>
+                                            <Grid item xs={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                <IconButton onClick={addItem} style={{ height: 36 }}>
+                                                    <AddIcon fontSize='small' color='action' />
+                                                </IconButton>
+                                            </Grid>
+                                        </Grid>
+                                    </Box>
+                                </React.Fragment>
+                            )}
+                        
+                        
+                            {edit.length > 0 && modal && (
+                                <React.Fragment>
+                                    <Box>
+                                        <Grid container style={{ maxWidth: 400 }}>
+                                            {option.map((opt, index) => (
+                                                <React.Fragment key={index}>
+                                                    <Grid item xs={5} style={{ padding: '4px 8px' }}>
+                                                    
+                                                        <TextField
+                                                            margin="dense"
+                                                            fullWidth={true}
+                                                            value={opt.key.value}
+                                                            error={!!opt.key.errMsg}
+                                                            helperText={opt.key.errMsg}
+                                                            onChange={e => existingKeyChange(index, e.target.value)}
+                                                            // disabled={true}
+                                                            required
+                                                            placeholder = "Key"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={6} style={{ padding: '4px 8px' }}>
+                                                        
+                                                        <TextField
+                                                            margin="dense"
+                                                            fullWidth={true}
+                                                            value={opt.value.value}
+                                                            error={!!opt.value.errMsg}
+                                                            helperText={opt.value.errMsg}
+                                                            onChange={(e) => existingValueChange(index, e.target.value)}
+                                                            // disabled={true}
+                                                            required
+                                                            placeholder = "Value"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                        <IconButton onClick={() => deleteItem(index)} style={{ height: 36 }}>
+                                                            <DeleteIcon fontSize='small' color='error' />
+                                                        </IconButton>
+                                                    </Grid>
+                                                </React.Fragment>
+                                            ))}
+                                            <Grid item xs={5} style={{ padding: '4px 8px' }}>
+                                                
+                                                <TextField
+                                                    margin="dense"
+                                                    fullWidth={true}
+                                                    error={!!key.errMsg}
+                                                    helperText={key.errMsg}
+                                                    value={key.value}
+                                                    onChange={keyChange}
+                                                    placeholder = "Key"
+                                                />
+                                            </Grid>
+                                            <Grid item xs={6} style={{ padding: '4px 8px' }}>
+                                            
+                                                <TextField
+                                                    margin="dense"
+                                                    fullWidth={true}
+                                                    error={!!value.errMsg}
+                                                    helperText={value.errMsg}
+                                                    value={value.value}
+                                                    onChange={event => setValue({
+                                                        value: event.target.value,
+                                                        errMsg: event.target.value.length > 0 ? undefined : 'Value is required'
+                                                    })}
+                                                    placeholder = "Value"
+                                                />
+                                            </Grid>
+                                            <Grid item xs={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                <IconButton onClick={addItem} style={{ height: 36 }}>
+                                                    <AddIcon fontSize='small' color='action' />
+                                                </IconButton>
+                                            </Grid>
+                                        </Grid>
+                                    </Box>
+                                </React.Fragment>
+                            )}          
                         </Box>
                         <Box className={classes.subtitle}>
                             <Box>
@@ -573,157 +747,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                     </Box>
                 </ListItem>
                
-                {edit.length === 0 && modal && (
-                    <React.Fragment>
-                        <Divider />
-                        <ListItem>
-                            <Grid container style={{ maxWidth: 640 }}>
-                                {option.map((opt, index) => (
-                                    <React.Fragment key={index}>
-                                        <Grid item xs={5} style={{ padding: '4px 8px' }}>
-                                            <TextField
-                                                label="Key"
-                                                margin="dense"
-                                                fullWidth={true}
-                                                value={opt.key.value}
-                                                error={!!opt.key.errMsg}
-                                                helperText={opt.key.errMsg}
-                                                onChange={e => existingKeyChange(index, e.target.value)}
-                                                // disabled={true}
-                                                variant = "outlined"
-                                                required
-                                            />
-                                        </Grid>
-                                        <Grid item xs={6} style={{ padding: '4px 8px' }}>
-                                            <TextField
-                                                label="Value"
-                                                margin="dense"
-                                                fullWidth={true}
-                                                value={opt.value.value}
-                                                error={!!opt.value.errMsg}
-                                                helperText={opt.value.errMsg}
-                                                onChange={(e) => existingValueChange(index, e.target.value)}
-                                                // disabled={true}
-                                                required
-                                            />
-                                        </Grid>
-                                        <Grid item xs={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            <IconButton onClick={() => deleteItem(index)} style={{ height: 36 }}>
-                                                <DeleteIcon fontSize='small' color='error' />
-                                            </IconButton>
-                                        </Grid>
-                                    </React.Fragment>
-                                ))}
-                                <Grid item xs={5} style={{ padding: '4px 8px' }}>
-                                    <TextField
-                                        label="Key"
-                                        margin="dense"
-                                        fullWidth={true}
-                                        error={!!key.errMsg}
-                                        helperText={key.errMsg}
-                                        value={key.value}
-                                        onChange={keyChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={6} style={{ padding: '4px 8px' }}>
-                                    <TextField
-                                        label="Value"
-                                        margin="dense"
-                                        fullWidth={true}
-                                        error={!!value.errMsg}
-                                        helperText={value.errMsg}
-                                        value={value.value}
-                                        onChange={event => setValue({
-                                            value: event.target.value,
-                                            errMsg: event.target.value.length > 0 ? undefined : 'Value is required'
-                                        })}
-                                    />
-                                </Grid>
-                                <Grid item xs={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <IconButton onClick={addItem} style={{ height: 36 }}>
-                                        <AddIcon fontSize='small' color='action' />
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
-                        </ListItem>
-                    </React.Fragment>
-                )}
-               
-               
-                {edit.length > 0 && modal && (
-                    <React.Fragment>
-                        <Divider />
-                        <ListItem>
-                            <Grid container style={{ maxWidth: 640 }}>
-                                {option.map((opt, index) => (
-                                    <React.Fragment key={index}>
-                                        <Grid item xs={5} style={{ padding: '4px 8px' }}>
-                                            <TextField
-                                                label="Key"
-                                                margin="dense"
-                                                fullWidth={true}
-                                                value={opt.key.value}
-                                                error={!!opt.key.errMsg}
-                                                helperText={opt.key.errMsg}
-                                                onChange={e => existingKeyChange(index, e.target.value)}
-                                                // disabled={true}
-                                                required
-                                            />
-                                        </Grid>
-                                        <Grid item xs={6} style={{ padding: '4px 8px' }}>
-                                            <TextField
-                                                label="Value"
-                                                margin="dense"
-                                                fullWidth={true}
-                                                value={opt.value.value}
-                                                error={!!opt.value.errMsg}
-                                                helperText={opt.value.errMsg}
-                                                onChange={(e) => existingValueChange(index, e.target.value)}
-                                                // disabled={true}
-                                                required
-                                            />
-                                        </Grid>
-                                        <Grid item xs={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            <IconButton onClick={() => deleteItem(index)} style={{ height: 36 }}>
-                                                <DeleteIcon fontSize='small' color='error' />
-                                            </IconButton>
-                                        </Grid>
-                                    </React.Fragment>
-                                ))}
-                                <Grid item xs={5} style={{ padding: '4px 8px' }}>
-                                    <TextField
-                                        label="Key"
-                                        margin="dense"
-                                        fullWidth={true}
-                                        error={!!key.errMsg}
-                                        helperText={key.errMsg}
-                                        value={key.value}
-                                        onChange={keyChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={6} style={{ padding: '4px 8px' }}>
-                                    <TextField
-                                        label="Value"
-                                        margin="dense"
-                                        fullWidth={true}
-                                        error={!!value.errMsg}
-                                        helperText={value.errMsg}
-                                        value={value.value}
-                                        onChange={event => setValue({
-                                            value: event.target.value,
-                                            errMsg: event.target.value.length > 0 ? undefined : 'Value is required'
-                                        })}
-                                    />
-                                </Grid>
-                                <Grid item xs={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <IconButton onClick={addItem} style={{ height: 36 }}>
-                                        <AddIcon fontSize='small' color='action' />
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
-                        </ListItem>
-                    </React.Fragment>
-                )}
+
             </List>
             {busy && <CircularProgress className={classes.busy} />}
         </Box>

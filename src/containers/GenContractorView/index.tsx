@@ -196,7 +196,7 @@ const GenContractorView: React.SFC<IGenContractorViewProps> = (props, defaultPro
     let tabViewStatus = true;
     if( location.pathname.includes("project_detail") ) tabViewStatus = false;
     return (
-        <Box style={{ flexGrow: 1, backgroundColor: 'white', color: '#68e191', height: 'calc((111vh - 64px) - 56px)' }}>
+        <Box style={{ flexGrow: 1, backgroundColor: 'white', color: '#68e191'}}>
             {
                 tabViewStatus === true ? (
                     <React.Fragment>

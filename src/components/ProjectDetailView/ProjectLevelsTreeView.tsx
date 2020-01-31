@@ -28,6 +28,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import Box from '@material-ui/core/Box';
 import * as GenActions from 'store/actions/gen-actions';
+import 'assets/css/projectLevelTreeview.css';
 const styles = createStyles(theme => ({
     treeViewWrapper: {
        color:"black",
@@ -35,7 +36,8 @@ const styles = createStyles(theme => ({
        padding:"20px",
        borderRight:"1px solid #e6e8ea",
        minHeight:"100vh",
-       position: 'relative'
+       position: 'relative',
+       height:"100%"
     },
     busy: {
 		position: 'absolute',
@@ -763,7 +765,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
         ];
         return(
             <React.Fragment>
-                <Box className = {classes.treeViewWrapper}>
+                <div className = {classes.treeViewWrapper}>
                     <Box className = {classes.titleView}>
                         <div className = {classes.title}>Levels</div>
                         <div className = {classes.addIcon}
@@ -894,7 +896,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                             )) : (null)
                         }
                     </Box>
-                </Box>
+                </div>
                 <Dialog
                     open={this.state.showModal}
                     onClose={this.closeDialog}
