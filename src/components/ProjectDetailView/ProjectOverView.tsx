@@ -8,7 +8,7 @@ import LocationIcon from '@material-ui/icons/LocationOn';
 import {  ProjectInfo } from 'types/project';
 
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const DES_LIMIT_COUNT = 156;
+const DES_LIMIT_COUNT = 100;
 const styles = createStyles(theme => ({
     overViewWrapper: {
         position: 'relative',
@@ -26,7 +26,6 @@ const styles = createStyles(theme => ({
     },
     showMoreLess:{
         color:"blue",
-        fontWeight: 500,
         "&:hover":{
             cursor: "pointer"
         }
@@ -38,6 +37,7 @@ const styles = createStyles(theme => ({
 export interface IProjectOverviewProps {
     project: ProjectInfo;
     classes: ClassNameMap<string>;
+    levelGettingLoading: boolean;
 }
 interface IProjectOverviewState{
     isExpandedDes: boolean;
@@ -92,18 +92,25 @@ class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOve
     render() {
         const {classes} = this.props;
         return(
-            <Box className = {classes.overViewWrapper}>
-                 <div  className = {classes.title}>{this.props.project.title}</div>
-                 <div style = {{display:"flex", margin:"10px 0px", alignItems:"center"}}>
-                     <strong>Project Date: </strong>
-                     <span>&nbsp;{this.render_date(this.props.project.due)}&nbsp;</span>
-                     <span style = {{color:"#4f7fde"}}>{this.props.project.genContractor.address && this.props.project.genContractor.address.name ? this.props.project.genContractor.address.name : ""}</span>
-                     <LocationIcon  className = {classes.locationIcon}/>&nbsp;{this.props.project.city}
-                 </div>
-                 <div>
-                     {this.render_des(this.props.project.description, classes)}
-                 </div>
-            </Box>
+            <React.Fragment>
+                {
+                    this.props.levelGettingLoading === false ? (
+                        <Box className = {classes.overViewWrapper}>
+                            <div  className = {classes.title}>{this.props.project.title}</div>
+                            <div style = {{display:"flex", margin:"10px 0px", alignItems:"center"}}>
+                                <strong>Project Date: </strong>
+                                <span>&nbsp;{this.render_date(this.props.project.due)}&nbsp;</span>
+                                <span style = {{color:"#4f7fde"}}>{this.props.project.genContractor.address && this.props.project.genContractor.address.name ? this.props.project.genContractor.address.name : ""}</span>
+                                <LocationIcon  className = {classes.locationIcon}/>&nbsp;{this.props.project.city}
+                            </div>
+                            <div style = {{color:"#a1a1a1"}}>
+                                {this.render_des(this.props.project.description, classes)}
+                            </div>
+                        </Box>
+                    ): (null)
+                }
+            </React.Fragment>
+           
         )
     }
 }

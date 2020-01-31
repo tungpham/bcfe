@@ -73,7 +73,8 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,any>{
                     <Tab label="Files" {...this.a11yProps(1)} />
                     </Tabs>
                 </AppBar>
-                <TabPanel value={this.state.value} index={0}>
+                <TabPanel value={this.state.value} index={0}
+                >
                     <ProjectTemplatesView
                         selectedLevelId = {this.props.selectedLevelId}
                         selectedRoomId = {this.props.selectedRoomId}

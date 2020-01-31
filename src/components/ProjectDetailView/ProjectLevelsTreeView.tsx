@@ -128,7 +128,10 @@ const styles = createStyles(theme => ({
     },
     roomItemTitle:{
         flex:1,
-        fontSize:"0.875rem"
+        fontSize:"0.875rem",
+        "& svg":{
+            color:"blue"
+        }
     },
     templateItem:{
         display:"flex",
@@ -163,6 +166,7 @@ interface ProjectLevelsTreeViewProps{
     userProfile: UserProfile;
     classes: ClassNameMap<string>;
     roots: NodeInfo[];
+    levelGettingLoading: boolean;
     createLevel: (id: string, level: { number: number, name: string, description: string }) => Promise<any>;
     changeLevel: (id: string, level: { number: number, name: string, description: string }) => Promise<any>;
     deleteLvl: (id: string) => Promise<any>;
@@ -696,6 +700,10 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
         })
     }
     componentDidUpdate(prevProps:ProjectLevelsTreeViewProps){
+        if(prevProps.project.id !== this.props.project.id )
+        {
+
+        }
         if(prevProps.levels !== this.props.levels && this.state.selectedRoomId && this.state.selectedLevelId )
         {
             var _selectList = [];
@@ -764,7 +772,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                     </Box>
                     <Box>
                         {
-                            levels && levels.length > 0 ? levels.map((level,index)=>(
+                           this.props.levelGettingLoading === false && levels && levels.length > 0 ? levels.map((level,index)=>(
                                 <React.Fragment key = {`level-tree-parent-${index}`}>
                                     <Box  className = {this.state.selectedLevelId === level.id && this.state.levelExpanded === true ? `${classes.levelItem} ${classes.levelItemSelected}` : classes.levelItem}  onClick = {()=>{ this.setLevel(level) }}>
                                         <div className = {  classes.levelItemTitle} >                               
@@ -852,12 +860,6 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                                                 name="radio-button-demo"
                                                                 className = {classes.templateItemTitle}
                                                             />
-                                                            {/* <Radio
-                                                                  checked={this.state.selectedTemplateId === select.id }
-                                                                  color = "primary"
-                                                                  size = "small"
-                                                                  className = {classes.templateItemTitle}
-                                                            /> */}
                                                             {
                                                                 this.state.selectedTemplateId === select.id ? (
                                                                     <span className = {classes.actionIcon}>

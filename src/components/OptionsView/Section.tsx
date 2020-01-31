@@ -17,10 +17,12 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import InputBase from '@material-ui/core/InputBase';
 import NativeSelect from '@material-ui/core/NativeSelect';
+import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import DoneIcon from '@material-ui/icons/Done';
+import CancelIcon from '@material-ui/icons/Close';
 import { ProjectLevelCategory, RoomOption, ProjectInfo } from 'types/project';
 import { Validator, NodeInfo } from 'types/global';
 
@@ -486,9 +488,9 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                 <ListItem style = {{alignItems:"none"}}>
                     <Box style = {{display:"flex"}}>
                         <Box>
-                            <Typography className={classes.bold}>
+                            {/* <Typography className={classes.bold}>
                                 Category
-                            </Typography>
+                            </Typography> */}
                             <FormControl variant="outlined" style = {{width:"400px"}}>
                                 <NativeSelect
                                     style={{ minWidth: 180 }}
@@ -509,12 +511,26 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                     ))}
                                 </NativeSelect>
                             </FormControl>
+                            <Box style = {{padding:"20px 0px"}}>
+                                {edit.length === 0 && (
+                                    <Box>
+                                        <Fab onClick={handleSelect} color="primary" aria-label="select" size = "small"><DoneIcon/></Fab>
+                                        <Fab onClick={handleCancel} color="default" aria-label="cancel" size = "small" style = {{marginLeft:"15px"}}><CancelIcon/></Fab>
+                                    </Box>
+                                )}
+                                {edit.length > 0 && (
+                                    <Box>
+                                        <Fab onClick={handleSelect} color="primary" aria-label="select" size = "small" ><DoneIcon/></Fab>
+                                        <Fab onClick={handleCancel} color="default" aria-label="cancel" size = "small" style = {{marginLeft:"15px"}}><CancelIcon/></Fab>
+                                    </Box>
+                                )}
+                            </Box>            
                         </Box>
                         <Box className={classes.subtitle}>
                             <Box className = {classes.bold}>
                                 description:
                             </Box>
-                        <Box>
+                            <Box>
                                 <ReactMarkdown
                                     source={node.description}
                                     skipHtml={false}
@@ -606,12 +622,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                         </ListItem>
                     </React.Fragment>
                 )}
-                {edit.length === 0 && (
-                    <ListItem>
-                        <Button onClick={handleSelect} className={classes.doneBtn}>Select</Button>
-                        <Button onClick={handleCancel} className={classes.doneBtn}>Cancel</Button>
-                    </ListItem>
-                )}
+               
                 {room.selectionList && room.selectionList.filter(selection => component.id === selection.category.id).map(opt => (
                     <React.Fragment key={opt.id}>
                         <ListItem>
@@ -715,12 +726,6 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                             </Grid>
                         </ListItem>
                     </React.Fragment>
-                )}
-                {edit.length > 0 && (
-                    <ListItem>
-                        <Button onClick={handleSelect} className={classes.doneBtn}>Select</Button>
-                        <Button onClick={handleCancel} className={classes.doneBtn}>Cancel</Button>
-                    </ListItem>
                 )}
             </List>
             {busy && <CircularProgress className={classes.busy} />}

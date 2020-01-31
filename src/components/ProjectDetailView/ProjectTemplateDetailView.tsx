@@ -14,7 +14,11 @@ const styles = createStyles(theme => ({
    roomInfo:{
        border:"1px solid #e6e8ea",
        padding:"20px",
-       margin:"15px 0px"
+       margin:"15px 0px",
+       display:"flex"
+   },
+   roomDesc:{
+       flex:0.5
    },
    roomInfoTitle:{
        fontWeight:"bold",
@@ -211,6 +215,7 @@ class ProjectTemplateDetailView extends React.Component<ProjectTemplateDetailPro
         return(
             <React.Fragment>
                 <Box className = {classes.roomInfo}>
+                    <Box style = {{flex:0.5}}>
                     <Box style = {{display:"flex"}}>
                         <Box className = {classes.roomInfoTitle}>
                             {
@@ -229,27 +234,32 @@ class ProjectTemplateDetailView extends React.Component<ProjectTemplateDetailPro
                     </Box>
                     <Box style = {{display:"flex", marginTop:"10px"}}>
                         <Box  className = {classes.roomInfoDetails}>
-                            <Box >
-                                <Box style = {{fontWeight:500}}>Length</Box>
-                                <Box className = {classes.roomInfoDetailView}>{this.state.currentRoom && this.state.currentRoom.l ? this.state.currentRoom.l : ""}</Box>
+                            <Box style = {{display:"flex"}}>
+                                <Box style = {{fontWeight:500}}>Length: </Box>
+                                <span>{this.state.currentRoom && this.state.currentRoom.l ? this.state.currentRoom.l : ""}&nbsp;&nbsp;&nbsp;</span>
                             </Box>
-                            <Box >
-                                <Box  style = {{fontWeight:500}}>Width</Box>
-                                <Box className = {classes.roomInfoDetailView}>{this.state.currentRoom && this.state.currentRoom.w ? this.state.currentRoom.w : ""}</Box>
+                            <Box style = {{display:"flex"}}>
+                                <Box  style = {{fontWeight:500}}>Width: </Box>
+                                <span>{this.state.currentRoom && this.state.currentRoom.w ? this.state.currentRoom.w : ""}&nbsp;&nbsp;&nbsp;</span>
                             </Box>
-                            <Box>
-                                <Box  style = {{fontWeight:500}}>Height</Box>
-                                <Box className = {classes.roomInfoDetailView}>{this.state.currentRoom && this.state.currentRoom.h ? this.state.currentRoom.h : ""}</Box>
+                            <Box style = {{display:"flex"}}>
+                                <Box  style = {{fontWeight:500}}>Height: </Box>
+                                <span>{this.state.currentRoom && this.state.currentRoom.h ? this.state.currentRoom.h : ""}&nbsp;&nbsp;&nbsp;</span>
                             </Box>
                         </Box>
-                        <Box className = {classes.roomInfoDetailsDesc}>
-                            <Box  style = {{fontWeight:500}}>Description:</Box>
-                            <Box>
-                                {this.state.currentRoom && this.state.currentRoom.description ?  this.render_des_2(this.state.currentRoom.description, 150, classes) : ""}
-                            </Box>
+                      
+                    </Box>
+                    </Box>
+                    <Box className = {classes.roomDesc}>
+                    <Box className = {classes.roomInfoDetailsDesc}>
+                        <Box  style = {{fontWeight:500}}>Description:</Box>
+                        <Box>
+                            {this.state.currentRoom && this.state.currentRoom.description ?  this.render_des_2(this.state.currentRoom.description, 150, classes) : ""}
                         </Box>
                     </Box>
                 </Box>
+                </Box>
+               
                     {
                         this.state.currentRoom && this.state.currentTemplate && (
                             <Box className = {classes.templateDetails}>

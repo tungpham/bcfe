@@ -47,6 +47,7 @@ interface IProjectDetailViewState{
     selectedLevelId: string;
     selectedRoomId:  string;
     selectedTemplateId: string;
+    levelGettingLoading: boolean;
 }
 class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjectDetailViewState> {
     constructor(props)
@@ -56,6 +57,7 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
             selectedLevelId: null,
             selectedRoomId:  null,
             selectedTemplateId: null,
+            levelGettingLoading: true
         }
     }
     setLevelId = (_levelId) => {
@@ -76,7 +78,13 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
     async componentDidMount() {
         const { match } = this.props;
         await this.props.getProjectData(match.params.id);
+        this.setState({
+            levelGettingLoading: true
+        })
         await this.props.getLevels(match.params.id);
+        this.setState({
+            levelGettingLoading: false
+        })
         await this.props.loadRoots();
     }
 
@@ -95,10 +103,13 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
                         setLevelId = {this.setLevelId}
                         setRoomId = {this.setRoomId}
                         setTemplateId = {this.setTemplateId}
+                        levelGettingLoading = {this.state.levelGettingLoading}
                     />
                 </div>
                 <Box className = {classes.projectDetailViewWrapper}>
-                    <ProjectOverView/>
+                    <ProjectOverView
+                        levelGettingLoading = {this.state.levelGettingLoading}
+                    />
                     <ProjectDetailsView
                         selectedLevelId = {this.state.selectedLevelId}
                         selectedRoomId = {this.state.selectedRoomId}

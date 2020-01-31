@@ -3,8 +3,6 @@ import {useState} from 'react';
 import { connect } from 'react-redux';
 import ReactMarkdown from "react-markdown";
 import Box from '@material-ui/core/Box';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import { ProjectLevel, ProjectLevelCategory, ProjectInfo } from 'types/project';
@@ -22,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         paddingTop: theme.spacing(1)
     },
     titlebar: {
-        padding: theme.spacing(0),
+        padding: "0px 8px",
         fontSize: '1.5em',
     },
     levelbar: {
@@ -52,7 +50,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     showMoreLess:{
         color:"blue",
-        fontWeight:500,
         "&:hover":{
             cursor: "pointer"
         }
@@ -126,14 +123,14 @@ const ProjectOptionEdit: React.SFC<IProjectOptionEditProps & withSnackbarProps> 
 
     return (
         <Box className={classes.root}>
-            <List aria-label='project-options' style={{ padding: '16px 0' }}>
-                <ListItem className={classes.titlebar}>
+            <Box aria-label='project-options'>
+                <Box className={classes.titlebar}>
                     <Box className={classes.title}>
                         {root.name}&nbsp;&nbsp;&nbsp;
                         <span className={classes.subtitle}>{render_des(root.description, classes)}</span>
                     </Box>
-                </ListItem>
-            </List>
+                </Box>
+            </Box>
             {root && root.children && root.children.length > 0 && root.children.map(item => (
                 <Section
                     key={item.id}
