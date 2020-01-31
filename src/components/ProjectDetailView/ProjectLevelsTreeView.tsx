@@ -34,10 +34,7 @@ const styles = createStyles(theme => ({
        color:"black",
        width:"300px",
        padding:"20px",
-       borderRight:"1px solid #e6e8ea",
-       minHeight:"100vh",
        position: 'relative',
-       height:"100%"
     },
     busy: {
 		position: 'absolute',
@@ -132,7 +129,7 @@ const styles = createStyles(theme => ({
         flex:1,
         fontSize:"0.875rem",
         "& svg":{
-            color:"blue"
+            color:"#1752a8"
         }
     },
     templateItem:{

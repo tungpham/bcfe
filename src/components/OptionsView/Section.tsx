@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {useState} from 'react';
 import ReactMarkdown from "react-markdown";
+import breaks from 'remark-breaks';
 import { createStyles, makeStyles, withStyles, Theme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import ListItem from '@material-ui/core/ListItem';
@@ -18,7 +19,6 @@ import InputBase from '@material-ui/core/InputBase';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import CancelIcon from '@material-ui/icons/Close';
@@ -86,13 +86,37 @@ const useStyles = makeStyles((theme: Theme) => ({
             margin:"0px"
         }
     },
+    subtitle1: {
+        // fontWeight: 500,
+        fontSize: '1rem',
+        marginLeft: "50px",
+        color: '#222',
+        // paddingTop: theme.spacing(0.5)
+        "& p":{
+            margin:"0px"
+        }
+    },
     fab: {
         fontWeight:500,
         color:"#5782e4",
+        marginTop:"30px",
         "&:hover":{
             cursor:"pointer",
             textDecoration:"underline"
         }
+    },
+    actionBtn:{
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        marginTop:"30px"
+    },
+    link: {
+        fontSize: '0.875rem',
+        fontWeight: "bold",
+        color: 'blue',
+        cursor: 'pointer',
+        marginLeft: '15px'
     },
     fab1: {
         fontWeight:500,
@@ -109,7 +133,7 @@ const useStyles = makeStyles((theme: Theme) => ({
             width:"0.7em"
     },
     catBox: {
-        margin:"5px 50px 0px 0px"
+        margin:"5px 0px"
     },
     value: {
         fontWeight: 500,
@@ -537,13 +561,6 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                     </Box>
                                 )}
                             </Box>  
-                            {edit.length === 0 && (
-                                <Box  >
-                                    <Box  onClick={showForm} className = {classes.fab}>
-                                        + Add More {component.name} Details
-                                    </Box>
-                                </Box>
-                            )}
                             {room.selectionList && room.selectionList.filter(selection => component.id === selection.category.id).map(opt => (
                                 <React.Fragment key={opt.id}>
                                     <Box>
@@ -552,22 +569,16 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                                 {`Current Selection: < ${buildCrumb(buildPath(opt)).join(' / ')} >`}
                                             </Typography>
                                             <Box style={{ display: 'flex' }}>
-                                                {edit.length > 0 && (
+                                                {edit.length > 0 && modal === false &&  (
                                                     <Box
-                                                        className={classes.fab1}
+                                                        className={classes.fab}
                                                         onClick={showForm}
                                                     >
-                                                        {(Object.keys(opt.option).length > 0) ? (
-                                                        <React.Fragment>
-                                                             <EditIcon fontSize='small' className = {classes.editIcon}/>
-                                                             <span> Edit</span>
-                                                        </React.Fragment>) : (
-                                                            <Box> + Add More {component.name} Details</Box>
-                                                        )}
+                                                        Additional Details
                                                     </Box>
                                                 )}
                                             </Box>
-                                            {opt.option && Object.keys(opt.option).length > 0 && (
+                                            {opt.option && modal === false &&  Object.keys(opt.option).length > 0 && (
                                                 <ul>
                                                     {Object.keys(opt.option).map(key => (
                                                         <li key={key} style={{ padding: 4, listStyleType: 'disc' }}>{`${key} : ${opt.option[key]}`}</li>
@@ -578,6 +589,28 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                     </Box>
                                 </React.Fragment>
                             ))}
+                           
+                            {edit.length === 0 && modal === false && (
+                                <Box  >
+                                    <Box  onClick={showForm} className = {classes.fab}>
+                                         Additional Details
+                                    </Box>
+                                </Box>
+                            )}
+                            {
+                                modal === true && (
+                                    <Box className = {classes.actionBtn}>
+                                        <Box style = {{flex:1}}></Box>
+                                        <Box className = {classes.link}
+                                            onClick = {handleSelect}
+                                        >Save</Box>
+                                        <Box className = {classes.link} style = {{color:"red"}}
+                                            onClick = {handleCancel}
+                                        >Cancel</Box>
+                                    </Box>
+                                )
+                            }
+
                            {edit.length === 0 && modal && (
                                 <React.Fragment>
                                     <Box>
@@ -735,12 +768,13 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                 </React.Fragment>
                             )}          
                         </Box>
-                        <Box className={classes.subtitle}>
+                        <Box className={classes.subtitle1}>
                             <Box>
                                 <ReactMarkdown
                                     source={node.description}
                                     skipHtml={false}
                                     escapeHtml={false}
+                                    plugins = {[breaks]}
                                 />
                             </Box>
                         </Box>

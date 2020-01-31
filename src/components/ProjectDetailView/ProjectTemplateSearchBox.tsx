@@ -183,11 +183,10 @@ export class PredictiveSearchBox extends Component<PredictiveSearchBoxProps & wi
           {
               this.state.addBtnShow === true ? (
                 <Fab 
-                  color="primary" 
                   aria-label="add"
                   size="small"
                   onClick = {this.addSpe}
-                  style = {{marginLeft:"10px"}}
+                  style = {{marginLeft:"10px", backgroundColor:"#1752a8", color:"white"}}
                 >
                   <AddIcon />
                 </Fab>

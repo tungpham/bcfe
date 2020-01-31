@@ -155,13 +155,14 @@ class ProjectTemplatesView extends React.Component<ProjectTemplatesViewProps,Pro
                         roomId = {this.props.selectedRoomId}
                         project = {this.props.project}
                     />
-                     <Button color = "primary" variant = "contained" size = "small"
+                     <Button  variant = "contained" size = "small"
+                      
                         onClick = {()=>{
                             this.setState({
                                 addTemplatesModalShow: true
                             })
                         }}
-                        style = {{marginLeft:"10px"}}
+                        style = {{marginLeft:"10px", backgroundColor:"#1752a8", color:"white"}}
                     ><ListIcon/>Show All</Button>
                 </div>
                 <Dialog

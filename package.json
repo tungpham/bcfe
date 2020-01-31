@@ -49,6 +49,7 @@
     "redux": "^4.0.1",
     "redux-actions": "^2.6.5",
     "redux-thunk": "^2.3.0",
+    "remark-breaks": "^1.0.3",
     "remove-markdown": "^0.3.0",
     "typescript": "^3.5.2",
     "webfontloader": "^1.6.28",
