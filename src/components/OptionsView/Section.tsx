@@ -261,7 +261,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
         const count = node.children.length;
         // if (selection && selection.id === e.target.value) return;
         if (node.id === e.target.value) return;
-
+        setModal(false);
         for (let i = 0; i < count; i++) {
             if (node.children[i].id === e.target.value) {
                 let newPath = path;
@@ -569,7 +569,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                                 {`Current Selection: < ${buildCrumb(buildPath(opt)).join(' / ')} >`}
                                             </Typography>
                                             <Box style={{ display: 'flex' }}>
-                                                {edit.length > 0 && modal === false &&  (
+                                                {edit.length > 0 && modal === false && node && (!node.children || !node.children.length) &&  (
                                                     <Box
                                                         className={classes.fab}
                                                         onClick={showForm}
@@ -590,7 +590,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                 </React.Fragment>
                             ))}
                            
-                            {edit.length === 0 && modal === false && (
+                            {edit.length === 0 && modal === false && node && (!node.children || !node.children.length) && (
                                 <Box  >
                                     <Box  onClick={showForm} className = {classes.fab}>
                                          Additional Details
@@ -598,7 +598,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                 </Box>
                             )}
                             {
-                                modal === true && (
+                                modal === true &&  node && (!node.children || !node.children.length) && (
                                     <Box className = {classes.actionBtn}>
                                         <Box style = {{flex:1}}></Box>
                                         <Box className = {classes.link}
@@ -611,7 +611,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                 )
                             }
 
-                           {edit.length === 0 && modal && (
+                           {edit.length === 0 && modal && node && (!node.children || !node.children.length) && (
                                 <React.Fragment>
                                     <Box>
                                         <Grid container style={{ maxWidth: 400 }}>
@@ -690,7 +690,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                             )}
                         
                         
-                            {edit.length > 0 && modal && (
+                            {edit.length > 0 && modal &&  node && (!node.children || !node.children.length) && (
                                 <React.Fragment>
                                     <Box>
                                         <Grid container style={{ maxWidth: 400 }}>
