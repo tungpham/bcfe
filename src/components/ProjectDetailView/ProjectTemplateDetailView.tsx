@@ -18,7 +18,7 @@ const styles = createStyles(theme => ({
        display:"flex"
    },
    roomDesc:{
-       flex:0.5
+       flex:1
    },
    roomInfoTitle:{
        fontWeight:"bold",
@@ -46,7 +46,6 @@ const styles = createStyles(theme => ({
     },
     showMoreLess:{
         color:"blue",
-        fontWeight: 500,
         "&:hover":{
             cursor: "pointer"
         },

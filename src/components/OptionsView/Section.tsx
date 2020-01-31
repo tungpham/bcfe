@@ -9,7 +9,6 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
@@ -82,7 +81,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontSize: '1rem',
         paddingRight: theme.spacing(1.5),
         color: '#222',
-        // paddingTop: theme.spacing(0.5)
+        "& p":{
+            margin:"0px"
+        }
     },
     fab: {
         fontWeight:500,
@@ -128,7 +129,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     showMoreLess:{
         color:"blue",
-        fontWeight:500,
         "&:hover":{
             cursor: "pointer"
         }
@@ -476,21 +476,19 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                     </Box>
                 </ListItem>
                 <Divider />
-                <ListItem>
-                    <Breadcrumbs>
-                        {path.map(item => (
-                            <Link key={item.id} onClick={() => clickCrumb(item)} style={{ cursor: 'pointer' }}>
-                                {item.name}
-                            </Link>
-                        ))}
-                    </Breadcrumbs>
-                </ListItem>
+               
                 <ListItem style = {{alignItems:"none"}}>
                     <Box style = {{display:"flex"}}>
                         <Box>
-                            {/* <Typography className={classes.bold}>
-                                Category
-                            </Typography> */}
+                            <Box>
+                                <Breadcrumbs>
+                                    {path.map(item => (
+                                        <Link key={item.id} onClick={() => clickCrumb(item)} style={{ cursor: 'pointer' }}>
+                                            {item.name}
+                                        </Link>
+                                    ))}
+                                </Breadcrumbs>
+                            </Box>
                             <FormControl variant="outlined" style = {{width:"400px"}}>
                                 <NativeSelect
                                     style={{ minWidth: 180 }}
@@ -524,12 +522,46 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                         <Fab onClick={handleCancel} color="default" aria-label="cancel" size = "small" style = {{marginLeft:"15px"}}><CancelIcon/></Fab>
                                     </Box>
                                 )}
-                            </Box>            
+                            </Box>  
+                            {edit.length === 0 && (
+                                <Box  >
+                                    <Box  onClick={showForm} className = {classes.fab}>
+                                        + Add More {component.name} Details
+                                    </Box>
+                                </Box>
+                            )}
+                            {room.selectionList && room.selectionList.filter(selection => component.id === selection.category.id).map(opt => (
+                                <React.Fragment key={opt.id}>
+                                    <Box>
+                                        <Box style={{ width: '100%' }}>
+                                            <Typography className={classes.subtitle}>
+                                                {`Current Selection: < ${buildCrumb(buildPath(opt)).join(' / ')} >`}
+                                            </Typography>
+                                            <Box style={{ display: 'flex' }}>
+                                                {edit.length > 0 && (
+                                                    <Box
+                                                        className={classes.fab}
+                                                        onClick={showForm}
+                                                    >
+                                                        {(Object.keys(opt.option).length > 0) ? <EditIcon fontSize='small' /> : (
+                                                            <Box> + Add More {component.name} Details</Box>
+                                                        )}
+                                                    </Box>
+                                                )}
+                                            </Box>
+                                            {opt.option && Object.keys(opt.option).length > 0 && (
+                                                <ul>
+                                                    {Object.keys(opt.option).map(key => (
+                                                        <li key={key} style={{ padding: 4, listStyleType: 'disc' }}>{`${key} : ${opt.option[key]}`}</li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </Box>
+                                    </Box>
+                                </React.Fragment>
+                            ))}          
                         </Box>
                         <Box className={classes.subtitle}>
-                            <Box className = {classes.bold}>
-                                description:
-                            </Box>
                             <Box>
                                 <ReactMarkdown
                                     source={node.description}
@@ -540,13 +572,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                         </Box>
                     </Box>
                 </ListItem>
-                {edit.length === 0 && (
-                    <ListItem  >
-                        <Box  onClick={showForm} className = {classes.fab}>
-                              + Add More {component.name} Details
-                        </Box>
-                    </ListItem>
-                )}
+               
                 {edit.length === 0 && modal && (
                     <React.Fragment>
                         <Divider />
@@ -623,36 +649,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                     </React.Fragment>
                 )}
                
-                {room.selectionList && room.selectionList.filter(selection => component.id === selection.category.id).map(opt => (
-                    <React.Fragment key={opt.id}>
-                        <ListItem>
-                            <Box style={{ width: '100%' }}>
-                                <Typography className={classes.subtitle}>
-                                    {`Current Selection: < ${buildCrumb(buildPath(opt)).join(' / ')} >`}
-                                </Typography>
-                                <Box style={{ display: 'flex' }}>
-                                    {edit.length > 0 && (
-                                        <Box
-                                            className={classes.fab}
-                                            onClick={showForm}
-                                        >
-                                            {(Object.keys(opt.option).length > 0) ? <EditIcon fontSize='small' /> : (
-                                                <Box> + Add More {component.name} Details</Box>
-                                            )}
-                                        </Box>
-                                    )}
-                                </Box>
-                                {opt.option && Object.keys(opt.option).length > 0 && (
-                                    <ul>
-                                        {Object.keys(opt.option).map(key => (
-                                            <li key={key} style={{ padding: 4, listStyleType: 'disc' }}>{`${key} : ${opt.option[key]}`}</li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </Box>
-                        </ListItem>
-                    </React.Fragment>
-                ))}
+               
                 {edit.length > 0 && modal && (
                     <React.Fragment>
                         <Divider />
