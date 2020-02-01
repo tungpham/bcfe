@@ -18,6 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
 import PdfIcon from '@material-ui/icons/PictureAsPdf';
 import ImageIcon from '@material-ui/icons/Image';
 import MovieIcon from '@material-ui/icons/Movie';
@@ -30,7 +31,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import { Menu, MenuItem } from '@material-ui/core';
 import { MenuProps } from '@material-ui/core/Menu';
-import Fab from '@material-ui/core/Fab';
 //import Types;
 import { ProjectInfo } from 'types/project';
 //import actions & apis;
@@ -58,7 +58,7 @@ const StyledMenu = withStyles({
 
 const styles = createStyles(theme => ({
     projectFilesViewWrapper:{
-        padding:"20px",
+        padding:"0px",
         position:"relative"
     },
     ProjectFilesTableWrapper:{
@@ -78,7 +78,19 @@ const styles = createStyles(theme => ({
         alignItems:"center",
         fontWeight: 500,
         color:"blue"
-    }
+    },
+    menuItem :{
+        padding:"0px 10px !important",
+        minHeight:"0px"
+    },
+    menuItemIcon:{
+        color:"black",
+        minWidth:"30px",
+        "& svg":{
+            width:"0.7em",
+            height:"0.7em"
+        }
+    },
 }));
 function DropDownButton(props)
 {
@@ -99,20 +111,21 @@ function DropDownButton(props)
 	};
     return(
         <React.Fragment>
-            <Fab onClick = {handleActionMenuOpen} color = "default" size = "small"><ArrowDownIcon/></Fab>
+            <IconButton onClick = {handleActionMenuOpen} color = "default" size = "small"><ArrowDownIcon/></IconButton>
             <StyledMenu
                 id="simple-menu"
                 anchorEl={anchorEl}
                 keepMounted
-            
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
             >
                 <MenuItem 
                     onClick = {()=>{handleClose(); props.deleteFile()}}
-                    style = {{color:"red"}}
+                    className = {props.classes.menuItem}
                 >
-                    <ListItemIcon >
+                    <ListItemIcon className = {props.classes.menuItemIcon}>
                         <DeleteIcon fontSize="small"/>
                     </ListItemIcon>
                     <ListItemText primary="Delete" />
@@ -123,11 +136,12 @@ function DropDownButton(props)
                         setFileName(props.File.name);
                         handleClose();
                     }}
+                    className = {props.classes.menuItem}
                 >
-                    <ListItemIcon  >
+                    <ListItemIcon  className = {props.classes.menuItemIcon}>
                         <EditIcon fontSize="small"/>
                     </ListItemIcon>
-                    <ListItemText primary="Remane" />
+                    <ListItemText primary="Rename" />
                 </MenuItem>
             </StyledMenu>
             <Dialog
@@ -280,11 +294,11 @@ class ProjectFilesView extends React.Component<ProjectFilesViewProps & withConfi
                     onChange = {this.handleChangeFiles}
                 />
                 <Box className = {classes.actionBtnsWrapper}>
-                    <Button color="default" variant="contained"
+                    <Button color="default" variant="contained"  size = "small"
                         onClick = {()=>this.getFiles()}
-                    ><RefreshIcon/></Button>
-                    <Button color="default" variant="contained" style = {{marginLeft:"10px"}}><DownloadIcon />&nbsp;Download All</Button>
-                    <Button color="default" variant="contained" style = {{float:"right"}} 
+                    ><RefreshIcon fontSize = "small"/></Button>
+                    <Button color="default" variant="contained" style = {{marginLeft:"10px"}} size = "small"><DownloadIcon />&nbsp;Download All</Button>
+                    <Button color="default" variant="contained" style = {{float:"right"}}  size = "small" 
                         onClick = {()=>{
                             this.fileUploader.click();
                         }}
@@ -306,13 +320,14 @@ class ProjectFilesView extends React.Component<ProjectFilesViewProps & withConfi
                                     <TableCell>
                                         <Box className = {classes.fileNameCell}>
                                             {this.renderFileIcon(file.name)}
+                                            &nbsp;&nbsp;&nbsp;
                                             {file.name}
                                         </Box>
                                     </TableCell>
-                                    <TableCell></TableCell>
-                                    <TableCell></TableCell>
+                                    <TableCell>{file.size ? file.size : ""}</TableCell>
+                                    <TableCell>{file.lastModified ? file.lastModified : ""}</TableCell>
                                     <TableCell align = "right">
-                                        <DropDownButton deleteFile = {()=>this.deleteFile(file)} File = {file}/>
+                                        <DropDownButton deleteFile = {()=>this.deleteFile(file)} File = {file} classes = {classes}/>
                                     </TableCell>
                                 </TableRow>
                             )):(null)}

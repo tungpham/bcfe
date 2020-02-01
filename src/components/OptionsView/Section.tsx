@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         display:"flex",
         justifyContent:"center",
         alignItems:"center",
-        marginTop:"30px"
+        marginTop:"10px"
     },
     link: {
         fontSize: '0.875rem',
@@ -353,7 +353,8 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
         }
 
         // save options
-        setOption([...option, { key: { value: key.value, errMsg: undefined }, value: { value: value.value, errMsg: undefined } }]);
+        // setOption([...option, { key: { value: key.value, errMsg: undefined }, value: { value: value.value, errMsg: undefined } }]);
+        handleSelect("add");
         setKey({ value: '', errMsg: undefined });
         setValue({ value: '', errMsg: undefined });
     }
@@ -371,11 +372,15 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
         } else if (filtered.length > 1) {
         }
     }
-    const handleSelect = async () => {
-
-        let newOpts1 = option;
-        let newOpts = opts === undefined ? [] : opts;
-        newOpts = modalType === "add" ? newOpts.concat(newOpts1) : newOpts1;
+    const handleSelect = async (type = "") => {
+        let newOpts
+        if(type === "add")
+        {
+            newOpts = opts === undefined ? [] : opts;
+            newOpts =  newOpts.concat([{ key: { value: key.value, errMsg: undefined }, value: { value: value.value, errMsg: undefined } }]);
+        } else {
+            newOpts = option;
+        }
         const postOption = {};
         let err = false;
         for (let i = 0; i < newOpts.length; i++) {
@@ -396,12 +401,10 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
 
             postOption[newOpts[i].key.value] = newOpts[i].value.value;
         }
-
         if (err) {
             setOption([...newOpts]);
             return;
         }
-
         // call api
         setBusy(true);
         try {
@@ -546,13 +549,13 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                             <Box style = {{padding:"20px 0px"}}>
                                 {edit.length === 0 && (
                                     <Box>
-                                        <Fab onClick={handleSelect} style = {{backgroundColor:"#1752a8", color:"white"}} aria-label="select" size = "small"><DoneIcon/></Fab>
+                                        <Fab onClick={()=>handleSelect("")} style = {{backgroundColor:"#1752a8", color:"white"}} aria-label="select" size = "small"><DoneIcon/></Fab>
                                         <Fab onClick={handleCancel} color="default" aria-label="cancel" size = "small" style = {{marginLeft:"15px"}}><CancelIcon/></Fab>
                                     </Box>
                                 )}
                                 {edit.length > 0 && (
                                     <Box>
-                                        <Fab onClick={handleSelect} style = {{backgroundColor:"#1752a8",  color:"white"}} aria-label="select" size = "small" ><DoneIcon/></Fab>
+                                        <Fab onClick={()=>handleSelect("")} style = {{backgroundColor:"#1752a8",  color:"white"}} aria-label="select" size = "small" ><DoneIcon/></Fab>
                                         <Fab onClick={handleCancel} color="default" aria-label="cancel" size = "small" style = {{marginLeft:"15px"}}><CancelIcon/></Fab>
                                     </Box>
                                 )}
@@ -565,23 +568,30 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                                 {`Current Selection: < ${buildCrumb(buildPath(opt)).join(' / ')} >`}
                                             </Typography>
                                             <Box style={{ display: 'flex' }}>
-                                                {edit.length > 0 && modal === false && node && (!node.children || !node.children.length) &&  (
+                                                {edit.length > 0 && node && (!node.children || !node.children.length) &&  (
                                                     <Box  className={classes.fab}>
                                                         <Box>Additional Details</Box>
-                                                        <IconButton size = "small" style = {{marginLeft:"20px"}}
-                                                            onClick = {()=>showForm("add")}
-                                                        ><AddIcon fontSize="small" style = {{color:"#1752a8"}}/></IconButton>
                                                         {
-                                                            opt.option &&   Object.keys(opt.option).length > 0 && (
-                                                                <IconButton size = "small"
-                                                                    onClick = {()=>showForm("edit")}
-                                                                ><EditIcon fontSize="small"  className = {classes.editIcon} style = {{color:"#1752a8"}}/></IconButton>
-                                                            )
+                                                            modal === false ? (
+                                                                <React.Fragment>
+                                                                    <IconButton size = "small" style = {{marginLeft:"20px"}}
+                                                                        onClick = {()=>showForm("add")}
+                                                                    ><AddIcon fontSize="small" style = {{color:"#1752a8"}}/></IconButton>
+                                                                    {
+                                                                        opt.option &&   Object.keys(opt.option).length > 0 && (
+                                                                            <IconButton size = "small"
+                                                                                onClick = {()=>showForm("edit")}
+                                                                            ><EditIcon fontSize="small"  className = {classes.editIcon} style = {{color:"#1752a8"}}/></IconButton>
+                                                                        )
+                                                                    }
+                                                                </React.Fragment>
+                                                            ):(null)
                                                         }
+                                                       
                                                     </Box>
                                                 )}
                                             </Box>
-                                            {opt.option && modal === false &&  Object.keys(opt.option).length > 0 && (
+                                            {opt.option  &&  Object.keys(opt.option).length > 0 && (
                                                 <ul>
                                                     {Object.keys(opt.option).map(key => (
                                                         <li key={key} style={{ padding: 4, listStyleType: 'disc' }}>{`${key} : ${opt.option[key]}`}</li>
@@ -593,13 +603,17 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                 </React.Fragment>
                             ))}
                            
-                            {edit.length === 0 && modal === false && node && (!node.children || !node.children.length) && (
+                            {edit.length === 0 &&  node && (!node.children || !node.children.length) && (
                                 <Box  >
                                     <Box className = {classes.fab}>
                                          <Box>Additional Details</Box>
-                                         <IconButton size = "small" style = {{marginLeft:"20px"}}
-                                              onClick = {()=>showForm("add")}
-                                         ><AddIcon fontSize="small" style = {{color:"#1752a8"}}/></IconButton>
+                                         {
+                                             modal === false ? (
+                                                <IconButton size = "small" style = {{marginLeft:"20px"}}
+                                                        onClick = {()=>showForm("add")}
+                                                ><AddIcon fontSize="small" style = {{color:"#1752a8"}}/></IconButton>
+                                             ) : (null)
+                                         }
                                     </Box>
                                 </Box>
                             )}
@@ -607,9 +621,13 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                 modal === true &&  node && (!node.children || !node.children.length) && (
                                     <Box className = {classes.actionBtn}>
                                         <Box style = {{flex:1}}></Box>
-                                        <Box className = {classes.link}
-                                            onClick = {handleSelect}
-                                        >Save</Box>
+                                        {
+                                            modalType === "edit" ? (
+                                                <Box className = {classes.link}
+                                                    onClick = {()=>handleSelect("")}
+                                                >Save</Box>
+                                            ) : (null)
+                                        }
                                         <Box className = {classes.link} style = {{color:"red"}}
                                             onClick = {handleCancel}
                                         >Cancel</Box>
