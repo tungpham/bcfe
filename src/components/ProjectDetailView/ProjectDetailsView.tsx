@@ -8,6 +8,7 @@ import Box from '@material-ui/core/Box';
 //import Componetns;
 import ProjectTemplatesView from './ProjectTemplatesView';
 import ProjectTemplateDetailView from './ProjectTemplateDetailView';
+import ProjectFilesView from './ProjectFilesView';
 interface TabPanelProps {
     children?: React.ReactNode;
     index: any;
@@ -86,6 +87,7 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,any>{
                     />
                 </TabPanel>
                 <TabPanel value={this.state.value} index={1}>
+                    <ProjectFilesView/>
                 </TabPanel>
             </div>
         )
