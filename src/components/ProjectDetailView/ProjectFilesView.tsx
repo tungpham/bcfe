@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import withConfirm, { withConfirmProps } from 'components/HOCs/withConfirm';
 import withSnackbar, { withSnackbarProps } from 'components/HOCs/withSnackbar';
@@ -15,7 +15,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -86,9 +85,12 @@ function DropDownButton(props)
     const [anchorEl, setAnchorEl] = useState(null);
     const [fileName, setFileName] = useState("");
     const [showRenameModal, setShowModal] = useState(false);
-    useEffect(()=>{
-        setFileName(props.File.name)
-    },[])
+    const [firstRender, setFirstRender] = useState(true);
+    if(firstRender === true)
+    {
+        setFileName(props.File.name);
+        setFirstRender(false);
+    }
     function handleClose(){
         setAnchorEl(null);
     }
