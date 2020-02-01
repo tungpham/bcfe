@@ -7,9 +7,9 @@ import Box from '@material-ui/core/Box';
 import ListItem from '@material-ui/core/ListItem';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
@@ -19,6 +19,7 @@ import InputBase from '@material-ui/core/InputBase';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import CancelIcon from '@material-ui/icons/Close';
@@ -99,11 +100,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     fab: {
         fontWeight:500,
         color:"#5782e4",
-        marginTop:"30px",
-        "&:hover":{
-            cursor:"pointer",
-            textDecoration:"underline"
-        }
+        marginTop:"20px",
+        display:"flex",
+        alignItems:"center"
+       
     },
     actionBtn:{
         display:"flex",
@@ -117,17 +117,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         color: 'blue',
         cursor: 'pointer',
         marginLeft: '15px'
-    },
-    fab1: {
-        fontWeight:500,
-        color:"#5782e4",
-        display:"flex",
-        justifyContent:"center",
-        alignItems:"center",
-        "&:hover":{
-            cursor:"pointer",
-            textDecoration:"underline"
-        }
     },
     editIcon:{
             width:"0.7em"
@@ -210,7 +199,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
 
 
     const [modal, setModal] = React.useState(false);
-
+    const [modalType, setModalType] = React.useState("");
     const [option, setOption] = React.useState<{ key: Validator, value: Validator }[]>([]);
     const [busy, setBusy] = React.useState(false);
 
@@ -245,6 +234,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
         setCategory(component.id);
         setCurRoom(room.id);
         setModal(false);
+        setModalType("")
         setBusy(false);
 
         setPath(curPath);
@@ -262,6 +252,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
         // if (selection && selection.id === e.target.value) return;
         if (node.id === e.target.value) return;
         setModal(false);
+        setModalType("");
         for (let i = 0; i < count; i++) {
             if (node.children[i].id === e.target.value) {
                 let newPath = path;
@@ -334,9 +325,57 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
         setValue({ value: '', errMsg: undefined });
     }
 
+  
+
+    const handleCancel = () => {
+        setModal(false);
+        setModalType("");
+        setKey({ value: '', errMsg: undefined });
+        setValue({ value: '', errMsg: undefined });
+    }
+
+    const deleteItem = (index: number) => {
+        let newOpt = option;
+        newOpt.splice(index, 1);
+        setOption([...newOpt]);
+    }
+
+    const addItem = () => {
+        if (key.errMsg || value.errMsg) return;
+        if (key.value.length === 0) {
+            setKey({ value: '', errMsg: 'Key is required' });
+            return;
+        }
+
+        if (value.value.length === 0) {
+            setValue({ value: '', errMsg: 'Value is required' });
+            return;
+        }
+
+        // save options
+        setOption([...option, { key: { value: key.value, errMsg: undefined }, value: { value: value.value, errMsg: undefined } }]);
+        setKey({ value: '', errMsg: undefined });
+        setValue({ value: '', errMsg: undefined });
+    }
+
+    let edit = '';
+    let opts = undefined;
+    if (room.selectionList) {
+        const filtered = room.selectionList.filter(item => (item.category.id === component.id && item.selection.id === node.id));
+        if (filtered.length === 1) {
+            opts = Object.keys(filtered[0].option).map(itemKey => ({
+                key: { value: itemKey, errMsg: undefined },
+                value: { value: filtered[0].option[itemKey], errMsg: undefined }
+            }));
+            edit = filtered[0].id;
+        } else if (filtered.length > 1) {
+        }
+    }
     const handleSelect = async () => {
 
-        let newOpts = option;
+        let newOpts1 = option;
+        let newOpts = opts === undefined ? [] : opts;
+        newOpts = modalType === "add" ? newOpts.concat(newOpts1) : newOpts1;
         const postOption = {};
         let err = false;
         for (let i = 0; i < newOpts.length; i++) {
@@ -387,6 +426,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
             await roomUpdated();
             setBusy(false);
             setModal(false);
+            setModalType("");
             setKey({ value: '', errMsg: undefined });
             setValue({ value: '', errMsg: undefined });
             showMessage(true, 'Saved');
@@ -399,54 +439,10 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
             showMessage(false, 'Save option failed');
         }
     }
-
-    const handleCancel = () => {
-        setModal(false);
-        setKey({ value: '', errMsg: undefined });
-        setValue({ value: '', errMsg: undefined });
-    }
-
-    const deleteItem = (index: number) => {
-        let newOpt = option;
-        newOpt.splice(index, 1);
-        setOption([...newOpt]);
-    }
-
-    const addItem = () => {
-        if (key.errMsg || value.errMsg) return;
-        if (key.value.length === 0) {
-            setKey({ value: '', errMsg: 'Key is required' });
-            return;
-        }
-
-        if (value.value.length === 0) {
-            setValue({ value: '', errMsg: 'Value is required' });
-            return;
-        }
-
-        // save options
-        setOption([...option, { key: { value: key.value, errMsg: undefined }, value: { value: value.value, errMsg: undefined } }]);
-        setKey({ value: '', errMsg: undefined });
-        setValue({ value: '', errMsg: undefined });
-    }
-
-    let edit = '';
-    let opts = undefined;
-    if (room.selectionList) {
-        const filtered = room.selectionList.filter(item => (item.category.id === component.id && item.selection.id === node.id));
-        if (filtered.length === 1) {
-            opts = Object.keys(filtered[0].option).map(itemKey => ({
-                key: { value: itemKey, errMsg: undefined },
-                value: { value: filtered[0].option[itemKey], errMsg: undefined }
-            }));
-            edit = filtered[0].id;
-        } else if (filtered.length > 1) {
-        }
-    }
-
-    const showForm = () => {
-        setOption(opts || []);
+    const showForm = (modalType) => {
+        setOption( modalType === "edit" ? ( opts || [] ) : [] );
         setModal(true);
+        setModalType(modalType);
     }
 
     const existingKeyChange = (index: number, newKey: string) => {
@@ -570,11 +566,18 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                             </Typography>
                                             <Box style={{ display: 'flex' }}>
                                                 {edit.length > 0 && modal === false && node && (!node.children || !node.children.length) &&  (
-                                                    <Box
-                                                        className={classes.fab}
-                                                        onClick={showForm}
-                                                    >
-                                                        Additional Details
+                                                    <Box  className={classes.fab}>
+                                                        <Box>Additional Details</Box>
+                                                        <IconButton size = "small" style = {{marginLeft:"20px"}}
+                                                            onClick = {()=>showForm("add")}
+                                                        ><AddIcon fontSize="small" style = {{color:"#1752a8"}}/></IconButton>
+                                                        {
+                                                            opt.option &&   Object.keys(opt.option).length > 0 && (
+                                                                <IconButton size = "small"
+                                                                    onClick = {()=>showForm("edit")}
+                                                                ><EditIcon fontSize="small"  className = {classes.editIcon} style = {{color:"#1752a8"}}/></IconButton>
+                                                            )
+                                                        }
                                                     </Box>
                                                 )}
                                             </Box>
@@ -592,8 +595,11 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                            
                             {edit.length === 0 && modal === false && node && (!node.children || !node.children.length) && (
                                 <Box  >
-                                    <Box  onClick={showForm} className = {classes.fab}>
-                                         Additional Details
+                                    <Box className = {classes.fab}>
+                                         <Box>Additional Details</Box>
+                                         <IconButton size = "small" style = {{marginLeft:"20px"}}
+                                              onClick = {()=>showForm("add")}
+                                         ><AddIcon fontSize="small" style = {{color:"#1752a8"}}/></IconButton>
                                     </Box>
                                 </Box>
                             )}
@@ -611,7 +617,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                 )
                             }
 
-                           {edit.length === 0 && modal && node && (!node.children || !node.children.length) && (
+                           {modal && modalType === "add" && node && (!node.children || !node.children.length) && (
                                 <React.Fragment>
                                     <Box>
                                         <Grid container style={{ maxWidth: 400 }}>
@@ -690,7 +696,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                             )}
                         
                         
-                            {edit.length > 0 && modal &&  node && (!node.children || !node.children.length) && (
+                            {edit.length > 0 && modal && modalType === "edit" && node && (!node.children || !node.children.length) && (
                                 <React.Fragment>
                                     <Box>
                                         <Grid container style={{ maxWidth: 400 }}>
@@ -731,38 +737,6 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                                     </Grid>
                                                 </React.Fragment>
                                             ))}
-                                            <Grid item xs={5} style={{ padding: '4px 8px' }}>
-                                                
-                                                <TextField
-                                                    margin="dense"
-                                                    fullWidth={true}
-                                                    error={!!key.errMsg}
-                                                    helperText={key.errMsg}
-                                                    value={key.value}
-                                                    onChange={keyChange}
-                                                    placeholder = "Key"
-                                                />
-                                            </Grid>
-                                            <Grid item xs={6} style={{ padding: '4px 8px' }}>
-                                            
-                                                <TextField
-                                                    margin="dense"
-                                                    fullWidth={true}
-                                                    error={!!value.errMsg}
-                                                    helperText={value.errMsg}
-                                                    value={value.value}
-                                                    onChange={event => setValue({
-                                                        value: event.target.value,
-                                                        errMsg: event.target.value.length > 0 ? undefined : 'Value is required'
-                                                    })}
-                                                    placeholder = "Value"
-                                                />
-                                            </Grid>
-                                            <Grid item xs={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                <IconButton onClick={addItem} style={{ height: 36 }}>
-                                                    <AddIcon fontSize='small' color='action' />
-                                                </IconButton>
-                                            </Grid>
                                         </Grid>
                                     </Box>
                                 </React.Fragment>

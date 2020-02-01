@@ -303,7 +303,7 @@ class ProjectFilesView extends React.Component<ProjectFilesViewProps & withConfi
                         <TableBody>
                             {this.state.Files && this.state.Files.length > 0 ? this.state.Files.map((file, index) => (
                                 <TableRow key = {`table-row-key-${index}`}>
-                                    <TableCell >
+                                    <TableCell>
                                         <Box className = {classes.fileNameCell}>
                                             {this.renderFileIcon(file.name)}
                                             {file.name}
