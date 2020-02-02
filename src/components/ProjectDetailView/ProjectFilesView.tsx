@@ -317,12 +317,14 @@ class ProjectFilesView extends React.Component<ProjectFilesViewProps & withConfi
                         <TableBody>
                             {this.state.Files && this.state.Files.length > 0 ? this.state.Files.map((file, index) => (
                                 <TableRow key = {`table-row-key-${index}`}>
-                                    <TableCell>
-                                        <Box className = {classes.fileNameCell}>
-                                            {this.renderFileIcon(file.name)}
-                                            &nbsp;&nbsp;&nbsp;
-                                            {file.name}
-                                        </Box>
+                                    <TableCell  >                                   
+                                        <a href = {`${process.env.REACT_APP_PROJECT_API}/projects/${this.props.project.id}/files/${file.name}`} download>
+                                            <Box className = {classes.fileNameCell}>
+                                                {this.renderFileIcon(file.name)}
+                                                &nbsp;&nbsp;&nbsp;
+                                                {file.name}
+                                            </Box>
+                                        </a>
                                     </TableCell>
                                     <TableCell>{file.size ? file.size : ""}</TableCell>
                                     <TableCell>{file.lastModified ? file.lastModified : ""}</TableCell>

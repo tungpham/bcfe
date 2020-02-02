@@ -23,7 +23,13 @@ import ProjectDetailsView from './ProjectDetailsView';
 const styles = createStyles(theme => ({
     projectDetailView: {
        display:"flex",
-       height:"100%"
+       height:"100%",
+       position:"relative"
+    },
+    busy: {
+		position: 'absolute',
+		left: 'calc(50% - 20px)',
+		top: 'calc(50% - 20px)'
     },
     treeViewWrapper:{
         height:"100%"
@@ -98,9 +104,14 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
 
     public render() {
         const { classes, project, roots } = this.props;
-        if (!project || !roots) return <CircularProgress className={classes.waitingSpin} />;
+        if (!project || !roots ) return <CircularProgress className={classes.waitingSpin} />;
         return (
             <Box className={classes.projectDetailView} >
+                {
+                    !project || !roots || this.state.levelGettingLoading ? (
+                        <CircularProgress className={classes.busy} /> 
+                    ) : (null)
+                }
                 <ProjectLevelsTreeView
                     setLevelId = {this.setLevelId}
                     setRoomId = {this.setRoomId}
