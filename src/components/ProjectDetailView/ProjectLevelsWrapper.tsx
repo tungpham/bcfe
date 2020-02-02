@@ -50,7 +50,7 @@ const ProjectLevelsWrapper: React.SFC<IProjectLevelsWrapperProps & withSnackbarP
 	const { levels, project, showMessage, changeLevel, getLevels, createLevel } = props;
 	const classes = useStyles({});
 	const [busy, setBusy] = React.useState(false);
-
+	console.log(props)
 	const addLevel = async (number, name, desc) => {
 		if (!project) return;
 

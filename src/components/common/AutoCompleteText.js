@@ -2,6 +2,7 @@ import React from 'react';
 import '../../assets/css/conflictRemove.css';
 import PredictiveSearchBox from 'components/PredictiveSearchBox/PredictiveSearchBox';
 import SpecApis from 'services/spec';
+
 export default class AutoComplete extends React.Component {
 
     constructor(props) {

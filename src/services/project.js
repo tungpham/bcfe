@@ -14,7 +14,7 @@ export default {
 	},
 	deleteFile: (id, name) => xapi().delete(`${PROJ_API_PATH}/${id}/files/${name}`).then(res => res.data),
 	getFiles:   (id)     => xapi().get(`${PROJ_API_PATH}/${id}/files/`).then(res => res.data),
-
+    getFileByName: (id, name) => xapi().get(`${PROJ_API_PATH}/${id}/files/${name}`),
 	delete:  id          => xapi().delete(`${PROJ_API_PATH}/${id}`).then(res => res.data),
 	getInfo: id          => xapi().get(   `${PROJ_API_PATH}/${id}`).then(res => res.data),
 	archive: id          => xapi().put(   `${PROJ_API_PATH}/${id}/archive`).then(res => res.data),
