@@ -74,7 +74,7 @@ interface IProjectOptionEditProps {
 const ProjectOptionEdit: React.SFC<IProjectOptionEditProps & withSnackbarProps> = (props) => {
     const classes = useStyles({});
     const [isExpandedDes, setIsExpandedDes] = useState(false);
-    const { root, level, room, roomUpdated } = props;
+    const { root, level, room } = props;
     function render_des(_des, classes){
         if(_des === null || _des === undefined || _des === "") return ""
         if(_des.length > DES_LIMIT_COUNT) {
@@ -136,8 +136,6 @@ const ProjectOptionEdit: React.SFC<IProjectOptionEditProps & withSnackbarProps> 
                     key={item.id}
                     component={item}
                     room={room}
-                    roomUpdated={roomUpdated}
-                    showMessage={props.showMessage}
                     project  = {props.project}
                     getLevels = {props.getLevels}
                 />

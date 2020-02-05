@@ -8,7 +8,7 @@ import { ClassNameMap } from '@material-ui/styles/withStyles';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import UploadIcon from '@material-ui/icons/CloudUpload';
+// import UploadIcon from '@material-ui/icons/CloudUpload';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
 import {Table, TableHead, TableRow, TableCell, TableBody} from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -213,7 +213,7 @@ class ProjectFilesView extends React.Component<ProjectFilesViewProps & withConfi
             isBusy: false,
             anchorEl: null
         }
-        this.handleChangeFiles = this.handleChangeFiles.bind(this);
+        // this.handleChangeFiles = this.handleChangeFiles.bind(this);
         this.uploadFun = this.uploadFun.bind(this);
         this.fileUploader = null;
     }
@@ -261,9 +261,9 @@ class ProjectFilesView extends React.Component<ProjectFilesViewProps & withConfi
             }
         }, true);
     }
-    handleChangeFiles = (event) => {
-        this.uploadFun(event.target.files);
-    }
+    // handleChangeFiles = (event) => {
+    //     this.uploadFun(event.target.files);
+    // }
     renderFileIcon = (name) => {
         var types = name.split(".");
         if(types[types.length -1] === "pdf"){
@@ -290,19 +290,19 @@ class ProjectFilesView extends React.Component<ProjectFilesViewProps & withConfi
                         <CircularProgress className = {classes.busy}/>
                     ) :(null)
                 }
-                <input style = {{display:"none"}}  type = "file" ref={ref => this.fileUploader = ref}
+                {/* <input style = {{display:"none"}}  type = "file" ref={ref => this.fileUploader = ref}
                     onChange = {this.handleChangeFiles}
-                />
+                /> */}
                 <Box className = {classes.actionBtnsWrapper}>
                     <Button color="default" variant="contained"  size = "small"
                         onClick = {()=>this.getFiles()}
                     ><RefreshIcon fontSize = "small"/></Button>
                     <Button color="default" variant="contained" style = {{marginLeft:"10px"}} size = "small"><DownloadIcon />&nbsp;Download All</Button>
-                    <Button color="default" variant="contained" style = {{float:"right"}}  size = "small" 
+                    {/* <Button color="default" variant="contained" style = {{float:"right"}}  size = "small" 
                         onClick = {()=>{
                             this.fileUploader.click();
                         }}
-                    ><UploadIcon/>&nbsp;Upload files</Button>
+                    ><UploadIcon/>&nbsp;Upload files</Button> */}
                 </Box>
                 <Box className = {classes.ProjectFilesTableWrapper}>
                     <Table>

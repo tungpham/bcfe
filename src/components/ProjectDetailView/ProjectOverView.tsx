@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {Link} from 'react-router-dom';
 import { compose } from 'redux';
 import Box from '@material-ui/core/Box';
 import { withStyles, createStyles } from '@material-ui/core/styles';
@@ -102,6 +103,11 @@ class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOve
                                 <span>&nbsp;{this.render_date(this.props.project.due)}&nbsp;</span>
                                 <span style = {{color:"#4f7fde"}}>{this.props.project.genContractor.address && this.props.project.genContractor.address.name ? this.props.project.genContractor.address.name : ""}</span>
                                 <LocationIcon  className = {classes.locationIcon}/>&nbsp;{this.props.project.city}
+                                <span style = {{marginLeft:"10px", fontWeight:500}}>
+                                    <Link to = {`/contractordetails/${this.props.project.genContractor.id}`}>
+                                        {this.props.project && this.props.project.genContractor && this.props.project.genContractor.address && this.props.project.genContractor.address.name ? this.props.project.genContractor.address.name : "Owner" }    
+                                    </Link>
+                                </span>
                             </div>
                             <div style = {{color:"#a1a1a1"}}>
                                 {this.render_des(this.props.project.description, classes)}
