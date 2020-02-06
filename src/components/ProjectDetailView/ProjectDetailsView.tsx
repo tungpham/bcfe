@@ -31,6 +31,7 @@ function TabPanel(props: TabPanelProps) {
     );
   }
 interface ProjectDetailsViewProps {
+    viewOnly: boolean;
     setLevelId: (id: string) => void;
     setRoomId: (id: string) => void;
     setTemplateId: (id: string) => void;
@@ -76,18 +77,26 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,any>{
                 </AppBar>
                 <TabPanel value={this.state.value} index={0}
                 >
-                    <ProjectTemplatesView
-                        selectedLevelId = {this.props.selectedLevelId}
-                        selectedRoomId = {this.props.selectedRoomId}
-                    />
+                    {
+                        !this.props.viewOnly && (
+                            <ProjectTemplatesView
+                                selectedLevelId = {this.props.selectedLevelId}
+                                selectedRoomId = {this.props.selectedRoomId}
+                            />
+                        )
+                    }
+                   
                     <ProjectTemplateDetailView
+                        viewOnly = {this.props.viewOnly}
                         selectedLevelId = {this.props.selectedLevelId}
                         selectedRoomId = {this.props.selectedRoomId}
                         selectedTemplateId = {this.props.selectedTemplateId}
                     />
                 </TabPanel>
                 <TabPanel value={this.state.value} index={1}>
-                    <ProjectFilesView/>
+                    <ProjectFilesView
+                        viewOnly = {this.props.viewOnly}
+                    />
                 </TabPanel>
             </div>
         )

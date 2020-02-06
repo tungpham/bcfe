@@ -98,7 +98,6 @@ class CurrentProjectView extends React.Component<ICurrentProjectViewProps, ICurr
         this.props.getProjectsBySpecialty(0, this.state.rowsPerPage,'');
         this.fetchCities();
     }
-
     handleChangePage =    (event, page) => {
         var spe_params_string = "";
         this.state.activeFilterParams && this.state.activeFilterParams.forEach((_spe, index)=>{

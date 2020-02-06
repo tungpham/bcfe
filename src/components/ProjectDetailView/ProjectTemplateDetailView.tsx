@@ -57,6 +57,7 @@ const styles = createStyles(theme => ({
     }
 }));
 interface ProjectTemplateDetailProps{
+    viewOnly: boolean;
     selectedLevelId: string;
     selectedRoomId: string;
     selectedTemplateId: string;
@@ -267,6 +268,7 @@ class ProjectTemplateDetailView extends React.Component<ProjectTemplateDetailPro
                                     level={this.state.currentLevel}
                                     room={this.state.currentRoom}
                                     roomUpdated={this.roomUpdated}
+                                    viewOnly = {this.props.viewOnly}
                                 />
                            </Box>
                         )

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 //import Material ui components;
 import Box from '@material-ui/core/Box';
 import Typography  from '@material-ui/core/Typography';
@@ -81,7 +82,9 @@ class ProjectItemCard extends React.Component<ProjectItemProps, ProjectItemState
                         Posted on { this.render_date(this.props.project.project.submittedDate)}- {this.props.project.numberOfBids} Bids Received |
                     </Typography>
                     <Typography className = "name-text">
-                        {this.props.project.project.genContractor.address.name}
+                        <Link to = {`/contractordetails/${this.props.project.project.genContractor.id}`}>
+                             {this.props.project.project && this.props.project.project.genContractor && this.props.project.project.genContractor.address ? this.props.project.project.genContractor.address.name : ""}
+                        </Link>
                     </Typography>
                     <Typography className = "location-text">
                         <LocationIcon className = "location-icon"/>&nbsp;{this.props.project.project.city}
@@ -107,6 +110,10 @@ class ProjectItemCard extends React.Component<ProjectItemProps, ProjectItemState
                         <Button  color = "primary"
                             style = {{padding: "6px 8px"}}
                             onClick = {()=>{
+                                localStorage.setItem("projectDetailsViewInfo", JSON.stringify({
+                                    id: this.props.project.project.id,
+                                    viewOnly: true
+                                }))
                                 this.props.history.push('/projects/project_detail/' + this.props.project.project.id);
                             }}
                         >View Details</Button>

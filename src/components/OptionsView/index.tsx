@@ -63,6 +63,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface IProjectOptionEditProps {
+    viewOnly: boolean;
     root: NodeInfo;
     level: ProjectLevel;
     room: ProjectLevelCategory;
@@ -133,6 +134,7 @@ const ProjectOptionEdit: React.SFC<IProjectOptionEditProps & withSnackbarProps> 
             </Box>
             {root && root.children && root.children.length > 0 && root.children.map(item => (
                 <Section
+                    viewOnly = {props.viewOnly}
                     key={item.id}
                     component={item}
                     room={room}

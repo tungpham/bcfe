@@ -195,6 +195,7 @@ function DropDownButton(props)
     )
 }
 interface ProjectFilesViewProps{
+    viewOnly: boolean;
     project: ProjectInfo;
     classes: ClassNameMap<string>;
 }
@@ -298,11 +299,15 @@ class ProjectFilesView extends React.Component<ProjectFilesViewProps & withConfi
                         onClick = {()=>this.getFiles()}
                     ><RefreshIcon fontSize = "small"/></Button>
                     <Button color="default" variant="contained" style = {{marginLeft:"10px"}} size = "small"><DownloadIcon />&nbsp;Download All</Button>
-                    <Button color="default" variant="contained" style = {{float:"right"}}  size = "small" 
-                        onClick = {()=>{
-                            this.fileUploader.click();
-                        }}
-                    ><UploadIcon/>&nbsp;Upload files</Button>
+                    {
+                        !this.props.viewOnly && (
+                            <Button color="default" variant="contained" style = {{float:"right"}}  size = "small" 
+                                onClick = {()=>{
+                                    this.fileUploader.click();
+                                }}
+                            ><UploadIcon/>&nbsp;Upload files</Button>
+                        )
+                    }
                 </Box>
                 <Box className = {classes.ProjectFilesTableWrapper}>
                     <Table>

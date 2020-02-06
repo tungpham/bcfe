@@ -177,6 +177,7 @@ class ProjectSelect extends React.Component<IProjectSelectProps, IProjectSelectS
                 <Box className={classes.contents}>
                     {currentRoom && (
                         <ProjectOptionView
+                            viewOnly = {false}
                             root={currentRoot}
                             level={curLevel}
                             room={currentRoom}

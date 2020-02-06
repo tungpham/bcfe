@@ -160,6 +160,7 @@ const styles = createStyles(theme => ({
     
 }));
 interface ProjectLevelsTreeViewProps{
+    viewOnly: boolean;
     levels: ProjectLevel[];
     project: ProjectInfo;
     userProfile: UserProfile;
@@ -765,9 +766,13 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                 <div className = {classes.treeViewWrapper}>
                     <Box className = {classes.titleView}>
                         <div className = {classes.title}>Levels</div>
-                        <div className = {classes.addIcon}
-                            onClick = {this.showAddDialog}
-                        >+</div>
+                        {
+                            !this.props.viewOnly && (
+                                <div className = {classes.addIcon}
+                                    onClick = {this.showAddDialog}
+                                >+</div>
+                            )
+                        }
                     </Box>
                     <Box>
                         {
@@ -780,7 +785,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                         </div>
                                         <div>
                                             {
-                                                this.state.selectedLevelId === level.id && this.state.levelExpanded === true ? (
+                                               !this.props.viewOnly && this.state.selectedLevelId === level.id && this.state.levelExpanded === true ? (
                                                     <div style = {{display:"flex"}}>
                                                         <span className = {classes.actionIcon}>
                                                             <EditIcon fontVariant = "small" 
@@ -821,7 +826,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                                         className = {classes.roomItemTitle}
                                                     />
                                                         {
-                                                            this.state.selectedRoomId === room.id && this.state.levelExpanded === true ? (
+                                                            !this.props.viewOnly && this.state.selectedRoomId === room.id && this.state.levelExpanded === true ? (
                                                                 <div style = {{display:"flex"}}>
                                                                      <span className = {classes.actionIcon}>
                                                                         <EditIcon fontVariant = "small" 
@@ -860,7 +865,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                                                 className = {classes.templateItemTitle}
                                                             />
                                                             {
-                                                                this.state.selectedTemplateId === select.id ? (
+                                                               !this.props.viewOnly && this.state.selectedTemplateId === select.id ? (
                                                                     <span className = {classes.actionIcon}>
                                                                         <DeleteIcon fontVariant = "small" style = {{color:"#a94442"}}
                                                                             onClick = {e =>{
@@ -880,7 +885,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                         )):(null)
                                     }
                                     {
-                                        this.state.selectedLevelId === level.id && this.state.levelExpanded === true ? (
+                                       !this.props.viewOnly && this.state.selectedLevelId === level.id && this.state.levelExpanded === true ? (
                                             <Button className = {classes.addRoomBtn}
                                                 onClick = {()=>{
                                                     this.setState({addRoomModalShow: true})

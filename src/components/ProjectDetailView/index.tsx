@@ -101,9 +101,16 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
         const { history } = this.props;
         history.goBack();
     };
-
+    componentWillUnmount(){
+        localStorage.setItem("projectDetailsViewInfo", "")
+    }
     public render() {
         const { classes, project, roots } = this.props;
+        const projectDetailsViewInfo = localStorage.getItem("projectDetailsViewInfo");
+        var viewOnly = false;
+        if(projectDetailsViewInfo !== ""){
+            viewOnly = JSON.parse(projectDetailsViewInfo).viewOnly;
+        }
         if (!project || !roots ) return <CircularProgress className={classes.waitingSpin} />;
         return (
             <Box className={classes.projectDetailView} >
@@ -117,12 +124,14 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
                     setRoomId = {this.setRoomId}
                     setTemplateId = {this.setTemplateId}
                     levelGettingLoading = {this.state.levelGettingLoading}
+                    viewOnly = {viewOnly}
                 />
                 <Box className = {classes.projectDetailViewWrapper}>
                     <ProjectOverView
                         levelGettingLoading = {this.state.levelGettingLoading}
                     />
                     <ProjectDetailsView
+                        viewOnly = {viewOnly}
                         selectedLevelId = {this.state.selectedLevelId}
                         selectedRoomId = {this.state.selectedRoomId}
                         selectedTemplateId = {this.state.selectedTemplateId}

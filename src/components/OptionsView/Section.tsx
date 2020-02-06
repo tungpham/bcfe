@@ -170,6 +170,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface ISectionProps {
+    viewOnly: boolean;
     component: NodeInfo;
     room: ProjectLevelCategory;
     project: ProjectInfo;
@@ -514,52 +515,64 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                     </Box>
                 </ListItem>
                 <Divider />
-                <ListItem>
-                    <Breadcrumbs>
-                        {path.map(item => (
-                            <Link key={item.id} onClick={() => clickCrumb(item)} style={{ cursor: 'pointer' }}>
-                                {item.name}
-                            </Link>
-                        ))}
-                    </Breadcrumbs>
-                </ListItem>
+                {
+                    !props.viewOnly && (
+                        <ListItem>
+                            <Breadcrumbs>
+                                {path.map(item => (
+                                    <Link key={item.id} onClick={() => clickCrumb(item)} style={{ cursor: 'pointer' }}>
+                                        {item.name}
+                                    </Link>
+                                ))}
+                            </Breadcrumbs>
+                        </ListItem>
+                    )
+                }
+              
                 <ListItem style = {{alignItems:"none"}}>
                     <Box style = {{display:"flex"}}>
                         <Box>
-                            <FormControl variant="outlined" style = {{width:"400px"}}>
-                                <NativeSelect
-                                    style={{ minWidth: 180 }}
-                                    placeholder={node && node.name}
-                                    value={node.id}
-                                    onChange={nodeChange}
-                                    name="sub-nodes"
-                                    className={classes.catBox}
-                                    input = {<BootstrapInput/>}
-                                >
-                                    <option value={node.id} key={node.id}>
-                                        {(!node.children || node.children.length === 0) ? node.name : `Select option for ${node.name}`}
-                                    </option>
-                                    {node && node.children && node.children.map(item => (
-                                        <option value={item.id} key={item.id}>
-                                            {`  > ${item.name}`}
-                                        </option>
-                                    ))}
-                                </NativeSelect>
-                            </FormControl>
-                            <Box style = {{padding:"20px 0px"}}>
-                                {edit.length === 0 && (
-                                    <Box>
-                                        <Fab onClick={()=>handleSelect("")} style = {{backgroundColor:"#1752a8", color:"white"}} aria-label="select" size = "small"><DoneIcon/></Fab>
-                                        <Fab onClick={handleCancel} color="default" aria-label="cancel" size = "small" style = {{marginLeft:"15px"}}><CancelIcon/></Fab>
-                                    </Box>
-                                )}
-                                {edit.length > 0 && (
-                                    <Box>
-                                        <Fab onClick={()=>handleSelect("")} style = {{backgroundColor:"#1752a8",  color:"white"}} aria-label="select" size = "small" ><DoneIcon/></Fab>
-                                        <Fab onClick={handleCancel} color="default" aria-label="cancel" size = "small" style = {{marginLeft:"15px"}}><CancelIcon/></Fab>
-                                    </Box>
-                                )}
-                            </Box>  
+                            {
+                                !props.viewOnly && (
+                                    <React.Fragment>
+                                        <FormControl variant="outlined" style = {{width:"400px"}}>
+                                            <NativeSelect
+                                                style={{ minWidth: 180 }}
+                                                placeholder={node && node.name}
+                                                value={node.id}
+                                                onChange={nodeChange}
+                                                name="sub-nodes"
+                                                className={classes.catBox}
+                                                input = {<BootstrapInput/>}
+                                            >
+                                                <option value={node.id} key={node.id}>
+                                                    {(!node.children || node.children.length === 0) ? node.name : `Select option for ${node.name}`}
+                                                </option>
+                                                {node && node.children && node.children.map(item => (
+                                                    <option value={item.id} key={item.id}>
+                                                        {`  > ${item.name}`}
+                                                    </option>
+                                                ))}
+                                            </NativeSelect>
+                                        </FormControl>
+                                        <Box style = {{padding:"20px 0px"}}>
+                                            {edit.length === 0 && (
+                                                <Box>
+                                                    <Fab onClick={()=>handleSelect("")} style = {{backgroundColor:"#1752a8", color:"white"}} aria-label="select" size = "small"><DoneIcon/></Fab>
+                                                    <Fab onClick={handleCancel} color="default" aria-label="cancel" size = "small" style = {{marginLeft:"15px"}}><CancelIcon/></Fab>
+                                                </Box>
+                                            )}
+                                            {edit.length > 0 && (
+                                                <Box>
+                                                    <Fab onClick={()=>handleSelect("")} style = {{backgroundColor:"#1752a8",  color:"white"}} aria-label="select" size = "small" ><DoneIcon/></Fab>
+                                                    <Fab onClick={handleCancel} color="default" aria-label="cancel" size = "small" style = {{marginLeft:"15px"}}><CancelIcon/></Fab>
+                                                </Box>
+                                            )}
+                                        </Box>  
+                                    </React.Fragment>
+                                )
+                            }
+                           
                             {room.selectionList && room.selectionList.filter(selection => component.id === selection.category.id).map(opt => (
                                 <React.Fragment key={opt.id}>
                                     <Box>
@@ -572,7 +585,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                                     <Box  className={classes.fab}>
                                                         <Box>Additional Details</Box>
                                                         {
-                                                            modal === false ? (
+                                                           !props.viewOnly && modal === false ? (
                                                                 <React.Fragment>
                                                                     <IconButton size = "small" style = {{marginLeft:"20px"}}
                                                                         onClick = {()=>showForm("add")}
@@ -608,7 +621,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                     <Box className = {classes.fab}>
                                          <Box>Additional Details</Box>
                                          {
-                                             modal === false ? (
+                                            !props.viewOnly && modal === false ? (
                                                 <IconButton size = "small" style = {{marginLeft:"20px"}}
                                                         onClick = {()=>showForm("add")}
                                                 ><AddIcon fontSize="small" style = {{color:"#1752a8"}}/></IconButton>
@@ -618,7 +631,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                 </Box>
                             )}
                             {
-                                modal === true &&  node && (!node.children || !node.children.length) && (
+                              !props.viewOnly &&  modal === true &&  node && (!node.children || !node.children.length) && (
                                     <Box className = {classes.actionBtn}>
                                         <Box style = {{flex:1}}></Box>
                                         {
@@ -635,7 +648,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                 )
                             }
 
-                           {modal && modalType === "add" && node && (!node.children || !node.children.length) && (
+                           {!props.viewOnly && modal && modalType === "add" && node && (!node.children || !node.children.length) && (
                                 <React.Fragment>
                                     <Box>
                                         <Grid container style={{ maxWidth: 400 }}>
@@ -714,7 +727,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                             )}
                         
                         
-                            {edit.length > 0 && modal && modalType === "edit" && node && (!node.children || !node.children.length) && (
+                            {!props.viewOnly && edit.length > 0 && modal && modalType === "edit" && node && (!node.children || !node.children.length) && (
                                 <React.Fragment>
                                     <Box>
                                         <Grid container style={{ maxWidth: 400 }}>
