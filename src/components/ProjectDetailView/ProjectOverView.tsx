@@ -13,7 +13,7 @@ const DES_LIMIT_COUNT = 100;
 const styles = createStyles(theme => ({
     overViewWrapper: {
         position: 'relative',
-        border:"1px solid #e6e8ea",
+        // border:"1px solid #e6e8ea",
         padding:"10px 30px !important",
         color : "black"
     },

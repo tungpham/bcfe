@@ -82,7 +82,7 @@ const styles = createStyles(theme => ({
         display:"flex",
         justifyContent:"center",
         alignItems:"center",
-        padding:"5px",
+        padding:"5px !important",
         border:"1px solid gray",
         borderRadius:"3px",
         margin:"10px 0px",

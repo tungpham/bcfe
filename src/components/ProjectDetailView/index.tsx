@@ -17,12 +17,11 @@ import { ProjectInfo } from 'types/project';
 import { NodeInfo } from 'types/global';
 //---------------
 //import Form Components;
-import ProjectLevelsTreeView from './ProjectLevelsTreeView';
 import ProjectOverView from './ProjectOverView';
 import ProjectDetailsView from './ProjectDetailsView';
 const styles = createStyles(theme => ({
     projectDetailView: {
-       display:"flex",
+    //    display:"flex",
        height:"100%",
        position:"relative"
     },
@@ -119,27 +118,13 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
                         <CircularProgress className={classes.busy} /> 
                     ) : (null)
                 }
-                <ProjectLevelsTreeView
-                    setLevelId = {this.setLevelId}
-                    setRoomId = {this.setRoomId}
-                    setTemplateId = {this.setTemplateId}
+                <ProjectOverView
                     levelGettingLoading = {this.state.levelGettingLoading}
-                    viewOnly = {viewOnly}
                 />
-                <Box className = {classes.projectDetailViewWrapper}>
-                    <ProjectOverView
-                        levelGettingLoading = {this.state.levelGettingLoading}
-                    />
-                    <ProjectDetailsView
-                        viewOnly = {viewOnly}
-                        selectedLevelId = {this.state.selectedLevelId}
-                        selectedRoomId = {this.state.selectedRoomId}
-                        selectedTemplateId = {this.state.selectedTemplateId}
-                        setLevelId = {this.setLevelId}
-                        setRoomId = {this.setRoomId}
-                        setTemplateId = {this.setTemplateId}
-                    />
-                </Box>
+                <ProjectDetailsView
+                    viewOnly = {viewOnly}
+                    levelGettingLoading = {this.state.levelGettingLoading}
+                />
             </Box>
         );
     }

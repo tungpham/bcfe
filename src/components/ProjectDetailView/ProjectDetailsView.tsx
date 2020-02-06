@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import ProjectTemplatesView from './ProjectTemplatesView';
 import ProjectTemplateDetailView from './ProjectTemplateDetailView';
 import ProjectFilesView from './ProjectFilesView';
+import ProjectLevelsTreeView from './ProjectLevelsTreeView';
 interface TabPanelProps {
     children?: React.ReactNode;
     index: any;
@@ -32,20 +33,39 @@ function TabPanel(props: TabPanelProps) {
   }
 interface ProjectDetailsViewProps {
     viewOnly: boolean;
-    setLevelId: (id: string) => void;
-    setRoomId: (id: string) => void;
-    setTemplateId: (id: string) => void;
+    levelGettingLoading: boolean;
+}
+interface ProjectDetailsViewState {
     selectedLevelId : string;
     selectedRoomId : string;
     selectedTemplateId: string;
+    value: any;
 }
-class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,any>{
+class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,ProjectDetailsViewState>{
     constructor(props)
     {
         super(props);
         this.state = {
-            value : 0
+            value : 0,
+            selectedLevelId: "",
+            selectedRoomId : "",
+            selectedTemplateId: ""
         }
+    }
+    setLevelId = (id:string) => {
+        this.setState({
+            selectedLevelId : id
+        })
+    }
+    setRoomId = (id:string) => {
+        this.setState({
+            selectedRoomId: id
+        })
+    }
+    setTemplateId = (id:string) => {
+        this.setState({
+            selectedTemplateId: id
+        })
     }
     a11yProps = (index: any) => {
         return {
@@ -77,21 +97,33 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,any>{
                 </AppBar>
                 <TabPanel value={this.state.value} index={0}
                 >
-                    {
-                        !this.props.viewOnly && (
-                            <ProjectTemplatesView
-                                selectedLevelId = {this.props.selectedLevelId}
-                                selectedRoomId = {this.props.selectedRoomId}
+                    <Box style = {{display:"flex", height:"100%"}}>
+                        <ProjectLevelsTreeView
+                                setLevelId = {this.setLevelId}
+                                setRoomId = {this.setRoomId}
+                                setTemplateId = {this.setTemplateId}
+                                levelGettingLoading = {this.props.levelGettingLoading}
+                                viewOnly = {this.props.viewOnly}
+                        />
+                        <Box style = {{flex:1, paddingLeft:"20px"}}>
+                            {
+                                !this.props.viewOnly && (
+                                    <ProjectTemplatesView
+                                        selectedLevelId = {this.state.selectedLevelId}
+                                        selectedRoomId = {this.state.selectedRoomId}
+                                    />
+                                )
+                            }
+                        
+                            <ProjectTemplateDetailView
+                                viewOnly = {this.props.viewOnly}
+                                selectedLevelId = {this.state.selectedLevelId}
+                                selectedRoomId = {this.state.selectedRoomId}
+                                selectedTemplateId = {this.state.selectedTemplateId}
                             />
-                        )
-                    }
+                        </Box>
+                    </Box>
                    
-                    <ProjectTemplateDetailView
-                        viewOnly = {this.props.viewOnly}
-                        selectedLevelId = {this.props.selectedLevelId}
-                        selectedRoomId = {this.props.selectedRoomId}
-                        selectedTemplateId = {this.props.selectedTemplateId}
-                    />
                 </TabPanel>
                 <TabPanel value={this.state.value} index={1}>
                     <ProjectFilesView
