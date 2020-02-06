@@ -59,7 +59,8 @@ const StyledMenu = withStyles({
 const styles = createStyles(theme => ({
     projectFilesViewWrapper:{
         padding:"0px",
-        position:"relative"
+        position:"relative",
+        minHeight:"90vh"
     },
     ProjectFilesTableWrapper:{
         marginTop:"20px"

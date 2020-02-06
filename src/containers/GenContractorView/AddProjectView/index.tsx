@@ -479,6 +479,10 @@ class AddProjectView extends React.Component<IAddProjectViewProps, IAddProjectVi
 
     handleSelectProject = id => {
         this.props.setCurrentProject(id);
+        localStorage.setItem("projectDetailsViewInfo", JSON.stringify({
+            id: id,
+            viewOnly: false
+        }))
         this.props.history.push('/gen-contractor/project_detail/' + id);
     };
 

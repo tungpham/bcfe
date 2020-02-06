@@ -219,6 +219,10 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
 
     handleSelectProject = async (id: string) => {
         await this.props.setCurrentProject(id);
+        localStorage.setItem("projectDetailsViewInfo", JSON.stringify({
+            id: id,
+            viewOnly: false
+        }))
         this.props.history.push('/gen-contractor/project_detail/' + id);
     };
 

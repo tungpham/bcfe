@@ -33,24 +33,32 @@ const styles = createStyles(theme => ({
     treeViewWrapper: {
        color:"black",
        width:"300px",
-       padding:"20px",
        position: 'relative',
+       backgroundColor:"white",
+       boxShadow:"0px 10px 10px rgba(0,0,0,.05)",
+       minHeight:"50vh"
     },
     busy: {
 		position: 'absolute',
 		left: 'calc(50% - 20px)',
-		top: 'calc(50% - 20px)'
+        top: 'calc(50% - 20px)'
 	},
     titleView:{
         display:"flex",
         justifyContent:"center",
         alignItems:"center",
-        marginBottom:"20px",
+        padding:"15px 20px",
+        borderLeft:"5px solid #1752a8",
+        backgroundColor: "whitesmoke",
+        boxShadow:"0px -10px 10px rgba(0,0,0,.05)"
     },
     title:{
         flex:1,
         fontSize:"1.2rem",
         fontWeight: 700
+    },
+    levelsView:{
+        padding:"20px !important"
     },
     actionIcon:{
         borderRadius:"4px",
@@ -106,7 +114,8 @@ const styles = createStyles(theme => ({
             left: "-31px",
             borderLeft: "2px dashed #a2a5b5",
             width: "1px",
-            height: "100%"
+            height: "100%",
+            padding:"0px !important"
         }
     },
     roomItem:{
@@ -115,6 +124,7 @@ const styles = createStyles(theme => ({
         alignItems:"center",
         margin:"5px 0px",
         borderRadius:"3px",
+        padding:"0px !important",
         "&:hover":{
             cursor:"pointer",
         },
@@ -221,6 +231,8 @@ interface ProjectLevelsTreeViewState {
     editRoomId: string;
     //select-view;
     selectList: any[];
+    levelExpandeds: boolean[];
+    roomExpandeds:  boolean[][];
 }
 class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps & withSnackbarProps & withConfirmProps, ProjectLevelsTreeViewState>{
     constructor(props)
@@ -275,6 +287,8 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             type: "BATHROOM",
             editRoomId: null,
             selectList: [],
+            levelExpandeds : [],
+            roomExpandeds: []
         }
     }
     showAddDialog = () => {
@@ -295,6 +309,24 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             },
         });
     };
+    initExpandes = () => {
+        var _levelExpandes = [];
+        var _roomExpandes  = [];
+        for(var i = 0 ;i < this.props.levels.length; i++)
+        {
+            _levelExpandes.push(this.props.viewOnly);
+            var _roomExpandOfLevel = [];
+            for(var j = 0 ; j < this.props.levels[i].rooms.length; j++)
+            {
+                _roomExpandOfLevel.push(this.props.viewOnly)
+            }
+            _roomExpandes.push(_roomExpandOfLevel);
+        }
+        this.setState({
+            levelExpandeds: _levelExpandes,
+            roomExpandeds: _roomExpandes
+        })
+    }
     addLevel = async (number, name, desc) => {
         if (!this.props.project) return;
 		try {
@@ -394,20 +426,33 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
     closeDialog = () => {
         this.setState({showModal:false})
     }
-    setLevel = (level) => {
+    setLevel = (level, indexOfLevel) => {
+        var _levelExpandes = this.state.levelExpandeds;
+        var _roomExpandes  = this.state.roomExpandeds;
+        if(this.state.selectedLevelId !== level.id) _levelExpandes[indexOfLevel] = true;
+        else _levelExpandes[indexOfLevel] = !_levelExpandes[indexOfLevel];
+        for(var i = 0 ; i < _roomExpandes[indexOfLevel].length; i++)
+        {
+            _roomExpandes[indexOfLevel][i] = false;
+        }
         this.setState({
             selectedLevelId: level.id,
-            levelExpanded: level.id === this.state.selectedLevelId ? !this.state.levelExpanded : true,
             selectedRoomId: null,
-            selectList: []
+            selectedTemplateId: null,
+            levelExpandeds: _levelExpandes,
+            roomExpandeds: _roomExpandes
         }, ()=>{
             this.props.setRoomId(null);
             this.props.setTemplateId(null);
-            if(this.state.levelExpanded === true)
+            if(this.state.levelExpandeds[indexOfLevel] === true)
             {
-                this.props.setLevelId(this.state.selectedLevelId)
+                this.props.setLevelId(this.state.selectedLevelId);
+                this.props.setRoomId(null);
+                this.props.setTemplateId(null);
             } else {
                 this.props.setLevelId(null)
+                this.props.setRoomId(null);
+                this.props.setTemplateId(null);
             }
         })
     }
@@ -662,76 +707,67 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             editRoomId: null
         })
     }
-    setRoom = (room) => {
+    setRoom = (level,room, indexOfLevel, indexOfRoom) => {
+        var _roomExpandes  = this.state.roomExpandeds;
+        _roomExpandes[indexOfLevel][indexOfRoom] = !_roomExpandes[indexOfLevel][indexOfRoom];
+        this.setState({
+           selectedLevelId: level.id,
+           selectedRoomId: room.id,
+           selectedTemplateId: null,
+           roomExpandeds: _roomExpandes
+        }, ()=>{
+            this.props.setLevelId(this.state.selectedLevelId)
+            this.props.setRoomId(this.state.selectedRoomId);
+            this.props.setTemplateId(null);
+        })
+    }
+    setTemplate = (level, room, template) => {
+        this.setState({
+            selectedLevelId: level.id,
+            selectedRoomId: room.id,
+            selectedTemplateId: template.id
+        },()=>{
+            this.props.setLevelId(this.state.selectedLevelId);
+            this.props.setRoomId(this.state.selectedRoomId);
+            this.props.setTemplateId(this.state.selectedTemplateId);
+        })
+    }
+    getSelectLists = (levelP, room) => {
+        if(levelP === null || room === null) return [];
         var _selectList = [];
+        var _level = this.props.levels.filter(level=>level.id === levelP.id);
+        if(_level.length === 0) return [];
+        var _currentRoom = _level[0].rooms.filter(_room => _room.id === room.id);
+        if(_currentRoom.length === 0) return [];
         for(var i = 0 ; i < this.props.roots.length; i++)
         {
             for(var j = 0 ; j < this.props.roots[i].children.length; j++)
             {
-                // var _temp = room.selectionList.filter(_select => _select.category.id === this.props.roots[i].children[j].id);
                 var flag = false;
-                for(var k = 0 ; k < room.selectionList.length; k++ )
+                for( var k = 0 ; k < _currentRoom[0].selectionList.length; k++ )
                 {
-                    if(room.selectionList[k].category.id === this.props.roots[i].children[j].id){
+                    if(_currentRoom[0].selectionList[k].category.id === this.props.roots[i].children[j].id){
                         flag = true;
                         break;
                     }
                 }
-                if(flag){
+                if( flag ){
                     _selectList.push(this.props.roots[i])
                     break;
                 }
             }
         }
-        this.setState({
-            selectedRoomId: this.state.selectedRoomId===room.id ? null : room.id,
-            selectList: _selectList,
-            selectedTemplateId: null
-        }, ()=>{
-            this.props.setRoomId(this.state.selectedRoomId);
-            this.props.setTemplateId(null);
-        })
+        return _selectList;
     }
-    setTemplate = (template) => {
-        this.setState({
-            selectedTemplateId: template.id
-        },()=>{
-            this.props.setTemplateId(this.state.selectedTemplateId)
-        })
+    componentDidMount(){
+        if(this.props.levels)
+        {
+           this.initExpandes();
+        }
     }
     componentDidUpdate(prevProps:ProjectLevelsTreeViewProps){
-        if(prevProps.project.id !== this.props.project.id )
-        {
-
-        }
-        if(prevProps.levels !== this.props.levels && this.state.selectedRoomId && this.state.selectedLevelId )
-        {
-            var _selectList = [];
-            var _level = this.props.levels.filter(level=>level.id === this.state.selectedLevelId);
-            if(_level.length === 0) return;
-            var _currentRoom = _level[0].rooms.filter(_room => _room.id === this.state.selectedRoomId);
-            if(_currentRoom.length === 0) return;
-            for(var i = 0 ; i < this.props.roots.length; i++)
-            {
-                for(var j = 0 ; j < this.props.roots[i].children.length; j++)
-                {
-                    var flag = false;
-                    for( var k = 0 ; k < _currentRoom[0].selectionList.length; k++ )
-                    {
-                        if(_currentRoom[0].selectionList[k].category.id === this.props.roots[i].children[j].id){
-                            flag = true;
-                            break;
-                        }
-                    }
-                    if( flag ){
-                        _selectList.push(this.props.roots[i])
-                        break;
-                    }
-                }
-            }
-            this.setState({
-                selectList: [..._selectList],
-            })
+        if( prevProps.levelGettingLoading !== this.props.levelGettingLoading && this.props.levels){
+            this.initExpandes();
         }
     }
     deleteCategory = async (id: string) => {
@@ -761,6 +797,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             { name: 'Stairs', value: 'STAIRS' },
             { name: 'Other', value: 'OTHER' }
         ];
+        console.log(this.state.levelExpandeds)
         return(
             <React.Fragment>
                 <div className = {classes.treeViewWrapper}>
@@ -774,18 +811,18 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                             )
                         }
                     </Box>
-                    <Box>
+                    <Box className = {classes.levelsView}>
                         {
                            this.props.levelGettingLoading === false && levels && levels.length > 0 ? levels.map((level,index)=>(
                                 <React.Fragment key = {`level-tree-parent-${index}`}>
-                                    <Box  className = {this.state.selectedLevelId === level.id && this.state.levelExpanded === true ? `${classes.levelItem} ${classes.levelItemSelected}` : classes.levelItem}  onClick = {()=>{ this.setLevel(level) }}>
+                                    <Box  className = {this.state.selectedLevelId === level.id && this.state.levelExpandeds[index] === true ? `${classes.levelItem} ${classes.levelItemSelected}` : classes.levelItem}  onClick = {()=>{ this.setLevel(level, index) }}>
                                         <div className = {  classes.levelItemTitle} >                               
                                         <div><strong>{`Level ${level.number} - ${level.name}`}</strong></div>
                                         <div><small>{`( ${level.rooms.length} rooms )`}</small></div>
                                         </div>
                                         <div>
                                             {
-                                               !this.props.viewOnly && this.state.selectedLevelId === level.id && this.state.levelExpanded === true ? (
+                                               !this.props.viewOnly && this.state.selectedLevelId === level.id ? (
                                                     <div style = {{display:"flex"}}>
                                                         <span className = {classes.actionIcon}>
                                                             <EditIcon fontVariant = "small" 
@@ -810,12 +847,12 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                             }
                                         </div>
                                     </Box>
-                                    <Box className = {classes.roomItemsBox}>
+                                    <div className = {classes.roomItemsBox}>
                                     {
-                                        this.state.selectedLevelId === level.id && this.state.levelExpanded === true && level.rooms ? level.rooms.map((room, indexRoom) => (
+                                        this.state.levelExpandeds &&  this.state.levelExpandeds.length > index && this.state.levelExpandeds[index] === true && level.rooms ? level.rooms.map((room, indexRoom) => (
                                             <React.Fragment key = {`room-item-${indexRoom}`}>
                                                 <Box  className = {classes.roomItem}
-                                                    onClick = {()=>{this.setRoom(room)}}
+                                                    onClick = {()=>{this.setRoom(level, room, index, indexRoom)}}
                                                 >
                                                     <FormControlLabel 
                                                         checked={this.state.selectedRoomId === room.id }
@@ -826,7 +863,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                                         className = {classes.roomItemTitle}
                                                     />
                                                         {
-                                                            !this.props.viewOnly && this.state.selectedRoomId === room.id && this.state.levelExpanded === true ? (
+                                                            !this.props.viewOnly && this.state.selectedRoomId === room.id && this.state.levelExpandeds[index] === true ? (
                                                                 <div style = {{display:"flex"}}>
                                                                      <span className = {classes.actionIcon}>
                                                                         <EditIcon fontVariant = "small" 
@@ -851,9 +888,9 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                                         }
                                                 </Box>
                                                 {
-                                                     this.state.selectedRoomId === room.id && this.state.selectList && this.state.selectList.length > 0 ? this.state.selectList.map((select,index)=>(
+                                                     this.state.roomExpandeds && this.state.roomExpandeds.length > index && this.state.roomExpandeds[index].length > indexRoom && this.state.roomExpandeds[index][indexRoom] === true ?  this.getSelectLists(level, room).map((select,index)=>(
                                                         <Box className = {classes.templateItem} key = {`template-item-${index}`}
-                                                            onClick = {()=>{this.setTemplate(select)}}
+                                                            onClick = {()=>{this.setTemplate(level, room, select)}}
                                                         >
                                                              {/* <div className = {classes.templateItemTitle}>{ select.name }</div> */}
                                                              <FormControlLabel 
@@ -885,7 +922,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                         )):(null)
                                     }
                                     {
-                                       !this.props.viewOnly && this.state.selectedLevelId === level.id && this.state.levelExpanded === true ? (
+                                       !this.props.viewOnly && this.state.selectedLevelId === level.id && this.state.levelExpandeds[index] === true ? (
                                             <Button className = {classes.addRoomBtn}
                                                 onClick = {()=>{
                                                     this.setState({addRoomModalShow: true})
@@ -893,7 +930,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                                             > + Add room</Button>
                                         ) : (null)
                                     }
-                                    </Box>
+                                    </div>
                                 </React.Fragment>
                             )) : (null)
                         }

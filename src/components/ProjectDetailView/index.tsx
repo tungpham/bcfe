@@ -106,9 +106,9 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
     public render() {
         const { classes, project, roots } = this.props;
         const projectDetailsViewInfo = localStorage.getItem("projectDetailsViewInfo");
-        var viewOnly = false;
+        var viewOnly = true;
         if(projectDetailsViewInfo !== ""){
-            viewOnly = JSON.parse(projectDetailsViewInfo).viewOnly;
+            viewOnly = JSON.parse(projectDetailsViewInfo) ? JSON.parse(projectDetailsViewInfo).viewOnly : true;
         }
         if (!project || !roots ) return <CircularProgress className={classes.waitingSpin} />;
         return (

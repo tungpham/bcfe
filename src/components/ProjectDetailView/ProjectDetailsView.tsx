@@ -26,6 +26,11 @@ function TabPanel(props: TabPanelProps) {
         id={`scrollable-auto-tabpanel-${index}`}
         aria-labelledby={`scrollable-auto-tab-${index}`}
         {...other}
+        style = {{
+            backgroundColor:"whitesmoke",
+            borderTop:"2px solid #d2cece",
+            minHeight:"90vh"
+        }}
       >
         {value === index && <Box p={3}>{children}</Box>}
       </Typography>
@@ -97,7 +102,7 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,Project
                 </AppBar>
                 <TabPanel value={this.state.value} index={0}
                 >
-                    <Box style = {{display:"flex", height:"100%"}}>
+                    <Box style = {{display:"flex"}}>
                         <ProjectLevelsTreeView
                                 setLevelId = {this.setLevelId}
                                 setRoomId = {this.setRoomId}
@@ -105,7 +110,7 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,Project
                                 levelGettingLoading = {this.props.levelGettingLoading}
                                 viewOnly = {this.props.viewOnly}
                         />
-                        <Box style = {{flex:1, paddingLeft:"20px"}}>
+                        <Box style = {{flex:1, marginLeft:"20px", boxShadow:"0px 10px 10px rgba(0,0,0,.05)", backgroundColor:"white", padding:"15px"}}>
                             {
                                 !this.props.viewOnly && (
                                     <ProjectTemplatesView
