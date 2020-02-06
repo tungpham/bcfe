@@ -163,7 +163,10 @@ div#users {
   width: 100% !important;
   height: 136px !important;
 }
-
+.MuiTablePagination-menuItem{
+  display: flex !important;
+  justify-content: center !important;
+}
 li.MuiListItem-root.details-list.MuiListItem-gutters {
   cursor: pointer;
   padding-left: 0px !important;

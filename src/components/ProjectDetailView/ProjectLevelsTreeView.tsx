@@ -310,21 +310,49 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
         });
     };
     initExpandes = () => {
-        var _levelExpandes = [];
-        var _roomExpandes  = [];
+        var _selectedLevelId    = null;
+        var _selectedRoomId     = null;
+        var _selectedTemplateId = null;
+        var findIniteTemplate   = false;
         for(var i = 0 ;i < this.props.levels.length; i++)
         {
-            _levelExpandes.push(this.props.viewOnly);
-            var _roomExpandOfLevel = [];
-            for(var j = 0 ; j < this.props.levels[i].rooms.length; j++)
+            if(findIniteTemplate) break;
+            for( var j = 0; j < this.props.levels[i].rooms.length; j++ )
             {
-                _roomExpandOfLevel.push(this.props.viewOnly)
+                var templates = this.getSelectLists(this.props.levels[i], this.props.levels[i].rooms[j]);
+                if( templates.length > 0 ) {
+                    _selectedLevelId = this.props.levels[i].id;
+                    _selectedRoomId  = this.props.levels[i].rooms[j].id;
+                    _selectedTemplateId = templates[0].id;
+                    findIniteTemplate = true;
+                    break;
+                }
+            }
+        }
+        var _levelExpandes = [];
+        var _roomExpandes  = [];
+        for(var i1 = 0 ;i1 < this.props.levels.length; i1++)
+        {
+            if(this.props.levels[i1].id === _selectedLevelId)  _levelExpandes.push(true);
+            else _levelExpandes.push(this.props.viewOnly);
+            var _roomExpandOfLevel = [];
+            for(var j1 = 0 ; j1 < this.props.levels[i1].rooms.length; j1++)
+            {
+                if(this.props.levels[i1].rooms[j1].id === _selectedRoomId)  _roomExpandOfLevel.push(true)
+                else _roomExpandOfLevel.push(this.props.viewOnly)
             }
             _roomExpandes.push(_roomExpandOfLevel);
         }
         this.setState({
             levelExpandeds: _levelExpandes,
-            roomExpandeds: _roomExpandes
+            roomExpandeds: _roomExpandes,
+            selectedLevelId: findIniteTemplate === true ? _selectedLevelId : null,
+            selectedRoomId : findIniteTemplate === true ? _selectedRoomId : null,
+            selectedTemplateId: findIniteTemplate === true ? _selectedTemplateId : null
+        },()=>{
+            this.props.setLevelId(this.state.selectedLevelId);
+            this.props.setRoomId(this.state.selectedRoomId);
+            this.props.setTemplateId(this.state.selectedTemplateId);
         })
     }
     addLevel = async (number, name, desc) => {
@@ -765,6 +793,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
            this.initExpandes();
         }
     }
+    
     componentDidUpdate(prevProps:ProjectLevelsTreeViewProps){
         if( prevProps.levelGettingLoading !== this.props.levelGettingLoading && this.props.levels){
             this.initExpandes();
@@ -797,7 +826,6 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             { name: 'Stairs', value: 'STAIRS' },
             { name: 'Other', value: 'OTHER' }
         ];
-        console.log(this.state.levelExpandeds)
         return(
             <React.Fragment>
                 <div className = {classes.treeViewWrapper}>

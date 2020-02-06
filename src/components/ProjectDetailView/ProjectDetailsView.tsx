@@ -110,25 +110,28 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,Project
                                 levelGettingLoading = {this.props.levelGettingLoading}
                                 viewOnly = {this.props.viewOnly}
                         />
-                        <Box style = {{flex:1, marginLeft:"20px", boxShadow:"0px 10px 10px rgba(0,0,0,.05)", backgroundColor:"white", padding:"15px"}}>
-                            {
-                                !this.props.viewOnly && (
-                                    <ProjectTemplatesView
+                        {
+                            !this.props.levelGettingLoading && (
+                                <Box style = {{flex:1, marginLeft:"5px", boxShadow:"0px 10px 10px rgba(0,0,0,.05)", backgroundColor:"white", padding:"15px"}}>
+                                    {
+                                        !this.props.viewOnly && (
+                                            <ProjectTemplatesView
+                                                selectedLevelId = {this.state.selectedLevelId}
+                                                selectedRoomId = {this.state.selectedRoomId}
+                                            />
+                                        )
+                                    }
+                                
+                                    <ProjectTemplateDetailView
+                                        viewOnly = {this.props.viewOnly}
                                         selectedLevelId = {this.state.selectedLevelId}
                                         selectedRoomId = {this.state.selectedRoomId}
+                                        selectedTemplateId = {this.state.selectedTemplateId}
                                     />
-                                )
-                            }
-                        
-                            <ProjectTemplateDetailView
-                                viewOnly = {this.props.viewOnly}
-                                selectedLevelId = {this.state.selectedLevelId}
-                                selectedRoomId = {this.state.selectedRoomId}
-                                selectedTemplateId = {this.state.selectedTemplateId}
-                            />
-                        </Box>
+                                </Box>
+                            )
+                        }
                     </Box>
-                   
                 </TabPanel>
                 <TabPanel value={this.state.value} index={1}>
                     <ProjectFilesView

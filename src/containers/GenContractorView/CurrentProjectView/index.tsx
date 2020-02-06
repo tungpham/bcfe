@@ -315,18 +315,22 @@ class CurrentProject extends React.Component<CurrentProjectProps, CurrentProject
                         ))}
                     </TableBody>
                 </Table>
-                <TablePagination
-                    style={{ overflow: 'auto' }}
-                    rowsPerPageOptions={[5, 10, 20]}
-                    component="div"
-                    count={this.state.totalLength}
-                    rowsPerPage={this.state.rowsPerPage}
-                    page={this.state.currentPage}
-                    backIconButtonProps={{ 'aria-label': 'Previous Page' }}
-                    nextIconButtonProps={{ 'aria-label': 'Next Page' }}
-                    onChangePage={this.handleChangePage}
-                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                />
+                <div className = "table-pagenation-wrapper">
+                    <TablePagination
+                        style={{ 
+                            overflow: 'auto'
+                        }}
+                        rowsPerPageOptions={[5, 10, 20]}
+                        component="div"
+                        count={this.state.totalLength}
+                        rowsPerPage={this.state.rowsPerPage}
+                        page={this.state.currentPage}
+                        backIconButtonProps={{ 'aria-label': 'Previous Page' }}
+                        nextIconButtonProps={{ 'aria-label': 'Next Page' }}
+                        onChangePage={this.handleChangePage}
+                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                    />
+                </div>
                 <CustomSnackbar
                     open={this.state.showMessage}
                     variant={this.state.variant}

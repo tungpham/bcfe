@@ -104,6 +104,7 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
         localStorage.setItem("projectDetailsViewInfo", "")
     }
     public render() {
+        console.log(this.state.levelGettingLoading)
         const { classes, project, roots } = this.props;
         const projectDetailsViewInfo = localStorage.getItem("projectDetailsViewInfo");
         var viewOnly = true;
