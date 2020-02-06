@@ -83,7 +83,7 @@ class ProjectItemCard extends React.Component<ProjectItemProps, ProjectItemState
                     </Typography>
                     <Typography className = "name-text">
                         <Link to = {`/contractordetails/${this.props.project.project.genContractor.id}`}>
-                            {this.props.project.project.genContractor.address.name}
+                            {this.props.project.project && this.props.project.project.genContractor && this.props.project.project.genContractor.address ? this.props.project.project.genContractor.address.name : ""}
                         </Link>
                         
                     </Typography>

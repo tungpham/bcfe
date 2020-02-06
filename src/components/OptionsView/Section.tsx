@@ -2,58 +2,17 @@ import * as React from 'react';
 import {useState} from 'react';
 import ReactMarkdown from "react-markdown";
 import breaks from 'remark-breaks';
-import { createStyles, makeStyles, withStyles, Theme } from '@material-ui/core/styles';
+import {  makeStyles, Theme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
-import FormControl from '@material-ui/core/FormControl';
-import InputBase from '@material-ui/core/InputBase';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import { ProjectLevelCategory, RoomOption, ProjectInfo } from 'types/project';
 import {  NodeInfo } from 'types/global';
 
 const DES_LIMIT_COUNT = 120;
-const BootstrapInput = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      'label + &': {
-        marginTop: theme.spacing(3),
-      },
-    },
-    input: {
-      borderRadius: 4,
-      position: 'relative',
-      backgroundColor: theme.palette.background.paper,
-      border: '1px solid #ced4da',
-      fontSize: 16,
-      padding: '10px 26px 10px 12px',
-      transition: theme.transitions.create(['border-color', 'box-shadow']),
-      // Use the system font instead of the default Roboto font.
-      fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
-      '&:focus': {
-        borderRadius: 4,
-        borderColor: '#80bdff',
-        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-      },
-    },
-  }),
-)(InputBase);
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
         position: 'relative'
@@ -198,14 +157,10 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
 
     const curPath = pathFromOption();
     const [node, setNode] = React.useState<NodeInfo>(curPath[curPath.length - 1]);
-    const [path, setPath] = React.useState<NodeInfo[]>(curPath);
-
     const reload = () => {
         setCategory(component.id);
         setCurRoom(room.id);
         setBusy(false);
-
-        setPath(curPath);
         setNode(curPath[curPath.length - 1]);
     }
 
@@ -215,23 +170,6 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
         reload();
     }
 
-    const nodeChange = e => {
-        const count = node.children.length;
-        // if (selection && selection.id === e.target.value) return;
-        if (node.id === e.target.value) return;
-        for (let i = 0; i < count; i++) {
-            if (node.children[i].id === e.target.value) {
-                let newPath = path;
-                if (!node.children || node.children.length === 0) {
-                    newPath.pop();
-                }
-                setPath([...newPath, node.children[i]]);
-                setNode(node.children[i]);
-            }
-        }
-    }
-
-   
     const buildPath = (opt: RoomOption) => {
         if (!opt.breadcrumb) {
             return [];
@@ -256,16 +194,6 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
 
         crumb.unshift(component.name);
         return crumb;
-    }
-
-    const clickCrumb = id => {
-        const idx = path.indexOf(id);
-        if (idx < 0) return;
-        if (idx === (path.length - 1)) return;
-
-        const newPath = path.slice(0, idx + 1);
-        setPath(newPath);
-        setNode(newPath[newPath.length - 1]);
     }
 
     const render_des = (_des, classes) => {
@@ -323,7 +251,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                     </Box>
                 </ListItem>
                 <Divider />
-                <ListItem>
+                {/* <ListItem>
                     <Breadcrumbs>
                         {path.map(item => (
                             <Link key={item.id} onClick={() => clickCrumb(item)} style={{ cursor: 'pointer' }}>
@@ -331,11 +259,11 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                             </Link>
                         ))}
                     </Breadcrumbs>
-                </ListItem>
+                </ListItem> */}
                 <ListItem style = {{alignItems:"none"}}>
                     <Box style = {{display:"flex"}}>
                         <Box>
-                            <FormControl variant="outlined" style = {{width:"400px"}}>
+                            {/* <FormControl variant="outlined" style = {{width:"400px"}}>
                                 <NativeSelect
                                     style={{ minWidth: 180 }}
                                     placeholder={node && node.name}
@@ -354,7 +282,7 @@ const Section: React.FunctionComponent<ISectionProps> = (props) => {
                                         </option>
                                     ))}
                                 </NativeSelect>
-                            </FormControl>
+                            </FormControl> */}
                             {room.selectionList && room.selectionList.filter(selection => component.id === selection.category.id).map(opt => (
                                 <React.Fragment key={opt.id}>
                                     <Box>
