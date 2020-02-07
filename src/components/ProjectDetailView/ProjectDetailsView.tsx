@@ -10,6 +10,7 @@ import ProjectTemplatesView from './ProjectTemplatesView';
 import ProjectTemplateDetailView from './ProjectTemplateDetailView';
 import ProjectFilesView from './ProjectFilesView';
 import ProjectLevelsTreeView from './ProjectLevelsTreeView';
+import MessageBox from 'components/MessageBox/index';
 interface TabPanelProps {
     children?: React.ReactNode;
     index: any;
@@ -98,6 +99,7 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,Project
                     >
                     <Tab label="Templates" {...this.a11yProps(0)} />
                     <Tab label="Files" {...this.a11yProps(1)} />
+                    <Tab label="Messages" {...this.a11yProps(2)} />
                     </Tabs>
                 </AppBar>
                 <TabPanel value={this.state.value} index={0}
@@ -137,6 +139,9 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,Project
                     <ProjectFilesView
                         viewOnly = {this.props.viewOnly}
                     />
+                </TabPanel>
+                <TabPanel value={this.state.value} index={2}>
+                    <MessageBox/>
                 </TabPanel>
             </div>
         )
