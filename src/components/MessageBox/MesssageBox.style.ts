@@ -12,7 +12,7 @@ const styles = () => createStyles({
     },
     //contactsListView------
     contactsListViewWrapper:{
-        width:"350px",
+        width:"400px",
         height:"100%",
         padding:"10px",
         display:"flex",
@@ -31,15 +31,15 @@ const styles = () => createStyles({
     contactListItem:{
         padding:"15px",
         margin:"5px 0px",
-        border:"1px solid #d6d3d3",
         display:"flex",
         justifyContent:"flex-start",
         alignItems:"center",
-        transition:"all ease 0.5s",
         "&:hover":{
             cursor:"pointer",
-            boxShadow:"0px 0px 10px rgba(0,0,0,.4)"
         }
+    },
+    contactDetails:{
+        marginLeft:"10px"
     },
     //messageContentView---
     messageContentViewWrapper:{
@@ -79,12 +79,12 @@ const styles = () => createStyles({
     },
     //chat-items;
     chatItem:{
-        padding:"0.5rem",
+        padding:"0.1rem",
         overflow:"hidden",
         display:"flex"
     },
     chatItemSelf:{
-        padding:"0.5rem",
+        padding:"0.1rem",
         overflow:"hidden",
         display:"flex",
         justifyContent:"flex-end",
@@ -105,7 +105,7 @@ const styles = () => createStyles({
         marginLeft:"22px",
         maxWidth:"75%",
         backgroundColor:"#b8d8d8",
-        padding:"10px"
+        padding:"5px 10px"
     },
     selfMsg:{
         border: "2px solid #d6c1ab",
@@ -114,7 +114,7 @@ const styles = () => createStyles({
         marginRight:"22px",
         maxWidth:"75%",
         backgroundColor:"#d6c1ab",
-        padding:"10px"
+        padding:"5px 10px"
     }
 });
 export default styles;

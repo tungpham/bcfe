@@ -1,7 +1,7 @@
 export const messagesData = {
     contacts:[
         {
-            name:"Contractor1",
+            name:"Contractor1 - Flooring contractor 1-1",
             id:  "contract1",
             avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-2.jpg",
             type:"contractor",
@@ -27,6 +27,66 @@ export const messagesData = {
         {
             name:"Owner1",
             id:  "owner",
+            avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-1.jpg",
+            type:"owner",
+        },
+        {
+            name:"Contractor5",
+            id:  "contract5",
+            avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-2.jpg",
+            type:"contractor",
+        },
+        {
+            name:"Contractor6",
+            id:  "contract6",
+            avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-3.jpg",
+            type:"contractor",
+        },
+        {
+            name:"Contractor7",
+            id:  "contract7",
+            avatar: "https:/demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-3.jpg",
+            type:"contractor",
+        },
+        {
+            name:"Contractor8",
+            id:  "contract8",
+            avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-3.jpg",
+            type:"contractor",
+        },
+        {
+            name:"Owner2",
+            id:  "owner2",
+            avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-1.jpg",
+            type:"owner",
+        },
+        {
+            name:"Contractor9",
+            id:  "contract9",
+            avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-2.jpg",
+            type:"contractor",
+        },
+        {
+            name:"Contractor10",
+            id:  "contract10",
+            avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-3.jpg",
+            type:"contractor",
+        },
+        {
+            name:"Contractor11",
+            id:  "contract11",
+            avatar: "https:/demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-3.jpg",
+            type:"contractor",
+        },
+        {
+            name:"Contractor12",
+            id:  "contract12",
+            avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-3.jpg",
+            type:"contractor",
+        },
+        {
+            name:"Owner3",
+            id:  "owner3",
             avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-1.jpg",
             type:"owner",
         },
