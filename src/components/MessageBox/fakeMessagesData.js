@@ -1,24 +1,34 @@
 export const messagesData = {
     contacts:[
         {
-            name:"Contract1-Owner",
+            name:"Contractor1",
             id:  "contract1",
             avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-2.jpg",
+            type:"contractor",
         },
         {
-            name:"Contract2-Owner",
+            name:"Contractor2",
             id:  "contract2",
-            avatar: "https://material-ui.com/static/images/avatar/2.jpg",
+            avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-3.jpg",
+            type:"contractor",
         },
         {
-            name:"Contract3-Owner",
+            name:"Contractor3",
             id:  "contract3",
-            avatar: "https://material-ui.com/static/images/avatar/3.jpg",
+            avatar: "https:/demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-3.jpg",
+            type:"contractor",
         },
         {
-            name:"Contract4-Owner",
+            name:"Contractor4",
             id:  "contract4",
-            avatar: "https://material-ui.com/static/images/avatar/1.jpg",
+            avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-3.jpg",
+            type:"contractor",
+        },
+        {
+            name:"Owner1",
+            id:  "owner",
+            avatar: "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/faces/face-1.jpg",
+            type:"owner",
         },
        
     ],

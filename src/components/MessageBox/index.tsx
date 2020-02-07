@@ -5,8 +5,12 @@ import { ClassNameMap } from '@material-ui/styles/withStyles';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
-import SendIcon from '@material-ui/icons/Send';
 import Avatar from '@material-ui/core/Avatar';
+import FormControl from '@material-ui/core/FormControl';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Input from '@material-ui/core/Input';
+import SendIcon from '@material-ui/icons/Send';
+import SearchIcon from '@material-ui/icons/Search';
 //
 import styles from './MesssageBox.style';
 //import fakce data;
@@ -14,6 +18,7 @@ import {messagesData} from './fakeMessagesData';
 import { Typography } from '@material-ui/core';
 interface MessageBoxProps{
     classes: ClassNameMap<string>;
+    contactorType: string;
 }
 class MessageBox extends React.Component<MessageBoxProps, any>{
     constructor(props)
@@ -60,35 +65,55 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
     render(){
         const { classes } = this.props;
         return(
-            <Box className = {classes.messageBoxWrapper}> 
+            <Box className = {classes.messageBoxWrapper} style = {{marginTop:this.props.contactorType === "contractor" ? "0px" : "60px"}}> 
                 <Box className = {classes.contactsListViewWrapper}>
-                    <Box className = {classes.contactSearchBox}></Box>
+                    <Box className = {classes.contactSearchBox}>
+                        <Typography variant = "h4" style = {{color:"#9cb7f3"}}>Recent &nbsp;</Typography>
+                        <FormControl style = {{flex:1, marginBottom:"5px"}}>
+                            <Input
+                                placeholder = "Search"
+                                id="contact-search"
+                                endAdornment={
+                                <InputAdornment position="end">
+                                    <SearchIcon/>
+                                </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                    </Box>
                     <Box className = {classes.contactsListView}>
                         {
-                            this.state.messageData && this.state.messageData.contacts && this.state.messageData.contacts.map((contract, index)=>(
-                                <Box key = {`contract-item-${index}`} className = {classes.contactListItem}
-                                    style = {{backgroundColor:this.state.contractorId === contract.id ? "#9cb7f3" : "white"}}
-                                    onClick = {()=>{
-                                        this.setState({
-                                            contractorId: contract.id
-                                        })
-                                    }}
-                                >
-                                    <Avatar className = {classes.avatar} alt = {contract.name} src = {contract.avatar}/>
-                                    &nbsp;&nbsp;
-                                    <Typography variant = "h5">
-                                        {
-                                            contract.name
-                                        }
-                                    </Typography>
-                                </Box>
+                            this.state.messageData && this.state.messageData.contacts && this.state.messageData.contacts.map((contact, index)=>(
+                                <React.Fragment key = {`contact-key-${index}`}>
+                                    {
+                                        this.props.contactorType === contact.type && (
+                                            <Box key = {`contract-item-${index}`} className = {classes.contactListItem}
+                                                style = {{backgroundColor:this.state.contractorId === contact.id ? "#9cb7f3" : "white"}}
+                                                onClick = {()=>{
+                                                    this.setState({
+                                                        contractorId: contact.id
+                                                    })
+                                                }}
+                                            >
+                                                <Avatar className = {classes.avatar} alt = {contact.name} src = {contact.avatar}/>
+                                                &nbsp;&nbsp;
+                                                <Typography variant = "h5">
+                                                    {
+                                                        contact.name
+                                                    }
+                                                </Typography>
+                                            </Box>
+                                        )
+                                    }
+                                </React.Fragment>
+                               
                             ))
                         }
                     </Box>
                 </Box>
                 <Box className = {classes.messageContentViewWrapper}>
                     <Box className = {classes.contactorInfoView}>
-
+                        
                     </Box>
                     <Box className = {classes.messageContentView} id = "message-content-view">
                         {

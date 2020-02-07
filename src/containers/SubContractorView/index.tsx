@@ -9,6 +9,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import TuneIcon from '@material-ui/icons/Tune';
 import PeopleIcon from '@material-ui/icons/People';
 import DateRangeIcon from '@material-ui/icons/DateRange';
+import ChatIcon from '@material-ui/icons/Chat';
 import SubdirectoryArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
 
 import SecuredRoute from 'routers/SecuredRoute';
@@ -16,6 +17,7 @@ import ProjectDetailView from 'components/ProjectDetailView';
 import ProposalDetailView from 'components/ProposalDetailView';
 import CustomTabs from "components/shared/CustomTabs";
 import ContractorDetailView from 'components/ContractorDetailView';
+import MessageBox from 'components/MessageBox/index';
 import SCVAnalyticsView from './SCVAnalyticsView';
 import SCVCalendarView from './SCVCalendarView';
 import SCVPipelineView from './SCVPipelineView/index';
@@ -84,6 +86,11 @@ const SubContractorView: React.SFC<ISubContractorViewProps> = (props) => {
             label: 'Setting',
             icon: SettingsIcon,
         },
+        {
+            href: `${match.url}/messages`,
+            label: 'Messages',
+            icon: ChatIcon,
+        },
     ];
     let tab = tabs.map(tab => tab.href).indexOf(location.pathname);
     if (tab < 0) tab = 0
@@ -115,6 +122,10 @@ const SubContractorView: React.SFC<ISubContractorViewProps> = (props) => {
                         <SecuredRoute
                             path={`${match.url}/settings`}
                             component={SCVSettingsView}
+                        />
+                         <SecuredRoute
+                            path={`${match.url}/messages`}
+                            render={() => <MessageBox contactorType = "owner"/>}
                         />
                         <SecuredRoute
                             path={`${match.url}/proposal_detail/:id`}

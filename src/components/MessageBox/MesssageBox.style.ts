@@ -2,24 +2,27 @@ import { createStyles } from '@material-ui/core/styles';
 
 const styles = () => createStyles({
     messageBoxWrapper:{
+        margin:"0px 60px",
         display:"flex",
         justifyContent:"center",
-        height:"80vh",
-        padding:"20px",
+        height:"calc(100vh - 260px)",
         boxShadow:"0px 10px 10px rgba(0,0,0,.1)",
-        backgroundColor:"white"
+        backgroundColor:"white",
+        border:"1px solid #e0e0e0"
     },
     //contactsListView------
     contactsListViewWrapper:{
-        width:"300px",
+        width:"350px",
         height:"100%",
         padding:"10px",
         display:"flex",
         flexDirection:"column",
-        boxShadow:"0px 0px 10px rgba(0,0,0,.1)"
+        borderRight:"1px solid #e0e0e0"
     },
     contactSearchBox:{
-
+        padding:"10px 0px",
+        display:"flex",
+        alignItems:"flex-end"
     },
     contactsListView:{
         flex:1,
@@ -43,26 +46,22 @@ const styles = () => createStyles({
         flex:1,
         display:"flex",
         flexDirection:"column",
-        padding:"0px 50px",
     },
     contactorInfoView:{
 
     },
     messageContentView:{
-        backgroundColor:"#f7f4f4",
         padding:"10px",
-        boxShadow:"0px 0px 10px rgba(0,0,0,.1)",
         flex: 1,
         overflow:"auto",
+        borderBottom:"1px solid #e0e0e0"
     },
     messageSentView:{
         display:"flex",
         alignItems:"center",
         justifyContent:"center",
-        padding:"10px",
+        padding:"10px 10px 20px 10px",
         marginTop:"10px",
-        backgroundColor:"#f7f4f4",
-        boxShadow:"0px 0px 10px rgba(0,0,0,.1)",
     },
     messageInput:{
         flex: 1,
