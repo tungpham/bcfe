@@ -30,7 +30,7 @@ function TabPanel(props: TabPanelProps) {
         style = {{
             backgroundColor:"whitesmoke",
             borderTop:"2px solid #d2cece",
-            minHeight:"90vh",
+            height:"calc(100vh - 223px)",
             overflow:"auto"
         }}
       >
@@ -87,7 +87,7 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,Project
     }
     render(){
         return(
-            <div style = {{color:"black"}}>
+            <div style = {{color:"black", flex:1, display:"flex", flexDirection:"column"}}>
                  <AppBar position="static" color="default">
                     <Tabs
                         value={this.state.value}

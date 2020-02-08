@@ -21,9 +21,8 @@ import ProjectOverView from './ProjectOverView';
 import ProjectDetailsView from './ProjectDetailsView';
 const styles = createStyles(theme => ({
     projectDetailView: {
-    //    display:"flex",
-       height:"100%",
-       position:"relative"
+       height:'calc(100vh - 47px)',
+       position:"relative",
     },
     busy: {
 		position: 'absolute',

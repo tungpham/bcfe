@@ -179,7 +179,12 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
     render(){
         const { classes } = this.props;
         return(
-            <Box className = {classes.messageBoxWrapper} style = {{marginTop:this.props.contactorType === "contractor" ? "0px" : "60px"}}> 
+            <Box className = {classes.messageBoxWrapper} 
+                  style = {{
+                     marginTop:this.props.contactorType === "contractor" ? "0px" : "60px",
+                     height:this.props.contactorType === "contractor" ? "calc(100vh - 277px)" : "calc(100vh - 127px)"
+                  }}
+            > 
                 <Box className = {classes.contactsListViewWrapper}>
                     <Box className = {classes.contactSearchBox}>
                         <Typography variant = "h4" style = {{color:"#9cb7f3"}}>Recent &nbsp;</Typography>

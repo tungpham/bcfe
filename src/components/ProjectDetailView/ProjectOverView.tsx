@@ -14,7 +14,10 @@ const styles = createStyles(theme => ({
     overViewWrapper: {
         position: 'relative',
         padding:"20px 30px !important",
-        color : "black"
+        color : "black",
+        backgroundColor:"white",
+        zIndex:10,
+        minHeight:"128px",
     },
     title:{
         fontSize:"1.2rem",
@@ -93,10 +96,10 @@ class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOve
         const {classes} = this.props;
         return(
             <React.Fragment>
+                <Box className = {classes.overViewWrapper}>
                 {
                     this.props.levelGettingLoading === false ? (
-                        <Box className = {classes.overViewWrapper}>
-                            <div  className = {classes.title}>{this.props.project.title}</div>
+                        <React.Fragment>                            <div  className = {classes.title}>{this.props.project.title}</div>
                             <div style = {{display:"flex", margin:"10px 0px", alignItems:"center"}}>
                                 <strong>Project Date: </strong>
                                 <span>&nbsp;{this.render_date(this.props.project.due)}&nbsp;</span>
@@ -111,9 +114,10 @@ class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOve
                             <div style = {{color:"#a1a1a1"}}>
                                 {this.render_des(this.props.project.description, classes)}
                             </div>
-                        </Box>
+                        </React.Fragment>
                     ): (null)
-                }
+                    }
+                </Box>
             </React.Fragment>
            
         )

@@ -60,7 +60,8 @@ const styles = createStyles(theme => ({
     projectFilesViewWrapper:{
         padding:"0px",
         position:"relative",
-        minHeight:"90vh"
+        height:"calc(100vh - 277px)",
+        overflow:"auto"
     },
     ProjectFilesTableWrapper:{
         marginTop:"20px"

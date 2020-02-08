@@ -2,13 +2,12 @@ import { createStyles } from '@material-ui/core/styles';
 
 const styles = () => createStyles({
     messageBoxWrapper:{
-        margin:"0px 60px",
         display:"flex",
         justifyContent:"center",
-        height:"calc(100vh - 260px)",
         boxShadow:"0px 10px 10px rgba(0,0,0,.1)",
         backgroundColor:"white",
-        border:"1px solid #e0e0e0"
+        border:"1px solid #e0e0e0",
+        margin:"0px 10px"
     },
     //contactsListView------
     contactsListViewWrapper:{
