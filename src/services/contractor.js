@@ -55,7 +55,8 @@ export default {
 		formData.append('file', file);
 		return xapi(1).post(`${CONT_API_PATH}/${id}/files/upload/avatar`, formData).then(res => res.data);
 	},
-	getAvatar: id => `${process.env.REACT_APP_PROJECT_API}/contractors/${id}/avatar`,
+	getAvatar:  (id) => `${process.env.REACT_APP_PROJECT_API}/contractors/${id}/avatar`,
+	checkAvatarUrl: (avatarUrl) => xapi().get(`${avatarUrl}`),
 	uploadPhoto: (id, file) => {
 		const formData = new FormData();
 		formData.append('file', file);

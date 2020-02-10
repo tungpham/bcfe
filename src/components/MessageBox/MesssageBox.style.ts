@@ -7,7 +7,6 @@ const styles = () => createStyles({
         boxShadow:"0px 10px 10px rgba(0,0,0,.1)",
         backgroundColor:"white",
         border:"1px solid #e0e0e0",
-        margin:"0px 10px"
     },
     //contactsListView------
     contactsListViewWrapper:{
@@ -16,7 +15,8 @@ const styles = () => createStyles({
         padding:"10px",
         display:"flex",
         flexDirection:"column",
-        borderRight:"1px solid #e0e0e0"
+        borderRight:"1px solid #e0e0e0",
+        position:"relative"
     },
     contactSearchBox:{
         padding:"10px 0px",
@@ -45,6 +45,7 @@ const styles = () => createStyles({
         flex:1,
         display:"flex",
         flexDirection:"column",
+        position:"relative"
     },
     contactorInfoView:{
 
@@ -114,6 +115,11 @@ const styles = () => createStyles({
         maxWidth:"75%",
         backgroundColor:"#d6c1ab",
         padding:"5px 10px"
-    }
+    },
+    busy: {
+		position: 'absolute',
+		left: 'calc(50% - 20px)',
+		top: 'calc(50% - 20px)'
+    },
 });
 export default styles;

@@ -24,7 +24,7 @@ import SCVPipelineView from './SCVPipelineView/index';
 import SCVReportsView from './SCVReportsView';
 import SCVSettingsView from './SCVSettingsView';
 import { UserProfile } from 'types/global';
-
+import { ProjectInfo } from 'types/project';
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface ISubContractorViewProps extends RouteComponentProps {
     userProfile: UserProfile;
+    project: ProjectInfo;
 }
 
 const SubContractorView: React.SFC<ISubContractorViewProps> = (props) => {
@@ -125,7 +126,10 @@ const SubContractorView: React.SFC<ISubContractorViewProps> = (props) => {
                         />
                          <SecuredRoute
                             path={`${match.url}/messages`}
-                            render={() => <MessageBox contactorType = "owner"/>}
+                            render={() => <MessageBox 
+                                         contactorType = "owner"
+                                         project = {props.project}
+                                   />}
                         />
                         <SecuredRoute
                             path={`${match.url}/proposal_detail/:id`}
@@ -149,6 +153,7 @@ const SubContractorView: React.SFC<ISubContractorViewProps> = (props) => {
 
 const mapStateToProps = state => ({
     userProfile: state.global_data.userProfile,
+    project: state.global_data.project,
 });
 
 export default connect(mapStateToProps)(SubContractorView);

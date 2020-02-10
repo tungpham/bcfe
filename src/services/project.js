@@ -85,4 +85,7 @@ export default {
 		option
 	}).then(res => res.data),
 	getSelection:    id           =>  xapi().get(   `${SELECTION_API_PATH}/${id}`).then(res => res.data),
+	//Message part;
+	getConversationSummary: project_id => xapi().get(`/messages/project/${project_id}/conversationsummary`).then(res => res.data),
+	getMessages: conversation_id => xapi().get(`/messages/conversation/${conversation_id}`).then(res => res.data),
 };

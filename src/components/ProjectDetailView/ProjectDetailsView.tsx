@@ -11,6 +11,8 @@ import ProjectTemplateDetailView from './ProjectTemplateDetailView';
 import ProjectFilesView from './ProjectFilesView';
 import ProjectLevelsTreeView from './ProjectLevelsTreeView';
 import MessageBox from 'components/MessageBox/index';
+
+import { ProjectInfo } from 'types/project';
 interface TabPanelProps {
     children?: React.ReactNode;
     index: any;
@@ -41,6 +43,7 @@ function TabPanel(props: TabPanelProps) {
 interface ProjectDetailsViewProps {
     viewOnly: boolean;
     levelGettingLoading: boolean;
+    project: ProjectInfo;
 }
 interface ProjectDetailsViewState {
     selectedLevelId : string;
@@ -142,7 +145,10 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,Project
                     />
                 </TabPanel>
                 <TabPanel value={this.state.value} index={2}>
-                    <MessageBox contactorType = "contractor"/>
+                    <MessageBox 
+                        contactorType = "contractor"
+                        project = {this.props.project}
+                    />
                 </TabPanel>
             </div>
         )

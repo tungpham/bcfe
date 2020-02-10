@@ -122,6 +122,7 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
                 />
                 <ProjectDetailsView
                     viewOnly = {viewOnly}
+                    project = {this.props.project}
                     levelGettingLoading = {this.state.levelGettingLoading}
                 />
             </Box>
