@@ -40,6 +40,33 @@ const styles = () => createStyles({
     contactDetails:{
         marginLeft:"10px"
     },
+    contactsListPagenation:{
+        padding:"20px 15px",
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center"
+    },
+    contactsListPagenationActionBtn:{
+        "&:hover":{
+            cursor:"pointer",
+            color:"#68e191"
+        }
+    },
+    contactsListPagenationDisableBtn:{
+        color:"#bdbaba",
+        "&:hover":{
+            cursor:"not-allowed",
+        }
+    },
+    contactsListPagenationInfo:{
+        flex:1,
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        fontSize:"1.3rem",
+        fontWeight:500
+    },
+
     //messageContentView---
     messageContentViewWrapper:{
         flex:1,
@@ -71,7 +98,7 @@ const styles = () => createStyles({
         backgroundColor:"white"
     },
     sendIcon:{
-        marginLeft:"20px",
+        marginLeft:"10px",
         backgroundColor:"#1752a8",
         "& svg":{
             width:"0.75em"
@@ -79,12 +106,12 @@ const styles = () => createStyles({
     },
     //chat-items;
     chatItem:{
-        padding:"0.1rem",
+        padding:"0.3rem",
         overflow:"hidden",
         display:"flex"
     },
     chatItemSelf:{
-        padding:"0.1rem",
+        padding:"0.3rem",
         overflow:"hidden",
         display:"flex",
         justifyContent:"flex-end",
@@ -121,5 +148,17 @@ const styles = () => createStyles({
 		left: 'calc(50% - 20px)',
 		top: 'calc(50% - 20px)'
     },
+    messagesLoadingLabel:{
+        position: 'absolute',
+		left: 0,
+        top: 0,
+        width:"100%",
+        padding:"10px",
+        backgroundColor:"#e8e8e8",
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        zIndex: 9999
+    }
 });
 export default styles;

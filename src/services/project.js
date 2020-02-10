@@ -86,6 +86,6 @@ export default {
 	}).then(res => res.data),
 	getSelection:    id           =>  xapi().get(   `${SELECTION_API_PATH}/${id}`).then(res => res.data),
 	//Message part;
-	getConversationSummary: project_id => xapi().get(`/messages/project/${project_id}/conversationsummary`).then(res => res.data),
-	getMessages: conversation_id => xapi().get(`/messages/conversation/${conversation_id}`).then(res => res.data),
+	getConversationSummary: (project_id, page, page_size) => xapi().get(`/messages/project/${project_id}/conversationsummary?page=${page}&size=${page_size}`).then(res => res.data),
+	getMessages: (conversation_id, page, page_size) => xapi().get(`/messages/conversation/${conversation_id}?page=${page}&size=${page_size}`).then(res => res.data),
 };
