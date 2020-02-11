@@ -50,7 +50,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
             messagesLoading: false,
             messagesData: [],
             currentPageForRight: 0,
-            perPageForRight: 20,
+            perPageForRight: 10,
             totalPagesForRight: 0,
         }
         this.loadAvatarImageCount = 0;
@@ -258,9 +258,9 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
             selectedConversationId: conversation_id,
             messagesLoading: true,
             currentPageForRight: 0,
-            perPageForRight : 20
+            perPageForRight : 10
         });
-        var messagesData = await ProjApi.getMessages(conversation_id, 0, 20);
+        var messagesData = await ProjApi.getMessages(conversation_id, 0, 10);
         this.setState({
             messagesLoading: false,
             messagesData: messagesData,

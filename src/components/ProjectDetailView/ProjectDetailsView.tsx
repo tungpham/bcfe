@@ -33,7 +33,8 @@ function TabPanel(props: TabPanelProps) {
             backgroundColor:"whitesmoke",
             borderTop:"2px solid #d2cece",
             height:"calc(100vh - 223px)",
-            overflow:"auto"
+            overflow:"auto",
+            padding:"0"
         }}
       >
         {value === index && <Box p={3}>{children}</Box>}
