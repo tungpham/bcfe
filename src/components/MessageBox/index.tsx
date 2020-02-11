@@ -295,6 +295,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
         var optionListView = document.getElementById("message-content-view");
         optionListView.removeEventListener('scroll', this.scrollChange);
         optionListView.addEventListener('scroll', this.noScroll);
+        var beforeScrollHeight = optionListView.scrollHeight;
         var _messagesData = await ProjApi.getMessages(conversation_id, page, perPage);
         _messagesData.content = _messagesData.content.concat(this.state.messagesData.content);
         this.setState({
@@ -302,7 +303,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
             messagesData: _messagesData,
             currentPageForRight: page
         },()=>{
-            optionListView.scrollTop = 300;
+            optionListView.scrollTop = optionListView.scrollHeight - beforeScrollHeight;
         })
         optionListView.removeEventListener('scroll', this.noScroll);
         optionListView.addEventListener('scroll', this.scrollChange);
