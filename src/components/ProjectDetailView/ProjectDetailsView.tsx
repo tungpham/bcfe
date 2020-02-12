@@ -104,7 +104,11 @@ class ProjectDetailsView extends React.Component<ProjectDetailsViewProps,Project
                     >
                     <Tab label="Templates" {...this.a11yProps(0)} />
                     <Tab label="Files" {...this.a11yProps(1)} />
-                    <Tab label="Messages" {...this.a11yProps(2)} />
+                    {
+                        !this.props.viewOnly && (
+                             <Tab label="Messages" {...this.a11yProps(2)} />
+                        )
+                    }
                     </Tabs>
                 </AppBar>
                 <TabPanel value={this.state.value} index={0}
