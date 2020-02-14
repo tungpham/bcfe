@@ -40,17 +40,19 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
             selfAvatarImage: null,
             //left menu;
             selectedConversationId: "",
+            selectedContractorId:"",
             conversationSummary: [],
             avatarImages: {},
-            imageLoaded: false,
+            contactsLoading: false,
             currentPageForLeft: 0,
             perPageForLeft: 20,
             totalPagesForLeft: 0,
             //right detail view;
             messagesLoading: false,
+            scrollLoading: false,
             messagesData: [],
             currentPageForRight: 0,
-            perPageForRight: 10,
+            perPageForRight: 20,
             totalPagesForRight: 0,
         }
         this.loadAvatarImageCount = 0;
@@ -62,12 +64,16 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
         for( var i = 0 ;i < conversationSummaryData.content.length; i++ )
         {
             if(conversationSummaryData.content[i].latestMessage &&
-                conversationSummaryData.content[i].latestMessage.sender &&
-                conversationSummaryData.content[i].latestMessage.sender.id)
+                conversationSummaryData.content[i].latestMessage.senderId)
             {
                 let image = new Image();
                 image.crossOrigin = 'Anonymous';
-                image.src = ContApi.getAvatar(conversationSummaryData.content[i].latestMessage.sender.id);
+                if(this.props.contactorType === "owner")
+                {
+                    image.src = ContApi.getAvatar(conversationSummaryData.content[i].projectOwnerId);
+                } else {
+                    image.src = ContApi.getAvatar(conversationSummaryData.content[i].latestMessage.senderId);
+                }
                 let self = this;
                 let contactIndex = i;
                 let _conversationSummaryData = conversationSummaryData;
@@ -79,14 +85,19 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                     ctx.drawImage(image, 0, 0);
                     var uri = canvas.toDataURL('image/png'),
                         b64 = uri/*.replace(/^data:image.+;base64,/, '')*/;
-                    self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].id}`] = b64
+                    if(self.props.contactorType === "owner")
+                    {
+                        self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].projectOwnerId}`] = b64
+                    } else {
+                        self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].latestMessage.senderId}`] = b64
+                    }
                     self.loadAvatarImageCount++;
                     if(self.loadAvatarImageCount === _conversationSummaryData.content.length)
                     {
                         console.clear();
                         self.setState({
                             avatarImages: self.cachedAvatarImages,
-                            imageLoaded: true
+                            contactsLoading: false
                         })
                     }
                 };
@@ -110,14 +121,19 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                         ctx.drawImage(defaultAvatar, 0, 0);
                         var uri = canvas.toDataURL('image/png'),
                             b64 = uri/*.replace(/^data:image.+;base64,/, '')*/;
-                        self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].id}`] = b64
+                        if(self.props.contactorType === "owner")
+                        {
+                            self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].projectOwnerId}`] = b64
+                        } else {
+                            self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].latestMessage.senderId}`] = b64
+                        }
                         self.loadAvatarImageCount++;
                         if(self.loadAvatarImageCount === _conversationSummaryData.content.length)
                         {
                             console.clear();
                             self.setState({
                                 avatarImages: self.cachedAvatarImages,
-                                imageLoaded: true
+                                contactsLoading: false
                             })
                         }
                     }
@@ -146,14 +162,19 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                     ctx.drawImage(defaultAvatar, 0, 0);
                     var uri = canvas.toDataURL('image/png'),
                         b64 = uri/*.replace(/^data:image.+;base64,/, '')*/;
-                    self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].id}`] = b64
+                    if(self.props.contactorType === "owner")
+                    {
+                        self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].projectOwnerId}`] = b64
+                    } else {
+                        self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].latestMessage.senderId}`] = b64
+                    }
                     self.loadAvatarImageCount++;
                     if(self.loadAvatarImageCount === _conversationSummaryData.content.length)
                     {
                         console.clear();
                         self.setState({
                             avatarImages: self.cachedAvatarImages,
-                            imageLoaded: true
+                            contactsLoading: false
                         })
                     }
                 }
@@ -163,14 +184,35 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
     }
     async componentDidMount(){
         this.loadAvatarImageCount = 0;
-        if(this.props.project.id)
+        if(this.props.contactorType === "contractor" )
         {
+          if(!this.props.project || !this.props.project.id) return;
           var conversationSummary  = await ProjApi.getConversationSummary(this.props.project.id, this.state.currentPageForLeft, this.state.perPageForLeft);
           this.setState({
             conversationSummary: conversationSummary.content,
             totalPagesForLeft: conversationSummary.totalPages
           })
-          this.loadAvatarImages(conversationSummary);
+          if(conversationSummary && conversationSummary.content &&  conversationSummary.content.length > 0)
+          {
+              this.setState({
+                contactsLoading: true
+              })
+              this.loadAvatarImages(conversationSummary);
+          }
+        } else {
+            var selfId = localStorage.getItem("contractor_ID");
+            var conversationSummaryWithOwner  = await ProjApi.getConversationSummary1(selfId, this.state.currentPageForLeft, this.state.perPageForLeft);
+            this.setState({
+                conversationSummary: conversationSummaryWithOwner.content,
+                totalPagesForLeft: conversationSummaryWithOwner.totalPages
+            })
+            if(conversationSummaryWithOwner && conversationSummaryWithOwner.content &&  conversationSummaryWithOwner.content.length > 0)
+            {
+                this.setState({
+                    contactsLoading: true
+                })
+                this.loadAvatarImages(conversationSummaryWithOwner);
+            }
         }
     }
     onChange = (e) => {
@@ -178,25 +220,16 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
             message: e.target.value
         })
     }
-    onKeyDown = (e) => {
+    onKeyDown = async (e) => {
         if (e.keyCode === 13) {
-            if(e.target.value !== "" && this.state.selectedConversationId)
+            if(e.target.value !== "" && this.state.selectedConversationId )
             {
-                // var _messagesData = this.state.messageData;
-                // var _date = new Date();
-                // if(!_messagesData.messages[this.state.selectedConversationId]) _messagesData.messages[this.state.selectedConversationId] = [];
-                // _messagesData.messages[this.state.selectedConversationId].push({
-                //     type:"self",
-                //     content: e.target.value,
-                //     sentTime: _date.getMinutes() + ":"+_date.getHours() + ":" + _date.getSeconds()
-                // })
-                // this.setState({
-                //     messageData: _messagesData,
-                //     message : ""
-                // },()=>{
-                //     var optionListView = document.getElementById("message-content-view");
-                //     optionListView.scrollTop = optionListView.scrollHeight;
-                // })
+                 var selfId = localStorage.getItem("contractor_ID");
+                 this.setState({
+                    message:""
+                 });
+                 await ProjApi.postMessageToConversation(this.state.selectedConversationId, selfId, this.state.message);
+                 this.handleChangeConversation(this.state.selectedConversationId);
             }
         }
     }
@@ -223,15 +256,16 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
         }
         return true;
     }
-    renderContractorName = (latestMessage) => {
-        if(!latestMessage ||
-           !latestMessage.sender ||
-           !latestMessage.sender.address ||
-           !latestMessage.sender.address.name) return "";
-        else {
-            if( latestMessage.sender.address.name.length > 25 ) return latestMessage.sender.address.name.substr(0, 25) + "...";
-            else return latestMessage.sender.address.name;
+    renderContractorName = (name) => {
+        if(name === null || name === undefined || name === "") return "";
+        if(this.props.contactorType === "owner")
+        {
+            if(name.length > 25 ) return name.substr(0,25) + "...";
+            else return name;
+        } else {
+
         }
+       
     }
     renderLatestMessageContent = (latestMessage) => {
         if(!latestMessage ||
@@ -249,6 +283,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
         if(this.state.currentPageForRight >= this.state.totalPagesForRight - 1) return;
         if(e.target.scrollTop < 100)
         {
+            this.setState({scrollLoading: true})
             this.handleChangeConversationDetailPage(this.conversationId, this.state.currentPageForRight + 1, this.state.perPageForRight);
         }
     }
@@ -258,11 +293,12 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
             selectedConversationId: conversation_id,
             messagesLoading: true,
             currentPageForRight: 0,
-            perPageForRight : 10
+            perPageForRight : 20
         });
-        var messagesData = await ProjApi.getMessages(conversation_id, 0, 10);
+        var messagesData = await ProjApi.getMessages(conversation_id, 0, 20);
         this.setState({
             messagesLoading: false,
+            scrollLoading: false,
             messagesData: messagesData,
             totalPagesForRight: messagesData.totalPages
         }, ()=>{
@@ -270,14 +306,13 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                optionListView.scrollTop = optionListView.scrollHeight;
                optionListView.addEventListener('scroll', this.scrollChange)
         })
-        console.log(messagesData);
     }
     handleChangeContactListPage = async (page, perPage) => {
         this.loadAvatarImageCount = 0;
         if(this.props.project.id)
         {
             this.setState({
-                imageLoaded: false
+                contactsLoading: false
             })
             var conversationSummary  = await ProjApi.getConversationSummary(this.props.project.id, page, perPage);
             this.setState({
@@ -321,7 +356,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
             > 
                 <Box className = {classes.contactsListViewWrapper}>
                     {
-                        !this.state.imageLoaded && (
+                        this.state.contactsLoading && (
                             <CircularProgress  className = {classes.busy}/>
                         )
                     }
@@ -341,14 +376,15 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                     </Box>
                     <Box className = {classes.contactsListView} id = "contacts-list-view">
                         {
-                            this.state.imageLoaded && this.state.conversationSummary.map((contact, index)=>(
+                            !this.state.contactsLoading && this.state.conversationSummary.map((contact, index)=>(
                                 <Box key = {`contract-item-${index}`} className = {classes.contactListItem}
                                     style = {{border:this.state.selectedConversationId === contact.id ? "1px solid #1752a8" : "1px solid #d6d3d3"}}
                                     onClick = {()=>{
                                         this.handleChangeConversation(contact.id)
                                     }}
                                 >
-                                    <Avatar className = {classes.avatar} alt = {`avatar-image-${index}`} src = {this.state.avatarImages ? this.state.avatarImages[`${contact.id}`] : ""}/>
+                                    <Avatar className = {classes.avatar} alt = {`avatar-image-${index}`} src = {this.state.avatarImages ? this.state.avatarImages[`${this.props.contactorType === "contractor" ? contact.latestMessage.senderId : contact.projectOwnerId}`] : ""}/>
+                                    
                                     <Box className = {classes.contactDetails}>
                                         <Box style = {{
                                             fontWeight:500,
@@ -356,7 +392,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                                             }}
                                         >
                                             {
-                                                this.renderContractorName(contact.latestMessage)
+                                                this.renderContractorName(contact.projectTitle)
                                             }
                                         </Box>
                                         <Box style = {{color:"gray"}}>
@@ -369,7 +405,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                             ))
                         }
                         {
-                            this.state.imageLoaded && this.state.totalPagesForLeft > 1 && (
+                            !this.state.contactsLoading && this.state.totalPagesForLeft > 1 && (
                                 <Box className = {classes.contactsListPagenation}>
                                     <Box className = { this.state.currentPageForLeft === 0 ? classes.contactsListPagenationDisableBtn : classes.contactsListPagenationActionBtn} 
                                         onClick = {()=>{
@@ -393,36 +429,30 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                     </Box>
                     <Box className = {classes.messageContentView} id = "message-content-view" >
                         {
-                            this.state.messagesLoading && (
-                                <React.Fragment>
+                            this.state.messagesLoading && this.state.scrollLoading &&  (
                                     <Box className = {classes.messagesLoadingLabel}>Loading messages...</Box>
-                                     <CircularProgress className = {classes.busy}/>
-                                </React.Fragment>
                             )
                         }
                         {
-                           this.state.imageLoaded  &&  this.state.messagesData && this.state.messagesData.content &&  this.state.messagesData.content.map((message, index)=>(
-                                <Box className = {message.sender && message.sender.id === selfId ? classes.chatItemSelf : classes.chatItem} key = {`chat-item-${index}`}>
+                            this.state.messagesLoading && (
+                                <CircularProgress className = {classes.busy}/>
+                            )
+                        }
+                        {
+                           !this.state.contactsLoading  &&  this.state.messagesData && this.state.messagesData.content &&  this.state.messagesData.content.map((message, index)=>(
+                                <Box className = {message.senderId && message.senderId === selfId ? classes.chatItemSelf : classes.chatItem} key = {`chat-item-${index}`}>
                                     {
-                                        message.sender && message.sender.id === selfId ? (
+                                        message.senderId && message.senderId === selfId ? (
                                             <React.Fragment>
                                                 <Box className = {classes.selfMsg}>
                                                     <Box>{message.message ? message.message : ""}</Box>
                                                     <Box style = {{textAlign:"right", color:"gray"}}>{message.timestamp ? message.timestamp : ""}</Box>
                                                 </Box>
-                                                {
-                                                    // this.checkLastMessage("self", index, this.state.messageData.messages[this.state.selectedConversationId]) === true ? (
-                                                        <Avatar className = {classes.avatar} alt = "john" src = "https://demos.creative-tim.com/paper-dashboard-pro/assets/img/default-avatar.png"/>
-                                                    // ):(null)
-                                                }
+                                                 <Avatar className = {classes.avatar} alt = "john" src = {ContApi.getAvatar(selfId)}/>
                                             </React.Fragment>
                                         ) : (
                                             <React.Fragment>
-                                                {
-                                                    // this.checkLastMessage("other", index, this.state.messageData.messages[this.state.selectedConversationId]) === true ? (
-                                                        <Avatar className = {classes.avatar} alt = {`avatar-contractor-${index}`} src = {this.state.avatarImages[`${message.sender.id}`]}/>
-                                                    // ) : (null)
-                                                }
+                                                <Avatar className = {classes.avatar} alt = {`avatar-contractor-${index}`} src = {this.state.avatarImages ? this.state.avatarImages[`${message.senderId}`] : ""}/>
                                                 <Box className = {classes.msg}>
                                                 <Box>{message.message ? message.message : ""}</Box>
                                                     <Box style = {{textAlign:"right", color:"gray"}}>{message.timestamp ? message.timestamp : ""}</Box>

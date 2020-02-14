@@ -86,6 +86,13 @@ export default {
 	}).then(res => res.data),
 	getSelection:    id           =>  xapi().get(   `${SELECTION_API_PATH}/${id}`).then(res => res.data),
 	//Message part;
-	getConversationSummary: (project_id, page, page_size) => xapi().get(`/messages/project/${project_id}/conversationsummary?page=${page}&size=${page_size}`).then(res => res.data),
-	getMessages: (conversation_id, page, page_size) => xapi().get(`/messages/conversation/${conversation_id}?page=${page}&size=${page_size}`).then(res => res.data),
+	getConversationSummary: (project_id, page, page_size) => xapi().get(`/messages/project/${project_id}/conversations?page=${page}&size=${page_size}`).then(res => res.data),
+	getConversationSummary1: (contractor_id, page, page_size) => xapi().get(`/messages/conversations/contractor/${contractor_id}?page=${page}&size=${page_size}`).then(res => res.data),
+	getMessages: (conversation_id, page, page_size) => xapi().get(`/messages/conversations/${conversation_id}?page=${page}&size=${page_size}`).then(res => res.data),
+	postMessageToProject:(project_id, contractor_id, content) => xapi().post(`/messages/project/${project_id}/contractor/${contractor_id}`,{
+		content:content
+	}).then(res => res.data),
+	postMessageToConversation: (conversation_id, contractor_id, content) => xapi().post(`/messages/conversations/${conversation_id}/contractor/${contractor_id}`, {
+		content:content
+	}).then(res => res.data),
 };

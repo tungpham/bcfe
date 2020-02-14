@@ -3,11 +3,20 @@ import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
 import LocationIcon from '@material-ui/icons/LocationOn';
 import {  ProjectInfo } from 'types/project';
-
+//import api
+import ProjApi from 'services/project';
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const DES_LIMIT_COUNT = 100;
 const styles = createStyles(theme => ({
@@ -18,6 +27,7 @@ const styles = createStyles(theme => ({
         backgroundColor:"white",
         zIndex:10,
         minHeight:"128px",
+        display:"flex"
     },
     title:{
         fontSize:"1.2rem",
@@ -41,16 +51,23 @@ export interface IProjectOverviewProps {
     project: ProjectInfo;
     classes: ClassNameMap<string>;
     levelGettingLoading: boolean;
+    viewOnly: boolean;
 }
 interface IProjectOverviewState{
     isExpandedDes: boolean;
+    askQuestionModal: boolean;
+    message: string;
+    postMessageLoading: boolean;
 }
 class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOverviewState> {
 
     constructor(props) {
         super(props);
         this.state = {
-            isExpandedDes: false
+            isExpandedDes: false,
+            askQuestionModal: false,
+            message: "",
+            postMessageLoading: false
         }
     }
     render_date = (_due) => {
@@ -92,6 +109,31 @@ class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOve
             return _des
         }
     }
+    handleChangeMessage = (e) => {
+        this.setState({
+            message: e.target.value
+        })
+    }
+    handleSubmitMessage = async () => {
+        var contractor_id = localStorage.getItem("contractor_ID");
+        if(this.state.message === null || this.state.message === undefined || this.state.message === "" || contractor_id === null || contractor_id === "") return;
+        this.setState({
+            postMessageLoading: true
+        })
+        await ProjApi.postMessageToProject(this.props.project.id, contractor_id, this.state.message);
+        this.setState({
+            postMessageLoading: false
+        })
+    }
+    componentDidUpdate(prevProps, prevState)
+    {
+        if(prevState.postMessageLoading === true && this.state.postMessageLoading === false)
+        {
+            this.setState({
+                askQuestionModal: false
+            })
+        }
+    }
     render() {
         const {classes} = this.props;
         return(
@@ -99,27 +141,89 @@ class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOve
                 <Box className = {classes.overViewWrapper}>
                 {
                     this.props.levelGettingLoading === false ? (
-                        <React.Fragment>                            <div  className = {classes.title}>{this.props.project.title}</div>
-                            <div style = {{display:"flex", margin:"10px 0px", alignItems:"center"}}>
-                                <strong>Project Date: </strong>
-                                <span>&nbsp;{this.render_date(this.props.project.due)}&nbsp;</span>
-                                <span style = {{color:"#4f7fde"}}>{this.props.project.genContractor.address && this.props.project.genContractor.address.name ? this.props.project.genContractor.address.name : ""}</span>
-                                <LocationIcon  className = {classes.locationIcon}/>&nbsp;{this.props.project.city}
-                                <span style = {{marginLeft:"10px", fontWeight:500}}>
-                                    <Link to = {`/contractordetails/${this.props.project.genContractor.id}`}>
-                                        {this.props.project && this.props.project.genContractor && this.props.project.genContractor.address && this.props.project.genContractor.address.name ? this.props.project.genContractor.address.name : "Owner" }    
-                                    </Link>
-                                </span>
+                        <React.Fragment>    
+                            <div style = {{flex:1}}>                       
+                                <div  className = {classes.title}>{this.props.project.title}</div>
+                                <div style = {{display:"flex", margin:"10px 0px", alignItems:"center"}}>
+                                    <strong>Project Date: </strong>
+                                    <span>&nbsp;{this.render_date(this.props.project.due)}&nbsp;</span>
+                                    <span style = {{color:"#4f7fde"}}>{this.props.project.genContractor.address && this.props.project.genContractor.address.name ? this.props.project.genContractor.address.name : ""}</span>
+                                    <LocationIcon  className = {classes.locationIcon}/>&nbsp;{this.props.project.city}
+                                    <span style = {{marginLeft:"10px", fontWeight:500}}>
+                                        <Link to = {`/contractordetails/${this.props.project.genContractor.id}`}>
+                                            {this.props.project && this.props.project.genContractor && this.props.project.genContractor.address && this.props.project.genContractor.address.name ? this.props.project.genContractor.address.name : "Owner" }    
+                                        </Link>
+                                    </span>
+                                </div>
+                                <div style = {{color:"#a1a1a1"}}>
+                                    {this.render_des(this.props.project.description, classes)}
+                                </div>
                             </div>
-                            <div style = {{color:"#a1a1a1"}}>
-                                {this.render_des(this.props.project.description, classes)}
-                            </div>
+                            {
+                                this.props.viewOnly === true && (
+                                    <Box>
+                                        <Button variant = "contained" color = "primary"
+                                            onClick = {()=>{
+                                                this.setState({
+                                                    askQuestionModal: true,
+                                                    message: ""
+                                                })
+                                            }}
+                                        >Ask Question</Button>
+                                    </Box>
+                                )
+                            }
                         </React.Fragment>
                     ): (null)
-                    }
+                }
                 </Box>
+                <Dialog
+                    open={this.state.askQuestionModal}
+                    onClose={() => this.setState({ askQuestionModal: false })}
+                    aria-labelledby="form-dialog-title"
+                >
+                     <DialogTitle id="form-dialog-title">
+                         Ask Question
+                    </DialogTitle>
+                    <DialogContent style = {{width:"500px"}}>
+                        {
+                            this.state.postMessageLoading && (
+                                <CircularProgress/>
+                            )
+                        }
+                        <Grid container>
+                                <TextField
+                                    fullWidth
+                                    multiline
+                                    rowsMax = {10}
+                                    rows = {10}
+                                    variant = "outlined"
+                                    label = ""
+                                    onChange = {this.handleChangeMessage}
+                                    value = {this.state.message}
+                                />
+                        </Grid>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => {
+                            this.setState({
+                                askQuestionModal: false
+                            })
+                        }}>
+                            Cancel
+                        </Button>
+                        <Button
+                            color="primary"
+                            defaultChecked
+                            onClick = {this.handleSubmitMessage}
+                            disabled = {this.state.postMessageLoading}
+                        >
+                            Submit
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </React.Fragment>
-           
+            
         )
     }
 }

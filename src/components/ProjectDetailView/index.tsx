@@ -119,6 +119,7 @@ class ProjectDetailView extends React.Component<IProjectDetailViewProps, IProjec
                 }
                 <ProjectOverView
                     levelGettingLoading = {this.state.levelGettingLoading}
+                    viewOnly = {viewOnly}
                 />
                 <ProjectDetailsView
                     viewOnly = {viewOnly}
