@@ -40,7 +40,6 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
             selfAvatarImage: null,
             //left menu;
             selectedConversationId: "",
-            selectedContractorId:"",
             conversationSummary: [],
             avatarImages: {},
             contactsLoading: false,
@@ -72,7 +71,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                 {
                     image.src = ContApi.getAvatar(conversationSummaryData.content[i].projectOwnerId);
                 } else {
-                    image.src = ContApi.getAvatar(conversationSummaryData.content[i].latestMessage.senderId);
+                    image.src = ContApi.getAvatar(conversationSummaryData.content[i].contractorId);
                 }
                 let self = this;
                 let contactIndex = i;
@@ -89,7 +88,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                     {
                         self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].projectOwnerId}`] = b64
                     } else {
-                        self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].latestMessage.senderId}`] = b64
+                        self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].contractorId}`] = b64
                     }
                     self.loadAvatarImageCount++;
                     if(self.loadAvatarImageCount === _conversationSummaryData.content.length)
@@ -125,7 +124,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                         {
                             self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].projectOwnerId}`] = b64
                         } else {
-                            self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].latestMessage.senderId}`] = b64
+                            self.cachedAvatarImages[`${_conversationSummaryData.content[contactIndex].contractorId}`] = b64
                         }
                         self.loadAvatarImageCount++;
                         if(self.loadAvatarImageCount === _conversationSummaryData.content.length)
@@ -179,8 +178,23 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                     }
                 }
             }
-                
         }
+        let image = new Image();
+        image.crossOrigin = 'Anonymous';
+        image.src = ContApi.getAvatar(localStorage.getItem("contractor_ID"));
+        let self = this;
+        image.onload = async () => {
+            var canvas = document.createElement('canvas'),
+            ctx = canvas.getContext('2d');
+            canvas.height = image.naturalHeight;
+            canvas.width = image.naturalWidth;
+            ctx.drawImage(image, 0, 0);
+            var uri = canvas.toDataURL('image/png'),
+                b64 = uri/*.replace(/^data:image.+;base64,/, '')*/;
+            self.setState({
+                selfAvatarImage: b64
+            })
+        };
     }
     async componentDidMount(){
         this.loadAvatarImageCount = 0;
@@ -225,11 +239,33 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
             if(e.target.value !== "" && this.state.selectedConversationId )
             {
                  var selfId = localStorage.getItem("contractor_ID");
+                 var _messagesData = this.state.messagesData;
+                 var _conversationSummaryData = this.state.conversationSummary;
+                 for(var i = 0 ;i < _conversationSummaryData.length; i++)
+                 {
+                     if(this.state.selectedConversationId === _conversationSummaryData[i].id){
+                         _conversationSummaryData[i].latestMessage.message = this.state.message;
+                         _conversationSummaryData[i].latestMessage.senderId = selfId;
+                         _conversationSummaryData[i].latestMessage.timestamp = new Date()
+                     }
+                 }
+                 _messagesData.content.push({
+                    senderId: selfId,
+                    senderName: "",
+                    message: this.state.message,
+                    timestamp: new Date(),
+                    status: "UNREAD"
+                 })
                  this.setState({
-                    message:""
+                    message:"",
+                    messagesData: _messagesData,
+                    conversationSummaryData: _conversationSummaryData
+                 },()=>{
+                    var optionListView = document.getElementById("message-content-view");
+                    optionListView.scrollTop = optionListView.scrollHeight;
                  });
                  await ProjApi.postMessageToConversation(this.state.selectedConversationId, selfId, this.state.message);
-                 this.handleChangeConversation(this.state.selectedConversationId);
+                //  this.handleChangeConversation(this.state.selectedConversationId);
             }
         }
     }
@@ -343,6 +379,10 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
         optionListView.removeEventListener('scroll', this.noScroll);
         optionListView.addEventListener('scroll', this.scrollChange);
     }
+    renderTimestamp = (time) => {
+        var postDate = new Date(time);
+        return `${postDate.getHours()}:${postDate.getMinutes()}:${postDate.getSeconds()}`
+    }
     render(){
         const { classes } = this.props;
         var selfId = localStorage.getItem("contractor_ID");
@@ -383,7 +423,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                                         this.handleChangeConversation(contact.id)
                                     }}
                                 >
-                                    <Avatar className = {classes.avatar} alt = {`avatar-image-${index}`} src = {this.state.avatarImages ? this.state.avatarImages[`${this.props.contactorType === "contractor" ? contact.latestMessage.senderId : contact.projectOwnerId}`] : ""}/>
+                                    <Avatar className = {classes.avatar} alt = {`avatar-image-${index}`} src = {this.state.avatarImages ? this.state.avatarImages[`${this.props.contactorType === "contractor" ? contact.contractorId : contact.projectOwnerId}`] : ""}/>
                                     
                                     <Box className = {classes.contactDetails}>
                                         <Box style = {{
@@ -446,16 +486,16 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                                             <React.Fragment>
                                                 <Box className = {classes.selfMsg}>
                                                     <Box>{message.message ? message.message : ""}</Box>
-                                                    <Box style = {{textAlign:"right", color:"gray"}}>{message.timestamp ? message.timestamp : ""}</Box>
+                                                    <Box style = {{textAlign:"right", color:"gray"}}>{message.timestamp ? this.renderTimestamp(message.timestamp) : ""}</Box>
                                                 </Box>
-                                                 <Avatar className = {classes.avatar} alt = "john" src = {ContApi.getAvatar(selfId)}/>
+                                                 <Avatar className = {classes.selfAvatar} alt = "john" src = {this.state.selfAvatarImage}/>
                                             </React.Fragment>
                                         ) : (
                                             <React.Fragment>
                                                 <Avatar className = {classes.avatar} alt = {`avatar-contractor-${index}`} src = {this.state.avatarImages ? this.state.avatarImages[`${message.senderId}`] : ""}/>
                                                 <Box className = {classes.msg}>
                                                 <Box>{message.message ? message.message : ""}</Box>
-                                                    <Box style = {{textAlign:"right", color:"gray"}}>{message.timestamp ? message.timestamp : ""}</Box>
+                                                    <Box style = {{textAlign:"right", color:"gray"}}>{message.timestamp ? this.renderTimestamp(message.timestamp) : ""}</Box>
                                                 </Box>
                                             </React.Fragment>
                                         )
@@ -465,6 +505,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                         }
                     </Box>
                     <Box className = {classes.messageSentView}>
+                        <Avatar alt = "john" src = {this.state.selfAvatarImage}/>
                         <TextField
                             className = {classes.messageInput}
                             fullWidth

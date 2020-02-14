@@ -91,6 +91,7 @@ const styles = () => createStyles({
         marginTop:"10px",
     },
     messageInput:{
+        marginLeft:"10px",
         flex: 1,
         "& input":{
             height:"2.1875em"
@@ -133,6 +134,23 @@ const styles = () => createStyles({
         maxWidth:"75%",
         backgroundColor:"#b8d8d8",
         padding:"5px 10px"
+    },
+    selfAvatar:{
+        position:"relative",
+        display:"block",
+        zIndex: 2,
+        "&::after":{
+            content: "",
+            position: "absolute",
+            display: "inline-block",
+            bottom: "19px",
+            right: "48px",
+            width: "0px",
+            height: "0px",
+            border: "8px solid #d6c1ab",
+            borderRightColor: "transparent",
+            borderTopColor: "transparent"
+        }
     },
     selfMsg:{
         border: "2px solid #d6c1ab",
