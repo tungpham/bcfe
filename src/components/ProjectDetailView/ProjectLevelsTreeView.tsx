@@ -382,6 +382,11 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                 this.setState({isBusy: true})
                 await this.props.createLevel(this.props.project.id, { number, name, description: desc });
                 await this.props.getLevels(this.props.project.id);
+                var _levelExpandes = this.state.levelExpandeds;
+                var _roomExpandes = this.state.roomExpandeds;
+                _levelExpandes.push(false);
+                _roomExpandes.push([]);
+                _roomExpandes[_roomExpandes.length - 1] = [];
                 this.setState({
                     isBusy: false,
                     showModal: false,
@@ -392,7 +397,9 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
                     desc: {
                         value: '',
                         errMsg: undefined
-                    }
+                    },
+                    levelExpandeds: _levelExpandes,
+                    roomExpandeds: _roomExpandes
                 });
                 this.props.showMessage(true, 'Add Level success');
             } else {
@@ -434,11 +441,26 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             this.props.hideConfirm();
             const { deleteLvl, getLevels } = this.props;
             if (!this.props.project) return;
-            this.setState({isBusy: true})
+            this.setState({isBusy: true});
+            var _levelExpandes = this.state.levelExpandeds;
+            var _roomExpandes  = this.state.roomExpandeds;
+            for(var i = 0 ;i < this.props.levels.length; i++)
+            {
+                if(this.props.levels[i].id === id)
+                {   
+                    _levelExpandes.splice(i,1);
+                    _roomExpandes.splice(i,1);
+                    break;
+                }
+            }
             try {
                 await deleteLvl(id);
                 await getLevels(this.props.project.id);
-                this.setState({isBusy: false});
+                this.setState({
+                    isBusy: false,
+                    levelExpandeds:_levelExpandes,
+                    roomExpandeds: _roomExpandes
+                });
                 this.props.setRoomId(null);
                 this.props.setLevelId(null);
                 this.props.setTemplateId(null);
@@ -563,9 +585,20 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
 				w: cat.w,
 				l: cat.l,
 				h: cat.h
-			});
+            });
+            var _roomExpandes = this.state.roomExpandeds;
+            for(var i = 0 ; i < this.props.levels.length; i++)
+            {
+                if(this.props.levels[i].id === id)
+                {
+                    _roomExpandes[i].push(false);
+                }
+            }
 			await this.props.getLevels(this.props.project.id);
-            this.setState({isBusy: false});
+            this.setState({
+                isBusy: false,
+                roomExpandeds:_roomExpandes
+            });
 			this.props.showMessage(true, 'Create Room success');
 		} catch (error) {
 			console.log('ProjectLevelWrapper.AddRoom: ', error);
@@ -603,8 +636,22 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             this.setState({isBusy: true})
             try {
                 await deleteRoom(id);
+                var _roomExpandes = this.state.roomExpandeds;
+                for(var i = 0; i < this.props.levels.length; i++)
+                {
+                    for(var j = 0; j < this.props.levels[i].rooms.length; j++)
+                    {
+                        if(this.props.levels[i].rooms[j].id === id){
+                            _roomExpandes[i].splice(j,1);
+                            break;
+                        }
+                    }
+                }
                 await getLevels(this.props.project.id);
-                this.setState({isBusy: false});
+                this.setState({
+                    isBusy: false,
+                    roomExpandeds: _roomExpandes
+                });
                 this.props.setRoomId(null);
                 this.props.showMessage(true, 'Delete room success');
             } catch (error) {
@@ -826,6 +873,7 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             { name: 'Stairs', value: 'STAIRS' },
             { name: 'Other', value: 'OTHER' }
         ];
+        console.log(this.state)
         return(
             <React.Fragment>
                 <div className = {classes.treeViewWrapper}>
