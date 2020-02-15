@@ -97,17 +97,13 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                         self.setState({
                             avatarImages: self.cachedAvatarImages,
                             contactsLoading: false
+                        },()=>{
+                            self.handleChangeConversation(_conversationSummaryData.content[0].id)
                         })
                     }
                 };
                 image.onerror = () => {
                     var senderName = "Contractor " + contactIndex;
-                    if(_conversationSummaryData.content[contactIndex].sender &&
-                        _conversationSummaryData.content[contactIndex].sender.address &&
-                        _conversationSummaryData.content[contactIndex].sender.address.name)
-                    {
-                        senderName = _conversationSummaryData[contactIndex].sender.address.name;
-                    }
                     var _url = "https://ui-avatars.com/api/?name=" + senderName;
                     let defaultAvatar = new Image();
                     defaultAvatar.crossOrigin = "Anonymous";
@@ -133,6 +129,8 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                             self.setState({
                                 avatarImages: self.cachedAvatarImages,
                                 contactsLoading: false
+                            },()=>{
+                                self.handleChangeConversation(_conversationSummaryData.content[0].id)
                             })
                         }
                     }
@@ -143,12 +141,6 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                 let contactIndex = i;
                 let _conversationSummaryData = conversationSummaryData;
                 var senderName = "Contractor " + contactIndex;
-                if(_conversationSummaryData.content[contactIndex].sender &&
-                    _conversationSummaryData.content[contactIndex].sender.address &&
-                    _conversationSummaryData.content[contactIndex].sender.address.name)
-                {
-                    senderName = _conversationSummaryData[contactIndex].sender.address.name;
-                }
                 var _url = "https://ui-avatars.com/api/?name=" + senderName;
                 let defaultAvatar = new Image();
                 defaultAvatar.crossOrigin = "Anonymous";
@@ -174,6 +166,8 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                         self.setState({
                             avatarImages: self.cachedAvatarImages,
                             contactsLoading: false
+                        },()=>{
+                            self.handleChangeConversation(_conversationSummaryData.content[0].id)
                         })
                     }
                 }
@@ -234,39 +228,36 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
             message: e.target.value
         })
     }
-    onKeyDown = async (e) => {
-        if (e.keyCode === 13) {
-            if(e.target.value !== "" && this.state.selectedConversationId )
-            {
-                 var selfId = localStorage.getItem("contractor_ID");
-                 var _messagesData = this.state.messagesData;
-                 var _conversationSummaryData = this.state.conversationSummary;
-                 for(var i = 0 ;i < _conversationSummaryData.length; i++)
-                 {
-                     if(this.state.selectedConversationId === _conversationSummaryData[i].id){
-                         _conversationSummaryData[i].latestMessage.message = this.state.message;
-                         _conversationSummaryData[i].latestMessage.senderId = selfId;
-                         _conversationSummaryData[i].latestMessage.timestamp = new Date()
-                     }
-                 }
-                 _messagesData.content.push({
+    postMessage = async () => {
+        if(this.state.message !== "" && this.state.selectedConversationId )
+        {
+                var selfId = localStorage.getItem("contractor_ID");
+                var _messagesData = this.state.messagesData;
+                var _conversationSummaryData = this.state.conversationSummary;
+                for(var i = 0 ;i < _conversationSummaryData.length; i++)
+                {
+                    if(this.state.selectedConversationId === _conversationSummaryData[i].id){
+                        _conversationSummaryData[i].latestMessage.message = this.state.message;
+                        _conversationSummaryData[i].latestMessage.senderId = selfId;
+                        _conversationSummaryData[i].latestMessage.timestamp = new Date()
+                    }
+                }
+                _messagesData.content.push({
                     senderId: selfId,
                     senderName: "",
                     message: this.state.message,
                     timestamp: new Date(),
                     status: "UNREAD"
-                 })
-                 this.setState({
-                    message:"",
-                    messagesData: _messagesData,
-                    conversationSummaryData: _conversationSummaryData
-                 },()=>{
+                })
+                this.setState({
+                        message:"",
+                        messagesData: _messagesData,
+                        conversationSummaryData: _conversationSummaryData
+                    },()=>{
                     var optionListView = document.getElementById("message-content-view");
-                    optionListView.scrollTop = optionListView.scrollHeight;
-                 });
-                 await ProjApi.postMessageToConversation(this.state.selectedConversationId, selfId, this.state.message);
-                //  this.handleChangeConversation(this.state.selectedConversationId);
-            }
+                        optionListView.scrollTop = optionListView.scrollHeight;
+                });
+                await ProjApi.postMessageToConversation(this.state.selectedConversationId, selfId, this.state.message);
         }
     }
     getLastMessage = (contact, MessageData) => {
@@ -485,7 +476,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                                         message.senderId && message.senderId === selfId ? (
                                             <React.Fragment>
                                                 <Box className = {classes.selfMsg}>
-                                                    <Box>{message.message ? message.message : ""}</Box>
+                                                    <Typography >{message.message ? message.message : ""}</Typography>
                                                     <Box style = {{textAlign:"right", color:"gray"}}>{message.timestamp ? this.renderTimestamp(message.timestamp) : ""}</Box>
                                                 </Box>
                                                  <Avatar className = {classes.selfAvatar} alt = "john" src = {this.state.selfAvatarImage}/>
@@ -494,7 +485,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                                             <React.Fragment>
                                                 <Avatar className = {classes.avatar} alt = {`avatar-contractor-${index}`} src = {this.state.avatarImages ? this.state.avatarImages[`${message.senderId}`] : ""}/>
                                                 <Box className = {classes.msg}>
-                                                <Box>{message.message ? message.message : ""}</Box>
+                                                    <Typography >{message.message ? message.message : ""}</Typography>
                                                     <Box style = {{textAlign:"right", color:"gray"}}>{message.timestamp ? this.renderTimestamp(message.timestamp) : ""}</Box>
                                                 </Box>
                                             </React.Fragment>
@@ -505,19 +496,20 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                         }
                     </Box>
                     <Box className = {classes.messageSentView}>
-                        <Avatar alt = "john" src = {this.state.selfAvatarImage}/>
                         <TextField
                             className = {classes.messageInput}
                             fullWidth
+                            multiline
+                            rowsMax = {5}
+                            rows = {5}
                             variant = "outlined"
                             label = ""
                             placeholder = "Type here!"
-                            onKeyDown={this.onKeyDown}
                             onChange = {this.onChange}
                             value = {this.state.message}
                         />
                         <Fab size = "small" className = {classes.sendIcon} color = "primary">
-                            <SendIcon fontSize = "small"/>
+                            <SendIcon fontSize = "small" onClick = {this.postMessage}/>
                         </Fab>
                     </Box>
                 </Box>

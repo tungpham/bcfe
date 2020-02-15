@@ -109,14 +109,16 @@ const styles = () => createStyles({
     chatItem:{
         padding:"0.3rem",
         overflow:"hidden",
-        display:"flex"
+        display:"flex",
+        whiteSpace:"pre-line"
     },
     chatItemSelf:{
         padding:"0.3rem",
         overflow:"hidden",
         display:"flex",
         justifyContent:"flex-end",
-        alignItems:"flex-end"
+        alignItems:"flex-end",
+        whiteSpace:"pre-line"
     },
     avatar:{
         // width:"40px",
