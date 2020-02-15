@@ -425,6 +425,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
     render(){
         const { classes } = this.props;
         var selfId = localStorage.getItem("contractor_ID");
+        var selfAvatar = localStorage.getItem("ContractorAvatar");
         return(
             <Box className = {classes.messageBoxWrapper} 
                   style = {{
@@ -527,7 +528,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                                                     <Typography >{message.message ? message.message : ""}</Typography>
                                                     <Box style = {{textAlign:"right", color:"gray"}}>{message.timestamp ? this.renderTimestamp(message.timestamp) : ""}</Box>
                                                 </Box>
-                                                 <Avatar className = {classes.selfAvatar} alt = "john" src = {this.state.selfAvatarImage}/>
+                                                 <Avatar className = {classes.selfAvatar} alt = "john" src = {selfAvatar}/>
                                             </React.Fragment>
                                         ) : (
                                             <React.Fragment>

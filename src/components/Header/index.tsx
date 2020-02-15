@@ -139,11 +139,20 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 	imageExists1 = (url) => {
 		if(this.state.avartaImg === "" && this.props.profile.user_metadata.contractor_id){
 			var img = new Image();
+			img.crossOrigin = 'Anonymous';
 			img.src = url;
 			var _that = this;
 			img.onload = function() { 
 				if(_that.state.avartaImg !== url)
 				{
+					var canvas = document.createElement('canvas'),
+                    ctx = canvas.getContext('2d');
+                    canvas.height = img.naturalHeight;
+                    canvas.width = img.naturalWidth;
+                    ctx.drawImage(img, 0, 0);
+                    var uri = canvas.toDataURL('image/png'),
+						b64 = uri/*.replace(/^data:image.+;base64,/, '')*/;
+					localStorage.setItem("ContractorAvatar", b64);
 					_that.setState({
 						avartaImg: url
 					})
@@ -153,9 +162,25 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 				var imgUrl = "https://ui-avatars.com/api/?name=" + _that.props.profile.email.split("@")[0];
 				if(_that.state.avartaImg !== imgUrl)
 				{
-					_that.setState({
-						avartaImg: imgUrl
-					})
+					var img = new Image();
+					img.crossOrigin = 'Anonymous';
+					img.src = imgUrl;
+					img.onload = function() { 
+						if(_that.state.avartaImg !== imgUrl)
+						{
+							var canvas = document.createElement('canvas'),
+							ctx = canvas.getContext('2d');
+							canvas.height = img.naturalHeight;
+							canvas.width = img.naturalWidth;
+							ctx.drawImage(img, 0, 0);
+							var uri = canvas.toDataURL('image/png'),
+								b64 = uri/*.replace(/^data:image.+;base64,/, '')*/;
+							localStorage.setItem("ContractorAvatar", b64);
+							_that.setState({
+								avartaImg: imgUrl
+							})
+						}
+					};
 				}
 			};
 		}
@@ -166,6 +191,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 		const { classes } = this.props;
 		const isMenuOpen = Boolean(anchorEl);
 		const avatarImg = ContApis.getAvatar(this.props.profile.user_metadata.contractor_id);
+		const userAvatar = localStorage.getItem("ContractorAvatar"); 
 		this.imageExists1(avatarImg)
 		const rightApp = auth0Client.isAuthenticated() ? (
 			<div className="rightmenu">
@@ -223,8 +249,8 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 						style = {{boxShadow:'0px 0px 10px rgba(0,0,0,0.2)', marginLeft:'10px', width:"32px", height:"32px", padding:"0"}}
 					>
 						{
-							this.state.avartaImg !== "" ? (
-								<Avatar alt="user-avatar" src={this.state.avartaImg} className = {classes.avatar}/>
+							this.state.avartaImg !== "" && userAvatar !== "" ? (
+								<Avatar alt="user-avatar" src={userAvatar} className = {classes.avatar}/>
 							) : ( null)
 						}
 					

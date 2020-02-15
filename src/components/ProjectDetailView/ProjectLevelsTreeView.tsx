@@ -873,7 +873,6 @@ class ProjectLevelsTreeView extends React.Component<ProjectLevelsTreeViewProps &
             { name: 'Stairs', value: 'STAIRS' },
             { name: 'Other', value: 'OTHER' }
         ];
-        console.log(this.state)
         return(
             <React.Fragment>
                 <div className = {classes.treeViewWrapper}>
