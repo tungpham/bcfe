@@ -32,6 +32,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
     public loadAvatarImageCount:number = 0;
     public cachedAvatarImages = {};
     public conversationId = "";
+    public refreshMessageIns = null;
     constructor(props)
     {
         super(props);
@@ -57,6 +58,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
         this.loadAvatarImageCount = 0;
         this.cachedAvatarImages  = {};
         this.conversationId = "";
+        this.refreshMessageIns = null;
     }
     loadAvatarImages = (conversationSummaryData) => {
         this.cachedAvatarImages = {};
@@ -222,7 +224,13 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                 this.loadAvatarImages(conversationSummaryWithOwner);
             }
         }
-        setInterval(this.refreshMessages, 3000);
+        this.refreshMessageIns = setInterval(this.refreshMessages, 3000);
+    }
+    componentWillUnmount(){
+        if(this.refreshMessageIns)
+        {
+            clearInterval(this.refreshMessageIns);
+        }
     }
     onChange = (e) => {
         this.setState({
