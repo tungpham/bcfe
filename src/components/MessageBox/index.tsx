@@ -222,6 +222,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                 this.loadAvatarImages(conversationSummaryWithOwner);
             }
         }
+        setInterval(this.refreshMessages, 3000);
     }
     onChange = (e) => {
         this.setState({
@@ -229,35 +230,35 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
         })
     }
     postMessage = async () => {
-        if(this.state.message !== "" && this.state.selectedConversationId )
+        if(this.state.message !== "" && this.state.selectedConversationId && this.state.message.trim())
         {
                 var selfId = localStorage.getItem("contractor_ID");
                 var _messagesData = this.state.messagesData;
                 var _conversationSummaryData = this.state.conversationSummary;
+                this.setState({
+                    message:"",
+                    messagesLoading:true
+                });
+                await ProjApi.postMessageToConversation(this.state.selectedConversationId, selfId, this.state.message);
+                var latestMessagesData = await ProjApi.getMessages(this.state.selectedConversationId, 0, 20);
+                if(!latestMessagesData.content || !latestMessagesData.content.length ) return;
+                _messagesData.content.push(latestMessagesData.content[latestMessagesData.content.length - 1]);
                 for(var i = 0 ;i < _conversationSummaryData.length; i++)
                 {
                     if(this.state.selectedConversationId === _conversationSummaryData[i].id){
-                        _conversationSummaryData[i].latestMessage.message = this.state.message;
-                        _conversationSummaryData[i].latestMessage.senderId = selfId;
-                        _conversationSummaryData[i].latestMessage.timestamp = new Date()
+                        _conversationSummaryData[i].latestMessage.message = latestMessagesData.content[latestMessagesData.content.length - 1].message;
+                        _conversationSummaryData[i].latestMessage.senderId = latestMessagesData.content[latestMessagesData.content.length - 1].senderId;
+                        _conversationSummaryData[i].latestMessage.timestamp = latestMessagesData.content[latestMessagesData.content.length - 1].timestamp
                     }
                 }
-                _messagesData.content.push({
-                    senderId: selfId,
-                    senderName: "",
-                    message: this.state.message,
-                    timestamp: new Date(),
-                    status: "UNREAD"
-                })
                 this.setState({
-                        message:"",
-                        messagesData: _messagesData,
-                        conversationSummaryData: _conversationSummaryData
-                    },()=>{
-                    var optionListView = document.getElementById("message-content-view");
-                        optionListView.scrollTop = optionListView.scrollHeight;
-                });
-                await ProjApi.postMessageToConversation(this.state.selectedConversationId, selfId, this.state.message);
+                    messagesData: _messagesData,
+                    conversationSummary: _conversationSummaryData,
+                    messagesLoading: false
+                },()=>{
+                var optionListView = document.getElementById("message-content-view");
+                    optionListView.scrollTop = optionListView.scrollHeight;
+            });
         }
     }
     getLastMessage = (contact, MessageData) => {
@@ -312,6 +313,45 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
         {
             this.setState({scrollLoading: true})
             this.handleChangeConversationDetailPage(this.conversationId, this.state.currentPageForRight + 1, this.state.perPageForRight);
+        }
+    }
+    refreshMessages = async () => {
+        if(this.state.selectedConversationId)
+        {
+            var messagesData = await ProjApi.getMessages(this.state.selectedConversationId, 0, 20);
+            var conversationSummary = this.state.conversationSummary;
+            var _messagesData = this.state.messagesData;
+            var currentConversation = this.state.conversationSummary.filter(conversation => conversation.id === this.state.selectedConversationId)[0];
+            if(!messagesData.content || !messagesData.content.length || !currentConversation) return;
+            for(var i = 0; i < messagesData.content.length; i++)
+            {
+                if(currentConversation.latestMessage.timestamp === messagesData.content[i].timestamp &&
+                   currentConversation.latestMessage.message   === messagesData.content[i].message &&
+                   currentConversation.latestMessage.senderId  === messagesData.content[i].senderId )
+                {
+                    if(i >= messagesData.content.length - 1) return;
+                    for( var j = i + 1; j < messagesData.content.length; j++)
+                    {
+                        _messagesData.content.push(messagesData.content[j])
+                    }
+                    currentConversation.latestMessage = _messagesData.content[ _messagesData.content.length - 1 ];
+                    for( var k = 0 ; k < conversationSummary.length; k++)
+                    {
+                        if(conversationSummary[k].id === this.state.selectedConversationId)
+                        {
+                            conversationSummary[k] = currentConversation;
+                            break;
+                        }
+                    }
+                    this.setState({
+                        messagesData: _messagesData,
+                        conversationSummary: conversationSummary
+                    },()=>{
+                        var optionListView = document.getElementById("message-content-view");
+                        optionListView.scrollTop = optionListView.scrollHeight;
+                    })
+                }
+            }
         }
     }
     handleChangeConversation = async (conversation_id) => {
