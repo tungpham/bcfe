@@ -1,6 +1,6 @@
 import React from 'react';
-import withConfirm, { withConfirmProps } from 'components/HOCs/withConfirm';
-import withSnackbar, { withSnackbarProps } from 'components/HOCs/withSnackbar';
+import withConfirm  from 'components/HOCs/withConfirm';
+import withSnackbar  from 'components/HOCs/withSnackbar';
 import {withRouter} from 'react-router-dom';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
