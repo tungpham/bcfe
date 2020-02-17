@@ -546,7 +546,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                     </Box>
                     <Box className = {classes.messageSentView}>
                         <TextField
-                            className = {classes.messageInput}
+                            // className = {classes.messageInput}
                             fullWidth
                             multiline
                             rowsMax = {5}
@@ -556,6 +556,7 @@ class MessageBox extends React.Component<MessageBoxProps, any>{
                             placeholder = "Type here!"
                             onChange = {this.onChange}
                             value = {this.state.message}
+                            InputProps = {{classes:{root:classes.messageInputRoot}}}
                         />
                         <Fab size = "small" className = {classes.sendIcon} color = "primary">
                             <SendIcon fontSize = "small" onClick = {this.postMessage}/>

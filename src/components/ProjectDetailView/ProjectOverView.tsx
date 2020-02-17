@@ -1,4 +1,7 @@
 import React from 'react';
+import withConfirm, { withConfirmProps } from 'components/HOCs/withConfirm';
+import withSnackbar, { withSnackbarProps } from 'components/HOCs/withSnackbar';
+import {withRouter} from 'react-router-dom';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -42,6 +45,11 @@ const styles = createStyles(theme => ({
         "&:hover":{
             cursor: "pointer"
         }
+    },
+    deleteBusy:{
+        position:"fixed",
+        top:"50vh",
+        left:"50vw"
     }
     
 }));
@@ -58,8 +66,9 @@ interface IProjectOverviewState{
     askQuestionModal: boolean;
     message: string;
     postMessageLoading: boolean;
+    deleteBusy: boolean;
 }
-class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOverviewState> {
+class ProjectOverview extends React.Component<any, IProjectOverviewState> {
 
     constructor(props) {
         super(props);
@@ -67,7 +76,8 @@ class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOve
             isExpandedDes: false,
             askQuestionModal: false,
             message: "",
-            postMessageLoading: false
+            postMessageLoading: false,
+            deleteBusy: false
         }
     }
     render_date = (_due) => {
@@ -134,8 +144,32 @@ class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOve
             })
         }
     }
+    deleteProject = () => {
+        this.props.showConfirm('Confirm', 'Do you really want to delete this template?', async () => {
+            this.props.hideConfirm();
+            if(!this.props.project) return;
+            try{
+                this.setState({
+                    deleteBusy: true
+                })
+                await ProjApi.delete(this.props.project.id);
+                this.props.showMessage(true, "Delete prject success")
+                this.setState({
+                    deleteBusy: false
+                });
+                this.props.history.push('/gen-contractor');
+            } catch(error) {
+                this.setState({
+                    deleteBusy: false
+                })
+                this.props.showMessage(false, "Delete project failed");
+            }
+           
+        }, true);
+    }
     render() {
         const {classes} = this.props;
+        console.log(this.props)
         return(
             <React.Fragment>
                 <Box className = {classes.overViewWrapper}>
@@ -160,17 +194,21 @@ class ProjectOverview extends React.Component<IProjectOverviewProps, IProjectOve
                                 </div>
                             </div>
                             {
-                                this.props.viewOnly === true && (
-                                    <Box>
-                                        <Button variant = "contained" color = "primary"
+                                this.props.viewOnly === true ? (
+                                        <div><Button variant = "contained" color = "primary"
                                             onClick = {()=>{
                                                 this.setState({
                                                     askQuestionModal: true,
                                                     message: ""
                                                 })
                                             }}
-                                        >Ask Question</Button>
-                                    </Box>
+                                        >Ask Question</Button></div>
+                                ) : (
+                                    <div><Button variant = "contained" color = "primary"
+                                        onClick = {()=>{
+                                           this.deleteProject();
+                                        }}
+                                    >Delete Project</Button></div>
                                 )
                             }
                         </React.Fragment>
@@ -236,4 +274,4 @@ const mapStateToProps = state => ({
 export default compose(
     withStyles(styles),
     connect(mapStateToProps)
-)(ProjectOverview);
+)(withRouter(withConfirm<IProjectOverviewProps>(withSnackbar<IProjectOverviewProps>(ProjectOverview))));

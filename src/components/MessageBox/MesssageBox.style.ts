@@ -93,10 +93,13 @@ const styles = () => createStyles({
     messageInput:{
         marginLeft:"10px",
         flex: 1,
-        "& input":{
-            height:"2.1875em"
-        },
+        // "& input":{
+        //     height:"2.1875em"
+        // },
         backgroundColor:"white"
+    },
+    messageInputRoot:{
+        fontSize: "30 !important"
     },
     sendIcon:{
         marginLeft:"10px",
