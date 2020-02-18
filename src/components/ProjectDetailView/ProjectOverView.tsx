@@ -145,24 +145,24 @@ class ProjectOverview extends React.Component<any, IProjectOverviewState> {
         }
     }
     deleteProject = () => {
-        this.props.showConfirm('Confirm', 'Do you really want to delete this template?', async () => {
+        this.props.showConfirm('Confirm', 'Do you really want to archive this project?', async () => {
             this.props.hideConfirm();
             if(!this.props.project) return;
             try{
                 this.setState({
                     deleteBusy: true
                 })
-                await ProjApi.delete(this.props.project.id);
-                this.props.showMessage(true, "Delete prject success")
+                await ProjApi.archive(this.props.project.id);
+                this.props.showMessage(true, "Archive prject success")
                 this.setState({
                     deleteBusy: false
                 });
-                this.props.history.push('/gen-contractor');
+                this.props.history.push('/gen-contractor/archived');
             } catch(error) {
                 this.setState({
                     deleteBusy: false
                 })
-                this.props.showMessage(false, "Delete project failed");
+                this.props.showMessage(false, "Archive project failed");
             }
            
         }, true);
@@ -208,7 +208,7 @@ class ProjectOverview extends React.Component<any, IProjectOverviewState> {
                                         onClick = {()=>{
                                            this.deleteProject();
                                         }}
-                                    >Delete Project</Button></div>
+                                    >Archive Project</Button></div>
                                 )
                             }
                         </React.Fragment>

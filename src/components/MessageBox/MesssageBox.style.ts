@@ -99,7 +99,7 @@ const styles = () => createStyles({
         backgroundColor:"white"
     },
     messageInputRoot:{
-        fontSize: "30 !important"
+        fontSize: "20px !important"
     },
     sendIcon:{
         marginLeft:"10px",

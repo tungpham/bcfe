@@ -214,7 +214,7 @@ class ArchivedProject extends React.Component<ArchivedProjectProps, ArchivedProj
         this.props.setCurrentProject(id);
         localStorage.setItem("projectDetailsViewInfo", JSON.stringify({
             id: id,
-            viewOnly: false
+            viewOnly: true
         }))
         this.props.history.push('/gen-contractor/project_detail/' + id);
     };
