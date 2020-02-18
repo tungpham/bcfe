@@ -157,7 +157,7 @@ class ProjectOverview extends React.Component<any, IProjectOverviewState> {
                 this.setState({
                     deleteBusy: false
                 });
-                this.props.history.push('/gen-contractor/archived');
+                this.props.history.push('/gen-contractor');
             } catch(error) {
                 this.setState({
                     deleteBusy: false
